@@ -10,7 +10,7 @@
 建议用法：
 
 1. 为一轮具体研究创建 `openspec/changes/<change-name>/`
-2. 在该目录中生成或修改本轮需要的过程文件，例如 `request.md`、`brief.md`、`sources.md`、`evidence-matrix.md`
+2. 在该目录中生成或修改本轮需要的过程文件，例如 `request.md`、`plan.md`、`draft.md`、`evidence-matrix.md`
 3. 本轮研究稳定后，把成熟内容提炼进 `knowledge/analysis/` 或 `knowledge/decisions/` 中对应的正式案例
 
 不要把这里当作长期正式研究目录。

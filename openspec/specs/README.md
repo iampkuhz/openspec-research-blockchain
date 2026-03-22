@@ -26,6 +26,6 @@
 ## 如何维护
 
 1. 先开一个新的 `openspec/changes/<change-name>/`
-2. 在 change packet 中完成本轮 request / brief / analysis / verdict
+2. 在 change packet 中完成本轮 `request.md` / `plan.md` / `draft.md`
 3. 将稳定下来的通用原则回写到 `openspec/specs/<spec-name>/spec.md`
 4. 同步更新 `README.md`、`AGENTS.md`、`openspec/config.yaml`、`support/docs/`、`support/templates/`

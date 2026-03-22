@@ -122,7 +122,7 @@ primitive
 
 推荐写在：
 
-- `brief.md`
+- `plan.md`
 - `dependencies.md`
 - canonical 目录中的 `dependencies.md`
 
@@ -140,7 +140,7 @@ primitive
 - `domain` 是技术分析主链里的长期知识组织层
 - `decision` 是独立的场景应用层
 
-## 为什么需要 `glossary`
+## 为什么需要 glossary 层
 
 区块链研究经常失败在术语层，而不是资料层。
 
@@ -150,4 +150,8 @@ primitive
 - 同一个能力被不同生态使用不同命名
 - 一个词既可能指协议原语，也可能指钱包实现
 
-因此 glossary 必须进入核心 artifact，而不是附录。
+因此 glossary 层必须进入核心 artifact，而不是附录。
+在当前默认流程中，它并入：
+
+- `draft.md` 的“关键术语”区
+- `reference.md` 的“关键术语”区

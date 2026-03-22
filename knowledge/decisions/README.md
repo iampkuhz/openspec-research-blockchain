@@ -17,13 +17,13 @@
 - `reference.md`
 - `criteria.md`
 - `dependencies.md`
-- `glossary.md`
 - `verdict.md`
 
 这里不放：
 
 - `request.md`
-- `brief.md`
-- `sources.md`
+- `plan.md`
 - `evidence-matrix.md`
 - case 级 `README.md`
+
+术语层默认并入 `reference.md` 的“关键术语”区。

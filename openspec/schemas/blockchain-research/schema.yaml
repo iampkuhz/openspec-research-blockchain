@@ -15,70 +15,40 @@ artifacts:
       - 写清为什么现在需要研究这个问题
       - 明确范围与非目标
       - 标注研究对象属于 domain、primitive、synthesis、decision 中的哪一类
+      - 写清预期输出是什么
       - 不提前写结论
 
       风格要求：
       - 中文优先
       - 英文术语优先保留
       - 技术导向、克制、非营销
+      
+      重要约束：
+      - request.md 只负责定义问题，不要求提前回答完整机制
+      - 像“为什么 4337 不直接改传统 transaction 路径”“bundler / EntryPoint / paymaster 属于什么层”这类后续确认问题，应放进 plan.md
     requires: []
 
-  - id: brief
-    generates: brief.md
-    description: 把 request 收紧为可执行研究计划的研究简报
-    template: brief.md
+  - id: plan
+    generates: plan.md
+    description: 合并研究计划与来源规划的集中 review 文件
+    template: plan.md
     instruction: |
-      为当前研究题目创建研究简报，把 request 收紧成可执行的研究计划。
+      为当前研究题目创建集中 review 用的研究计划文件，把 request 收紧成可执行计划。
 
       必须完成：
       - 写清研究路径：deep-dive、evolution、scenario 或 domain overview
-      - 写清核心问题与暂不处理问题
+      - 写清核心问题与后续确认问题
       - 写清当前研究预算：deep、focused 或 light
-      - 如果依赖下层研究，列出依赖对象，并解释为什么每个依赖只需要当前深度
-      - 定义本轮交付完成的标准
+      - 写清本轮交付边界与完成标准
+      - 按 L1、L2、L3、L4 规划来源，并说明每条来源为什么重要
+      - 显式记录 evidence gap 与 unresolved ambiguity
 
       重要约束：
-      - 这是计划文件，不是分析正文
-      - 上层研究必须写抽取策略，而不是复写下层全文
+      - 这是 plan 文件，不是分析正文
+      - plan.md 用于一次 review，同时承担原 brief.md 与 sources.md 的职责
+      - 对 primitive，plan.md 必须显式列出后续确认的机制问题和边界问题
     requires:
       - request
-
-  - id: sources
-    generates: sources.md
-    description: 按证据等级组织的来源规划与来源日志
-    template: sources.md
-    instruction: |
-      为当前研究题目创建来源记录文件。
-
-      必须完成：
-      - 按 L1、L2、L3、L4 组织来源
-      - 标记每条来源的状态：read、pending、needs verification
-      - 解释每条来源为什么对当前题目重要
-      - 显式记录证据缺口与未决歧义
-
-      重要约束：
-      - 机制级判断优先依赖 L1/L2
-      - 必须区分协议原生证据、官方生态证据、第三方证据
-    requires:
-      - brief
-
-  - id: glossary
-    generates: glossary.md
-    description: 用于技术术语拆歧义的核心术语卡
-    template: glossary.md
-    instruction: |
-      为当前研究题目创建术语卡。
-
-      每张术语卡必须包含：
-      - 术语名
-      - 一句话定义
-      - 在本题中的作用
-
-      重要约束：
-      - glossary 是核心 artifact，不是附录
-      - 优先写服务当前题目的精确定义，而不是百科式说明
-    requires:
-      - brief
 
   - id: dependencies
     generates: dependencies.md
@@ -98,7 +68,7 @@ artifacts:
       - 对 synthesis 和 decision 尤其重要
       - 不要把下层全文搬运到上层
     requires:
-      - brief
+      - plan
 
   - id: decision-criteria
     generates: decision-criteria.md
@@ -117,7 +87,7 @@ artifacts:
       - 只在需要比较或选型时使用
       - 不要写脱离实际场景的通用评分卡
     requires:
-      - brief
+      - plan
 
   - id: evidence-matrix
     generates: evidence-matrix.md
@@ -136,19 +106,22 @@ artifacts:
       - 对 synthesis 和 decision 尤其重要
       - 不能让只依赖 L3/L4 的说法听起来像确定事实
     requires:
-      - sources
+      - plan
 
-  - id: analysis
-    generates: analysis.md
-    description: 当前研究 case 的核心技术分析正文
-    template: analysis.md
+  - id: draft
+    generates: draft.md
+    description: 合并术语、分析与有限结论的集中 review 文件
+    template: draft.md
     instruction: |
-      创建主分析文档。
+      创建集中 review 用的研究草稿。
 
       必须完成：
+      - 先补关键术语区，再进入分析正文
       - 先讲机制，再讨论价值
       - 解释设计原因与相关替代方案
       - 写清边界、前提、失败条件
+      - 输出当前可以成立的有限结论
+      - 写清当前不能确认什么、还缺什么证据
       - 如果是上层研究，只综合与当前问题直接相关的依赖内容
       - 区分协议原生能力、官方生态能力、第三方能力
       - 区分已上线、规划中、宣传性表述
@@ -157,42 +130,25 @@ artifacts:
       - 中文优先
       - 英文术语优先保留
       - 技术导向、克制
-    requires:
-      - brief
-      - sources
-      - glossary
-
-  - id: verdict
-    generates: verdict.md
-    description: 有边界的结论、适用条件与未决问题
-    template: verdict.md
-    instruction: |
-      为当前研究题目创建结论文件。
-
-      必须完成：
-      - 总结当前能成立什么结论
-      - 写清结论成立的前提和边界
-      - 写清哪些问题仍未解决
-      - 把结论强度与证据质量对应起来
-      - 避免通用排名和营销话术
-
+      
       重要约束：
-      - verdict 不是摘要页
-      - 它要明确告诉读者：当前研究已经足够确认什么，还不够确认什么
+      - 术语区必须使用列表，而不是按词分标题
+      - draft.md 用于一次 review，同时承担原 glossary.md、analysis.md、verdict.md 的职责
     requires:
-      - analysis
+      - plan
 
 apply:
-  requires: [verdict]
+  requires: [draft]
   tracks: null
   instruction: |
     这个 schema 用于研究写作，不是代码实现。
     当执行 apply 时，应把研究改动包提炼为长期仓库资产：
     - 将稳定的事实分析提升到 knowledge/analysis/
     - 将稳定的场景判断提升到 knowledge/decisions/
-    - request.md、brief.md、sources.md、evidence-matrix.md 仍保留在 openspec/changes/ 中，不进入长期目录
+    - request.md、plan.md、evidence-matrix.md 仍保留在 openspec/changes/ 中，不进入长期目录
     - primitive、synthesis、domain 的稳定内容提升为 knowledge 下的 reference.md
     - decision 的 verdict.md 可以保留在长期目录
     - 依赖声明提升为长期 dependencies.md
+    - glossary 层默认折叠进 reference.md 或 decision 的 reference.md / verdict.md，不单独提升为长期 glossary.md
     - 把稳定的证据约束折叠进 reference.md 或 verdict.md
     - 不要用上层总结覆盖下层研究本身

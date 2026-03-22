@@ -60,7 +60,7 @@ roadmap、blog、conference talk 不自动等于已上线能力。
 
 ## 证据缺口处理
 
-如果出现以下情况，必须显式写入 `sources.md` 或 `evidence-matrix.md`：
+如果出现以下情况，必须显式写入 `plan.md` 或 `evidence-matrix.md`：
 
 - 找不到 `L1/L2`
 - 官方材料互相矛盾

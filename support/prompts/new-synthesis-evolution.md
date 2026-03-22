@@ -14,13 +14,10 @@
 请输出以下文件的初始内容：
 
 - `request.md`
-- `brief.md`
-- `sources.md`
-- `analysis.md`
-- `glossary.md`
-- `verdict.md`
+- `plan.md`
+- `draft.md`
 - `dependencies.md`
-- `evidence-matrix.md`
+- 如有必要，补 `evidence-matrix.md`
 
 ## 强约束
 
@@ -33,5 +30,5 @@
 ## 输出要求
 
 - `dependencies.md` 里必须写清 extraction strategy
-- `analysis.md` 必须包含：演进主线、分层关系、替代 / 互补关系、边界
-- `verdict.md` 只能输出受证据约束的框架性结论
+- `plan.md` 必须说明纳入哪些对象、为什么纳入、还缺什么证据
+- `draft.md` 必须包含：演进主线、分层关系、替代 / 互补关系、边界、有限结论

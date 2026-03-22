@@ -17,7 +17,7 @@
 ## 复用说明
 
 - 在 `reference.md` 中，优先复用“问题层定位”与“边界说明”。
-- 在 `verdict.md` 中，只复用那些已经足以支持框架结论的点。
+- 不单独保留 synthesis 级 `verdict.md`；框架性结论直接并入 `reference.md`。
 
 ## 缺口
 

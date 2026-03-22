@@ -4,14 +4,18 @@
 
 当前提供：
 
-- `skills/request-brief/`
-- `skills/sources-evidence/`
-- `skills/analysis-writing/`
-- `skills/decision-verdict/`
+- `skills/build-plan/`
+- `skills/build-draft/`
 - `skills/promote-canonical/`
 
 如果你要让 Codex 以真正 skill 的方式加载它们，可以执行：
 
 - `make install-skills`
+
+这会同时安装到：
+
+- `~/.codex/skills/`
+- `~/.qoder/skills/`
+- `<repo>/.qoder/skills/`
 
 如果只是在仓库内协作，也可以直接按其中的 `SKILL.md` 作为操作规范使用。

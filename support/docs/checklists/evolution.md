@@ -8,4 +8,4 @@
 - [ ] `dependencies.md` 已列出抽取策略
 - [ ] `evidence-matrix.md` 已把关键关系判断与证据绑定
 - [ ] 没有把第三方总结图直接当作最终事实
-- [ ] `verdict.md` 没有复写下层全文
+- [ ] `draft.md` 没有复写下层全文

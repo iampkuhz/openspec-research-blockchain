@@ -14,11 +14,9 @@
 请输出一个可直接落到仓库中的 domain 初始版本，至少覆盖：
 
 - `request.md`
-- `brief.md`
-- `sources.md`
-- `analysis.md`
-- `glossary.md`
-- `verdict.md`
+- `plan.md`
+- `draft.md`
+- 如有必要，补 `dependencies.md`
 
 ## 强约束
 
@@ -27,11 +25,11 @@
 - 明确说明哪些内容是占位、哪些是示范写法
 - 不要写成营销文案
 - 明确给出范围、非范围、研究优先级
-- glossary 不是附录，必须输出
+- glossary 层不是附录，必须进入 `draft.md` 的术语区
 
 ## 输出要求
 
 - 逐文件输出
 - 每个文件都用 Markdown
-- `brief.md` 中明确该 domain 不是主要研究路径，而是长期维护入口
-- `analysis.md` 重点写主题结构、问题簇、研究边界，不要伪装成完成结论
+- `plan.md` 中明确该 domain 不是主要研究路径，而是长期维护入口
+- `draft.md` 重点写主题结构、问题簇、研究边界，不要伪装成完成结论

@@ -15,16 +15,16 @@
 这里默认长期保留：
 
 - `reference.md`
-- `glossary.md`
 - `dependencies.md`（仅 `synthesis / domain` 需要时保留）
 
 这里不放：
 
 - `request.md`
-- `brief.md`
-- `sources.md`
+- `plan.md`
 - `evidence-matrix.md`
 - case 级 `README.md`
 - 其他只服务当前一轮研究纠偏的过程文件
 
 这些过程文件应进入 `openspec/changes/<change-name>/`。
+
+术语层默认并入 `reference.md` 的“关键术语”区。

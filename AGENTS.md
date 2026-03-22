@@ -102,29 +102,35 @@
 
 - `primitive` 和 `synthesis` 不要通过目录路径被锁死为某个 `domain` 的子节点
 - 一个 `primitive` 或 `synthesis` 可以被多个 `domain` 复用
-- 与哪些 `domain` 相关，应通过 `brief.md`、`dependencies.md`、正文链接来声明
+- 与哪些 `domain` 相关，应通过 `plan.md`、`dependencies.md`、正文链接来声明
 - `synthesis` 是可选层，不是每个 domain 都必须有单独的 synthesis
-- `request.md`、`brief.md` 这类过程 artifact 不应长期保留在 `knowledge/analysis/` 或 `knowledge/decisions/` 中
+- `request.md`、`plan.md` 这类过程 artifact 不应长期保留在 `knowledge/analysis/` 或 `knowledge/decisions/` 中
 
 要求：
 
 - 上层研究可以依赖下层研究
 - 上层研究不得重写下层全文
-- 上层研究必须在 `dependencies.md` 或 `brief.md` 中显式声明依赖
+- 上层研究必须在 `dependencies.md` 或 `plan.md` 中显式声明依赖
 - 每个依赖都必须有 research budget：`deep` / `focused` / `light`
 - 必须解释为什么只需要这个深度
 
-## Glossary 是核心 artifact
+## Glossary 层是核心内容
 
-`glossary.md` 不是附录，必须维护。
+glossary 层不是附录，必须维护。
 
-每张术语卡至少包含：
+默认写法：
+
+- 过程层并入 `draft.md` 的“关键术语”区
+- 长期层并入 `reference.md` 的“关键术语”区
+- 术语展示必须使用列表，不使用按词分标题的卡片式结构
+
+每条术语至少包含：
 
 - 术语
 - 一句话定义
 - 在本题中的作用
 
-如果一个术语在当前研究中承担关键区分作用，就必须入 glossary。
+如果一个术语在当前研究中承担关键区分作用，就必须入术语区。
 
 ## Artifact 级要求
 
@@ -132,55 +138,43 @@
 
 - 明确问题、目标、非目标、范围边界
 - 避免在 request 中提前下结论
+- 不要求此时已经写清完整机制
+- 需要后续确认的机制问题，进入 `plan.md`
 
-### `brief.md`
+### `plan.md`
 
-- 明确对象类型与研究路径
-- 明确相关 `domain`，但不要把 `domain` 当成硬编码父路径
-- 明确预算、依赖、交付边界
+- 合并原来的计划层与来源规划层
+- 明确对象类型、研究路径、相关 `domain`
+- 明确预算、交付边界、完成标准
+- 明确 `L1/L2/L3/L4` 来源规划
+- 明确 `evidence gap` 与 `unresolved ambiguity`
+- 对 `primitive`，把“为什么不直接改传统 transaction 路径”“关键角色分别位于哪一层”“哪些能力不是 protocol-native”这类问题写进“后续确认问题”
 - 若是上层研究，必须定义抽取策略而不是全文复写策略
 
-## Canonical 目录规则
+### `draft.md`
 
-- `knowledge/analysis/` 和 `knowledge/decisions/` 只保留长期结果
-- `request.md`、`brief.md`、一次性纠偏记录应进入 `openspec/changes/`
-- `sources.md`、`evidence-matrix.md` 默认属于过程性证据组织文件，应进入 `openspec/changes/`
-- case 级 `README.md` 默认不进入长期目录
-- `primitive / synthesis / domain` 的稳定内容应提炼为长期 `reference.md`
-- `decision` 的 `verdict.md` 可以作为长期文件保留
-- `openspec/specs/` 用于沉淀跨 case 复用的研究系统规则
-
-### `sources.md`
-
-- 记录来源类型、证据等级、状态、相关性
-- 区分已读、待读、待验证
-- 默认属于 `openspec/changes/<change-name>/`
-
-### `analysis.md`
-
+- 合并原来的 glossary、analysis、verdict
+- 术语区必须是列表
 - 先拆机制，再讨论价值
 - 必须说明设计原因与替代方案
 - 必须说明边界、失败条件、前提条件
+- 必须区分 protocol-native、official ecosystem、third-party
+- 必须区分 live、planned、promotional
+- 有限结论必须写清前提与证据基础
 
 ### `reference.md`
 
 - 只用于 `knowledge/` 下的长期正式结果
 - 不是工作中的推演稿，而是可复用的稳定参考稿
 - 应提炼 mechanism、boundary、dependency impact，不保留过程痕迹
-
-### `glossary.md`
-
-- 使用结构化术语卡
-- 术语解释必须服务于当前题目，而不是百科式扩写
+- 默认包含“关键术语”区
 
 ### `verdict.md`
 
-- 输出有限结论
+- 只作为 `decision` 的长期条件性结论文件
 - 必须说明结论适用前提
 - 必须说明证据不足的地方
 - 不得把未验证推断写成确定事实
-- 对 `primitive / synthesis / domain` 默认保留在 change packet 中；稳定部分提炼进 `reference.md`
-- 对 `decision` 可以长期保留在 `knowledge/decisions/...`
 
 ### `dependencies.md`
 
@@ -196,6 +190,17 @@
 
 - 把核心判断与证据等级绑定
 - 重要判断若只有低等级证据，必须降格处理
+
+## Canonical 目录规则
+
+- `knowledge/analysis/` 和 `knowledge/decisions/` 只保留长期结果
+- `request.md`、`plan.md`、一次性纠偏记录应进入 `openspec/changes/`
+- `evidence-matrix.md` 默认属于过程性证据组织文件，应进入 `openspec/changes/`
+- case 级 `README.md` 默认不进入长期目录
+- `primitive / synthesis / domain` 的稳定内容应提炼为长期 `reference.md`
+- `decision` 的 `verdict.md` 可以作为长期文件保留
+- 术语层默认并入 `reference.md`，不单独长期保留 `glossary.md`
+- `openspec/specs/` 用于沉淀跨 case 复用的研究系统规则
 
 ## 写作禁令
 
@@ -218,12 +223,13 @@
 
 1. 先看对象属于哪一层：`domain / primitive / synthesis / decision`
 2. 再看路径属于哪一类：`deep-dive / evolution / scenario`
-3. 先补 `brief.md`、`sources.md`、`glossary.md`
-4. 再写 `analysis.md`
-5. 最后写 `verdict.md`
-6. 若是上层研究，补 `dependencies.md`
-7. 若是场景对比，补 `decision-criteria.md`
-8. 若结论涉及争议或证据不足，补 `evidence-matrix.md`
+3. 先手工补 `request.md`
+4. 再生成并 review `plan.md`
+5. 若是上层研究，补 `dependencies.md`
+6. 若是场景对比，补 `decision-criteria.md`
+7. 若结论涉及争议或证据不足，补 `evidence-matrix.md`
+8. 最后生成并 review `draft.md`
+9. 稳定后提炼到 `knowledge/`
 
 ## 默认审稿标准
 
@@ -236,4 +242,4 @@
 - 是否错误混用了原生能力、官方生态能力、第三方能力
 - 是否错误混用了已上线、规划中、宣传性表述
 - 上层研究是否复写了下层全文
-- glossary 是否覆盖关键术语
+- 关键术语是否覆盖

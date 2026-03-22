@@ -9,25 +9,22 @@
 1. 判断研究对象属于 `domain`、`primitive`、`synthesis`、`decision` 哪一层。
 2. 判断主要路径属于 `deep-dive`、`evolution`、`scenario` 哪一类。
 3. 在 `openspec/changes/<change-name>/` 中完成本轮研究过程。
-4. 至少在 change packet 中放入六个核心 artifact：
+4. 至少在 change packet 中放入三个核心 artifact：
    - `request.md`
-   - `brief.md`
-   - `sources.md`
-   - `analysis.md`
-   - `glossary.md`
-   - `verdict.md`
+   - `plan.md`
+   - `draft.md`
 5. 如为上层研究，补充：
-   - `dependency-map.md`
+   - `dependencies.md`
    - `evidence-matrix.md`
 6. 如为场景型对比，额外补充：
    - `decision-criteria.md`
-7. 本轮研究稳定后，把 durable 结果提炼进 `knowledge/analysis/` 或 `knowledge/decisions/`，而不是把 `request.md`、`brief.md` 直接留在长期目录里。
+7. 本轮研究稳定后，把 durable 结果提炼进 `knowledge/analysis/` 或 `knowledge/decisions/`，而不是把 `request.md`、`plan.md` 直接留在长期目录里。
 
 ## 命名规范
 
 - 目录名使用稳定、可预测的 kebab-case。
 - `primitive` 和 `synthesis` 不应默认按某个 `domain` 作为父路径分组。
-- `domain` 关联应通过 `brief.md`、`dependency-map.md` 或正文链接声明，而不是通过硬编码目录层级声明。
+- `domain` 关联应通过 `plan.md`、`dependencies.md` 或正文链接声明，而不是通过硬编码目录层级声明。
 - `synthesis` 和 `decision` 目录名应直接体现研究问题，而不是使用模糊代号。
 
 ## 内容规范
@@ -41,10 +38,10 @@
 
 - 对象层级是否正确
 - 路径类型是否正确
-- `brief.md` 是否写明 research budget
+- `plan.md` 是否写明 research budget 与来源规划
 - 上层研究是否写明依赖对象与依赖原因
-- `glossary.md` 是否覆盖关键术语
-- `verdict.md` 是否区分确定结论与条件性判断
+- `draft.md` 的术语区是否覆盖关键术语
+- `draft.md` 是否区分确定结论与条件性判断
 
 ## 不要做的事
 

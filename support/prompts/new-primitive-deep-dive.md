@@ -14,11 +14,8 @@
 请输出以下文件的初始内容：
 
 - `request.md`
-- `brief.md`
-- `sources.md`
-- `analysis.md`
-- `glossary.md`
-- `verdict.md`
+- `plan.md`
+- `draft.md`
 - 如有必要，补 `evidence-matrix.md`
 
 ## 强约束
@@ -33,7 +30,7 @@
 
 ## 输出要求
 
-- `brief.md` 中 research budget 默认写为 `deep`
-- `analysis.md` 至少包括：问题、机制、设计原因、边界、影响
-- `glossary.md` 至少给出 5 张术语卡
-- `verdict.md` 不得使用绝对化结论
+- `plan.md` 中 research budget 默认写为 `deep`
+- `plan.md` 中显式写出后续确认问题
+- `draft.md` 的术语区至少给出 5 条列表项
+- `draft.md` 至少包括：问题、机制、设计原因、边界、影响、有限结论

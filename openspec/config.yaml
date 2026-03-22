@@ -26,7 +26,7 @@ context: |
   - openspec/changes/<change-name>/ 用于承载当前一轮研究改动包
   - knowledge/analysis/... 与 knowledge/decisions/... 用于承载长期维护的正式 case
   - openspec/specs/... 用于承载可跨多次调研复用的研究系统 specs
-  - request.md、brief.md、sources.md、evidence-matrix.md 等过程 artifact 不应进入长期 canonical 目录
+  - request.md、plan.md、evidence-matrix.md 等过程 artifact 不应进入长期 canonical 目录
 
   写作规则：
   - 中文优先
@@ -50,7 +50,7 @@ context: |
   复用规则：
   - 上层研究必须声明依赖，而不是重写下层全文
   - 每个上层依赖都必须声明 research budget：deep / focused / light
-  - glossary.md 是核心 artifact，不是附录
+  - glossary 层是核心 artifact，但默认并入 draft.md 与 reference.md 的术语区
   - change packet 产出需要经过提炼后才能提升为 canonical asset
   - primitive、synthesis、domain 的稳定内容提升为 knowledge 下的 reference.md
   - decision 的 verdict.md 可以保留在长期目录
@@ -59,16 +59,13 @@ rules:
   request:
     - 先定义问题、范围和非目标，再进入分析
     - 明确当前对象属于 domain、primitive、synthesis、decision 中的哪一类
-  brief:
-    - 明确写出 research path、research budget 和 dependency strategy
-    - 如果这是上层研究，必须说明抽取什么，而不是复制什么
-  sources:
-    - 明确区分 L1、L2、L3、L4
-    - 跟踪来源状态：read、pending、needs verification
-    - 显式标记 evidence gaps 和 unresolved ambiguities
-  glossary:
-    - 每张术语卡必须包含 term、one-line definition、role in this topic
-    - 优先做服务当前题目的技术解释，而不是百科式扩写
+    - request.md 不要求提前写清完整机制流程
+    - 需要后续确认的机制问题、层级判断和边界问题，进入 plan.md
+  plan:
+    - 合并研究计划与来源规划
+    - 明确写出 research path、research budget、source plan 和 completion criteria
+    - 明确区分 L1、L2、L3、L4，并标记 read、pending、needs verification
+    - 对 primitive，plan.md 应显式列出后续确认问题，例如为何不改传统 transaction 路径、角色位于哪一层、哪些能力不是 protocol-native
   dependencies:
     - 写明 dependency target、budget、strength、extraction scope 和 reason
     - 不得脱离上下文直接搬运下层结论
@@ -78,10 +75,11 @@ rules:
   evidence-matrix:
     - 每条重要 claim 都要绑定到具体 evidence level
     - 如果只有 L3/L4 证据，必须主动降低结论强度
-  analysis:
+  draft:
+    - 合并 glossary、analysis、verdict
+    - 术语区必须使用列表，不使用按词分标题的卡片式结构
     - 先解释机制，再解释影响
     - 明确区分 protocol-native、official ecosystem、third-party 三层
     - 明确区分 shipped、planned、promotional 三类状态
-  verdict:
     - 只输出 bounded conclusions，不输出脱离场景的 universal rankings
     - 必须写清前提条件、证据基础和 unresolved questions

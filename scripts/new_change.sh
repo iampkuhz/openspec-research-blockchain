@@ -47,15 +47,15 @@ write_file() {
 }
 
 write_file "${change_dir}/.openspec.yaml" $'schema: blockchain-research\ncreated: 2026-03-22'
-write_file "${change_dir}/request.md" $'# 研究请求\n\n## 研究对象\n\n- 对象类型：\n- 研究对象：\n\n## 研究问题\n\n- \n'
-write_file "${change_dir}/brief.md" $'# 研究简报\n\n## 基本信息\n\n- 对象类型：\n- 研究路径：\n- 当前状态：draft\n\n## 核心问题\n\n- \n'
-write_file "${change_dir}/sources.md" $'# 来源记录\n\n## L1 来源\n\n| 来源 | 类型 | 状态 | 为什么重要 | 备注 |\n| --- | --- | --- | --- | --- |\n|  |  | pending |  |  |\n'
-write_file "${change_dir}/analysis.md" $'# 分析\n\n## 分析入口\n\n'
-write_file "${change_dir}/glossary.md" $'# 术语卡\n\n## 术语卡\n\n- 术语：\n- 一句话定义：\n- 在本题中的作用：\n'
-write_file "${change_dir}/verdict.md" $'# 结论\n\n## 当前可以成立的结论\n\n- \n'
+write_file "${change_dir}/request.md" $'# 研究请求\n\n## 研究对象\n\n- 对象类型：\n- 研究对象：\n\n## 当前要回答的问题\n\n- \n\n## 为什么现在要研究\n\n- \n\n## 范围\n\n- \n\n## 非目标\n\n- \n\n## 已知输入\n\n- \n\n## 预期输出\n\n- \n'
+write_file "${change_dir}/plan.md" $'# 研究计划\n\n## 基本信息\n\n- 对象类型：\n- 研究路径：\n- 当前状态：draft\n\n## 当前问题拆解\n\n- \n\n## 后续确认问题\n\n- \n\n## 交付边界\n\n- \n\n## 研究预算\n\n- 当前预算：\n\n## 来源规划\n\n### L1 来源\n\n| 来源 | 类型 | 状态 | 为什么重要 | 备注 |\n| --- | --- | --- | --- | --- |\n|  | spec / EIP / whitepaper | pending |  |  |\n\n### L2 来源\n\n| 来源 | 类型 | 状态 | 为什么重要 | 备注 |\n| --- | --- | --- | --- | --- |\n|  | docs / repo / SDK / API | pending |  |  |\n\n## 证据缺口\n\n- \n\n## 未决歧义\n\n- \n\n## 完成标准\n\n- \n\n## 暂不处理\n\n- \n'
+write_file "${change_dir}/draft.md" $'# 研究草稿\n\n## 关键术语\n\n- 术语：\n  - 一句话定义：\n  - 在本题中的作用：\n\n## 分析入口\n\n## 机制拆解\n\n## 设计原因\n\n## 边界与前提\n\n## 与相邻对象的关系\n\n## 当前可确认结论\n\n## 当前不能确认的部分\n\n## 后续补证\n'
+
+if [ "$change_type" = "domain" ] || [ "$change_type" = "synthesis" ] || [ "$change_type" = "decision" ]; then
+  write_file "${change_dir}/dependencies.md" $'# 依赖关系\n\n| 依赖对象 | 层级 | 预算 | 强度 | 抽取内容 | 为什么这个深度足够 | 不重复什么 |\n| --- | --- | --- | --- | --- | --- | --- |\n|  |  |  |  |  |  |  |\n'
+fi
 
 if [ "$change_type" = "synthesis" ] || [ "$change_type" = "decision" ]; then
-  write_file "${change_dir}/dependencies.md" $'# 依赖关系\n\n| 依赖对象 | 层级 | 预算 | 强度 | 抽取内容 | 为什么这个深度足够 | 不重复什么 |\n| --- | --- | --- | --- | --- | --- | --- |\n|  |  |  |  |  |  |  |\n'
   write_file "${change_dir}/evidence-matrix.md" $'# 证据矩阵\n\n| 主张 | 证据等级 | 置信度 | 缺口 |\n| --- | --- | --- | --- |\n|  |  |  |  |\n'
 fi
 

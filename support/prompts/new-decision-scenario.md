@@ -14,14 +14,11 @@
 请输出以下文件的初始内容：
 
 - `request.md`
-- `brief.md`
-- `sources.md`
-- `analysis.md`
-- `glossary.md`
-- `verdict.md`
+- `plan.md`
+- `draft.md`
 - `dependencies.md`
 - `decision-criteria.md`
-- `evidence-matrix.md`
+- 如有必要，补 `evidence-matrix.md`
 
 ## 强约束
 
@@ -34,5 +31,6 @@
 ## 输出要求
 
 - `decision-criteria.md` 必须区分 hard constraints、soft preferences、open questions
-- `analysis.md` 必须把已确认项、部分确认项、待验证项分开
-- `verdict.md` 必须写清场景前提、最优条件、放弃条件和补证方向
+- `plan.md` 必须先收紧候选集合与来源规划
+- `draft.md` 必须把已确认项、部分确认项、待验证项分开
+- decision 的长期结论可在 promote 阶段从 `draft.md` 提炼出单独 `verdict.md`
