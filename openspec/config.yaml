@@ -1,0 +1,87 @@
+schema: blockchain-research
+
+context: |
+  仓库类型：基于 OpenSpec 的区块链技术调研工作台。
+  长期正式资产统一挂在 knowledge/ 下，并分为两类：
+  - knowledge/analysis/：长期事实分析资产
+  - knowledge/decisions/：长期场景决策资产
+
+  研究对象模型：
+  - primitive：单个协议、单个 EIP、单个机制、单个链能力点
+  - synthesis：多个对象之间的关系、演进、分类、框架层分析
+  - domain：长期主题域与知识组织层
+  - decision：面向具体场景的比较、选型与判断
+
+  层级理解：
+  - 技术分析主链：primitive -> synthesis -> domain
+  - 决策应用层：decision 独立存在，但消费前述技术分析资产
+  - primitive 和 synthesis 不应通过路径硬绑定到某个 domain
+
+  主要研究路径：
+  - deep-dive
+  - evolution
+  - scenario
+
+  OpenSpec 使用方式：
+  - openspec/changes/<change-name>/ 用于承载当前一轮研究改动包
+  - knowledge/analysis/... 与 knowledge/decisions/... 用于承载长期维护的正式 case
+  - openspec/specs/... 用于承载可跨多次调研复用的研究系统 specs
+  - request.md、brief.md、sources.md、evidence-matrix.md 等过程 artifact 不应进入长期 canonical 目录
+
+  写作规则：
+  - 中文优先
+  - 英文术语优先保留
+  - 先机制，后价值
+  - 先事实，后判断
+  - 先边界，后结论
+  - 必须解释为什么这样设计，而不是那样设计
+  - 禁止把营销性表述直接写入结论
+
+  证据政策：
+  - L1：官方 spec / EIP / whitepaper / protocol docs
+  - L2：官方 docs / repo / SDK / API / 实现证据
+  - L3：官方 blog / release / roadmap / ecosystem material
+  - L4：第三方解读 / 媒体 / 评论材料
+  - 技术结论优先依赖 L1/L2
+  - 必须区分原生协议能力、官方生态能力、第三方能力
+  - 必须区分已上线能力、规划中能力、宣传性表述
+  - 必须记录 evidence gaps 与 unresolved ambiguities
+
+  复用规则：
+  - 上层研究必须声明依赖，而不是重写下层全文
+  - 每个上层依赖都必须声明 research budget：deep / focused / light
+  - glossary.md 是核心 artifact，不是附录
+  - change packet 产出需要经过提炼后才能提升为 canonical asset
+  - primitive、synthesis、domain 的稳定结论默认折叠进 analysis.md
+  - decision 的 verdict.md 可以保留在长期目录
+
+rules:
+  request:
+    - 先定义问题、范围和非目标，再进入分析
+    - 明确当前对象属于 domain、primitive、synthesis、decision 中的哪一类
+  brief:
+    - 明确写出 research path、research budget 和 dependency strategy
+    - 如果这是上层研究，必须说明抽取什么，而不是复制什么
+  sources:
+    - 明确区分 L1、L2、L3、L4
+    - 跟踪来源状态：read、pending、needs verification
+    - 显式标记 evidence gaps 和 unresolved ambiguities
+  glossary:
+    - 每张术语卡必须包含 term、one-line definition、role in this topic、confusions、minimal example
+    - 优先做服务当前题目的技术解释，而不是百科式扩写
+  dependency-map:
+    - 写明 dependency target、budget strength、extraction scope 和 reason
+    - 不得脱离上下文直接搬运下层结论
+  decision-criteria:
+    - 决策标准必须服务具体场景，且可比较、可复核、可绑定证据
+    - 明确区分 hard constraints、soft preferences、open questions
+  evidence-matrix:
+    - 每条重要 claim 都要绑定到具体 evidence level
+    - 如果只有 L3/L4 证据，必须主动降低结论强度
+  analysis:
+    - 先解释机制，再解释影响
+    - 明确区分 protocol-native、official ecosystem、third-party 三层
+    - 明确区分 shipped、planned、promotional 三类状态
+  verdict:
+    - 只输出 bounded conclusions，不输出脱离场景的 universal rankings
+    - 必须写清前提条件、证据基础和 unresolved questions
