@@ -24,3 +24,5 @@ description: 用于在 plan.md review 通过后，生成和修订 draft.md；适
 - 必须区分 protocol-native、official ecosystem、third-party
 - 必须区分 live、planned、promotional
 - 结论只能写 bounded conclusions，不得写绝对化判断
+- **PlantUML 必须通过 `/feipi-gen-plantuml-code` skill 生成，禁止直接手写**（详见 `openspec/specs/diagram-policy/spec.md`）
+- 所有 PlantUML 代码必须通过 `syntax_result=ok` 校验后才可写入 draft

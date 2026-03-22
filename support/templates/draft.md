@@ -1,5 +1,7 @@
 # 研究草稿模板
 
+> 注意：若包含 PlantUML 图表，必须通过 `/feipi-gen-plantuml-code` skill 生成，禁止直接手写。详见 `openspec/specs/diagram-policy/spec.md`。
+
 ## 关键术语
 
 - 术语：
@@ -9,6 +11,8 @@
 ## 分析入口
 
 ## 机制拆解
+
+> 如需流程图，使用 `feipi-gen-plantuml-code` skill 生成，确保通过 `syntax_result=ok` 校验。
 
 ## 设计原因
 

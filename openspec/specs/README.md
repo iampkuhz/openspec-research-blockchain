@@ -22,6 +22,7 @@
 - research object model
 - analysis principles
 - language style
+- diagram policy（图表生成与校验规范）
 
 ## 如何维护
 
