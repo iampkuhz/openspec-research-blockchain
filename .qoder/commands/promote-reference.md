@@ -30,5 +30,5 @@ description: |
 
 必须参考：
 
-- `.qoder/skills/promote-canonical/SKILL.md`
-- `support/templates/primitive-deep-dive.md`
+- `.qoder/skills/openspec-research-promote-canonical/SKILL.md`
+- `openspec/schemas/blockchain-research/templates/draft.md`

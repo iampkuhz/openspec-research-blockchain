@@ -6,3 +6,4 @@
 openspec/changes/*
 !openspec/changes/README.md
 tmp/
+/support/

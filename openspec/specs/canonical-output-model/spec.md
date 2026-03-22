@@ -11,7 +11,7 @@
 - 长期 `knowledge/analysis/domains/<slug>/` 默认只保留 `reference.md`、`dependencies.md`。
 - 长期 `knowledge/decisions/<domain>/<slug>/` 默认只保留 `reference.md`、`criteria.md`、`dependencies.md`、`verdict.md`。
 - `request.md`、`plan.md`、`evidence-matrix.md` 不得进入长期目录。
-- case 级 `README.md` 默认不作为长期知识文件保留；目录说明应放在上层 `README.md`、`openspec/specs/` 或 `support/docs/`。
+- case 级 `README.md` 默认不作为长期知识文件保留；目录说明应放在上层 `README.md` 或 `openspec/specs/`。
 - 对 `primitive / synthesis / domain`，结论应折叠进 `reference.md`，默认不单独长期保留 `verdict.md`。
 - glossary 层默认折叠进 `reference.md` 的“关键术语”区，不单独长期保留 `glossary.md`。
 - 过程性纠偏记录必须留在 `openspec/changes/`，不得进入长期目录。

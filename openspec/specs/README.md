@@ -12,7 +12,8 @@
 
 与之配套的：
 
-- `support/docs/`：说明版，重点解释“为什么这样做、如何落地、如何自检”
+- `AGENTS.md`：给 AI 的协作指南
+- `README.md`：给用户的上手文档
 
 典型内容包括：
 
@@ -29,4 +30,4 @@
 1. 先开一个新的 `openspec/changes/<change-name>/`
 2. 在 change packet 中完成本轮 `request.md` / `plan.md` / `draft.md`
 3. 将稳定下来的通用原则回写到 `openspec/specs/<spec-name>/spec.md`
-4. 同步更新 `README.md`、`AGENTS.md`、`openspec/config.yaml`、`support/docs/`、`support/templates/`
+4. 同步更新 `README.md`、`AGENTS.md`、`openspec/config.yaml`

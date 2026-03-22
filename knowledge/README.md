@@ -11,7 +11,7 @@
 
 - `openspec/changes/` 的过程改动包
 - `openspec/specs/` 的长期系统规约
-- `support/` 的支撑方法资产
+- `skills/` 的 AI 协作技能
 
 清楚分开。
 

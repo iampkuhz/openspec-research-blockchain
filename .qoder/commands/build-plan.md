@@ -41,17 +41,16 @@ description: |
 
 - 中文优先，英文术语优先保留
 - `plan.md` 必须包含：
-  - 基本信息
-  - 当前问题拆解
-  - 后续确认问题
-  - 交付边界
-  - 研究预算
+  - 研究对象（类型、路径、相关 domains）
+  - 问题拆解
+  - 待确认问题
+  - 交付范围
+  - 研究深度（deep/focused/light）
   - 来源规划（L1/L2/L3/L4）
   - 证据缺口
-  - 未决歧义
   - 完成标准
-  - 暂不处理
-- 对 `primitive`，把以下类型的问题写入“后续确认问题”：
+  - 排除范围
+- 对 `primitive`，把以下类型的问题写入“待确认问题”：
   - 为什么不直接改传统 transaction 路径
   - 关键角色分别位于哪一层
   - 哪些能力不是 protocol-native
@@ -60,8 +59,5 @@ description: |
 
 必须参考：
 
-- `.qoder/skills/build-plan/SKILL.md`
-- `support/templates/plan.md`
-- `support/prompts/build-plan.md`
-- `support/docs/evidence-policy.md`
-- `support/docs/research-model.md`
+- `.qoder/skills/openspec-research-build-plan/SKILL.md`
+- `openspec/schemas/blockchain-research/templates/plan.md`

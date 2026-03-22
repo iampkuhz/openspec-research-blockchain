@@ -37,5 +37,5 @@
 ## 相关文件
 
 - `skills/openspec-research-build-draft/SKILL.md`：必须引用本政策
-- `support/templates/draft.md`：必须提示使用 PlantUML skill
+- `openspec/schemas/blockchain-research/templates/draft.md`：必须提示使用 PlantUML skill
 - `.qoder/skills/feipi-gen-plantuml-code/`：图表生成与校验工具

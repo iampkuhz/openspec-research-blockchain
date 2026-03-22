@@ -40,26 +40,28 @@ description: |
 强约束：
 
 - 中文优先，英文术语优先保留
-- 术语区必须使用列表
+- 必须包含**目录**
+- 术语区必须使用**表格**（三列：术语、定义、作用）
+- 必须先画**组件图**（展示组件、层级、负责人），再画时序图（如必要）
+- **所有 PlantUML 必须通过 `/feipi-gen-plantuml-code` skill 生成**，禁止直接手写
+- 所有 PlantUML 必须通过 `syntax_result=ok` 校验后才可写入 draft
 - 顺序固定为：
-  - 关键术语
-  - 分析入口
-  - 机制拆解
-  - 设计原因
-  - 边界与前提
-  - 与相邻对象的关系
-  - 当前可确认结论
-  - 当前不能确认的部分
-  - 后续补证
+  - 概述
+  - 术语表（表格）
+  - 组件架构（必须包含组件图）
+  - 核心流程（时序图，如必要）
+  - 设计取舍
+  - 能力边界
+  - 相关协议对比
+  - 结论
+  - 待确认问题
+  - 参考资料（必须包含链接和说明）
 - 必须区分 protocol-native、official ecosystem、third-party
 - 必须区分 live、planned、promotional
-- 必须先机制，后价值
 - 若证据不足，明确写不确定性，不要脑补
 
 必须参考：
 
-- `.qoder/skills/build-draft/SKILL.md`
-- `support/templates/draft.md`
-- `support/prompts/build-draft.md`
-- `support/docs/checklists/general-research.md`
-- `support/docs/checklists/deep-dive.md`
+- `.qoder/skills/openspec-research-build-draft/SKILL.md`
+- `openspec/schemas/blockchain-research/templates/draft.md`
+- `openspec/specs/diagram-policy/spec.md`

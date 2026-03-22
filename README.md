@@ -20,7 +20,7 @@
 - `openspec/changes/`：当前研究改动包
 - `openspec/specs/`：长期研究系统 specs
 - `openspec/config.yaml` + `openspec/schemas/...`：工作流定义层
-- `support/` + `skills/`：支撑方法与 AI 协作层
+- `skills/`：AI 协作技能层
 
 ## 为什么不是默认 spec-driven 仓库
 
@@ -90,10 +90,7 @@
 │   ├── build-draft/                                 # 【AI 入口】生成 draft.md
 │   ├── build-plan/                                  # 【AI 入口】生成 plan.md
 │   └── promote-canonical/                           # 【AI 入口】提炼长期产物
-└── support/                                         # 【支撑资产】手册、模板、提示词
-    ├── docs/                                        # 【人工参考】操作说明与清单
-    ├── prompts/                                     # 【AI 入口】提示词
-    └── templates/                                   # 【人工参考】模板与表格骨架
+
 ```
 
 ## `knowledge/` 里保留什么
@@ -199,13 +196,13 @@ qoder command 不是 `openspec update` 自动生成的仓库能力。更准确�
 
 | 步骤 | 执行 | 输入 / 依赖 | 人工检查 | 产物 | 参考 |
 | --- | --- | --- | --- | --- | --- |
-| 0. 刷新指令层 | `openspec update` | `openspec/config.yaml`、`openspec/schemas/...` | schema 名是否为 `blockchain-research` | 最新指令层 | `support/docs/command-model.md` |
-| 1. 开 change | `openspec new change <change-name> --schema blockchain-research` | change 名、对象层级 | 名称是否稳定，层级是否判断正确 | `openspec/changes/<change-name>/` | `support/docs/workflow.md` |
-| 2. 写 request | 直接编辑 `request.md` | 你的研究意图 | 是否只定义问题、范围、非目标；是否避免提前回答机制细节 | `request.md` | `support/docs/eip-4337-deep-dive-runbook.md` |
-| 3. 生成 plan | `openspec instructions plan --change <change-name>` 或 `/build-plan <change-path>` | `request.md` | 是否把预算、来源规划、后续确认问题写全 | `plan.md` | `skills/build-plan/` |
-| 4. 补可选文件 | `openspec instructions dependencies ...`、`decision-criteria ...`、`evidence-matrix ...` | `plan.md` | 是否真的需要这些文件，不要滥开 | 可选过程文件 | `support/docs/checklists/` |
-| 5. 生成 draft | `openspec instructions draft --change <change-name>` 或 `/build-draft <change-path>` | `request.md`、`plan.md`、可选依赖文件 | 是否先机制后价值；术语区是否是列表；是否区分原生 / 生态 / 第三方 | `draft.md` | `skills/build-draft/` |
-| 6. 提炼长期结果 | `/promote-reference <change-path>` 或按 `skills/promote-canonical/` 手工执行 | 稳定版 `draft.md` | 是否把过程痕迹误带入长期目录 | `reference.md`，decision 额外保留 `verdict.md` | `skills/promote-canonical/` |
+| 0. 刷新指令层 | `openspec update` | `openspec/config.yaml`、`openspec/schemas/...` | schema 名是否为 `blockchain-research` | 最新指令层 | `openspec/schemas/blockchain-research/schema.yaml` |
+| 1. 开 change | `openspec new change <change-name> --schema blockchain-research` | change 名、对象层级 | 名称是否稳定，层级是否判断正确 | `openspec/changes/<change-name>/` | `AGENTS.md` |
+| 2. 写 request | 直接编辑 `request.md` | 你的研究意图 | 是否只定义问题、范围、非目标；是否避免提前回答机制细节 | `request.md` | `openspec/schemas/blockchain-research/templates/request.md` |
+| 3. 生成 plan | `openspec instructions plan --change <change-name>` 或 `/build-plan <change-path>` | `request.md` | 是否把研究深度、来源规划、待确认问题写全 | `plan.md` | `skills/openspec-research-build-plan/` |
+| 4. 补可选文件 | `openspec instructions dependencies ...`、`decision-criteria ...`、`evidence-matrix ...` | `plan.md` | 是否真的需要这些文件，不要滥开 | 可选过程文件 | `openspec/schemas/blockchain-research/templates/` |
+| 5. 生成 draft | `openspec instructions draft --change <change-name>` 或 `/build-draft <change-path>` | `request.md`、`plan.md`、可选依赖文件 | 是否先组件图后时序图；术语区是否是表格；是否区分原生 / 生态 / 第三方 | `draft.md` | `skills/openspec-research-build-draft/` |
+| 6. 提炼长期结果 | `/promote-reference <change-path>` 或按 `skills/openspec-research-promote-canonical/` 手工执行 | 稳定版 `draft.md` | 是否把过程痕迹误带入长期目录 | `reference.md`，decision 额外保留 `verdict.md` | `skills/openspec-research-promote-canonical/` |
 | 7. 沉淀长期规则 | 新开 change，再更新 `openspec/specs/` | 多轮 case 的共同规律 | 是否真的是跨 case 规则，不是单次经验 | `openspec/specs/.../spec.md` | `openspec/specs/README.md` |
 
 ## 如何新增一个 `primitive / synthesis / decision`
@@ -248,8 +245,5 @@ qoder command 不是 `openspec update` 自动生成的仓库能力。更准确�
 
 ## 先看哪里
 
-- `EIP-4337` 实验手册：`support/docs/eip-4337-deep-dive-runbook.md`
-- workflow 总览：`support/docs/workflow.md`
-- 命令模型：`support/docs/command-model.md`
-- 研究对象模型：`support/docs/research-model.md`
-- 证据政策：`support/docs/evidence-policy.md`
+- 快速开始：`AGENTS.md`
+- 研究系统 specs：`openspec/specs/`
