@@ -14,7 +14,7 @@
 
 这里默认长期保留：
 
-- `analysis.md`
+- `reference.md`
 - `criteria.md`
 - `dependencies.md`
 - `glossary.md`

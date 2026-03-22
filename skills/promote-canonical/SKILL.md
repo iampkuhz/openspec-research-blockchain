@@ -19,5 +19,5 @@ description: 用于把 change packet 中的 durable 结果提炼进 knowledge/an
 - 不把 `request.md`、`brief.md` 直接复制进长期目录
 - 只保留 durable 结果
 - 不把 `sources.md`、`evidence-matrix.md` 直接复制进长期目录
-- `knowledge/analysis/` 默认只保留 `analysis.md`、`glossary.md`，必要时保留 `dependencies.md`
-- `knowledge/decisions/` 保留 `analysis.md`、`criteria.md`、`dependencies.md`、`glossary.md`、`verdict.md`
+- `knowledge/analysis/` 默认只保留 `reference.md`、`glossary.md`，必要时保留 `dependencies.md`
+- `knowledge/decisions/` 保留 `reference.md`、`criteria.md`、`dependencies.md`、`glossary.md`、`verdict.md`

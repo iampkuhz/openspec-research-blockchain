@@ -1,7 +1,5 @@
 # 证据政策
 
-> 角色：说明版。仓库级硬规范见 [openspec/specs/evidence-policy/spec.md](/Users/zhehan/Documents/tools/llm/openspec/openspec-research-blockchain/openspec/specs/evidence-policy/spec.md)。
-
 ## 目标
 
 这个仓库不是“收集观点”，而是“建立有证据约束的技术判断”。因此所有研究都要按照证据等级来组织材料与结论。

@@ -52,7 +52,7 @@ context: |
   - 每个上层依赖都必须声明 research budget：deep / focused / light
   - glossary.md 是核心 artifact，不是附录
   - change packet 产出需要经过提炼后才能提升为 canonical asset
-  - primitive、synthesis、domain 的稳定结论默认折叠进 analysis.md
+  - primitive、synthesis、domain 的稳定内容提升为 knowledge 下的 reference.md
   - decision 的 verdict.md 可以保留在长期目录
 
 rules:
@@ -67,10 +67,10 @@ rules:
     - 跟踪来源状态：read、pending、needs verification
     - 显式标记 evidence gaps 和 unresolved ambiguities
   glossary:
-    - 每张术语卡必须包含 term、one-line definition、role in this topic、confusions、minimal example
+    - 每张术语卡必须包含 term、one-line definition、role in this topic
     - 优先做服务当前题目的技术解释，而不是百科式扩写
-  dependency-map:
-    - 写明 dependency target、budget strength、extraction scope 和 reason
+  dependencies:
+    - 写明 dependency target、budget、strength、extraction scope 和 reason
     - 不得脱离上下文直接搬运下层结论
   decision-criteria:
     - 决策标准必须服务具体场景，且可比较、可复核、可绑定证据

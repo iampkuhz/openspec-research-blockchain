@@ -1,7 +1,5 @@
 # 语言与写作风格
 
-> 角色：说明版。仓库级硬规范见 [openspec/specs/language-style/spec.md](/Users/zhehan/Documents/tools/llm/openspec/openspec-research-blockchain/openspec/specs/language-style/spec.md)。
-
 ## 语言原则
 
 - 中文优先

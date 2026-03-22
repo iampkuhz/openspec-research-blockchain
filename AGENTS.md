@@ -102,7 +102,7 @@
 
 - `primitive` 和 `synthesis` 不要通过目录路径被锁死为某个 `domain` 的子节点
 - 一个 `primitive` 或 `synthesis` 可以被多个 `domain` 复用
-- 与哪些 `domain` 相关，应通过 `brief.md`、`dependency-map.md`、正文链接来声明
+- 与哪些 `domain` 相关，应通过 `brief.md`、`dependencies.md`、正文链接来声明
 - `synthesis` 是可选层，不是每个 domain 都必须有单独的 synthesis
 - `request.md`、`brief.md` 这类过程 artifact 不应长期保留在 `knowledge/analysis/` 或 `knowledge/decisions/` 中
 
@@ -110,7 +110,7 @@
 
 - 上层研究可以依赖下层研究
 - 上层研究不得重写下层全文
-- 上层研究必须在 `dependency-map.md` 或 `brief.md` 中显式声明依赖
+- 上层研究必须在 `dependencies.md` 或 `brief.md` 中显式声明依赖
 - 每个依赖都必须有 research budget：`deep` / `focused` / `light`
 - 必须解释为什么只需要这个深度
 
@@ -123,8 +123,6 @@
 - 术语
 - 一句话定义
 - 在本题中的作用
-- 易混淆概念
-- 最小例子
 
 如果一个术语在当前研究中承担关键区分作用，就必须入 glossary。
 
@@ -148,7 +146,7 @@
 - `request.md`、`brief.md`、一次性纠偏记录应进入 `openspec/changes/`
 - `sources.md`、`evidence-matrix.md` 默认属于过程性证据组织文件，应进入 `openspec/changes/`
 - case 级 `README.md` 默认不进入长期目录
-- `primitive / synthesis / domain` 的稳定结论默认折叠进 `analysis.md`
+- `primitive / synthesis / domain` 的稳定内容应提炼为长期 `reference.md`
 - `decision` 的 `verdict.md` 可以作为长期文件保留
 - `openspec/specs/` 用于沉淀跨 case 复用的研究系统规则
 
@@ -164,6 +162,12 @@
 - 必须说明设计原因与替代方案
 - 必须说明边界、失败条件、前提条件
 
+### `reference.md`
+
+- 只用于 `knowledge/` 下的长期正式结果
+- 不是工作中的推演稿，而是可复用的稳定参考稿
+- 应提炼 mechanism、boundary、dependency impact，不保留过程痕迹
+
 ### `glossary.md`
 
 - 使用结构化术语卡
@@ -175,10 +179,10 @@
 - 必须说明结论适用前提
 - 必须说明证据不足的地方
 - 不得把未验证推断写成确定事实
-- 对 `primitive / synthesis / domain` 默认保留在 change packet 中；稳定部分折叠进 `analysis.md`
+- 对 `primitive / synthesis / domain` 默认保留在 change packet 中；稳定部分提炼进 `reference.md`
 - 对 `decision` 可以长期保留在 `knowledge/decisions/...`
 
-### `dependency-map.md`
+### `dependencies.md`
 
 - 列出依赖对象、依赖强度、依赖原因、抽取内容
 - 强调“引用什么”，而不是“复制什么”
@@ -217,7 +221,7 @@
 3. 先补 `brief.md`、`sources.md`、`glossary.md`
 4. 再写 `analysis.md`
 5. 最后写 `verdict.md`
-6. 若是上层研究，补 `dependency-map.md`
+6. 若是上层研究，补 `dependencies.md`
 7. 若是场景对比，补 `decision-criteria.md`
 8. 若结论涉及争议或证据不足，补 `evidence-matrix.md`
 

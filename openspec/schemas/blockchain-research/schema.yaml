@@ -73,8 +73,6 @@ artifacts:
       - 术语名
       - 一句话定义
       - 在本题中的作用
-      - 易混淆相邻概念
-      - 最小例子
 
       重要约束：
       - glossary 是核心 artifact，不是附录
@@ -82,16 +80,17 @@ artifacts:
     requires:
       - brief
 
-  - id: dependency-map
-    generates: dependency-map.md
-    description: 显式声明下层依赖与抽取策略的依赖地图
-    template: dependency-map.md
+  - id: dependencies
+    generates: dependencies.md
+    description: 显式声明下层依赖、预算、强度与抽取策略的依赖说明
+    template: dependencies.md
     instruction: |
-      当当前研究题目需要复用其他研究结果时，创建依赖地图。
+      当当前研究题目需要复用其他研究结果时，创建依赖说明。
 
       必须完成：
       - 列出依赖对象
       - 标注预算强度：deep、focused 或 light
+      - 标注依赖强度：hard、medium 或 soft
       - 解释需要抽取什么
       - 解释哪些内容不会被重复叙述
 
@@ -192,7 +191,8 @@ apply:
     - 将稳定的事实分析提升到 knowledge/analysis/
     - 将稳定的场景判断提升到 knowledge/decisions/
     - request.md、brief.md、sources.md、evidence-matrix.md 仍保留在 openspec/changes/ 中，不进入长期目录
-    - primitive、synthesis、domain 的稳定结论默认折叠进 analysis.md
+    - primitive、synthesis、domain 的稳定内容提升为 knowledge 下的 reference.md
     - decision 的 verdict.md 可以保留在长期目录
-    - 保留依赖声明，并把稳定的证据约束折叠进 analysis.md 或 verdict.md
+    - 依赖声明提升为长期 dependencies.md
+    - 把稳定的证据约束折叠进 reference.md 或 verdict.md
     - 不要用上层总结覆盖下层研究本身

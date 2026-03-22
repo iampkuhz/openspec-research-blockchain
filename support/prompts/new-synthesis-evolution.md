@@ -19,7 +19,7 @@
 - `analysis.md`
 - `glossary.md`
 - `verdict.md`
-- `dependency-map.md`
+- `dependencies.md`
 - `evidence-matrix.md`
 
 ## 强约束
@@ -32,6 +32,6 @@
 
 ## 输出要求
 
-- `dependency-map.md` 里必须写清 extraction strategy
+- `dependencies.md` 里必须写清 extraction strategy
 - `analysis.md` 必须包含：演进主线、分层关系、替代 / 互补关系、边界
 - `verdict.md` 只能输出受证据约束的框架性结论

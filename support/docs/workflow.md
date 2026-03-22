@@ -12,7 +12,7 @@
 4. 建立 sources 与 glossary
 5. 完成 analysis
 6. 输出 verdict
-7. 把结果挂回更高层研究
+7. 把结果提炼为长期参考稿
 
 ## 1. 定义对象层级
 
@@ -81,7 +81,7 @@
 - 结论适用于什么前提
 - 哪些宣传性表述应排除在外
 
-## 7. 挂回上层研究
+## 7. 提炼长期参考稿
 
 当 `primitive` 研究成熟后，它可以被：
 
@@ -95,6 +95,11 @@
 - 按预算抽取
 - 在本题语境下重组
 
+提炼到长期目录时，默认动作是：
+
+- `analysis.md` 留在 change packet
+- `reference.md` 进入 `knowledge/`
+
 ## 8. 从 change packet 提升为长期资产
 
 本仓库区分：
@@ -106,7 +111,7 @@
 
 - 只把 durable 结果提升到 `knowledge/analysis/` 或 `knowledge/decisions/`
 - 不把 `request.md`、`brief.md`、`sources.md`、`evidence-matrix.md` 原样留在长期目录中
-- `primitive / synthesis / domain` 的结论默认并入 `analysis.md`
+- `primitive / synthesis / domain` 的稳定结果默认提炼为 `reference.md`
 - `decision` 的 `verdict.md` 可以作为长期文件保留
 
 ## 推荐节奏

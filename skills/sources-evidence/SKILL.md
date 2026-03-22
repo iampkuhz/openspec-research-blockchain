@@ -1,6 +1,6 @@
 ---
 name: sources-evidence
-description: 用于为本仓库的 change packet 生成和修订 sources.md、dependency-map.md、evidence-matrix.md，适合做证据规划、依赖声明和证据分级时使用。
+description: 用于为本仓库的 change packet 生成和修订 sources.md、dependencies.md、evidence-matrix.md，适合做证据规划、依赖声明和证据分级时使用。
 ---
 
 # 来源与证据
@@ -13,7 +13,7 @@ description: 用于为本仓库的 change packet 生成和修订 sources.md、de
 ## 输出要求
 
 - `sources.md`
-- `dependency-map.md`（如适用）
+- `dependencies.md`（如适用）
 - `evidence-matrix.md`（如适用）
 
 ## 强约束

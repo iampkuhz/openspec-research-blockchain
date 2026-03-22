@@ -6,7 +6,7 @@
 
 - `analysis.md`
 - `evidence-matrix.md`（如有）
-- `dependency-map.md`（如有）
+- `dependencies.md`（如有）
 - 研究路径
 - 当前最想回答的问题
 

@@ -1,7 +1,5 @@
 # 研究模型
 
-> 角色：说明版。仓库级硬规范见 [openspec/specs/research-object-model/spec.md](/Users/zhehan/Documents/tools/llm/openspec/openspec-research-blockchain/openspec/specs/research-object-model/spec.md)。
-
 ## 总体结构
 
 这个仓库里的四类研究对象，更适合被理解成“两部分结构”：
@@ -125,7 +123,7 @@ primitive
 推荐写在：
 
 - `brief.md`
-- `dependency-map.md`
+- `dependencies.md`
 - canonical 目录中的 `dependencies.md`
 
 ## 为什么需要 `domain`

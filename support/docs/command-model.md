@@ -19,7 +19,10 @@
 - `openspec status --change <change-name>`
 - `openspec instructions request --change <change-name>`
 - `openspec instructions brief --change <change-name>`
+- `openspec instructions sources --change <change-name>`
+- `openspec instructions dependencies --change <change-name>`
 - `openspec instructions analysis --change <change-name>`
+- `openspec instructions verdict --change <change-name>`
 - `openspec validate --changes`
 - `openspec schema validate blockchain-research`
 

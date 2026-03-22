@@ -1,7 +1,5 @@
 # 分析原则
 
-> 角色：说明版。仓库级硬规范见 [openspec/specs/analysis-principles/spec.md](/Users/zhehan/Documents/tools/llm/openspec/openspec-research-blockchain/openspec/specs/analysis-principles/spec.md)。
-
 ## 总原则
 
 本仓库的分析顺序固定为：

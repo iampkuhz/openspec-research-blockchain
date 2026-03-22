@@ -17,6 +17,7 @@
 
 这里默认只保留可长期复用的结果文件，不保留：
 
+- `analysis.md`
 - `request.md`
 - `brief.md`
 - `sources.md`

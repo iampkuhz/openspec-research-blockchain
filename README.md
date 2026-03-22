@@ -113,13 +113,13 @@
 | `brief.md` | 是 | 否 | 否 | 计划与预算文件，属于过程 |
 | `sources.md` | 是 | 否 | 否 | 证据规划与补证日志，默认属于过程 |
 | `evidence-matrix.md` | 是 | 否 | 否 | 证据约束矩阵，默认属于过程 |
-| `analysis.md` | 是 | 是 | 是 | 最终分析正文 |
+| `analysis.md` | 是 | 否 | 否 | 研究过程中的分析稿 |
+| `reference.md` | 否 | 是 | 是 | 长期正式参考稿 |
 | `glossary.md` | 是 | 是 | 是 | 长期术语卡 |
-| `dependency-map.md` | 是 | 否 | 否 | change 阶段的依赖声明原件 |
-| `dependencies.md` | 否 | 视需要保留 | 是 | 提炼后的长期依赖关系说明 |
+| `dependencies.md` | 是 | 视需要保留 | 是 | 统一的依赖声明文件，兼容 budget / strength / extraction |
 | `decision-criteria.md` | 是 | 否 | 否 | change 阶段的决策标准原件 |
 | `criteria.md` | 否 | 否 | 是 | 提炼后的长期决策标准 |
-| `verdict.md` | 是 | 默认否 | 是 | `primitive / synthesis / domain` 默认并入 `analysis.md`；`decision` 长期保留 |
+| `verdict.md` | 是 | 默认否 | 是 | `primitive / synthesis / domain` 默认并入 `reference.md`；`decision` 长期保留 |
 | case 级 `README.md` | 否 | 否 | 否 | 目录说明应上收，不作为知识正文 |
 
 ## 执行入口
@@ -175,7 +175,7 @@
 
 以及按需出现的：
 
-- `dependency-map.md`
+- `dependencies.md`
 - `decision-criteria.md`
 - `evidence-matrix.md`
 
@@ -218,9 +218,9 @@
 | 2. 开研究改动包 | 首选 `openspec new change <change-name> --schema blockchain-research`；若要一步补齐骨架，用 `./scripts/new_change.sh primitive <change-name>` | 检查 change 名是否稳定、对象层是否判断正确 | 研究对象名称、对象层级、研究路径 | `openspec/changes/<change-name>/` |
 | 3. 看依赖图 | `openspec status --change <change-name>` | 检查哪些 artifact 已完成、哪些被阻塞 | 已创建的 change、schema 依赖图 | 当前 change 的完成状态 |
 | 4. 收紧问题 | `openspec instructions request --change <change-name>` 与 `openspec instructions brief --change <change-name>`，再配合 `skills/request-brief/` | 人工收紧范围、非目标、budget、依赖对象 | change、schema、对象背景、已有问题清单 | `request.md`、`brief.md` |
-| 5. 规划证据 | `openspec instructions sources --change <change-name>`，再配合 `skills/sources-evidence/` | 人工核对来源分级、对象边界、evidence gap | `brief.md`、初始资料线索、已有下层资产 | `sources.md`，必要时补 `dependency-map.md`、`evidence-matrix.md`、`decision-criteria.md` |
+| 5. 规划证据 | `openspec instructions sources --change <change-name>`，再配合 `skills/sources-evidence/` | 人工核对来源分级、对象边界、evidence gap | `brief.md`、初始资料线索、已有下层资产 | `sources.md`，必要时补 `dependencies.md`、`evidence-matrix.md`、`decision-criteria.md` |
 | 6. 写分析 | `openspec instructions analysis --change <change-name>`，再配合 `skills/analysis-writing/` | 人工检查是否先机制后价值，是否混写原生 / 生态 / 第三方能力 | `sources.md`、`glossary.md`、下层依赖 | `analysis.md` |
-| 7. 写结论 | `openspec instructions verdict --change <change-name>`，再配合 `skills/decision-verdict/` 或 `support/prompts/build-verdict.md` | 人工检查结论是否有前提、是否保留不确定性 | `analysis.md`、`evidence-matrix.md`、`dependency-map.md` | `verdict.md` |
+| 7. 写结论 | `openspec instructions verdict --change <change-name>`，再配合 `skills/decision-verdict/` 或 `support/prompts/build-verdict.md` | 人工检查结论是否有前提、是否保留不确定性 | `analysis.md`、`evidence-matrix.md`、`dependencies.md` | `verdict.md` |
 | 8. 提炼长期资产 | 使用 `skills/promote-canonical/`，把稳定结果回写 `knowledge/analysis/` 或 `knowledge/decisions/` | 人工检查是否把过程文件误带入长期目录 | 已完成的研究改动包 | `knowledge/analysis/...` 或 `knowledge/decisions/...` 的长期结果 |
 | 9. 沉淀长期规则 | 新开一个 `change`，再更新 `openspec/specs/` | 人工判断这是不是跨 case 的长期规则，而不是单 case 经验 | 多轮研究中反复出现的通用约束 | `openspec/specs/.../spec.md` 与相关 `support/docs/` / config 同步更新 |
 
@@ -238,8 +238,8 @@
 这是仓库级硬约束：
 
 - `request.md`、`brief.md`、`sources.md`、`evidence-matrix.md` 属于 change packet
-- `analysis.md`、`glossary.md`、`dependencies.md`、`criteria.md`、`verdict.md` 才可能成为长期结果
-- `primitive / synthesis / domain` 的稳定结论默认并回 `analysis.md`
+- `reference.md`、`glossary.md`、`dependencies.md`、`criteria.md`、`verdict.md` 才可能成为长期结果
+- `primitive / synthesis / domain` 的稳定结论默认并回 `reference.md`
 - `decision` 的 `verdict.md` 可以长期保留
 
 ## 如何新增一个 `primitive / synthesis / decision`
@@ -248,34 +248,34 @@
 
 1. `openspec new change <change-name> --schema blockchain-research`
 2. 在 `openspec/changes/<change-name>/` 中完成 `request.md`、`brief.md`、`sources.md`、`glossary.md`、`analysis.md`、`verdict.md`
-3. 本轮稳定后，将长期结果提炼进 `knowledge/analysis/primitives/<slug>/`，默认只保留 `analysis.md` 与 `glossary.md`
+3. 本轮稳定后，将长期结果提炼进 `knowledge/analysis/primitives/<slug>/`，默认只保留 `reference.md` 与 `glossary.md`
 
 ### 新增 `synthesis`
 
 1. `openspec new change <change-name> --schema blockchain-research`
-2. 除核心六件套外，再补 `dependency-map.md`、`evidence-matrix.md`
-3. 本轮稳定后，将长期结果提炼进 `knowledge/analysis/synthesis/<slug>/`，默认保留 `analysis.md`、`glossary.md`、`dependencies.md`
+2. 除核心六件套外，再补 `dependencies.md`、`evidence-matrix.md`
+3. 本轮稳定后，将长期结果提炼进 `knowledge/analysis/synthesis/<slug>/`，默认保留 `reference.md`、`glossary.md`、`dependencies.md`
 
 ### 新增 `decision`
 
 1. `openspec new change <change-name> --schema blockchain-research`
-2. 除核心六件套外，再补 `dependency-map.md`、`decision-criteria.md`、`evidence-matrix.md`
-3. 本轮稳定后，将长期结果提炼进 `knowledge/decisions/<scenario>/<slug>/`，默认保留 `analysis.md`、`criteria.md`、`dependencies.md`、`glossary.md`、`verdict.md`
+2. 除核心六件套外，再补 `dependencies.md`、`decision-criteria.md`、`evidence-matrix.md`
+3. 本轮稳定后，将长期结果提炼进 `knowledge/decisions/<scenario>/<slug>/`，默认保留 `reference.md`、`criteria.md`、`dependencies.md`、`glossary.md`、`verdict.md`
 
 ## 一个真实的使用示例
 
 围绕 `account-abstraction`：
 
-1. 在 [knowledge/analysis/primitives/eip-4337](/Users/zhehan/Documents/tools/llm/openspec/openspec-research-blockchain/knowledge/analysis/primitives/eip-4337) 长期维护 4337 的事实分析。
-2. 当“AA 相关对象之间的关系”足够复杂时，再在 [knowledge/analysis/synthesis/aa-eip-evolution](/Users/zhehan/Documents/tools/llm/openspec/openspec-research-blockchain/knowledge/analysis/synthesis/aa-eip-evolution) 单独维护一个 synthesis。
-3. 在 [knowledge/analysis/domains/account-abstraction](/Users/zhehan/Documents/tools/llm/openspec/openspec-research-blockchain/knowledge/analysis/domains/account-abstraction) 长期维护主题地图。
-4. 在 [knowledge/decisions/agentic-payment/chain-comparison](/Users/zhehan/Documents/tools/llm/openspec/openspec-research-blockchain/knowledge/decisions/agentic-payment/chain-comparison) 结合场景输出决策性结论。
+1. 在 [knowledge/analysis/primitives/eip-4337/reference.md](/Users/zhehan/Documents/tools/llm/openspec/openspec-research-blockchain/knowledge/analysis/primitives/eip-4337/reference.md) 长期维护 4337 的事实参考稿。
+2. 当“AA 相关对象之间的关系”足够复杂时，再在 [knowledge/analysis/synthesis/aa-eip-evolution/reference.md](/Users/zhehan/Documents/tools/llm/openspec/openspec-research-blockchain/knowledge/analysis/synthesis/aa-eip-evolution/reference.md) 单独维护一个 synthesis 参考稿。
+3. 在 [knowledge/analysis/domains/account-abstraction/reference.md](/Users/zhehan/Documents/tools/llm/openspec/openspec-research-blockchain/knowledge/analysis/domains/account-abstraction/reference.md) 长期维护主题地图。
+4. 在 [knowledge/decisions/agentic-payment/chain-comparison/reference.md](/Users/zhehan/Documents/tools/llm/openspec/openspec-research-blockchain/knowledge/decisions/agentic-payment/chain-comparison/reference.md) 结合场景维护决策参考稿，并在 [knowledge/decisions/agentic-payment/chain-comparison/verdict.md](/Users/zhehan/Documents/tools/llm/openspec/openspec-research-blockchain/knowledge/decisions/agentic-payment/chain-comparison/verdict.md) 给出条件性结论。
 
 ## 先看哪里
 
 - 对象模型：[support/docs/research-model.md](/Users/zhehan/Documents/tools/llm/openspec/openspec-research-blockchain/support/docs/research-model.md)
-- 运行分层：[support/docs/openspec-operating-model.md](/Users/zhehan/Documents/tools/llm/openspec/openspec-research-blockchain/support/docs/openspec-operating-model.md)
-- 资产模型：[support/docs/repository-asset-model.md](/Users/zhehan/Documents/tools/llm/openspec/openspec-research-blockchain/support/docs/repository-asset-model.md)
 - 工作流：[support/docs/workflow.md](/Users/zhehan/Documents/tools/llm/openspec/openspec-research-blockchain/support/docs/workflow.md)
 - 命令模型：[support/docs/command-model.md](/Users/zhehan/Documents/tools/llm/openspec/openspec-research-blockchain/support/docs/command-model.md)
+- 证据政策：[support/docs/evidence-policy.md](/Users/zhehan/Documents/tools/llm/openspec/openspec-research-blockchain/support/docs/evidence-policy.md)
+- 语言风格：[support/docs/language-style.md](/Users/zhehan/Documents/tools/llm/openspec/openspec-research-blockchain/support/docs/language-style.md)
 - 仓库级 AI 约束：[AGENTS.md](/Users/zhehan/Documents/tools/llm/openspec/openspec-research-blockchain/AGENTS.md)

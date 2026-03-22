@@ -1,11 +1,6 @@
 # 依赖关系
 
-| 资产 | 层级 | 为什么重要 | 当前深度 |
-| --- | --- | --- | --- |
-| `knowledge/analysis/primitives/eip-4337/` | `primitive` | 作为 AA 的首要机制底座，提供 `UserOperation`、`EntryPoint`、`paymaster` 等关键边界 | deep |
-| `knowledge/analysis/synthesis/aa-eip-evolution/` | `synthesis` | 提供 AA 相关对象的关系、演进与分层框架 | focused |
-
-## 备注
-
-- 这里记录的是长期依赖关系，不是某一次 change packet 的工作计划。
-- 若未来新增与 AA 高度相关的 canonical analysis asset，应在此补充。
+| 依赖对象 | 层级 | 预算 | 强度 | 抽取内容 | 为什么这个深度足够 | 不重复什么 |
+| --- | --- | --- | --- | --- | --- | --- |
+| `knowledge/analysis/primitives/eip-4337/` | `primitive` | `deep` | `hard` | `UserOperation`、`EntryPoint`、`paymaster` 等关键边界 | 它是 AA 主题的机制锚点 | 不复制完整流程细节 |
+| `knowledge/analysis/synthesis/aa-eip-evolution/` | `synthesis` | `focused` | `medium` | AA 相关对象的关系、演进与分层框架 | 主题地图只需稳定的分层语言 | 不复制全部演进叙事 |

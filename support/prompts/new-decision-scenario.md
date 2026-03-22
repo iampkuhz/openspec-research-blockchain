@@ -19,7 +19,7 @@
 - `analysis.md`
 - `glossary.md`
 - `verdict.md`
-- `dependency-map.md`
+- `dependencies.md`
 - `decision-criteria.md`
 - `evidence-matrix.md`
 

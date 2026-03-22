@@ -4,7 +4,7 @@
 
 当前分为三类：
 
-- `support/docs/`：说明文档、操作手册、checklists
+- `support/docs/`：给用户看的说明文档、操作手册、checklists
 - `support/templates/`：长期模板与表格骨架
 - `support/prompts/`：面向 AI 协作的提示词
 

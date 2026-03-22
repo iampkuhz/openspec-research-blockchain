@@ -14,7 +14,7 @@
 
 这里默认长期保留：
 
-- `analysis.md`
+- `reference.md`
 - `glossary.md`
 - `dependencies.md`（仅 `synthesis / domain` 需要时保留）
 
