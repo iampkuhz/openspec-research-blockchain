@@ -121,7 +121,7 @@ glossary 层不是附录，必须维护。
 默认写法：
 
 - 过程层并入 `draft.md` 的“关键术语”区
-- 长期层并入 `reference.md` 的“关键术语”区
+- 长期层并入 `artifact.md` 的“关键术语”区
 - 术语展示必须使用列表，不使用按词分标题的卡片式结构
 
 每条术语至少包含：
@@ -162,10 +162,10 @@ glossary 层不是附录，必须维护。
 - 必须区分 live、planned、promotional
 - 有限结论必须写清前提与证据基础
 
-### `reference.md`
+### `artifact.md`
 
 - 只用于 `knowledge/` 下的长期正式结果
-- 不是工作中的推演稿，而是可复用的稳定参考稿
+- 不是工作中的推演稿，而是可复用的稳定产物
 - 应提炼 mechanism、boundary、dependency impact，不保留过程痕迹
 - 默认包含“关键术语”区
 
@@ -197,9 +197,9 @@ glossary 层不是附录，必须维护。
 - `request.md`、`plan.md`、一次性纠偏记录应进入 `openspec/changes/`
 - `evidence-matrix.md` 默认属于过程性证据组织文件，应进入 `openspec/changes/`
 - case 级 `README.md` 默认不进入长期目录
-- `primitive / synthesis / domain` 的稳定内容应提炼为长期 `reference.md`
+- `primitive / synthesis / domain` 的稳定内容应提炼为长期 `artifact.md`
 - `decision` 的 `verdict.md` 可以作为长期文件保留
-- 术语层默认并入 `reference.md`，不单独长期保留 `glossary.md`
+- 术语层默认并入 `artifact.md`，不单独长期保留 `glossary.md`
 - `openspec/specs/` 用于沉淀跨 case 复用的研究系统规则
 
 ## 写作禁令

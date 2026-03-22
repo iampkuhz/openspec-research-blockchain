@@ -14,7 +14,7 @@
 
 这里默认长期保留：
 
-- `reference.md`
+- `artifact.md`
 - `dependencies.md`（仅 `synthesis / domain` 需要时保留）
 
 这里不放：
@@ -27,4 +27,4 @@
 
 这些过程文件应进入 `openspec/changes/<change-name>/`。
 
-术语层默认并入 `reference.md` 的“关键术语”区。
+术语层默认并入 `artifact.md` 的“关键术语”区。

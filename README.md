@@ -103,14 +103,14 @@
 | `dependencies.md` | 视需要保留 | 视需要保留 | 是 | 统一的依赖声明文件 |
 | `decision-criteria.md` | 视需要保留 | 否 | 否 | decision 的过程性标准原件 |
 | `evidence-matrix.md` | 视需要保留 | 否 | 否 | 过程性证据约束矩阵 |
-| `reference.md` | 否 | 是 | 是 | 长期正式参考稿 |
+| `artifact.md` | 否 | 是 | 是 | 长期正式产物 |
 | `criteria.md` | 否 | 否 | 是 | 提炼后的长期决策标准 |
 | `verdict.md` | 否 | 否 | 是 | decision 的长期条件性结论 |
 
 补充约束：
 
-- glossary 层是核心内容，但默认并入 `draft.md` 与 `reference.md` 的“关键术语”区
-- `primitive / synthesis / domain` 的稳定结论默认并入 `reference.md`
+- glossary 层是核心内容，但默认并入 `draft.md` 与 `artifact.md` 的“关键术语”区
+- `primitive / synthesis / domain` 的稳定结论默认并入 `artifact.md`
 - `decision` 的条件性结论单独长期保留在 `verdict.md`
 
 ## 命令与 Skills
@@ -146,27 +146,27 @@ qoder command 不是 `openspec update` 自动生成的仓库能力。更准确�
 
 这个仓库已经提供了项目级 Qoder commands：
 
-- `/build-plan`
-- `/build-draft`
-- `/promote-reference`
+- `/spec-cmd-build-plan`
+- `/spec-cmd-build-draft`
+- `/spec-cmd-promote-artifact`
 
 它们对应的配置文件在：
 
-- `.qoder/commands/build-plan.md`
-- `.qoder/commands/build-draft.md`
-- `.qoder/commands/promote-reference.md`
+- `.qoder/commands/spec-cmd-build-plan.md`
+- `.qoder/commands/spec-cmd-build-draft.md`
+- `.qoder/commands/spec-cmd-promote-artifact.md`
 
 职责分别是：
 
 - `/build-plan`
   输入：`request.md`
   输出：`plan.md`
-- `/build-draft`
+- `/spec-cmd-build-draft`
   输入：`request.md`、`plan.md`、必要时 `dependencies.md` / `evidence-matrix.md`
   输出：`draft.md`
-- `/promote-reference`
+- `/spec-cmd-promote-artifact`
   输入：稳定版 `draft.md`
-  输出：`knowledge/.../reference.md`，以及 decision 的 `verdict.md`
+  输出：`knowledge/.../artifact.md`，以及 decision 的 `verdict.md`
 
 ### 为什么不把 `/opsx:propose` 当主入口
 
@@ -202,7 +202,7 @@ qoder command 不是 `openspec update` 自动生成的仓库能力。更准确�
 | 3. 生成 plan | `openspec instructions plan --change <change-name>` 或 `/build-plan <change-path>` | `request.md` | 是否把研究深度、来源规划、待确认问题写全 | `plan.md` | `skills/openspec-research-build-plan/` |
 | 4. 补可选文件 | `openspec instructions dependencies ...`、`decision-criteria ...`、`evidence-matrix ...` | `plan.md` | 是否真的需要这些文件，不要滥开 | 可选过程文件 | `openspec/schemas/blockchain-research/templates/` |
 | 5. 生成 draft | `openspec instructions draft --change <change-name>` 或 `/build-draft <change-path>` | `request.md`、`plan.md`、可选依赖文件 | 是否先组件图后时序图；术语区是否是表格；是否区分原生 / 生态 / 第三方 | `draft.md` | `skills/openspec-research-build-draft/` |
-| 6. 提炼长期结果 | `/promote-reference <change-path>` 或按 `skills/openspec-research-promote-canonical/` 手工执行 | 稳定版 `draft.md` | 是否把过程痕迹误带入长期目录 | `reference.md`，decision 额外保留 `verdict.md` | `skills/openspec-research-promote-canonical/` |
+| 6. 提炼长期结果 | `/spec-cmd-promote-artifact <change-path>` 或按 `skills/openspec-research-promote-canonical/` 手工执行 | 稳定版 `draft.md` | 是否把过程痕迹误带入长期目录 | `artifact.md`，decision 额外保留 `verdict.md` | `skills/openspec-research-promote-canonical/` |
 | 7. 沉淀长期规则 | 新开 change，再更新 `openspec/specs/` | 多轮 case 的共同规律 | 是否真的是跨 case 规则，不是单次经验 | `openspec/specs/.../spec.md` | `openspec/specs/README.md` |
 
 ## 如何新增一个 `primitive / synthesis / decision`
@@ -212,7 +212,7 @@ qoder command 不是 `openspec update` 自动生成的仓库能力。更准确�
 1. `openspec new change <change-name> --schema blockchain-research`
 2. 手工完成 `request.md`
 3. 用 `plan.md` 和 `draft.md` 跑完一轮 review
-4. 稳定后提炼到 `knowledge/analysis/primitives/<slug>/reference.md`
+4. 稳定后提炼到 `knowledge/analysis/primitives/<slug>/artifact.md`
 
 ### 新增 `synthesis`
 
@@ -221,7 +221,7 @@ qoder command 不是 `openspec update` 自动生成的仓库能力。更准确�
 3. 用 `plan.md` 跑第一轮 review，并补 `dependencies.md`
 4. 必要时补 `evidence-matrix.md`
 5. 用 `draft.md` 跑第二轮 review
-6. 稳定后提炼到 `knowledge/analysis/synthesis/<slug>/reference.md` 与 `dependencies.md`
+6. 稳定后提炼到 `knowledge/analysis/synthesis/<slug>/artifact.md` 与 `dependencies.md`
 
 ### 新增 `decision`
 
@@ -230,7 +230,7 @@ qoder command 不是 `openspec update` 自动生成的仓库能力。更准确�
 3. 用 `plan.md` 跑第一轮 review，并补 `dependencies.md`、`decision-criteria.md`
 4. 必要时补 `evidence-matrix.md`
 5. 用 `draft.md` 跑第二轮 review
-6. 稳定后提炼到 `knowledge/decisions/<scenario>/<slug>/reference.md`、`criteria.md`、`dependencies.md`、`verdict.md`
+6. 稳定后提炼到 `knowledge/decisions/<scenario>/<slug>/artifact.md`、`criteria.md`、`dependencies.md`、`verdict.md`
 
 ## 一个真实的使用示例
 
@@ -241,7 +241,7 @@ qoder command 不是 `openspec update` 自动生成的仓库能力。更准确�
 3. 你 review `plan.md`，重点看后续确认问题、来源分层和证据缺口
 4. 然后用 `/build-draft openspec/changes/primitive-eip-4337-deep-dive-pass-1/` 或 `openspec instructions draft --change primitive-eip-4337-deep-dive-pass-1` 生成 `draft.md`
 5. 你 review `draft.md`，重点看术语区、机制、设计原因、边界和有限结论
-6. 最后把稳定内容提炼到 `knowledge/analysis/primitives/eip-4337/reference.md`
+6. 最后把稳定内容提炼到 `knowledge/analysis/primitives/eip-4337/artifact.md`
 
 ## 先看哪里
 

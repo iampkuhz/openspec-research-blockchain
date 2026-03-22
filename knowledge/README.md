@@ -23,4 +23,4 @@
 - `evidence-matrix.md`
 - case 级 `README.md`
 
-术语层默认并入各对象的 `reference.md`，作为其中的“关键术语”区，不再单独拆长期 `glossary.md`。
+术语层默认并入各对象的 `artifact.md`，作为其中的“关键术语”区，不再单独拆长期 `glossary.md`。

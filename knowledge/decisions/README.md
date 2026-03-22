@@ -14,7 +14,7 @@
 
 这里默认长期保留：
 
-- `reference.md`
+- `artifact.md`
 - `criteria.md`
 - `dependencies.md`
 - `verdict.md`
@@ -26,4 +26,4 @@
 - `evidence-matrix.md`
 - case 级 `README.md`
 
-术语层默认并入 `reference.md` 的“关键术语”区。
+术语层默认并入 `artifact.md` 的“关键术语”区。

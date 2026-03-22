@@ -4,9 +4,9 @@
 
 当前提供：
 
-- `skills/build-plan/`
-- `skills/build-draft/`
-- `skills/promote-canonical/`
+- `skills/openspec-research-build-plan/`
+- `skills/openspec-research-build-draft/`
+- `skills/openspec-research-promote-canonical/`
 
 如果你要让 Codex 以真正 skill 的方式加载它们，可以执行：
 
