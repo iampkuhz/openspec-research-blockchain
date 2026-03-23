@@ -1,5 +1,5 @@
 name: blockchain-research
-version: 1
+version: 2
 description: 面向分层区块链技术调研的研究驱动 OpenSpec 工作流
 
 artifacts:
@@ -26,11 +26,12 @@ artifacts:
       重要约束：
       - request.md 只负责定义问题，不要求提前回答完整机制
       - 像“为什么 4337 不直接改传统 transaction 路径”“bundler / EntryPoint / paymaster 属于什么层”这类后续确认问题，应放进 plan.md
+      - 对于 synthesis 和 decision 类型，需要在 request 中初步列出依赖的 primitive 对象
     requires: []
 
   - id: plan
     generates: plan.md
-    description: 合并研究计划与来源规划的集中 review 文件
+    description: 合并研究计划、来源规划、依赖声明与证据矩阵的集中 review 文件
     template: plan.md
     instruction: |
       为当前研究题目创建集中 review 用的研究计划文件，把 request 收紧成可执行计划。
@@ -42,37 +43,24 @@ artifacts:
       - 写清本轮交付边界与完成标准
       - 按 L1、L2、L3、L4 规划来源，并说明每条来源为什么重要
       - 显式记录 evidence gap 与 unresolved ambiguity
+      - 【synthesis/decision 必需】在 plan 中声明依赖的 primitive，包括：
+        * 每个 primitive 的当前状态（已存在 / 需新建）
+        * 每个 primitive 的所需深度（deep / focused / light）
+        * 每个 primitive 的依赖原因和抽取内容
+        * 如果 primitive 缺失或深度不足，必须在 plan 中规划补充调研
+      - 【可选】添加证据矩阵章节，把关键主张与证据等级绑定
 
       重要约束：
       - 这是 plan 文件，不是分析正文
-      - plan.md 用于一次 review，同时承担原 brief.md 与 sources.md 的职责
+      - plan.md 用于一次 review，同时承担原 brief.md、sources.md、dependencies.md、evidence-matrix.md 的职责
       - 对 primitive，plan.md 必须显式列出后续确认的机制问题和边界问题
+      - 对 synthesis/decision，plan.md 必须显式列出依赖声明和补充计划
     requires:
       - request
 
-  - id: dependencies
-    generates: dependencies.md
-    description: 显式声明下层依赖、预算、强度与抽取策略的依赖说明
-    template: dependencies.md
-    instruction: |
-      当当前研究题目需要复用其他研究结果时，创建依赖说明。
-
-      必须完成：
-      - 列出依赖对象
-      - 标注预算强度：deep、focused 或 light
-      - 标注依赖强度：hard、medium 或 soft
-      - 解释需要抽取什么
-      - 解释哪些内容不会被重复叙述
-
-      重要约束：
-      - 对 synthesis 和 decision 尤其重要
-      - 不要把下层全文搬运到上层
-    requires:
-      - plan
-
   - id: decision-criteria
     generates: decision-criteria.md
-    description: 面向场景比较与选型的决策标准
+    description: 面向场景比较与选型的决策标准（decision 类型可选）
     template: decision-criteria.md
     instruction: |
       为 scenario 类研究创建显式的决策标准文件。
@@ -86,25 +74,7 @@ artifacts:
       重要约束：
       - 只在需要比较或选型时使用
       - 不要写脱离实际场景的通用评分卡
-    requires:
-      - plan
-
-  - id: evidence-matrix
-    generates: evidence-matrix.md
-    description: 把关键主张绑定到证据等级与置信度的证据矩阵
-    template: evidence-matrix.md
-    instruction: |
-      创建证据矩阵，把关键主张与证据质量绑定起来。
-
-      必须完成：
-      - 写出关键主张
-      - 标注其对应的 L1、L2、L3 或 L4 证据
-      - 记录当前置信度与证据缺口
-      - 区分确定事实、推断与不确定项
-
-      重要约束：
-      - 对 synthesis 和 decision 尤其重要
-      - 不能让只依赖 L3/L4 的说法听起来像确定事实
+      - 对于简单决策，可直接在 plan.md 中简要说明标准，无需单独文件
     requires:
       - plan
 
@@ -126,6 +96,12 @@ artifacts:
       - 区分协议原生能力、官方生态能力、第三方能力
       - 区分已上线、规划中、宣传性表述
 
+      类型适配：
+      - primitive：重点写组件架构、核心流程、设计取舍、能力边界
+      - synthesis：重点写演进框架、各对象定位、演进关系、趋势判断
+      - domain：重点写问题簇、与相邻 domain 关系、价值定位
+      - decision：重点写场景定义、比较维度、有限结论
+
       风格要求：
       - 中文优先
       - 英文术语优先保留
@@ -145,10 +121,11 @@ apply:
     当执行 apply 时，应把研究改动包提炼为长期仓库资产：
     - 将稳定的事实分析提升到 knowledge/analysis/
     - 将稳定的场景判断提升到 knowledge/decisions/
-    - request.md、plan.md、evidence-matrix.md 仍保留在 openspec/changes/ 中，不进入长期目录
-    - primitive、synthesis、domain 的稳定内容提升为 knowledge 下的 reference.md
+    - request.md、plan.md 仍保留在 openspec/changes/ 中，不进入长期目录
+    - primitive、synthesis、domain 的稳定内容提升为 knowledge 下的 artifact.md
     - decision 的 verdict.md 可以保留在长期目录
-    - 依赖声明提升为长期 dependencies.md
-    - glossary 层默认折叠进 reference.md 或 decision 的 reference.md / verdict.md，不单独提升为长期 glossary.md
-    - 把稳定的证据约束折叠进 reference.md 或 verdict.md
+    - 依赖声明已合并入 plan.md，不单独提升为长期 dependencies.md
+    - glossary 层默认折叠进 artifact.md 或 decision 的 artifact.md / verdict.md，不单独提升为长期 glossary.md
+    - 把稳定的证据约束折叠进 artifact.md 或 verdict.md
     - 不要用上层总结覆盖下层研究本身
+    - primitive artifact 应在文档开头标注研究深度（deep / focused / light）

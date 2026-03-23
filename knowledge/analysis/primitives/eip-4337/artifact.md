@@ -1,3 +1,13 @@
+<!--
+研究元数据：
+- 研究深度：deep
+- 对象类型：primitive
+- 研究路径：deep-dive
+- 相关 domains：account-abstraction
+- 创建时间：2025-03
+- 状态：stable
+-->
+
 <!-- 目录 -->
 - [关键术语](#关键术语)
 - [组件架构](#组件架构)
