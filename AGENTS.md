@@ -11,6 +11,7 @@
 - `knowledge/decisions/`：长期场景决策资产
 - `openspec/changes/`：当前研究改动包
 - `openspec/specs/`：长期研究系统 specs
+- `support/`：中间文件、帮助文件、执行文档（不放入仓库根目录）
 
 仓库内的研究对象只有四类：
 
@@ -102,7 +103,7 @@
 
 - `primitive` 和 `synthesis` 不要通过目录路径被锁死为某个 `domain` 的子节点
 - 一个 `primitive` 或 `synthesis` 可以被多个 `domain` 复用
-- 与哪些 `domain` 相关，应通过 `plan.md`、`dependencies.md`、正文链接来声明
+- 与哪些 `domain` 相关，应通过 `plan.md`、正文链接来声明
 - `synthesis` 是可选层，不是每个 domain 都必须有单独的 synthesis
 - `request.md`、`plan.md` 这类过程 artifact 不应长期保留在 `knowledge/analysis/` 或 `knowledge/decisions/` 中
 
@@ -110,7 +111,7 @@
 
 - 上层研究可以依赖下层研究
 - 上层研究不得重写下层全文
-- 上层研究必须在 `dependencies.md` 或 `plan.md` 中显式声明依赖
+- 上层研究必须在 `plan.md` 中显式声明依赖
 - 每个依赖都必须有 research budget：`deep` / `focused` / `light`
 - 必须解释为什么只需要这个深度
 
@@ -122,7 +123,7 @@ glossary 层不是附录，必须维护。
 
 - 过程层并入 `draft.md` 的“关键术语”区
 - 长期层并入 `artifact.md` 的“关键术语”区
-- 术语展示必须使用列表，不使用按词分标题的卡片式结构
+- 术语展示必须使用表格（术语、定义、在本题中的作用），不使用按词分标题的卡片式结构
 
 每条术语至少包含：
 
@@ -154,7 +155,7 @@ glossary 层不是附录，必须维护。
 ### `draft.md`
 
 - 合并原来的 glossary、analysis、verdict
-- 术语区必须是列表
+- 术语区必须是表格（术语、定义、在本题中的作用）
 - 先拆机制，再讨论价值
 - 必须说明设计原因与替代方案
 - 必须说明边界、失败条件、前提条件
@@ -176,9 +177,10 @@ glossary 层不是附录，必须维护。
 - 必须说明证据不足的地方
 - 不得把未验证推断写成确定事实
 
-### `dependencies.md`
+### `dependencies.md`（已合并入 `plan.md`）
 
-- 列出依赖对象、依赖强度、依赖原因、抽取内容
+- 依赖声明已合并入 `plan.md` 的"依赖声明"章节
+- 上层研究必须在 `plan.md` 中显式声明依赖
 - 强调“引用什么”，而不是“复制什么”
 
 ### `decision-criteria.md`
@@ -186,8 +188,9 @@ glossary 层不是附录，必须维护。
 - 仅用于 `scenario` 等需要显式比较标准的研究
 - 标准必须可解释、可比较、可复核
 
-### `evidence-matrix.md`
+### `evidence-matrix.md`（已合并入 `plan.md`）
 
+- 证据矩阵已合并入 `plan.md` 的"证据矩阵"章节（可选）
 - 把核心判断与证据等级绑定
 - 重要判断若只有低等级证据，必须降格处理
 
@@ -195,7 +198,8 @@ glossary 层不是附录，必须维护。
 
 - `knowledge/analysis/` 和 `knowledge/decisions/` 只保留长期结果
 - `request.md`、`plan.md`、一次性纠偏记录应进入 `openspec/changes/`
-- `evidence-matrix.md` 默认属于过程性证据组织文件，应进入 `openspec/changes/`
+- `evidence-matrix.md` 已合并入 `plan.md`，不再单独存在
+- 中间文件、帮助文档、执行步骤文档应放入 `support/` 目录，不要放在仓库根目录
 - case 级 `README.md` 默认不进入长期目录
 - `primitive / synthesis / domain` 的稳定内容应提炼为长期 `artifact.md`
 - `decision` 的 `verdict.md` 可以作为长期文件保留
@@ -211,6 +215,7 @@ glossary 层不是附录，必须维护。
 - “看起来更先进”
 - “更适合未来”
 - 没有边界条件的绝对化表述
+- **纯文字大段描述能可视化的内容**（违反图表优先原则）
 
 若必须使用趋势性判断，必须说明：
 
@@ -219,15 +224,35 @@ glossary 层不是附录，必须维护。
 - 证据等级
 - 仍未解决的问题
 
+## 图表优先原则
+
+**所有研究输出必须遵循图表优先原则**（详见 `openspec/specs/diagram-policy/spec.md`）：
+
+1. **先图后文**：能可视化的内容必须先展示图表，再用文字补充细节
+2. **图表承载主干**：演进脉络、架构关系、流程步骤等主干信息必须由图表承载
+3. **文字补充细节**：文字只补充图表中不易展示的（设计原因、trade-off、边界情况、证据等级）
+4. **禁止文字重复图表**：不得用大段文字完整复述图表已清晰表达的内容
+
+**synthesis 类型必须包含**：
+- 演进时间线图（展示完整演进脉络）
+- 问题层分布图（展示各对象的问题层归属）
+- 演进关系图（展示对象间的演进、竞争、互补关系）
+- 对比表格（各对象特性对比）
+
+**primitive 类型必须包含**：
+- 组件架构图（展示核心组件、层级关系）
+- 核心流程图（时序图展示关键交互）
+- 能力归属表（protocol-native / official ecosystem / third-party）
+
 ## 新增或修改研究时的默认动作
 
 1. 先看对象属于哪一层：`domain / primitive / synthesis / decision`
 2. 再看路径属于哪一类：`deep-dive / evolution / scenario`
 3. 先手工补 `request.md`
 4. 再生成并 review `plan.md`
-5. 若是上层研究，补 `dependencies.md`
-6. 若是场景对比，补 `decision-criteria.md`
-7. 若结论涉及争议或证据不足，补 `evidence-matrix.md`
+5. 若是上层研究，在 `plan.md` 中添加依赖声明章节
+6. 若是场景对比，在 `plan.md` 中添加决策标准或单独创建 `decision-criteria.md`
+7. 若结论涉及争议或证据不足，在 `plan.md` 中添加证据矩阵章节
 8. 最后生成并 review `draft.md`
 9. 稳定后提炼到 `knowledge/`
 

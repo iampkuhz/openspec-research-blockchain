@@ -7,10 +7,10 @@
 ## 要求
 
 - 长期 `knowledge/analysis/primitives/<slug>/` 默认只保留 `artifact.md`。
-- 长期 `knowledge/analysis/synthesis/<slug>/` 默认只保留 `artifact.md`、`dependencies.md`。
-- 长期 `knowledge/analysis/domains/<slug>/` 默认只保留 `artifact.md`、`dependencies.md`。
-- 长期 `knowledge/decisions/<domain>/<slug>/` 默认只保留 `artifact.md`、`criteria.md`、`dependencies.md`、`verdict.md`。
-- `request.md`、`plan.md`、`evidence-matrix.md` 不得进入长期目录。
+- 长期 `knowledge/analysis/synthesis/<slug>/` 默认只保留 `artifact.md`。
+- 长期 `knowledge/analysis/domains/<slug>/` 默认只保留 `artifact.md`。
+- 长期 `knowledge/decisions/<domain>/<slug>/` 默认只保留 `artifact.md`、`criteria.md`、`verdict.md`。
+- `request.md`、`plan.md`、`evidence-matrix.md`、`dependencies.md` 不得进入长期目录。依赖声明已合并入 `plan.md`，过程文件保留在 `openspec/changes/`。
 - case 级 `README.md` 默认不作为长期知识文件保留；目录说明应放在上层 `README.md` 或 `openspec/specs/`。
 - 对 `primitive / synthesis / domain`，结论应折叠进 `artifact.md`，默认不单独长期保留 `verdict.md`。
 - glossary 层默认折叠进 `artifact.md` 的“关键术语”区，不单独长期保留 `glossary.md`。

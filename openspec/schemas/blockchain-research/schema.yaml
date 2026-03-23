@@ -22,7 +22,7 @@ artifacts:
       - 中文优先
       - 英文术语优先保留
       - 技术导向、克制、非营销
-      
+
       重要约束：
       - request.md 只负责定义问题，不要求提前回答完整机制
       - 像“为什么 4337 不直接改传统 transaction 路径”“bundler / EntryPoint / paymaster 属于什么层”这类后续确认问题，应放进 plan.md
@@ -106,9 +106,9 @@ artifacts:
       - 中文优先
       - 英文术语优先保留
       - 技术导向、克制
-      
+
       重要约束：
-      - 术语区必须使用列表，而不是按词分标题
+      - 术语区必须使用表格（术语、定义、在本题中的作用），而不是按词分标题
       - draft.md 用于一次 review，同时承担原 glossary.md、analysis.md、verdict.md 的职责
     requires:
       - plan

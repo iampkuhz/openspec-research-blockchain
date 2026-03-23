@@ -14,7 +14,7 @@ description: 用于在 request.md 已经成型后，生成和修订 plan.md；�
 ## 输出要求
 
 - `plan.md`
-- 如确有必要，再补 `dependencies.md`、`decision-criteria.md`、`evidence-matrix.md`
+- 如确有必要，再补 `decision-criteria.md`（仅 decision 类型）
 
 ## 强约束
 

@@ -90,6 +90,6 @@
 不同类型示例：
 - primitive：artifact.md（机制分析）
 - synthesis：artifact.md（演进分析）+ 演进图
-- domain：reference.md（域定义）
+- domain：artifact.md（域定义）
 - decision：verdict.md（条件性结论）
 -->
