@@ -1,270 +1,187 @@
-# AGENTS.md
+# AGENTS.md - OpenSpec 区块链研究协作索引
 
-## 这个仓库是什么
+你是这个仓库的区块链技术调研协作助手。
 
-这是一个基于 OpenSpec 的区块链技术调研工作台，用于长期维护多层级研究对象，而不是一次性输出单篇文章。
+**核心职责：知道去哪里找知识，而不是把所有知识加载进来。**
 
-长期目录分离为：
+---
 
-- `knowledge/`：长期正式产出父目录
-- `knowledge/analysis/`：长期事实分析资产
-- `knowledge/decisions/`：长期场景决策资产
-- `openspec/changes/`：当前研究改动包
-- `openspec/specs/`：长期研究系统 specs
-- `support/`：中间文件、帮助文件、执行文档（不放入仓库根目录）
+## 一、启动时的自动行为
 
-仓库内的研究对象只有四类：
+### 1. 优先读取本地 knowledge
 
-- `domain`
-- `primitive`
-- `synthesis`
-- `decision`
+当用户提出研究相关问题时：
 
-仓库内的主要研究路径只有三类：
+1. 先判断问题类型（primitive / synthesis / domain / decision）
+2. 读取对应 `knowledge/` 目录中的 `artifact.md`
 
-- `deep-dive`
-- `evolution`
-- `scenario`
+| 问题类型 | 读取路径 |
+|----------|----------|
+| primitive | `knowledge/analysis/primitives/<topic>/artifact.md` |
+| synthesis | `knowledge/analysis/synthesis/<topic>/artifact.md` |
+| domain | `knowledge/analysis/domains/<topic>/artifact.md` 或 `reference.md` |
+| decision | `knowledge/decisions/<topic>/` 中的 `artifact.md`、`criteria.md`、`verdict.md` |
 
-## 这个仓库不是什么
+### 2. 结合联网搜索
 
-- 不是默认 `proposal/specs/design/tasks` 的软件研发仓库
-- 不是营销内容仓库
-- 不是“先给结论，再倒找材料”的观点仓库
-- 不是把所有对象都做成同样深度的平铺笔记仓库
+- 本地知识完整 → 基于本地知识回答
+- 本地知识有缺口 → 结合联网搜索补充
+- 本地知识可能过时（>6 个月）→ 必须联网验证
 
-## 输出总原则
+**联网搜索优先级**：官方来源 → 权威社区 → 生态工具 → 第三方分析
 
-所有输出必须遵循以下优先顺序：
+### 3. 回答格式
+
+```markdown
+## 本地知识库状态
+[说明本地 knowledge 中是否有相关内容]
+
+## 核心分析
+[基于本地 knowledge + 联网搜索]
+
+## 证据等级 / Evidence Gap
+[明确指出证据等级和待确认问题]
+```
+
+---
+
+## 二、规范索引（按事项查找）
+
+### 研究流程
+
+| 事项 | 参考文件 |
+|------|----------|
+| 创建新研究 | `openspec/changes/README.md` |
+| 定义研究问题 | `openspec/schemas/blockchain-research/templates/request.md` |
+| 制定研究计划 | `openspec/schemas/blockchain-research/templates/plan.md` |
+| 生成分析草稿 | `openspec/schemas/blockchain-research/templates/draft.md` |
+| 提炼长期资产 | `openspec/schemas/blockchain-research/templates/draft.md`（promote 部分） |
+
+### 研究系统规范
+
+| 事项 | 参考文件 |
+|------|----------|
+| 仓库资产模型 | `openspec/specs/repository-asset-model/spec.md` |
+| 研究对象分类 | `openspec/specs/research-object-model/spec.md` |
+| 输出模型 | `openspec/specs/canonical-output-model/spec.md` |
+| 证据政策 | `openspec/specs/evidence-policy/spec.md` |
+| 分析原则 | `openspec/specs/analysis-principles/spec.md` |
+| 语言风格 | `openspec/specs/language-style/spec.md` |
+| 图表政策 | `openspec/specs/diagram-policy/spec.md` |
+
+### 目录与文件
+
+| 事项 | 参考文件 |
+|------|----------|
+| 目录结构 | `README.md` |
+| `knowledge/` 保留什么 | `README.md`（"knowledge/ 里保留什么"章节） |
+| `openspec/changes/` 用法 | `openspec/changes/README.md` |
+
+---
+
+## 三、Commands 索引
+
+| 命令 | 作用 | 定义文件 |
+|------|------|----------|
+| `/spec-request` | 辅助生成 request.md | `.claude/commands/spec-request.md` |
+| `/spec-plan` | request → plan.md | `.claude/commands/spec-plan.md` |
+| `/spec-draft` | plan → draft.md | `.claude/commands/spec-draft.md` |
+| `/spec-promote` | draft → artifact.md | `.claude/commands/spec-promote.md` |
+| `/spec-research` | 端到端全流程 | `.claude/commands/spec-research.md` |
+
+---
+
+## 四、核心原则（快速查阅）
+
+### 输出优先顺序
 
 1. 先机制，后价值
 2. 先事实，后判断
 3. 先边界，后结论
-4. 先说明为什么这样做，再说明为什么不是那样做
-5. 结论必须受证据等级约束
+4. 先说明为什么，再说明为什么不
 
-禁止把 marketing copy、生态宣传语、空泛趋势判断直接写入结论。
+### 证据等级（简写）
 
-## 语言要求
+| 等级 | 来源 |
+|------|------|
+| L1 | 官方规范 |
+| L2 | 参考实现 |
+| L3 | 生态工具 |
+| L4 | 第三方分析 |
 
-- 中文优先维护
-- 英文术语优先保留
-- 协议名、标准名、字段名、EIP/ERC/RIP 编号、专业名词优先保留英文
-- 不要强行把关键技术术语全部中文化
-- 正文解释与分析以中文为主
-- 风格必须专业、克制、技术导向
+**详情**：`openspec/specs/evidence-policy/spec.md`
 
-## 证据政策
+### 能力分类（必须区分）
 
-必须显式区分证据等级：
+- protocol-native（协议原生）
+- official ecosystem（官方生态）
+- third-party（第三方）
 
-- `L1`: 官方 spec / EIP / whitepaper / protocol docs
-- `L2`: 官方 docs / repo / SDK / API / 实现证据
-- `L3`: 官方 blog / release / roadmap / ecosystem material
-- `L4`: 第三方解读 / 媒体 / 评论材料
+### 状态分类（必须区分）
 
-执行要求：
+- live（已上线）
+- planned（计划中）
+- promotional（宣传性）
 
-- 关键机制判断优先基于 `L1/L2`
-- 若某结论仅由 `L3/L4` 支撑，必须降级表述
-- 必须标注 `evidence gap`
-- 必须标注 `unresolved ambiguity`
-- 必须区分“文档写了什么”和“链上/实现实际上支持什么”
+### 图表优先级
 
-## 能力边界区分要求
+1. PlantUML（复杂图，必须通过 skill 生成）
+2. Mermaid（简单图）
+3. Markdown 表格（结构化信息）
+4. URL 图（外部引用）
+5. 本地图片（最差选项）
 
-所有研究必须区分：
+**详情**：`openspec/specs/diagram-policy/spec.md`
 
-- 原生协议能力
-- 官方生态能力
-- 第三方能力
+### 架构图设计原则
 
-并且必须区分：
+**禁止**死板分层（应用层/协议层/实现层）
 
-- 已上线能力
-- 规划中能力
-- 宣传性表述
+**必须**：
+1. 场景驱动
+2. 角色清晰（谁提供服务、哪里实现）
+3. 结合实例（Bundler → Stackup、Pimlico）
+4. 容易理解
 
-不要把钱包、SDK、基础设施服务商、第三方中间件的能力，直接写成协议原生能力。
+---
 
-## 研究层级与复用
+## 五、写作禁令（快速查阅）
 
-技术分析主链：
+禁止直接写入正式结论：
 
-- 底层：`primitive`
-- 中层：`synthesis`
-- 上层：`domain`
-
-独立的场景应用层：
-
-- `decision`
-
-补充约束：
-
-- `primitive` 和 `synthesis` 不要通过目录路径被锁死为某个 `domain` 的子节点
-- 一个 `primitive` 或 `synthesis` 可以被多个 `domain` 复用
-- 与哪些 `domain` 相关，应通过 `plan.md`、正文链接来声明
-- `synthesis` 是可选层，不是每个 domain 都必须有单独的 synthesis
-- `request.md`、`plan.md` 这类过程 artifact 不应长期保留在 `knowledge/analysis/` 或 `knowledge/decisions/` 中
-
-要求：
-
-- 上层研究可以依赖下层研究
-- 上层研究不得重写下层全文
-- 上层研究必须在 `plan.md` 中显式声明依赖
-- 每个依赖都必须有 research budget：`deep` / `focused` / `light`
-- 必须解释为什么只需要这个深度
-
-## Glossary 层是核心内容
-
-glossary 层不是附录，必须维护。
-
-默认写法：
-
-- 过程层并入 `draft.md` 的“关键术语”区
-- 长期层并入 `artifact.md` 的“关键术语”区
-- 术语展示必须使用表格（术语、定义、在本题中的作用），不使用按词分标题的卡片式结构
-
-每条术语至少包含：
-
-- 术语
-- 一句话定义
-- 在本题中的作用
-
-如果一个术语在当前研究中承担关键区分作用，就必须入术语区。
-
-## Artifact 级要求
-
-### `request.md`
-
-- 明确问题、目标、非目标、范围边界
-- 避免在 request 中提前下结论
-- 不要求此时已经写清完整机制
-- 需要后续确认的机制问题，进入 `plan.md`
-
-### `plan.md`
-
-- 合并原来的计划层与来源规划层
-- 明确对象类型、研究路径、相关 `domain`
-- 明确预算、交付边界、完成标准
-- 明确 `L1/L2/L3/L4` 来源规划
-- 明确 `evidence gap` 与 `unresolved ambiguity`
-- 对 `primitive`，把“为什么不直接改传统 transaction 路径”“关键角色分别位于哪一层”“哪些能力不是 protocol-native”这类问题写进“后续确认问题”
-- 若是上层研究，必须定义抽取策略而不是全文复写策略
-
-### `draft.md`
-
-- 合并原来的 glossary、analysis、verdict
-- 术语区必须是表格（术语、定义、在本题中的作用）
-- 先拆机制，再讨论价值
-- 必须说明设计原因与替代方案
-- 必须说明边界、失败条件、前提条件
-- 必须区分 protocol-native、official ecosystem、third-party
-- 必须区分 live、planned、promotional
-- 有限结论必须写清前提与证据基础
-
-### `artifact.md`
-
-- 只用于 `knowledge/` 下的长期正式结果
-- 不是工作中的推演稿，而是可复用的稳定产物
-- 应提炼 mechanism、boundary、dependency impact，不保留过程痕迹
-- 默认包含“关键术语”区
-
-### `verdict.md`
-
-- 只作为 `decision` 的长期条件性结论文件
-- 必须说明结论适用前提
-- 必须说明证据不足的地方
-- 不得把未验证推断写成确定事实
-
-### `dependencies.md`（已合并入 `plan.md`）
-
-- 依赖声明已合并入 `plan.md` 的"依赖声明"章节
-- 上层研究必须在 `plan.md` 中显式声明依赖
-- 强调“引用什么”，而不是“复制什么”
-
-### `decision-criteria.md`
-
-- 仅用于 `scenario` 等需要显式比较标准的研究
-- 标准必须可解释、可比较、可复核
-
-### `evidence-matrix.md`（已合并入 `plan.md`）
-
-- 证据矩阵已合并入 `plan.md` 的"证据矩阵"章节（可选）
-- 把核心判断与证据等级绑定
-- 重要判断若只有低等级证据，必须降格处理
-
-## Canonical 目录规则
-
-- `knowledge/analysis/` 和 `knowledge/decisions/` 只保留长期结果
-- `request.md`、`plan.md`、一次性纠偏记录应进入 `openspec/changes/`
-- `evidence-matrix.md` 已合并入 `plan.md`，不再单独存在
-- 中间文件、帮助文档、执行步骤文档应放入 `support/` 目录，不要放在仓库根目录
-- case 级 `README.md` 默认不进入长期目录
-- `primitive / synthesis / domain` 的稳定内容应提炼为长期 `artifact.md`
-- `decision` 的 `verdict.md` 可以作为长期文件保留
-- 术语层默认并入 `artifact.md`，不单独长期保留 `glossary.md`
-- `openspec/specs/` 用于沉淀跨 case 复用的研究系统规则
-
-## 写作禁令
-
-以下内容禁止直接进入正式结论：
-
-- “生态很繁荣，所以前景更好”
-- “社区很活跃，所以技术路线成立”
-- “看起来更先进”
-- “更适合未来”
+- "生态很繁荣，所以前景更好"
+- "社区很活跃，所以技术路线成立"
+- "看起来更先进"
+- "更适合未来"
 - 没有边界条件的绝对化表述
-- **纯文字大段描述能可视化的内容**（违反图表优先原则）
+- 纯文字大段描述能可视化的内容
 
-若必须使用趋势性判断，必须说明：
+---
 
-- 判断对象
-- 适用场景
-- 证据等级
-- 仍未解决的问题
+## 六、审稿检查清单
 
-## 图表优先原则
+在 review 或自检时检查：
 
-**所有研究输出必须遵循图表优先原则**（详见 `openspec/specs/diagram-policy/spec.md`）：
+- [ ] 机制是否讲清楚
+- [ ] 设计原因是否讲清楚
+- [ ] 边界是否写出来
+- [ ] 证据等级是否够高
+- [ ] 是否错误混用能力分类
+- [ ] 是否错误混用状态分类
+- [ ] 上层研究是否复写下层全文
+- [ ] 关键术语是否覆盖
+- [ ] 图表是否符合优先原则
 
-1. **先图后文**：能可视化的内容必须先展示图表，再用文字补充细节
-2. **图表承载主干**：演进脉络、架构关系、流程步骤等主干信息必须由图表承载
-3. **文字补充细节**：文字只补充图表中不易展示的（设计原因、trade-off、边界情况、证据等级）
-4. **禁止文字重复图表**：不得用大段文字完整复述图表已清晰表达的内容
+---
 
-**synthesis 类型必须包含**：
-- 演进时间线图（展示完整演进脉络）
-- 问题层分布图（展示各对象的问题层归属）
-- 演进关系图（展示对象间的演进、竞争、互补关系）
-- 对比表格（各对象特性对比）
+## 七、知识目录导航
 
-**primitive 类型必须包含**：
-- 组件架构图（展示核心组件、层级关系）
-- 核心流程图（时序图展示关键交互）
-- 能力归属表（protocol-native / official ecosystem / third-party）
-
-## 新增或修改研究时的默认动作
-
-1. 先看对象属于哪一层：`domain / primitive / synthesis / decision`
-2. 再看路径属于哪一类：`deep-dive / evolution / scenario`
-3. 先手工补 `request.md`
-4. 再生成并 review `plan.md`
-5. 若是上层研究，在 `plan.md` 中添加依赖声明章节
-6. 若是场景对比，在 `plan.md` 中添加决策标准或单独创建 `decision-criteria.md`
-7. 若结论涉及争议或证据不足，在 `plan.md` 中添加证据矩阵章节
-8. 最后生成并 review `draft.md`
-9. 稳定后提炼到 `knowledge/`
-
-## 默认审稿标准
-
-在 review 或自检时，优先检查：
-
-- 机制是否讲清楚
-- 设计原因是否讲清楚
-- 边界是否写出来
-- 证据等级是否够高
-- 是否错误混用了原生能力、官方生态能力、第三方能力
-- 是否错误混用了已上线、规划中、宣传性表述
-- 上层研究是否复写了下层全文
-- 关键术语是否覆盖
+```
+knowledge/
+├── analysis/
+│   ├── primitives/     # 底层机制（如 eip-4337/artifact.md）
+│   ├── synthesis/      # 演进分析（如 aa-eip-evolution/artifact.md）
+│   └── domains/        # 主题域（如 account-abstraction/reference.md）
+└── decisions/
+    └── <topic>/        # 场景决策（artifact.md, criteria.md, verdict.md）
+```

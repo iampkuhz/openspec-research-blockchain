@@ -69,9 +69,10 @@ openspec instructions draft --change <name>              # 生成 draft.md
 ### Qoder 快捷命令
 
 ```
-/spec-cmd-build-plan <change-path>       # request.md -> plan.md
-/spec-cmd-build-draft <change-path>      # plan.md -> draft.md
-/spec-cmd-promote-artifact <change-path> # draft.md -> knowledge/.../artifact.md
+/spec-plan <change-path>       # request.md -> plan.md
+/spec-draft <change-path>      # plan.md -> draft.md
+/spec-promote <change-path>    # draft.md -> knowledge/.../artifact.md
+/spec-research <change-path>   # 端到端完成全流程
 ```
 
 ### 本地快捷
@@ -86,21 +87,27 @@ make install-skills                       # 安装 skills
 | 步骤 | 命令 | 检查点 | 产物 |
 |------|------|--------|------|
 | 1. 开 change | `openspec new change <name> --schema blockchain-research` | 名称、层级是否正确 | `openspec/changes/<name>/` |
-| 2. 写 request | 手工编辑 `request.md` | 只定义问题，不回答机制 | `request.md` |
-| 3. 生成 plan | `/spec-cmd-build-plan <path>` | 研究深度、来源、待确认问题 | `plan.md` |
-| 4. 生成 draft | `/spec-cmd-build-draft <path>` | 术语表、组件图、角色归属 | `draft.md` |
-| 5. 提炼产物 | `/spec-cmd-promote-artifact <path>` | 无过程痕迹 | `knowledge/.../artifact.md` |
+| 2. 写 request | 手工编辑 `request.md` 或 `/spec-request` | 只定义问题，不回答机制 | `request.md` |
+| 3. 生成 plan | `/spec-plan <path>` | 研究深度、来源、待确认问题 | `plan.md` |
+| 4. 生成 draft | `/spec-draft <path>` | 术语表、组件图、角色归属 | `draft.md` |
+| 5. 提炼产物 | `/spec-promote <path>` | 无过程痕迹 | `knowledge/.../artifact.md` |
 
 示例（EIP-4337）：
 ```
 openspec new change primitive-eip-4337-deep-dive-pass-1 --schema blockchain-research
-# 编辑 request.md
-/spec-cmd-build-plan openspec/changes/primitive-eip-4337-deep-dive-pass-1
+# 编辑 request.md 或使用 /spec-request 辅助生成
+/spec-plan openspec/changes/primitive-eip-4337-deep-dive-pass-1
 # review plan.md
-/spec-cmd-build-draft openspec/changes/primitive-eip-4337-deep-dive-pass-1
+/spec-draft openspec/changes/primitive-eip-4337-deep-dive-pass-1
 # review draft.md
-/spec-cmd-promote-artifact openspec/changes/primitive-eip-4337-deep-dive-pass-1
+/spec-promote openspec/changes/primitive-eip-4337-deep-dive-pass-1
 # 产物：knowledge/analysis/primitives/eip-4337/artifact.md
+```
+
+**端到端流程**：
+```
+/spec-research openspec/changes/primitive-eip-4337-deep-dive-pass-1
+# 自动完成 request -> plan -> draft -> promote 全流程，每阶段暂停等待确认
 ```
 
 ## 先看哪里
