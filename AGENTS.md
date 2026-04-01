@@ -68,6 +68,7 @@
 | 分析原则 | `openspec/specs/analysis-principles/spec.md` |
 | 语言风格 | `openspec/specs/language-style/spec.md` |
 | 图表政策 | `openspec/specs/diagram-policy/spec.md` |
+| 组件分析质量要求 | `openspec/specs/component-analysis-quality/spec.md` |
 
 ### 目录与文件
 
