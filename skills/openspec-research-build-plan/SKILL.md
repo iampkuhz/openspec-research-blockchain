@@ -36,13 +36,13 @@ description: 用于在 request.md 已经成型后，生成和修订 plan.md；�
 
 ### 图表规划约束
 
-`交付范围` section 中必须显式列出图表类 deliverable，并按以下优先级说明图的类型和渲染工具：
+` 交付范围` section 中必须显式列出图表类 deliverable，并按以下优先级说明图的类型和渲染工具：
 
-- **组件图（必须）**：PlantUML 组件图，由 `feipi-gen-plantuml-code` skill 渲染，展示角色 / 组件 / 层级关系
-- **流程图（可选）**：时序图，由 `feipi-gen-plantuml-code` skill 渲染，展示核心执行路径；必须在 plan 中明确标注"可有可无"或"必须"
+- **组件图（必须）**：优先使用 Mermaid 组件图，展示角色 / 组件 / 层级关系
+- **流程图（可选）**：时序图，使用 Mermaid 时序图，展示核心执行路径；必须在 plan 中明确标注"可有可无"或"必须"
 - **对比表 / 归属表（推荐）**：能力归属、链适配对比等结构化表格，信息不得与图重复
 - 原则：多用图表辅助阅读，但每张图 / 表必须有独立的信息价值
-- **强制规定：所有图，只要 PlantUML 支持该图类型，必须使用 PlantUML 生成，统一由 `feipi-gen-plantuml-code` skill 渲染；禁止手写图或使用其他工具生成**
+- **Mermaid 优先**：Mermaid 无法表达的复杂图才使用 PlantUML
 
 ### 完成标准必填项
 
