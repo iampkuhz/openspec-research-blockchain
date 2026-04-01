@@ -18,32 +18,104 @@ Malachite 是由 Circle/Malachite 团队开发的高性能 BFT 共识算法实�
 
 ### 组件架构
 
+**架构图说明**：
+- **蓝色矩形**：处理组件（区块生产、共识核心、最终性模块）
+- **黄色矩形（note）**：数据对象（Proposal、Vote、Certificate）
+- **灰色人形**：外部角色（验证者、Proposer）
+- **绿色圆柱体**：数据存储（区块存储）
+- **箭头标注 S1→S7**：流程执行顺序
+
 ```plantuml
 @startuml
+' Malachite Consensus Architecture
+hide circle
 skinparam componentStyle rectangle
+skinparam defaultFontName "Helvetica"
+skinparam defaultFontSize 14
+skinparam backgroundColor #FFFFFF
 
-package "Malachite Consensus" {
-  [Proposer] as P
-  [Validator Set] as V
-  [Block Production] as BP
-  [Consensus Core] as CC
-  [Finality Module] as FM
+' 纵向布局
+top to bottom direction
+skinparam nodesep 25
+skinparam ranksep 35
+
+' 配色方案
+skinparam package {
+    BackgroundColor #F0F4F8
+    BorderColor #5A6C7D
+    BorderThickness 2
 }
 
-[P] --> [BP] : Block Proposal
-[BP] --> [CC] : Proposal + Vote
-[CC] --> [V] : Vote Collection
-[V] --> [FM] : Finality Certificate
+skinparam component {
+    BackgroundColor #E3F2FD
+    BorderColor #1565C0
+    BorderThickness 2
+    ArrowColor #424242
+    ArrowThickness 2
+}
 
-note right of CC
-  Malachite 核心特点：
-  - Rust 实现，内存安全
-  - 模块化设计，可嵌入
-  - 高性能 BFT 变体
-end note
+skinparam database {
+    BackgroundColor #C8E6C9
+    BorderColor #2E7D32
+    BorderThickness 2
+}
 
+skinparam actor {
+    BackgroundColor #E0E0E0
+    BorderColor #424242
+    BorderThickness 2
+}
+
+skinparam note {
+    BackgroundColor #FFF9C4
+    BorderColor #F9A825
+    BorderThickness 2
+}
+
+title Malachite Consensus Architecture
+
+package "Consensus Layer" {
+    component [Block Production] as BP
+    component [Finality Module] as FM
+    component [Consensus Core] as CC
+}
+
+package "Storage Layer" {
+    database [Block Store] as BS
+}
+
+actor "Proposer" as Proposer
+actor "Validator" as Validator
+
+' 数据对象用黄色 note 表示
+note "Proposal" as N_P
+note "Vote" as N_V
+note "Certificate" as N_C
+
+Proposer -> N_P : S1 Propose
+N_P -> BP : S2 Receive
+BP --> CC : S3 Broadcast
+CC --> N_V : S4 Collect
+N_V -> FM : S5 Submit
+FM --> N_C : S6 Generate
+N_C -> BS : S7 Persist
+
+legend right
+  |= Element |= Shape |= Color |= Description |
+  | Component | Rectangle | Blue | Processing unit |
+  | Data | Note | Yellow | Data object |
+  | Actor | Human | Gray | External role |
+  | Storage | Cylinder | Green | Persistent storage |
+  | Flow | Arrow S1-Sn | Black | Execution order |
+endlegend
 @enduml
 ```
+
+**【S1→S7】共识流程说明**：
+
+- **【S1→S2】** Proposer 生成区块提议（Proposal），传递给区块生产模块
+- **【S3→S4】** 区块生产模块广播提案到共识核心，共识核心收集验证者投票（Vote）
+- **【S5→S7】** 投票提交到最终性模块，生成最终性证书（Certificate）后持久化到区块存储
 
 ### 核心机制（与传统 BFT 差异）
 

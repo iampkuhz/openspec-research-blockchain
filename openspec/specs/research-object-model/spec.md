@@ -244,17 +244,123 @@ openspec/changes/{change-name}/
 knowledge/
 ├── analysis/
 │   ├── primitives/
-│   │   └── {object-name}/
-│   │       └── artifact.md  # 带深度标记
+│   │   └── {category}/
+│   │       └── {object-type}-{name}/
+│   │           └── artifact.md  # 带深度标记
 │   ├── synthesis/
-│   │   └── {synthesis-name}/
-│   │       └── artifact.md
+│   │   └── {category}/
+│   │       └── {synthesis-type}-{name}/
+│   │           └── artifact.md
 │   └── domains/
-│       └── {domain-name}/
-│           └── reference.md
-└── decisions/
-    └── {decision-name}/
-        ├── artifact.md
-        ├── criteria.md（可选）
-        └── verdict.md
+│   │   └── {domain-type}-{name}/
+│   │       └── reference.md
+│   └── decisions/
+│       └── {decision-type}-{name}/
+│           ├── artifact.md
+│           ├── criteria.md（可选）
+│           └── verdict.md
 ```
+
+### 目录命名规范
+
+#### primitives 目录
+
+**二级分类**：primitives 下必须按技术领域设置二级分类。
+
+**分类定义**：
+
+| 分类名 | 说明 | 命名前缀 | 示例 |
+|--------|------|----------|------|
+| `consensus` | 共识算法 | `consensus-` | consensus-malachite, consensus-tendermint |
+| `account-abstraction` | 账户抽象 | `aa-` | aa-eip-4337, aa-eip-7702 |
+| `mempool` | 内存池机制 | `mempool-` | mempool-p2p, mempool-encrypted |
+| `staking` | 质押机制 | `staking-` | staking-slashing, staking-rewards |
+| `bridge` | 跨链桥 | `bridge-` | bridge-IBC, bridge-layerzero |
+| `agentic-payment` | 代理支付 | `agentic-payment-` | agentic-payment-a2a, agentic-payment-x402 |
+
+**命名格式**：`{category-prefix}-{name}`
+
+- `{category-prefix}`: 分类前缀（见上表）
+- `{name}`: 具体名称（小写，连字符分隔）
+
+**示例**：
+- `consensus-malachite` ✓
+- `consensus-tendermint` ✓
+- `consensus-qbft` ✓
+- `consensus-simplex` ✓
+- `aa-eip-4337` ✓
+- `malachite` ✗（缺少分类前缀）
+- `eip-4337` ✗（缺少分类前缀）
+
+#### synthesis 目录
+
+**二级分类**：synthesis 下必须按分析类型设置二级分类。
+
+**分类定义**：
+
+| 分类名 | 说明 | 命名前缀 | 示例 |
+|--------|------|----------|------|
+| `comparison` | 对比分析 | `comparison-` | comparison-bft-consensus |
+| `evolution` | 演进分析 | `evolution-` | evolution-aa-eip |
+| `taxonomy` | 分类学分析 | `taxonomy-` | taxonomy-agentic-payment |
+
+**命名格式**：`{category-prefix}-{name}`
+
+- `{category-prefix}`: 分类前缀（见上表）
+- `{name}`: 描述性名称（小写，连字符分隔）
+
+**示例**：
+- `comparison-bft-consensus` ✓
+- `evolution-aa-eip` ✓
+- `bft-consensus` ✗（缺少分类前缀）
+- `aa-eip-evolution` ✗（缺少分类前缀）
+
+#### domain 目录
+
+**二级分类**：domain 下按主题域划分，可选二级分类。
+
+**命名格式**：`domain-{name}`
+
+**示例**：
+- `domain-account-abstraction` ✓
+- `domain-consensus` ✓
+- `account-abstraction` ✗（缺少 `domain-` 前缀）
+
+#### decision 目录
+
+**二级分类**：decision 下按场景域划分，建议设置二级分类。
+
+**命名格式**：`decision-{scenario}`
+
+**示例**：
+- `decision-aa-wallet-selection` ✓
+- `decision-consensus-selection` ✓
+- `chain-comparison` ✗（缺少 `decision-` 前缀）
+
+### 命名原则
+
+1. **区分度优先**：名称必须能清晰区分不同对象，避免使用过短的通用名称
+2. **分类前缀必需**：所有 primitive/synthesis/domain/decision 名称必须包含分类前缀
+3. **小写 + 连字符**：统一使用小写字母和连字符（`-`），不使用下划线或空格
+4. **英文优先**：使用英文术语，便于与国际技术文档对齐
+5. **缩写规范**：对于长分类名，可定义标准缩写（如 `account-abstraction` → `aa-`）
+
+### 现有分类注册表
+
+以下为本仓库已注册的分类和前缀：
+
+#### primitives 分类
+
+| 分类 | 前缀 | 状态 | 包含对象 |
+|------|------|------|----------|
+| consensus | `consensus-` | active | consensus-malachite, consensus-simplex, consensus-tendermint, consensus-qbft, consensus-malaketh-turbo |
+| account-abstraction | `aa-` | active | aa-eip-4337, aa-eip-7560, aa-eip-7702 |
+| agentic-payment | `agentic-payment-` | active | agentic-payment-a2a, agentic-payment-acp, agentic-payment-ap2, agentic-payment-mpp, agentic-payment-x402 |
+
+#### synthesis 分类
+
+| 分类 | 前缀 | 状态 | 包含对象 |
+|------|------|------|----------|
+| comparison | `comparison-` | active | comparison-bft-consensus |
+| evolution | `evolution-` | active | evolution-aa-eip |
+| taxonomy | `taxonomy-` | active | taxonomy-agentic-payment |

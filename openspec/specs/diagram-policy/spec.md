@@ -136,3 +136,15 @@ Deployment (1014) ─────┘
 - `skills/openspec-research-build-draft/SKILL.md`：必须引用本政策
 - `openspec/schemas/blockchain-research/templates/draft.md`：必须提示使用 PlantUML skill
 - `.qoder/skills/feipi-gen-plantuml-code/`：图表生成与校验工具
+- `openspec/specs/architecture-diagram-quality/spec.md`：架构组件图质量规约（必须遵守）
+
+## 附录：架构组件图质量要求
+
+**架构组件图必须遵守 `openspec/specs/architecture-diagram-quality/spec.md` 中的规定**：
+
+1. **元素类型区分**：组件（蓝色矩形）、数据（黄色平行四边形）、角色（灰色人形）、存储（绿色圆柱体）
+2. **分层着色**：通过 package 背景和边框区分层次
+3. **箭头语义**：所有箭头必须标注语义和流程序号（S1→Sn）
+4. **图例说明**：必须包含图例说明各元素含义
+
+**不符合质量规约的组件图视为未完成**。
