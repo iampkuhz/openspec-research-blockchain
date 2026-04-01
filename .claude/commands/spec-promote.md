@@ -83,17 +83,21 @@
 - 本地图片仅在无替代方案时使用，需说明原因
 - 确保 artifact.md 总体大小不过度膨胀
 
-### 参考资料格式
+### 参考资料格式（重要）
 
 **简化表格格式**（2 列）：
 
 | 来源 | 说明 |
 |------|------|
-| [EIP-4337](链接) | 主规范文档 |
+| [EIP-4337](https://eips.ethereum.org/EIPS/eip-4337) | 账户抽象主规范 |
+| [EIP-4361 SIWE](https://eips.ethereum.org/EIPS/eip-4361) | 以太坊签名授权标准 |
+| [Interledger Protocol](https://interledger.org/) | 跨账本支付协议 |
 
-- 链接直接嵌入来源名称
+**格式要求**：
+- 链接直接嵌入来源名称，使用 `[context](url)` 形式
+- 只保留"来源"和"说明"两列
 - 不设置"类型"列
-- 不标注 L1-L4 等级
+- 不标注证据等级（L1/L2/L3/L4）
 
 ### 必须移除的内容
 
@@ -104,5 +108,5 @@
 
 ## 必须参考
 
-- `openspec/schemas/blockchain-research/templates/draft.md`
-- `openspec/specs/diagram-policy/spec.md`
+- [draft.md 模板](../openspec/schemas/blockchain-research/templates/draft.md) - 定义 draft 结构和图表要求
+- [图表政策](../openspec/specs/diagram-policy/spec.md) - 定义图表生成和校验标准
