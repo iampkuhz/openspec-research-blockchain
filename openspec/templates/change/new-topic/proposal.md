@@ -1,23 +1,23 @@
-# Proposal: <Change Title>
+# Proposal：\<Change 标题\>
 
-## Metadata
+## 元数据
 
 - **Change ID**: `<change-id>`
-- **Type**: `new-topic` | `update-topic` | `refactor-topic`
-- **Topic**: `<topic-name>`
-- **Domain**: `<domain-name>`
-- **Created At**: `<date>`
-- **Author**: `<author>`
+- **类型**: `new-topic` | `update-topic` | `refactor-topic`
+- **主题**: `<topic-name>`
+- **域**: `<domain-name>`
+- **创建日期**: `<date>`
+- **作者**: `<author>`
 
-## Background
+## 背景
 
 [为什么需要这个 change]
 
-## Goal
+## 目标
 
 [change 的目标]
 
-## Scope
+## 范围
 
 ### In Scope
 
@@ -27,43 +27,43 @@
 
 - [不研究的内容]
 
-## Object Type
+## 对象类型
 
 - [ ] primitive - 单个协议/EIP/机制
 - [ ] synthesis - 关系/演进/分类分析
 - [ ] domain - 主题域
 - [ ] decision - 场景决策
 
-## Research Path
+## 研究路径
 
 - [ ] deep-dive - 深度分析
 - [ ] evolution - 演进历史
 - [ ] scenario - 场景驱动
 - [ ] comparison - 对比分析
 
-## Success Criteria
+## 成功标准
 
 - [ ] 标准 1
 - [ ] 标准 2
 - [ ] 标准 3
 
-## Timeline
+## 时间线
 
-- Start: `<date>`
-- End (estimated): `<date>`
+- 开始日期：`<date>`
+- 结束日期（预计）：`<date>`
 
-## Dependencies
+## 依赖
 
 - [ ] 无
 - [ ] 依赖 topic: `<topic>`
 
-## Risks
+## 风险
 
-| Risk | Probability | Impact | Mitigation |
-|------|-------------|--------|------------|
+| 风险 | 概率 | 影响 | 缓解措施 |
+|------|-------------|--------|---------|
 | 风险 1 | high/medium/low | high/medium/low | 缓解措施 |
 
-## Resources
+## 资源
 
 - 预计时间：X 小时
 - 需要评审：是/否

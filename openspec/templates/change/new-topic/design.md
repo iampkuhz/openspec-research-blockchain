@@ -1,44 +1,44 @@
-# Design: <Change Title>
+# Design：<Change 标题>
 
-## Overview
+## 概述
 
 [设计方案概述]
 
-## Research Questions
+## 研究问题
 
-### Q1: <问题>
+### Q1: \<问题\>
 
-** Motivation**: [为什么问这个问题]
+**动机**: [为什么问这个问题]
 
-** Expected Answer Type**: definition/mechanism/comparison/evaluation
+**期望回答类型**: definition/mechanism/comparison/evaluation
 
-### Q2: <问题>
+### Q2: \<问题\>
 
 ...
 
-## Source Plan
+## 来源计划
 
-### L1 Sources
+### L1 来源
 
-| Source | Type | Status |
-|--------|------|--------|
+| 来源 | 类型 | 状态 |
+|------|------|------|
 | EIP-XXX | standard | pending/read/verified |
 | Whitepaper | standard | pending/read/verified |
 
-### L2 Sources
+### L2 来源
 
-| Source | Type | Status |
-|--------|------|--------|
+| 来源 | 类型 | 状态 |
+|------|------|------|
 | Reference Repo | implementation | pending/read/verified |
 | Docs | documentation | pending/read/verified |
 
-### L3 Sources
+### L3 来源（仅用于背景）
 
-| Source | Type | Usage |
-|--------|------|-------|
+| 来源 | 类型 | 用途 |
+|------|------|------|
 | Blog | official-blog | background/motivation |
 
-## Output Structure
+## 输出结构
 
 ```
 knowledge/topics/<domain>/<topic>/
@@ -56,35 +56,35 @@ knowledge/topics/<domain>/<topic>/
 ├── sources/
 │   ├── source-pack.yaml
 │   └── primary-notes.md
-└── diagrams/ (如有)
+└── diagrams/（如有）
 ```
 
-## Key Claims to Extract
+## 待提取的关键 Claims
 
-- [ ] claim about definition
-- [ ] claim about mechanism
-- [ ] claim about performance
+- [ ] 关于 definition 的 claim
+- [ ] 关于 mechanism 的 claim
+- [ ] 关于 performance 的 claim
 
-## Diagrams to Create
+## 待创建的图表
 
-| ID | Type | Purpose |
-|----|------|---------|
+| ID | 类型 | 用途 |
+|----|------|------|
 | arch-overview | component | 展示架构 |
 | flow | sequence | 展示流程 |
 
-## Terminology Plan
+## 术语计划
 
-| Term | Category | Layer | Source |
+| 术语 | Category | Layer | Source |
 |------|----------|-------|--------|
 | Term 1 | protocol-entity | protocol | EIP-XXX |
 | Term 2 | protocol-action | protocol | EIP-XXX |
 
-## Evidence Gaps to Record
+## 待记录的证据缺口
 
-- [ ] gap about X
-- [ ] gap about Y
+- [ ] 关于 X 的 gap
+- [ ] 关于 Y 的 gap
 
-## Validation Plan
+## 验证计划
 
 - [ ] 自审 checklist
 - [ ] 技术评审
