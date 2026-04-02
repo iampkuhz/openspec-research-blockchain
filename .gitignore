@@ -13,9 +13,6 @@ openspec/changes/*
 tmp/
 /support/
 
-# 迁移目录（一次性重构产物）
-migration/
-
 # Python
 __pycache__/
 *.py[cod]

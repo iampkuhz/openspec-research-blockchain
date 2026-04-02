@@ -111,9 +111,3 @@ knowledge/
 - [Evidence Status](./glossary/meta/evidence-status.yaml)
 
 具体术语定义在各 topic 的 `terms/` 目录下。
-
-## 迁移状态
-
-现有知识文件备份在 `migration/manual-triage/` 目录，等待迁移。
-
-详见：[migration/migration-report.md](../migration/migration-report.md)

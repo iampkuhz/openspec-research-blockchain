@@ -42,17 +42,3 @@
 | decision | 0 |
 
 ---
-
-## Migration Status
-
-现有知识文件备份在 `migration/manual-triage/` 目录，等待迁移：
-
-| 原主题 | 备份位置 | 迁移状态 |
-|--------|---------|---------|
-| eip-4337 | manual-triage/knowledge-analysis-backup/primitives/account-abstraction/eip-4337/artifact.md | 待迁移 |
-| eip-7560 | manual-triage/knowledge-analysis-backup/primitives/account-abstraction/eip-7560/artifact.md | 待迁移 |
-| eip-7702 | manual-triage/knowledge-analysis-backup/primitives/account-abstraction/eip-7702/artifact.md | 待迁移 |
-| agentic-payment-* | manual-triage/knowledge-analysis-backup/primitives/agentic-payment/ | 待迁移 |
-| consensus-* | manual-triage/knowledge-analysis-backup/primitives/consensus/ | 待迁移 |
-
-详见：[migration/migration-report.md](../migration/migration-report.md)

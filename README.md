@@ -78,13 +78,6 @@
 │   ├── changes/              # 进行中的 changes
 │   └── archive/              # 已归档 changes
 │
-├── migration/                # 迁移材料
-│   ├── README.md
-│   ├── inventory.csv         # 文件清单
-│   ├── move-map.csv          # 迁移映射
-│   ├── manual-triage/        # 待人工分类
-│   └── migration-report.md   # 迁移报告
-│
 ├── shared/                   # 共享资源
 │   ├── README.md
 │   ├── skills/
@@ -283,13 +276,6 @@ python scripts/diagrams/validate_diagram_model.py diagrams/models/<diagram-id>-m
 - **技能**：[skills/](./skills/) - 可复用操作
 - **脚本**：[scripts/](./scripts/) - 自动化工具
 - **模板**：[knowledge/templates/](./knowledge/templates/) - 知识模板
-- **迁移报告**：[migration/migration-report.md](./migration/migration-report.md) - 当前迁移状态
-
-## 迁移状态
-
-当前仓库正在进行结构重构，详见 [migration/migration-report.md](./migration/migration-report.md)。
-
-现有知识文件备份在 `migration/manual-triage/` 目录。
 
 ## 协作
 

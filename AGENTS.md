@@ -401,20 +401,8 @@ python scripts/publish/move_change_outputs.py --change <change-id> --topic <topi
 
 ---
 
-## 十二、迁移状态
-
-当前仓库正在进行结构重构，详见：
-
-- [migration/migration-report.md](./migration/migration-report.md) - 迁移报告
-- [migration/move-map.csv](./migration/move-map.csv) - 文件路径对照
-
-现有知识文件备份在 `migration/manual-triage/` 目录。
-
----
-
-## 十三、遇到不确定情况时
+## 十二、遇到不确定情况时
 
 1. **检查 workflows** - 大部分流程都有定义
 2. **检查 rules** - 写作规范和质量要求
 3. **检查 skills** - 可复用操作的详细说明
-4. **查看 migration-report.md** - 如遇到现有文件处理问题
