@@ -35,10 +35,12 @@
 
 #### 第一优先级：PlantUML + Markdown 表格（首选）
 
-**PlantUML**（复杂图首选）：
+**PlantUML（复杂图首选）**：
 - **适用场景**：组件架构图、核心流程时序图、复杂关系网络
 - **优势**：表达能力强、自动布局、支持复杂交互
-- **约束**：必须通过 `/feipi-gen-plantuml-code` skill 生成和校验
+- **约束**：
+  - 必须通过 `/feipi-gen-plantuml-code` skill 生成和校验
+  - 推荐使用 diagram-brief 需求模板（详见 skill 内 `references/template-architecture-brief.md`）
 
 **Markdown 表格**（结构化信息首选）：
 - **适用场景**：特性对比、时间线、能力归属、状态对比
