@@ -137,14 +137,29 @@ Deployment (1014) ─────┘
 - `openspec/schemas/blockchain-research/templates/draft.md`：必须提示使用 PlantUML skill
 - `.qoder/skills/feipi-gen-plantuml-code/`：图表生成与校验工具
 - `openspec/specs/architecture-diagram-quality/spec.md`：架构组件图质量规约（必须遵守）
+- `openspec/specs/component-abstraction-level/spec.md`：组件抽象层级规约（必须遵守）
+- `openspec/specs/consensus-algorithm-analysis/spec.md`：共识算法分析深度规约（必须遵守）
 
 ## 附录：架构组件图质量要求
 
 **架构组件图必须遵守 `openspec/specs/architecture-diagram-quality/spec.md` 中的规定**：
 
-1. **元素类型区分**：组件（蓝色矩形）、数据（黄色平行四边形）、角色（灰色人形）、存储（绿色圆柱体）
+1. **元素类型区分**：组件（蓝色矩形）、数据（黄色 note）、角色（灰色人形）、存储（绿色圆柱体）
 2. **分层着色**：通过 package 背景和边框区分层次
 3. **箭头语义**：所有箭头必须标注语义和流程序号（S1→Sn）
 4. **图例说明**：必须包含图例说明各元素含义
+5. **抽象层级**：遵守 `openspec/specs/component-abstraction-level/spec.md`，不得混用不同层级的组件
+6. **纵向布局**：使用 `top to bottom direction`
 
 **不符合质量规约的组件图视为未完成**。
+
+## 附录：共识算法分析深度要求
+
+**共识算法 primitive 必须遵守 `openspec/specs/consensus-algorithm-analysis/spec.md` 中的规定**：
+
+1. **流程描述深度**：必须覆盖触发条件、输入消息格式、本地验证、状态转换、超时处理
+2. **对比分析深度**：必须回答"为什么 PBFT 需要这个阶段"和"为什么该算法可以省略"
+3. **消息格式定义**：必须定义关键消息的结构
+4. **状态机定义**：必须定义节点状态转换
+
+**不符合深度要求的分析视为未完成**。

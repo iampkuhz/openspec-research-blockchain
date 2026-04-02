@@ -1,0 +1,81 @@
+# Concept Categories - 概念分类
+
+version: "1.0"
+updated_at: 2026-04-02
+
+## Protocol Entity (协议实体)
+
+描述：协议层定义的实体对象。
+
+示例：
+- UserOperation (EIP-4337)
+- EntryPoint (EIP-4337)
+- Bundler (协议角色)
+- Paymaster (协议角色)
+- Aggregator (协议角色)
+
+## Protocol Action (协议行为)
+
+描述：协议层定义的行为或流程。
+
+示例：
+- validateUserOp
+- executeUserOp
+- handleOps
+- bundle submission
+
+## Protocol State (协议状态)
+
+描述：协议层定义的状态。
+
+示例：
+- pending
+- confirmed
+- reverted
+- failed
+
+## Protocol Parameter (协议参数)
+
+描述：协议层定义的参数。
+
+示例：
+- gasLimit
+- maxFeePerGas
+- maxPriorityFeePerGas
+
+## Protocol Interface (协议接口)
+
+描述：协议层定义的接口。
+
+示例：
+- IEntryPoint
+- IAggregator
+- IPaymaster
+
+## Conceptual (概念性术语)
+
+描述：抽象概念，非具体实体。
+
+示例：
+- Account Abstraction
+- Paymaster Sponsorship
+- Signature Aggregation
+
+## Role (角色)
+
+描述：参与者角色。
+
+示例：
+- User
+- Bundler Operator
+- Paymaster Operator
+- Wallet
+
+## Mechanism (机制)
+
+描述：协议机制。
+
+示例：
+- Gas Metering
+- Stake Management
+- Reputation System

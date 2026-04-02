@@ -1,0 +1,77 @@
+# 比较矩阵
+
+version: "1.0"
+topic: <topic-name>
+created_at: <date>
+updated_at: <date>
+
+comparison_context:
+  purpose: <比较目的>
+  audience: <目标读者>
+  decision_scenario: <决策场景>
+
+objects:
+  - topic: <topic-a>
+    label: <显示名称>
+    scope: <比较范围>
+
+  - topic: <topic-b>
+    label: <显示名称>
+    scope: <比较范围>
+
+dimensions:
+  - name: <维度名称>
+    description: <维度说明>
+    weight: 0.3  # 权重，可选
+    unit: <单位，如适用>
+
+    objects_data:
+      - topic: <topic-a>
+        value: <值>
+        notes: <说明>
+        sources:
+          - source_id: <source>
+
+      - topic: <topic-b>
+        value: <值>
+        notes: <说明>
+        sources:
+          - source_id: <source>
+
+  - name: <维度 2>
+    description: <说明>
+    objects_data:
+      - topic: <topic-a>
+        value: <值>
+      - topic: <topic-b>
+        value: <值>
+
+summary:
+  rankings:
+    by_dimension:
+      <dimension-name>:
+        - rank: 1
+          topic: <topic>
+          rationale: <原因>
+      <dimension-name>:
+        - rank: 1
+          topic: <topic>
+
+  overall_recommendation:
+    scenario_1:
+      scenario: <场景描述>
+      recommended: <topic>
+      rationale: <原因>
+
+    scenario_2:
+      scenario: <场景描述>
+      recommended: <topic>
+      rationale: <原因>
+
+evidence_summary:
+  high_confidence:
+    - <claim-id>
+  medium_confidence:
+    - <claim-id>
+  low_confidence:
+    - <claim-id>

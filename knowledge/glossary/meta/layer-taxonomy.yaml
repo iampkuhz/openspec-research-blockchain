@@ -1,0 +1,77 @@
+# Layer Taxonomy - 层次分类
+
+version: "1.0"
+updated_at: 2026-04-02
+
+## Layers
+
+### L0: Protocol (协议层)
+
+描述：协议规范定义的概念。
+
+特征：
+- 在 EIP / RFC / 白皮书中定义
+- 协议实现必须遵循
+- 跨实现一致
+
+示例：
+- UserOperation (EIP-4337 规范)
+- Transaction (Ethereum Protocol)
+- Block (Ethereum Protocol)
+
+### L1: Implementation (实现层)
+
+描述：参考实现中的概念。
+
+特征：
+- 在参考实现代码中定义
+- 可能有实现特定细节
+- 可能与规范有细微差异
+
+示例：
+- UserOperation.sol 结构体
+- EntryPoint 合约实现
+- Bundler 参考实现
+
+### L2: Ecosystem (生态层)
+
+描述：生态扩展的概念。
+
+特征：
+- 第三方服务或工具
+- 扩展协议能力
+- 非协议原生
+
+示例：
+- Stackup Bundler 服务
+- Pimlico Paymaster
+- 钱包 SDK
+
+### L3: Application (应用层)
+
+描述：应用层的概念。
+
+特征：
+- DApp 集成
+- 用户界面概念
+- 业务逻辑
+
+示例：
+- 钱包 UI 中的"发送"按钮
+- DApp 中的支付流程
+- 服务配置
+
+## Cross-Layer Relationships
+
+| 关系 | 描述 | 示例 |
+|------|------|------|
+| implements | 实现层实现协议层 | UserOperation.sol implements UserOperation |
+| defined-by | 被协议层定义 | UserOperation defined-by EIP-4337 |
+| extends | 生态层扩展实现层 | Stackup SDK extends Bundler |
+| uses | 应用层使用生态层 | Wallet App uses SDK |
+
+## Usage Rules
+
+1. **禁止混用** - 在同一个 atom 或 diagram 中，必须标注每个概念的 layer
+2. **明确引用** - 跨层引用时必须说明 layer 关系
+3. **一致性** - 同一术语在不同上下文中应保持相同 layer

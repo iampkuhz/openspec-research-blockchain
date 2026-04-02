@@ -31,41 +31,54 @@
 
 ### 2. 分层着色（必须）
 
-组件图必须通过背景色或 package 边界区分层次：
+组件图必须通过背景色或 package 边界区分层次，并使用 `top to bottom direction` 纵向布局：
 
 ```plantuml
 @startuml
 skinparam componentStyle rectangle
 
+' 纵向布局
+top to bottom direction
+skinparam nodesep 25
+skinparam ranksep 35
+
 ' 定义配色方案
 skinparam package {
-    BackgroundColor LightBlue
-    BorderColor Blue
+    BackgroundColor #F0F4F8
+    BorderColor #5A6C7D
 }
 
 skinparam component {
-    BackgroundColor White
-    BorderColor DarkBlue
-    ArrowColor DarkGray
+    BackgroundColor #E3F2FD
+    BorderColor #1565C0
 }
 
 skinparam database {
-    BackgroundColor LightGreen
-    BorderColor Green
+    BackgroundColor #C8E6C9
+    BorderColor #2E7D32
 }
 
 skinparam actor {
-    BackgroundColor LightGray
-    BorderColor Gray
+    BackgroundColor #E0E0E0
+    BorderColor #424242
 }
 
-package "共识层 <<Protocol>>" <<boundary>> {
+skinparam note {
+    BackgroundColor #FFF9C4
+    BorderColor #F9A825
+}
+
+package "共识层 <<Protocol>>" {
     component [共识引擎]
-    database [(区块存储)]
+}
+
+package "数据对象 <<Data>>" {
+    note "Proposal" as P
 }
 
 actor [验证者] as V
 
+V --> P : S1 提议
 @enduml
 ```
 
@@ -145,54 +158,60 @@ actor [验证者] as V
 @startuml
 skinparam componentStyle rectangle
 skinparam package {
-    BackgroundColor#F5F8FA
-    BorderColor#4A90D9
+    BackgroundColor #F0F4F8
+    BorderColor #5A6C7D
 }
 
 skinparam component {
-    BackgroundColor White
-    BorderColor#2E5C8A
-    ArrowColor#666666
+    BackgroundColor #E3F2FD
+    BorderColor #1565C0
 }
 
 skinparam database {
-    BackgroundColor#E8F5E9
-    BorderColor#4CAF50
+    BackgroundColor #C8E6C9
+    BorderColor #2E7D32
 }
 
 skinparam actor {
-    BackgroundColor#F5F5F5
-    BorderColor#757575
+    BackgroundColor #E0E0E0
+    BorderColor #424242
+}
+
+skinparam note {
+    BackgroundColor #FFF9C4
+    BorderColor #F9A825
 }
 
 package "Malachite 共识层 <<Protocol>>" {
     component [区块生产] as BP
-    component [共识核心] as CC <<core>>
+    component [共识核心] as CC
     component [最终性模块] as FM
 }
 
-package "数据对象 <<Data>>" <<boundary>> {
-    [Proposal] as P <<数据>>
-    [Vote] as V <<数据>>
-    [Certificate] as C <<数据>>
+package "数据对象 <<Data>>" {
+    note "Proposal" as P
+    note "Vote" as V
+    note "Certificate" as C
 }
 
 actor [验证者] as Validator
 
-Validator --> P : 提议
-P --> BP : 接收
-BP --> CC : Proposal
-CC --> V : 收集
-V --> FM : 投票
-FM --> C : 生成证书
+Validator --> P : S1 提议
+P --> BP : S2 接收
+BP --> CC : S3 广播
+CC --> V : S4 收集
+V --> FM : S5 提交
+FM --> C : S6 生成
+C --> BS : S7 持久化
 @enduml
 ```
 
 **优点**：
-1. 组件使用矩形，数据使用平行四边形，角色使用 actor
+1. 组件使用蓝色矩形，数据使用黄色 note，角色使用 actor
 2. 通过 package 明确分层
-3. 箭头有清晰标注
+3. 箭头有清晰标注（S1-S7）
 4. 配色一致，视觉层次清晰
+5. 使用 `top to bottom direction` 纵向布局
 
 ## 配色方案参考
 
@@ -229,43 +248,64 @@ skinparam actor {
 @startuml
 skinparam componentStyle rectangle
 
+' 纵向布局
+top to bottom direction
+skinparam nodesep 25
+skinparam ranksep 35
+
 ' 配色方案
 skinparam package {
-    BackgroundColor#F8F9FA
-    BorderColor#DEE2E6
+    BackgroundColor #F0F4F8
+    BorderColor #5A6C7D
 }
 
 skinparam component {
-    BackgroundColor#FFFFFF
-    BorderColor#0D6EFD
-    ArrowColor#495057
+    BackgroundColor #E3F2FD
+    BorderColor #1565C0
 }
 
 skinparam database {
-    BackgroundColor#D1E7DD
-    BorderColor#0A58CA
+    BackgroundColor #C8E6C9
+    BorderColor #2E7D32
 }
 
 skinparam actor {
-    BackgroundColor#E9ECEF
-    BorderColor#495057
+    BackgroundColor #E0E0E0
+    BorderColor #424242
 }
 
-skinparam legend {
-    BackgroundColor#FFFFFF
-    BorderColor#DEE2E6
+skinparam note {
+    BackgroundColor #FFF9C4
+    BorderColor #F9A825
 }
 
 legend right
   |= 元素 |= 说明 |
-  | 矩形蓝色 | 组件 |
-  | 平行四边形黄色 | 数据对象 |
-  | 圆柱体绿色 | 数据存储 |
-  | 人形灰色 | 外部角色 |
+  | 蓝色矩形 | 组件 |
+  | 黄色 note | 数据对象 |
+  | 绿色圆柱 | 数据存储 |
+  | 灰色人形 | 外部角色 |
 endlegend
 
 @enduml
 ```
+
+## PlantUML Server 校验
+
+本仓库使用本地 PlantUML server（端口 8199）进行校验。
+
+**校验命令**：
+```bash
+bash scripts/check_plantuml.sh <input.puml> --svg-output <output.svg>
+```
+
+**输出**：
+- `syntax_result=ok` - 语法通过
+- `syntax_result=error` - 语法错误
+
+**常见问题**：
+1. 如果 server 不可达，检查 `nc -z localhost 8199` 是否成功
+2. 如果 SVG 生成失败，检查 PlantUML 代码是否包含非法字符
 
 ## 相关文件
 

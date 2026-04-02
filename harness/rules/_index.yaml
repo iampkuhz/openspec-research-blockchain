@@ -1,0 +1,109 @@
+# 规则索引 - 用于按需加载，不承载全部正文
+# 每个 domain 列出需要加载的规则文件路径
+
+version: "1.0"
+description: |
+  轻量级规则索引，用于支持渐进式加载。
+  AGENTS.md 和 workflows 通过引用此索引来加载具体规则。
+
+domains:
+  intake:
+    description: "研究请求接入与分类"
+    rules:
+      - harness/rules/general/repo-governance.md
+      - harness/rules/general/terminology-policy.md
+      - harness/rules/research/definition-rules.md
+
+  source:
+    description: "来源验证与证据提取"
+    rules:
+      - harness/rules/general/evidence-policy.md
+      - harness/rules/general/traceability-policy.md
+      - harness/rules/research/source-validation-rules.md
+      - harness/rules/research/uncertainty-rules.md
+
+  definition:
+    description: "定义原子写作"
+    rules:
+      - harness/rules/general/terminology-policy.md
+      - harness/rules/general/traceability-policy.md
+      - harness/rules/research/definition-rules.md
+      - harness/rules/writing/structure-rules.md
+
+  mechanism:
+    description: "机制分析写作"
+    rules:
+      - harness/rules/general/evidence-policy.md
+      - harness/rules/general/traceability-policy.md
+      - harness/rules/research/mechanism-rules.md
+      - harness/rules/writing/structure-rules.md
+      - harness/rules/writing/table-rules.md
+
+  evolution:
+    description: "演进分析写作"
+    rules:
+      - harness/rules/general/evidence-policy.md
+      - harness/rules/general/traceability-policy.md
+      - harness/rules/research/evolution-rules.md
+      - harness/rules/writing/structure-rules.md
+
+  comparison:
+    description: "比较分析写作"
+    rules:
+      - harness/rules/general/evidence-policy.md
+      - harness/rules/general/terminology-policy.md
+      - harness/rules/research/comparison-rules.md
+      - harness/rules/writing/table-rules.md
+      - harness/rules/writing/summary-rules.md
+
+  diagram:
+    description: "图表建模与渲染"
+    rules:
+      - harness/rules/diagrams/diagram-selection-matrix.md
+      - harness/rules/diagrams/abstraction-boundaries.md
+      - harness/rules/diagrams/relationship-rules.md
+      - harness/rules/diagrams/annotation-rules.md
+      - harness/rules/diagrams/simplification-policy.md
+      - harness/rules/diagrams/diagram-review-checklist.md
+
+  review:
+    description: "知识评审"
+    rules:
+      - harness/rules/general/evidence-policy.md
+      - harness/rules/general/terminology-policy.md
+      - harness/rules/diagrams/diagram-review-checklist.md
+      - harness/rules/writing/structure-rules.md
+
+  merge:
+    description: "Change 合并到主线知识"
+    rules:
+      - harness/rules/general/repo-governance.md
+      - harness/rules/general/update-policy.md
+      - harness/rules/general/traceability-policy.md
+
+# 规则元数据
+rule_metadata:
+  general:
+    - repo-governance.md
+    - evidence-policy.md
+    - terminology-policy.md
+    - traceability-policy.md
+    - update-policy.md
+  research:
+    - definition-rules.md
+    - mechanism-rules.md
+    - evolution-rules.md
+    - comparison-rules.md
+    - source-validation-rules.md
+    - uncertainty-rules.md
+  diagrams:
+    - diagram-selection-matrix.md
+    - abstraction-boundaries.md
+    - relationship-rules.md
+    - annotation-rules.md
+    - simplification-policy.md
+    - diagram-review-checklist.md
+  writing:
+    - structure-rules.md
+    - table-rules.md
+    - summary-rules.md

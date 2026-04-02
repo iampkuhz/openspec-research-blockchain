@@ -1,0 +1,41 @@
+# Claims - 估算
+
+version: "1.0"
+topic: <topic-name>
+updated_at: <date>
+
+estimates:
+  - claim_id: est-001
+    statement: <估算陈述，如"Gas 成本约为 X">
+    methodology: |
+      [估算方法]
+    assumptions:
+      - <假设 1>
+      - <假设 2>
+    based_on_facts:
+      - claim-001
+    calculation: |
+      [计算过程，如适用]
+    range:
+      min: <最小值>
+      max: <最大值>
+      most_likely: <最可能值>
+    confidence: low|medium
+    confidence_rationale: |
+      [为什么是这个置信度，通常估算的置信度较低]
+    sources:
+      - source_id: <source-id>
+        relevance: <说明来源的相关性>
+    notes: <说明，如"这是粗略估算">
+    status: active|deprecated
+
+  - claim_id: est-002
+    statement: <估算>
+    methodology: <方法>
+    variables:
+      - name: <变量名>
+        description: <说明>
+        typical_value: <典型值>
+    formula: <公式>
+    confidence: medium
+    status: active

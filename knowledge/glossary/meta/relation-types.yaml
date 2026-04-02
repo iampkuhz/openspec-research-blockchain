@@ -1,0 +1,148 @@
+# Relation Types - 关系类型
+
+version: "1.0"
+updated_at: 2026-04-02
+
+## Structural Relations (结构关系)
+
+### depends-on
+
+描述：依赖关系。
+
+语义：A 的存在或功能依赖于 B。
+
+示例：
+- Wallet depends-on EntryPoint
+- Bundler depends-on Mempool
+
+### implements
+
+描述：实现关系。
+
+语义：A 实现 B 定义的接口或规范。
+
+示例：
+- EntryPoint.sol implements IEntryPoint
+- BundlerImpl implements IBundler
+
+### contains
+
+描述：包含关系（强）。
+
+语义：A 强包含 B，B 是 A 的组成部分。
+
+示例：
+- Bundle contains UserOperations
+- EntryPoint contains StakeManager
+
+### aggregates
+
+描述：聚合关系（弱）。
+
+语义：A 聚合 B，B 可以独立存在。
+
+示例：
+- Mempool aggregates UserOperations
+
+### extends
+
+描述：扩展关系。
+
+语义：A 扩展 B 的功能。
+
+示例：
+- AdvancedWallet extends BaseWallet
+
+## Behavioral Relations (行为关系)
+
+### calls
+
+描述：调用关系。
+
+语义：A 调用 B 的方法或函数。
+
+示例：
+- Wallet calls EntryPoint.validateUserOp()
+- Bundler calls EntryPoint.handleOps()
+
+### processes
+
+描述：处理关系。
+
+语义：A 处理 B。
+
+示例：
+- EntryPoint processes UserOperations
+- Bundler processes UserOperations from Mempool
+
+### creates
+
+描述：创建关系。
+
+语义：A 创建 B。
+
+示例：
+- Factory creates Wallet
+- User creates UserOperation
+
+### sends-to
+
+描述：发送关系。
+
+语义：A 发送 B 到 C。
+
+示例：
+- User sends UserOperation to Mempool
+- Bundler sends Bundle to EntryPoint
+
+## Conceptual Relations (概念关系)
+
+### maps-to
+
+描述：映射关系。
+
+语义：A 映射到 B（不同层的对应概念）。
+
+示例：
+- UserOperation maps-to Transaction
+- Bundle maps-to Block
+
+### related-to
+
+描述：一般相关关系。
+
+语义：A 与 B 相关，但不属于上述特定关系。
+
+示例：
+- AccountAbstraction related-to SmartContractAccounts
+
+### alternative-to
+
+描述：替代关系。
+
+语义：A 是 B 的替代方案。
+
+示例：
+- EIP-4337 alternative-to EIP-2938
+- EIP-7702 alternative-to EIP-4337 (部分场景)
+
+## Usage in Diagrams
+
+在 PlantUML 中使用：
+
+```plantuml
+' 结构关系
+A --> B : depends-on
+A ..|> B : implements
+A *-- B : contains
+A o-- B : aggregates
+
+' 行为关系
+A -> B : calls
+A -> B : processes
+A -> B : creates
+
+' 概念关系（用注释说明）
+A .. B : maps-to
+note on link: conceptual mapping
+```

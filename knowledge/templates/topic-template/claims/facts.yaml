@@ -1,0 +1,32 @@
+# Claims - 事实性主张
+
+version: "1.0"
+topic: <topic-name>
+updated_at: <date>
+
+facts:
+  - claim_id: claim-001
+    statement: <事实陈述，清晰简洁>
+    sources:
+      - source_id: <source-id>
+        excerpt: <关键引用>
+        location: <文档中的位置，如章节号>
+    evidence_level: L1|L2|L3|L4
+    confidence: high|medium|low
+    related_atoms:
+      - definition
+      - core-mechanism
+    notes: <可选说明>
+    created_at: <date>
+    updated_at: <date>
+    status: active|historical|superseded
+
+  - claim_id: claim-002
+    statement: <事实陈述>
+    superseded_by: claim-010  # 如被新 claim 替代
+    historical_context: "适用于 v1.0，v2.0 后不再准确"
+    sources:
+      - source_id: <source-id>
+    evidence_level: L1|L2|L3|L4
+    confidence: high|medium|low
+    status: historical
