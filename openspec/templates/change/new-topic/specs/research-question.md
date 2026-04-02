@@ -1,18 +1,18 @@
 # Research Question
 
-## Question
+## 问题
 
 [研究问题的清晰表述]
 
-## Motivation
+## 动机
 
 [为什么这个问题重要]
 
-## Expected Output
+## 期望输出
 
 [期望的输出形式]
 
-## Scope
+## 范围
 
 ### In Scope
 
@@ -22,7 +22,7 @@
 
 - [范围外]
 
-## Related Questions
+## 相关问题
 
 - [相关问题 1](url)
 - [相关问题 2](url)

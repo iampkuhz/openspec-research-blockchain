@@ -1,8 +1,8 @@
-# Tasks: <Change Title>
+# Tasks：\<Change 标题\>
 
-## Task Breakdown
+## 任务分解
 
-### Phase 1: Source Collection
+### Phase 1: Source Collection（来源收集）
 
 - [ ] 创建 sources 目录结构
 - [ ] 收集 L1 来源
@@ -11,22 +11,22 @@
 - [ ] 归档来源
 - [ ] 创建 inbox.yaml
 
-**Estimated Time**: X hours
+**预计时间**: X hours
 
-**Output**: sources/inbox.yaml, sources/fetched/*, sources/excerpts/*
+**输出**: sources/inbox.yaml, sources/fetched/*, sources/excerpts/*
 
-### Phase 2: Claims Extraction
+### Phase 2: Claims Extraction（Claims 提取）
 
 - [ ] 从 excerpts 提取 facts claims
 - [ ] 从 excerpts 提取 inferences claims
 - [ ] 关联 claims 到 atoms
 - [ ] 创建 claims/facts.yaml
 
-**Estimated Time**: X hours
+**预计时间**: X hours
 
-**Output**: claims/facts.yaml, claims/inferences.yaml
+**输出**: claims/facts.yaml, claims/inferences.yaml
 
-### Phase 3: Atom Writing
+### Phase 3: Atom Writing（Atom 编写）
 
 #### Definition Atom
 
@@ -34,7 +34,7 @@
 - [ ] 提取关键术语
 - [ ] 定义边界条件
 
-**Estimated Time**: X hours
+**预计时间**: X hours
 
 #### Mechanism Atom
 
@@ -43,15 +43,15 @@
 - [ ] 详细说明流程
 - [ ] 创建图表（如需要）
 
-**Estimated Time**: X hours
+**预计时间**: X hours
 
-#### Evolution Atom (如适用)
+#### Evolution Atom（如适用）
 
 - [ ] 编写 atoms/module-evolution.md
 - [ ] 整理时间线
 - [ ] 识别驱动因素
 
-**Estimated Time**: X hours
+**预计时间**: X hours
 
 #### Limits and Assumptions
 
@@ -59,31 +59,31 @@
 - [ ] 列出假设条件
 - [ ] 说明已知限制
 
-**Estimated Time**: X hours
+**预计时间**: X hours
 
-### Phase 4: Diagram Creation
+### Phase 4: Diagram Creation（图表创建）
 
 - [ ] 创建 diagram model
 - [ ] 编写 PlantUML source
 - [ ] 渲染 diagram
 - [ ] diagram review
 
-**Estimated Time**: X hours
+**预计时间**: X hours
 
-**Output**: diagrams/models/*, diagrams/source/*, diagrams/build/*, diagrams/reviews/*
+**输出**: diagrams/models/*, diagrams/source/*, diagrams/build/*, diagrams/reviews/*
 
-### Phase 5: Review
+### Phase 5: Review（评审）
 
 - [ ] 技术准确性评审
 - [ ] 可读性评审
 - [ ] diagram review（如适用）
 - [ ] 修复问题
 
-**Estimated Time**: X hours
+**预计时间**: X hours
 
-**Output**: review/issues.md, review/review-summary.md
+**输出**: review/issues.md, review/review-summary.md
 
-### Phase 6: Merge
+### Phase 6: Merge（合并）
 
 - [ ] 确认 merge 条件
 - [ ] 复制到 knowledge/
@@ -91,26 +91,26 @@
 - [ ] 更新 indexes
 - [ ] 提交 commit
 
-**Estimated Time**: X hours
+**预计时间**: X hours
 
-## Dependencies
+## 依赖
 
-| Task | Depends On |
-|------|------------|
+| 任务 | 依赖于 |
+|------|--------|
 | Phase 2 | Phase 1 |
 | Phase 3 | Phase 2 |
 | Phase 4 | Phase 3 (atoms ready) |
 | Phase 5 | Phase 3, Phase 4 |
 | Phase 6 | Phase 5 (review approved) |
 
-## Critical Path
+## 关键路径
 
 Phase 1 → Phase 2 → Phase 3 → Phase 5 → Phase 6
 
-## Timeline
+## 时间线
 
-| Phase | Start | End | Status |
-|-------|-------|-----|--------|
+| Phase | 开始日期 | 结束日期 | 状态 |
+|-------|---------|---------|------|
 | Phase 1 | date | date | pending/in-progress/completed |
 | Phase 2 | date | date | pending/in-progress/completed |
 | Phase 3 | date | date | pending/in-progress/completed |

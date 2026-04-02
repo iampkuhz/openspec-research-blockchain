@@ -1,63 +1,63 @@
 # Source Plan
 
-## Sources Overview
+## 来源概览
 
 | Source ID | Title | Type | Tier | Status |
 |-----------|-------|------|------|--------|
 | src-001 | Title | standard | L1 | pending/read/verified |
 | src-002 | Title | implementation | L2 | pending/read/verified |
 
-## L1 Sources
+## L1 来源
 
-### src-001: <Title>
+### src-001: \<Title\>
 
-**URL**: <url>
+**URL**: `<url>`
 
-**Type**: standard
+**类型**: standard
 
-**Relevance**: [为什么需要这个来源]
+**相关性**: [为什么需要这个来源]
 
-**Key Sections**:
+**关键章节**:
 - Section 1: [内容]
 - Section 2: [内容]
 
-**Status**: pending/read/verified
+**状态**: pending/read/verified
 
-## L2 Sources
+## L2 来源
 
-### src-002: <Title>
+### src-002: \<Title\>
 
-**URL**: <url>
+**URL**: `<url>`
 
-**Type**: implementation
+**类型**: implementation
 
-**Relevance**: [为什么需要这个来源]
+**相关性**: [为什么需要这个来源]
 
-**Key Sections**:
+**关键章节**:
 - Code: [路径]
 - Docs: [路径]
 
-**Status**: pending/read/verified
+**状态**: pending/read/verified
 
-## L3 Sources (Background Only)
+## L3 来源（仅用于背景）
 
-### src-003: <Title>
+### src-003: \<Title\>
 
-**URL**: <url>
+**URL**: `<url>`
 
-**Type**: blog
+**类型**: blog
 
-**Usage**: background/motivation
+**用途**: background/motivation
 
-**Status**: pending/read
+**状态**: pending/read
 
-## Evidence Gaps
+## 证据缺口
 
 | Gap ID | Description | Impact | Mitigation |
 |--------|-------------|--------|------------|
 | GAP-001 | 描述 | 影响 | 缓解措施 |
 
-## Source Acquisition Plan
+## 来源获取计划
 
 | Source | Method | ETA | Owner |
 |--------|--------|-----|-------|

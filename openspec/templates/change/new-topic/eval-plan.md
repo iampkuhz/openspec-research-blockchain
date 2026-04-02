@@ -1,12 +1,12 @@
-# Evaluation Plan: <Change Title>
+# Evaluation Plan：\<Change 标题\>
 
-## Evaluation Goals
+## 评估目标
 
 [评估目标]
 
-## Evaluation Criteria
+## 评估标准
 
-### Accuracy
+### Accuracy（准确性）
 
 | Criterion | Method | Pass Threshold |
 |-----------|--------|----------------|
@@ -14,14 +14,14 @@
 | 证据等级适当 | 评审检查 | 无 high severity issues |
 | 无事实错误 | 技术评审 | 无 high severity issues |
 
-### Consistency
+### Consistency（一致性）
 
 | Criterion | Method | Pass Threshold |
 |-----------|--------|----------------|
 | 术语一致 | 检查全文 | 无 high severity issues |
 | 与其他知识不冲突 | 对比现有知识 | 无 unresolved conflicts |
 
-### Completeness
+### Completeness（完整性）
 
 | Criterion | Method | Pass Threshold |
 |-----------|--------|----------------|
@@ -29,7 +29,7 @@
 | 边界条件说明 | 评审检查 | 明确列出 |
 | 待决问题列出 | 检查 open-questions | 所有已知问题 |
 
-### Readability
+### Readability（可读性）
 
 | Criterion | Method | Pass Threshold |
 |-----------|--------|----------------|
@@ -37,33 +37,33 @@
 | 结构清晰 | 评审检查 | 无 medium+ issues |
 | 图表帮助理解 | diagram review | approved |
 
-## Evaluation Methods
+## 评估方法
 
-### Self Review
+### Self Review（自审）
 
 **Checklist**: harness/workflows/review-workflow.md 中的 checklist
 
-**When**: 完成所有 writing 后
+**时机**: 完成所有 writing 后
 
-**Output**: review/checklist.yaml
+**输出**: review/checklist.yaml
 
-### Technical Review
+### Technical Review（技术评审）
 
-**Reviewer**: 领域专家或 Claude
+**评审人**: 领域专家或 Claude
 
-**Focus**: 准确性、完整性
+**重点**: 准确性、完整性
 
-**Output**: review/issues.md
+**输出**: review/issues.md
 
-### Readability Review
+### Readability Review（可读性评审）
 
-**Reviewer**: 非本领域人员或 Claude
+**评审人**: 非本领域人员或 Claude
 
-**Focus**: 可读性、结构
+**重点**: 可读性、结构
 
-**Output**: review/issues.md
+**输出**: review/issues.md
 
-## Evaluation Schedule
+## 评估计划
 
 | Review Type | Planned Date | Actual Date | Status |
 |-------------|--------------|-------------|--------|
@@ -71,13 +71,13 @@
 | Technical Review | date | date | pending/in-progress/completed |
 | Readability Review | date | date | pending/in-progress/completed |
 
-## Acceptance Criteria
+## 接受标准
 
 - [ ] 所有 high severity issues 已修复
 - [ ] medium severity issues 已修复或记录
 - [ ] 评审结论为 approved 或 approved with minor fixes
 
-## Post-Merge Evaluation
+## Post-Merge Evaluation（合并后评估）
 
 - [ ] 更新 indexes
 - [ ] 通知依赖者
