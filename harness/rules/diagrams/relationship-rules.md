@@ -2,205 +2,163 @@
 
 ## 目的
 
-定义图中关系箭头的语义和使用规范。
+定义架构 brief 中 `flows` 字段的语义规范，以及 skill 生成 PlantUML 时的关系映射规则。
 
-## 关系类型字典
+## 核心原则
 
-### 结构关系
+### 原则 1: Brief 只声明意图，不指定 PlantUML 语法
 
-| 关系 | PlantUML | 含义 | 示例 |
-|------|----------|------|------|
-| 依赖 | `A --> B` | A 使用 B | Wallet --> EntryPoint |
-| 实现 | `A ..|> B` | A 实现 B 接口 | BundlerImpl ..|> IBundler |
-| 继承 | `A --|> B` | A 继承 B | ERC4337Wallet --|> BaseWallet |
-| 包含 | `A *-- B` | A 强包含 B | EntryPoint *-- UserOp |
-| 聚合 | `A o-- B` | A 弱包含 B | Bundle o-- UserOp |
-| 关联 | `A -- B` | A 与 B 关联 | User -- Wallet |
-
-### 行为关系
-
-| 关系 | PlantUML | 含义 | 示例 |
-|------|----------|------|------|
-| 调用 | `A -> B : method()` | A 调用 B 方法 | Wallet -> EntryPoint : validateUserOp() |
-| 返回 | `A --> B : value` | A 返回给 B | EntryPoint --> Wallet : result |
-| 创建 | `A --> B : create` | A 创建 B | Factory --> Wallet : create |
-| 销毁 | `A -> B : destroy` | A 销毁 B | User -> Session : destroy |
-
-### 流程关系
-
-| 关系 | PlantUML | 含义 | 示例 |
-|------|----------|------|------|
-| 顺序 | `A -> B` | A 之后是 B | Validate -> Execute |
-| 条件 | `A -> B : [condition]` | 条件下 A 到 B | CheckBalance -> Deduct : [sufficient] |
-| 循环 | `A -> A` | 自循环 | Process -> Process : retry |
-
-## 关系语义一致性
-
-### 禁止的混用
-
-❌ 错误：在同一图中混用相同符号表示不同含义
-
-```plantuml
-' 错误：--> 既表示依赖又表示消息
-component "Wallet" as W
-component "EntryPoint" as EP
-
-W --> EP : depends on  ' 结构依赖
-W --> EP : sendMessage  ' 行为消息 - 混淆！
+**brief 中的 flow**：
+```yaml
+flows:
+  - id: S1
+    from: user
+    to: web_portal
+    description: 提交订单
 ```
 
-✅ 正确：区分结构关系和行为关系
+**PlantUML 生成**由 skill 根据 `component.type` 自动选择：
+- `actor` → `component`：实线箭头
+- `component` → `database`：实线箭头
+- 依赖关系：虚线箭头（如在注释中说明）
 
-```plantuml
-' 正确：结构关系用虚线，行为关系用实线
-component "Wallet" as W
-component "EntryPoint" as EP
+### 原则 2: 关系语义由 brief schema 约束，不由本规则重复定义
 
-W ..> EP : depends on  ' 结构依赖（虚线）
-W -> EP : sendMessage  ' 行为消息（实线）
-```
+**唯一真相**：`assets/validation/architecture-brief.schema.json`
 
-### 箭头方向规范
+本规则只说明：
+- flow 描述文案的规范
+- 关系可见性的判断
+- 隐式关系的标注方式
 
-**推荐**：
-- 依赖关系：依赖方 → 被依赖方
-- 继承关系：子类 → 父类
-- 消息流：发送方 → 接收方
-- 数据流：源 → 目标
+---
 
-**禁止**：
-- 反向依赖（除非确实存在循环依赖）
-- 模糊的双向箭头（除非确实双向）
+## Flow 描述规范
 
-## 关系标签规范
+### 文案要求
 
-### 标签内容
+| 要求 | 说明 |
+|------|------|
+| 使用动宾结构 | "提交订单"、"预占库存" |
+| 避免模糊词 | 不用"处理"、"相关"、"连接" |
+| 简洁明确 | 不超过 20 字 |
+| 与技术术语一致 | 复用 glossary 中的定义 |
 
-**必须**：
-- 使用动词或动词短语
-- 简洁明确
-- 与技术术语一致
+### 文案示例
 
-**禁止**：
-- 模糊词汇（"相关"、"连接"）
-- 过长描述
-- 口语化表达
+| 场景 | 错误 | 正确 |
+|------|------|------|
+| 用户请求 | "用户操作" | "提交订单请求" |
+| 服务调用 | "调用服务" | "预占库存" |
+| 数据写入 | "存数据" | "写入订单记录" |
+| 依赖关系 | "有关系" | "依赖配置中心" |
 
-### 标签示例
-
-| 场景 | ❌ 错误 | ✅ 正确 |
-|------|--------|--------|
-| 调用 | "调用...方法" | `validateUserOp()` |
-| 依赖 | "有关系" | `depends on` |
-| 包含 | "里面有" | `contains` |
-| 实现 | "做的是" | `implements` |
-
-## 复合关系
-
-### 何时使用复合关系
-
-当两个组件之间有：
-1. 多种关系类型
-2. 关系需要条件说明
-3. 关系有顺序
-
-### 表达方式
-
-```plantuml
-component "A" as A
-component "B" as B
-
-' 方式 1: 多条线
-A --> B : depends on
-A -> B : calls
-
-' 方式 2: 注释说明
-A --> B
-note on link
-  1. depends on (structurally)
-  2. calls (behaviorally)
-end note
-```
+---
 
 ## 关系可见性
 
-### 必须明确的关系
+### 必须画出的关系
 
-**必须**画出的关系：
-- 核心依赖
-- 关键交互
-- 数据流主要路径
+**必须**在 `flows` 中声明并落图：
+- 核心业务依赖（如订单服务 → 订单库）
+- 跨层调用（如应用层 → 数据层）
+- 外部系统交互（如支付网关）
 
 ### 可以省略的关系
 
-**可以**省略：
-- 琐碎的依赖（如日志）
-- 隐含的关系（如继承自同一基类）
+**可以**不在 `flows` 中声明：
+- 琐碎的依赖（如日志收集）
+- 隐含的基础设施（如服务发现、配置中心）
 - 与当前主题无关的关系
 
-### 使用隐式关系
+**省略时需在 `out_of_scope` 中列出**：
+```yaml
+out_of_scope:
+  - 监控告警指标
+  - 配置中心依赖
+  - 日志收集链路
+```
+
+---
+
+## 隐式关系标注
+
+### 何时使用隐式关系
+
+当某些依赖对理解很重要，但不需要在图中画出时：
+
+```yaml
+# brief 中
+out_of_scope:
+  - 服务发现（所有服务隐式依赖 Consul）
+```
+
+### PlantUML 注释说明（由 skill 生成）
 
 ```plantuml
-' 使用注释说明隐式关系
-note right of EntryPoint
-  隐式依赖：
-  - 依赖 L1 Ethereum
-  - 依赖时间同步
+note bottom of diagram
+  <b>隐式依赖</b>
+  所有服务隐式依赖 Consul（服务发现）
   本图未画出
 end note
 ```
 
-## 示例：完整关系使用
+---
 
-```plantuml
-@startuml
-title ERC-4337 核心关系
+## 关系一致性
 
-skinparam relationshipColor #333333
-skinparam arrowColor #333333
+### 禁止的混用
 
-rectangle "Protocol Layer" {
-  interface "IEntryPoint" as IE
-  component "EntryPoint" as EP
-}
+**禁止**在同一 brief 中：
+- 同一对组件之间声明多条重复 flows
+- flow 的 `from`/`to` 引用不存在的组件
 
-rectangle "Ecosystem Layer" {
-  component "Bundler" as B
-  component "Paymaster" as P
-  component "Wallet" as W
-}
+### 箭头方向
 
-' 实现关系
-B ..|> IE : implements interaction
-P ..|> IE : implements validation
+**规范**：
+- `from` = 依赖方/调用方
+- `to` = 被依赖方/被调用方
 
-' 依赖关系
-B --> EP : submits UserOp
-P --> EP : validates UserOp
-W --> EP : sends UserOp
+**示例**：
+```yaml
+# 正确：订单服务依赖订单库
+- from: order_service
+  to: order_db
+  description: 写入订单记录
 
-' 调用关系
-B -> EP : handleOps(ops)
-EP -> P : validatePaymaster()
-EP --> B : result
-
-' 包含关系
-EP *-- "UserOperation" : processes
-
-note right of IE
-  关系说明：
-  - 虚线 (..>) : 结构关系
-  - 实线 (->) : 行为关系
-  - 空心三角 (..|>) : 实现接口
-end note
-
-@enduml
+# 错误：方向反了
+- from: order_db
+  to: order_service
+  description: 接收订单写入
 ```
+
+---
+
+## 时序图关系规范（单独说明）
+
+时序图的 `messages` 与架构图的 `flows` 不同：
+
+| 字段 | 架构图 `flows` | 时序图 `messages` |
+|------|----------------|-------------------|
+| 编号 | `S1`, `S2`... | `M1`, `M2` / `R1`, `R2` |
+| 类型 | 无（隐式为调用） | `sync`, `return`, `async` |
+| 方向 | `from` → `to` | `from` → `to` |
+| 描述 | 动宾短语 | 消息内容 |
+
+---
 
 ## 检查清单
 
-- [ ] 关系类型是否正确选择
-- [ ] 关系标签是否使用动词
-- [ ] 箭头方向是否一致
-- [ ] 是否混用相同符号不同含义
-- [ ] 是否需要注释说明隐式关系
+### Brief 作者检查
+
+- [ ] flow 描述是否使用动宾结构
+- [ ] flow 的 `from`/`to` 引用存在的组件
+- [ ] 隐式依赖是否在 `out_of_scope` 中说明
+- [ ] 无重复的 flows 声明
+
+### Skill 生成检查
+
+- [ ] 根据 `component.type` 选择正确的 PlantUML 关系符号
+- [ ] 所有 flows 都落图
+- [ ] 箭头方向与 `from`/`to` 一致
+- [ ] 隐式依赖在图中标注（如适用）

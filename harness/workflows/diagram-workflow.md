@@ -17,10 +17,11 @@
 ## Rule Set to Load
 
 - harness/rules/diagrams/diagram-selection-matrix.md
-- harness/rules/diagrams/abstraction-boundaries.md
+- harness/rules/diagrams/brief-quality-rules.md
 - harness/rules/diagrams/relationship-rules.md
 - harness/rules/diagrams/annotation-rules.md
 - harness/rules/diagrams/simplification-policy.md
+- harness/rules/diagrams/diagram-review-checklist.md
 
 ## Primary Skills（优先使用）
 

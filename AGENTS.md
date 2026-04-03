@@ -143,7 +143,7 @@ OpenSpec 区块链研究协作的导航入口。
 | 规则 | 用途 |
 |------|------|
 | `diagram-selection-matrix.md` | 图类型选择 |
-| `abstraction-boundaries.md` | 抽象边界 |
+| `brief-quality-rules.md` | Brief 质量评估 |
 | `relationship-rules.md` | 关系语义 |
 | `annotation-rules.md` | 注释规范 |
 | `simplification-policy.md` | 简化政策 |

@@ -2,29 +2,86 @@
 
 ## 目的
 
-规范图中注释的使用方式，提高图的可读性。
+规范 PlantUML 图中注释的使用方式，提高图的可读性和可理解性。
+
+## 核心原则
+
+### 原则 1: 注释是补充，不是主体
+
+**注释用于**：
+- 解释专业术语
+- 说明简化内容
+- 标注假设条件
+- 强调关键约束
+
+**注释不用于**：
+- 替代清晰的图结构
+- 承载大量正文内容
+- 重复图中已明确的信息
+
+### 原则 2: 简洁优先
+
+**单条注释约束**：
+- 不超过 100 字
+- 不超过 5 行
+- 使用列表而非长段落
+
+### 原则 3: 分层披露
+
+| 层次 | 注释策略 |
+|------|----------|
+| Overview 图 | 最小注释，仅核心说明 |
+| Detail 图 | 按需添加技术细节注释 |
+| 完整规范 | 外部文档引用 |
 
 ## 注释类型
 
 ### 类型 1: 术语注释
 
-**用途**：解释图中专业术语
+**用途**：解释图中专业术语或缩写
 
-**格式**：
+**何时使用**：
+- 术语首次出现
+- 缩写可能有歧义
+- 非目标读者熟悉的领域专有名词
+
+**示例**：
 ```plantuml
 component "UserOperation" as UO
 note right of UO
-  <b>术语说明</b>
+  <b>术语</b>
   EIP-4337 定义的用户操作原子
   包含 sender, nonce, callData 等字段
 end note
 ```
 
-### 类型 2: 边界注释
+### 类型 2: 简化标注
 
-**用途**：说明组件/流程的边界
+**用途**：说明图中省略了什么内容
 
-**格式**：
+**何时使用**：
+- 省略错误处理路径
+- 省略边界情况
+- 省略次要组件或关系
+
+**示例**：
+```plantuml
+note top of diagram
+  <b>简化说明</b>
+  本图仅展示成功路径
+  错误处理详见错误流程图
+end note
+```
+
+### 类型 3: 边界注释
+
+**用途**：说明组件或流程的边界范围
+
+**何时使用**：
+- 组件职责需要明确边界
+- 流程有明确的起止条件
+
+**示例**：
 ```plantuml
 rectangle "EntryPoint Contract" {
   component "validateUserOp" as V
@@ -38,11 +95,33 @@ note bottom of EntryPoint Contract
 end note
 ```
 
-### 类型 3: 流程注释
+### 类型 4: 假设注释
 
-**用途**：说明流程的目的和结果
+**用途**：说明分析所基于的假设条件
 
-**格式**：
+**何时使用**：
+- 分析依赖特定前提
+- 结论有适用条件
+
+**示例**：
+```plantuml
+note top of diagram
+  <b>假设条件</b>
+  - Bundler 是可信的
+  - Gas 价格稳定
+  - 网络延迟 < 100ms
+end note
+```
+
+### 类型 5: 流程注释
+
+**用途**：说明流程步骤的目的或结果
+
+**何时使用**：
+- 流程步骤需要额外说明
+- 箭头标签不足以表达完整含义
+
+**示例**：
 ```plantuml
 A -> B : validate
 note on link
@@ -50,20 +129,6 @@ note on link
   1. 验证签名
   2. 验证 paymaster
   3. 检查 gas 限制
-end note
-```
-
-### 类型 4: 假设注释
-
-**用途**：说明分析所基于的假设
-
-**格式**：
-```plantuml
-note top of diagram
-  <b>假设条件</b>
-  - Bundler 是可信的
-  - Gas 价格稳定
-  - 网络延迟 < 100ms
 end note
 ```
 
@@ -94,30 +159,6 @@ end note
 | `note bottom of diagram` | 补充说明 | 参考信息、待办 |
 | `note floating` | 独立说明 | 图例、key |
 
-## 注释内容规范
-
-### 必须包含的内容
-
-**技术术语首次出现**：
-- 简洁定义
-- 来源引用（如 EIP 编号）
-
-**非标准符号**：
-- 符号含义说明
-- 使用场景
-
-**简化内容**：
-- 省略了什么
-- 为什么省略
-
-### 禁止的内容
-
-**禁止**：
-- 过长文本（>100 字）
-- 与图无关的信息
-- 重复图中已明确的内容
-- 模糊表述（"可能"、"大概"）
-
 ## 注释格式规范
 
 ### Markdown 语法
@@ -136,120 +177,30 @@ note right of Component
 end note
 ```
 
-### 颜色使用
+### 颜色语义
 
-```plantuml
-note right of Component #LightYellow
-  一般注释
-end note
+| 颜色 | 语义 | 使用场景 |
+|------|------|----------|
+| `#LightYellow` | 一般信息 | 默认注释 |
+| `#LightCoral` | 警告/风险 | 必须注意的内容 |
+| `#LightGreen` | 推荐/最佳实践 | 推荐做法 |
+| `#LightBlue` | 参考/链接 | 外部引用 |
 
-note right of Component #LightCoral
-  <b>重要警告</b>
-  必须注意的内容
-end note
-
-note right of Component #LightGreen
-  <b>最佳实践</b>
-  推荐做法
-end note
-```
-
-**颜色语义**：
-- 黄色：一般信息
-- 红色：警告/风险
-- 绿色：推荐/最佳实践
-- 蓝色：参考/链接
-
-## 注释密度控制
-
-### 最大密度原则
+### 密度控制
 
 **规则**：注释面积不应超过图面积的 30%
 
 **超限处理**：
-1. 移到正文说明
+1. 移到外部文档
 2. 创建单独的注释图
-3. 使用外部文档引用
+3. 简化注释内容
 
-### 分层注释
+## 何时无需注释
 
-```plantuml
-' 主图 - 最小注释
-component "A" as A
-component "B" as B
-A --> B
-
-' 详细注释图 - 单独展示
-note "A 的详细说明..." as N1
-note "B 的详细说明..." as N2
-note "关系的详细说明..." as N3
-```
-
-## 示例：完整注释使用
-
-```plantuml
-@startuml
-title ERC-4337 UserOp 处理流程 - 主流程
-
-skinparam noteFontColor "black"
-skinparam noteBackgroundColor "lightYellow"
-
-participant "User" as U
-participant "Wallet" as W
-participant "Bundler" as B
-participant "EntryPoint" as EP
-
-note top of diagram
-  <b>范围说明</b>
-  仅展示成功路径
-  错误处理详见错误流程图
-end note
-
-U -> W : 提交意图
-note right of link
-  <b>用户意图</b>
-  如：Swap tokens
-end note
-
-W -> B : 构建 UserOp
-note right of link
-  <b>Wallet 职责</b>
-  1. 构建 callData
-  2. 估算 gas
-  3. 签名
-end note
-
-B -> EP : handleOps([UserOp])
-note on link
-  <b>Bundler 行为</b>
-  - 打包多个 UserOp
-  - 提交到 EntryPoint
-  - 承担 gas 成本
-end note
-
-EP -> EP : validateUserOp()
-note right
-  <b>验证内容</b>
-  1. 验证签名
-  2. 验证 paymaster
-  3. 检查 nonce
-end note
-
-EP -> EP : executeUserOp()
-note right
-  <b>执行内容</b>
-  执行用户 callData
-end note
-
-note bottom of diagram
-  <b>图例</b>
-  → : 消息流
-  -->> : 返回
-  note : 注释说明
-end note
-
-@enduml
-```
+**禁止注释的情况**：
+- 图中结构已清晰表达
+- 添加注释会遮挡关键关系
+- 注释内容重复图中已明确的信息
 
 ## 检查清单
 

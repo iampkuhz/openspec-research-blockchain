@@ -60,7 +60,7 @@ domains:
     description: "图表建模与渲染"
     rules:
       - harness/rules/diagrams/diagram-selection-matrix.md
-      - harness/rules/diagrams/abstraction-boundaries.md
+      - harness/rules/diagrams/brief-quality-rules.md
       - harness/rules/diagrams/relationship-rules.md
       - harness/rules/diagrams/annotation-rules.md
       - harness/rules/diagrams/simplification-policy.md
@@ -98,7 +98,7 @@ rule_metadata:
     - uncertainty-rules.md
   diagrams:
     - diagram-selection-matrix.md
-    - abstraction-boundaries.md
+    - brief-quality-rules.md
     - relationship-rules.md
     - annotation-rules.md
     - simplification-policy.md

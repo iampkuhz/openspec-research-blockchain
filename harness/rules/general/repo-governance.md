@@ -10,28 +10,30 @@
 
 ```
 knowledge/
-├── glossary/          # 全局术语 meta 信息（非具体术语表）
-├── domains/           # 主题域知识组织层
-├── topics/            # 具体主题（primitive / synthesis）
-├── indexes/           # 索引文件
-└── templates/         # 知识模板
+├── analysis/            # 事实分析资产
+│   ├── primitives/      # 底层机制（按领域分组）
+│   ├── synthesis/       # 演进/综合分析
+│   └── domains/         # 主题域定义
+├── decisions/           # 场景决策资产
+├── glossary/meta/       # 全局术语 meta 信息
+└── indexes/             # 索引文件
 ```
 
-### 变更管理目录
+### 过程目录
 
 ```
 openspec/
-├── changes/           # 进行中的研究变更包
-├── templates/         # Change 模板
-└── archive/           # 归档的旧变更
+├── changes/             # 进行中的研究变更包
+├── schemas/             # 研究 schema 定义
+└── specs/               # 研究系统规范
 ```
 
-### 能力目录
+### 路由与辅助目录
 
 ```
-harness/               # 规则、工作流、提示词、评估
-skills/                # 可复用技能
-scripts/               # 脚本工具
+harness/                 # 规则索引、工作流定义
+skills/                  # 可复用技能
+scripts/                 # 脚本工具
 ```
 
 ## 核心原则
@@ -43,31 +45,30 @@ scripts/               # 脚本工具
 **必须**通过以下流程：
 1. 在 `openspec/changes/` 创建 change
 2. 完成研究并产出 draft
-3. 通过 review 后 merge 到 knowledge
+3. 通过 review 后 apply 到 knowledge
 
 **例外**：仅当修复明显的拼写错误、格式问题时，可直接修改。
 
-### 原则 2：原子化知识
+### 原则 2：单一资产模型
 
-**禁止**将不同主题混在同一文件。
+**禁止**在 `knowledge/` 下创建 `topics/` 或 `atoms/` 目录。
 
 **必须**：
-- 每个 topic 有独立的目录
-- 支持拆分为多个 atom（definition / mechanism / evolution）
-- claims 与 atoms 一一对应
+- primitive/synthesis/domain → `knowledge/analysis/` + `artifact.md`
+- decision → `knowledge/decisions/` + `artifact.md` + `verdict.md`
 
 ### 原则 3：证据可追溯
 
 **禁止**无来源的主张。
 
 **必须**：
-- 每个 claim 绑定到 source id
+- 每个主张绑定到来源
 - 区分 L1/L2/L3/L4 证据等级
-- 记录 evidence gaps
+- 记录证据缺口
 
 ### 原则 4：术语一致性
 
-**禁止**在同一 topic 内混用不同术语指代同一概念。
+**禁止**在同一研究中混用不同术语指代同一概念。
 
 **必须**：
 - 使用 `knowledge/glossary/meta/` 定义的 taxonomy
@@ -78,39 +79,45 @@ scripts/               # 脚本工具
 
 ### Change 命名
 
-格式：`<topic>-<path>-<pass>`
+格式：`<type>-<topic>-<path>-pass-1`
 
-示例：
-- `primitive-eip-4337-deep-dive-pass-1`
-- `evolution-aa-eip-pass-2`
-- `comparison-bft-consensus-pass-1`
+| 类型 | 说明 | 示例 |
+|------|------|------|
+| `primitive` | 底层机制 | `primitive-eip-4337-deep-dive-pass-1` |
+| `synthesis` | 演进/综合 | `synthesis-aa-eip-evolution-pass-1` |
+| `domain` | 主题域 | `domain-account-abstraction-pass-1` |
+| `decision` | 场景决策 | `decision-agentic-payment-scenario-pass-1` |
 
-### Topic 命名
+### 分析资产目录命名
 
-- primitive: 使用技术名称（eip-4337, consensus-qbft）
-- synthesis: 使用关系描述（bft-comparison, aa-evolution）
-- domain: 使用主题名称（account-abstraction, agentic-payment）
+| 类型 | 位置 | 命名格式 | 示例 |
+|------|------|----------|------|
+| primitive | `knowledge/analysis/primitives/<category>/` | `<category>-<name>` | `consensus-malachite` |
+| synthesis | `knowledge/analysis/synthesis/<type>/` | `<type>-<name>` | `comparison-bft-consensus` |
+| domain | `knowledge/analysis/domains/` | `<domain-name>` | `account-abstraction` |
+| decision | `knowledge/decisions/` | `<scenario-name>` | `agentic-payment` |
 
 ### 文件命名
 
 - 使用 kebab-case
-- 模板文件使用 `.template.md` 或 `.template.yaml` 后缀
-- 评审文件使用 `-review.md` 后缀
+- 过程文件：`request.md` / `plan.md` / `draft.md`
+- 长期资产：`artifact.md` / `verdict.md`
+- 评审文件：`review-summary.md`
 
 ## 质量门槛
 
-### Change 合并条件
+### Change Apply 条件
 
-- [ ] 所有 claims 都有 source 绑定
+- [ ] 评审结论为 approved
+- [ ] 所有 high severity 问题已修复
 - [ ] 术语使用符合 taxonomy
-- [ ] 图表通过 validation
-- [ ] review 问题都已解决或记录为 open questions
+- [ ] 图表通过 validation（如适用）
 
-### Topic 更新条件
+### 资产更新条件
 
-- [ ] changelog.md 已更新
-- [ ] 相关 indexes 已更新
-- [ ] 依赖的 topics 已检查兼容性
+- [ ] changelog 已更新（如适用）
+- [ ] indexes 已更新
+- [ ] 依赖的资产已检查兼容性
 
 ## 例外处理
 
@@ -119,11 +126,11 @@ scripts/               # 脚本工具
 如需紧急修复主线知识：
 1. 先创建 minimal change 记录
 2. 修复后补充完整 evidence
-3. 在 changelog.md 中说明
+3. 在变更记录中说明
 
 ### 实验性内容
 
 实验性、未成熟的研究：
-1. 放入 `openspec/changes/` 不急于 merge
-2. 或创建 `knowledge/topics/.experimental/` 子目录
-3. 明确标记 maturity: experimental
+1. 放入 `openspec/changes/` 不急于 apply
+2. 明确标记 `maturity: experimental`
+3. 稳定后再 apply 到 `knowledge/`

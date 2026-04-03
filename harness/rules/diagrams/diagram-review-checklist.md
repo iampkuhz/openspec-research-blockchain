@@ -2,98 +2,193 @@
 
 ## 目的
 
-提供图表评审的系统性检查项。
+提供图表评审的系统性检查项，分为两个阶段：
+1. **Brief 评审** - 评估输入需求的质量
+2. **PlantUML 评审** - 评估输出图的质量
 
-## 评审维度
+---
 
-### 维度 1: 准确性
+## 阶段 1: Brief 评审
 
-| 检查项 | 是/否 | 备注 |
-|--------|------|------|
-| 组件/概念是否准确定义 | | |
-| 关系语义是否正确 | | |
-| 流程顺序是否正确 | | |
-| 是否符合官方规范 | | |
-| 是否有事实错误 | | |
-
-**评审方法**：
-- 对照 L1/L2 来源验证
-- 检查术语使用
-- 验证流程逻辑
-
-### 维度 2: 抽象层一致性
+### 检查项 1: 完整性
 
 | 检查项 | 是/否 | 备注 |
 |--------|------|------|
-| 是否混用不同抽象层 | | |
-| stereotype 是否正确标注 | | |
-| 分层是否清晰 | | |
-| 关系是否符合层次 | | |
+| 架构图：层数 ≥ 3 | | |
+| 架构图：组件数 ≥ 3 | | |
+| 架构图：跨组件流程 ≥ 1 | | |
+| 时序图：参与者数 ≥ 2 | | |
+| 时序图：消息数 ≥ 1 | | |
+| 必填字段完整 (diagram_id, title, summary) | | |
 
-**评审方法**：
-- 识别每个组件的 layer
-- 检查跨层关系
-- 验证标题/注释说明
+### 检查项 2: 一致性
+
+| 检查项 | 是/否 | 备注 |
+|--------|------|------|
+| ID 唯一性（无重复） | | |
+| 引用有效性（from/to 指向存在的组件） | | |
+| 层归属有效（component.layer 指向存在的层） | | |
+| 术语使用一致 | | |
+
+### 检查项 3: 清晰度
+
+| 检查项 | 是/否 | 备注 |
+|--------|------|------|
+| 标题反映核心内容 | | |
+| 摘要说明图的用途 | | |
+| 组件/参与者职责描述清晰 | | |
+| 流程描述有主谓宾 | | |
+
+### 检查项 4: 可渲染性
+
+| 检查项 | 是/否 | 备注 |
+|--------|------|------|
+| 组件数 5-15 个（超过建议分层） | | |
+| 流程数 3-15 条（超过建议分解） | | |
+| 包含 layout.direction 设置 | | |
+
+### Brief 评审输出
+
+```yaml
+# diagrams/reviews/<diagram-id>-brief-review.yaml
+brief_path: assets/briefs/xxx.yaml
+reviewed_at: 2024-01-15
+
+dimensions:
+  completeness: pass|warn|fail
+  consistency: pass|warn|fail
+  clarity: pass|warn|fail
+  renderability: pass|warn|fail
+
+overall: approved|conditional|blocked
+issues:
+  - severity: blocker|major|minor
+    dimension: completeness
+    description: 问题描述
+    suggestion: 修复建议
+```
+
+---
+
+## 阶段 2: PlantUML 评审
+
+### 维度 1: 覆盖性
+
+| 检查项 | 是/否 | 备注 |
+|--------|------|------|
+| 所有层已落图 | | |
+| 所有组件已落图 | | |
+| 所有流程已落图 | | |
+| 组件 alias 与 brief 一致 | | |
+| 无未经批准的新增组件 | | |
+
+### 维度 2: 准确性
+
+| 检查项 | 是/否 | 备注 |
+|--------|------|------|
+| 组件/概念定义准确 | | |
+| 关系语义正确 | | |
+| 流程顺序正确 | | |
+| 符合官方规范 | | |
+| 无事实错误 | | |
 
 ### 维度 3: 可读性
 
 | 检查项 | 是/否 | 备注 |
 |--------|------|------|
-| 组件数量是否合适 (<10) | | |
-| 布局是否清晰 | | |
-| 标签是否简洁 | | |
-| 注释是否必要 | | |
-| 颜色使用是否合理 | | |
+| 5 秒内理解主旨 | | |
+| 布局清晰（无重叠/拥挤） | | |
+| 标签简洁 | | |
+| 注释必要且适度 | | |
+| 颜色使用合理 | | |
+| 打印后清晰 | | |
 
-**评审方法**：
-- 5 秒内能否理解主旨
-- 打印后是否清晰
-- 色盲用户能否区分
-
-### 维度 4: 完整性
+### 维度 4: 规范性
 
 | 检查项 | 是/否 | 备注 |
 |--------|------|------|
-| 核心组件是否完整 | | |
-| 关键关系是否完整 | | |
-| 边界情况是否说明 | | |
-| 简化是否标注 | | |
-| 引用是否完整 | | |
-
-**评审方法**：
-- 对照 topic 的 atoms 检查
-- 检查是否有缺失环节
-- 验证引用来源
+| 使用纵向布局 (架构图) | | |
+| 包含 `skinparam nodesep/ranksep` | | |
+| 图例包含（如 brief 要求） | | |
+| 箭头标注完整 | | |
+| 简化内容已标注 | | |
 
 ### 维度 5: 一致性
 
 | 检查项 | 是/否 | 备注 |
 |--------|------|------|
 | 与同一 topic 其他图一致 | | |
-| 与其他 topic 的图一致 | | |
 | 符号使用一致 | | |
 | 命名规范一致 | | |
+| 配色方案一致 | | |
 
-**评审方法**：
-- 对照 diagram-index.md
-- 检查组件命名
-- 验证关系符号
+### PlantUML 评审输出
+
+```yaml
+# diagrams/reviews/<diagram-id>-puml-review.yaml
+diagram_id: erc4337-architecture-l2
+diagram_path: diagrams/source/erc4337-architecture.puml
+reviewed_at: 2024-01-15
+
+dimensions:
+  coverage: pass|warn|fail
+  accuracy: pass|warn|fail
+  readability: pass|warn|fail
+ 规范性：pass|warn|fail
+  consistency: pass|warn|fail
+
+overall: approved|conditional|rejected
+issues:
+  - id: ISSUE-001
+    severity: high|medium|low
+    dimension: accuracy
+    description: 问题描述
+    suggestion: 修复建议
+    status: open|resolved
+
+summary:
+  accuracy: pass
+  consistency: pass
+  readability: pass
+  completeness: pass
+ 规范性：pass
+  overall: approved
+```
+
+---
+
+## 严重性定义
+
+| 严重性 | 描述 | 处理 |
+|--------|------|------|
+| **Blocker/High** | 事实错误、误导、引用断裂 | 必须修复 |
+| **Major/Medium** | 不规范、不一致、描述模糊 | 建议修复 |
+| **Minor/Low** | 可改进、可优化 | 酌情修复 |
+
+---
 
 ## 评审流程
 
-### Step 1: 自审
-
-作者完成图后，先自行检查：
+### Step 1: Brief 评审（生成前）
 
 ```
-- [ ] 所有检查项
+1. 执行 python3 scripts/validate_brief.py
+2. 检查完整性、一致性、清晰度、可渲染性
+3. 输出 brief-evaluation.yaml
+4. 状态为 blocked 时，先修复 brief
+```
+
+### Step 2: 自审（生成后）
+
+```
+作者自行检查：
+- [ ] 覆盖性检查
+- [ ] 规范性检查
 - [ ] 简化标注
 - [ ] 来源引用
 ```
 
-### Step 2: 技术评审
-
-技术准确性评审：
+### Step 3: 技术评审
 
 ```
 评审人：领域专家
@@ -101,179 +196,33 @@
 输出：技术评审意见
 ```
 
-### Step 3: 可读性评审
-
-可读性评审：
+### Step 4: 可读性评审
 
 ```
 评审人：非本领域人员
-检查：能否 5 秒理解主旨
+检查：5 秒理解测试
 输出：理解障碍点
 ```
 
-### Step 4: 修订
-
-根据评审意见修订：
+### Step 5: 修订
 
 ```
-- [ ] 修复准确性问题
-- [ ] 改进可读性
-- [ ] 补充缺失内容
-- [ ] 更新简化标注
+- [ ] 修复 High 严重性问题
+- [ ] 修复或记录 Medium 问题
+- [ ] 更新评审记录
 ```
-
-## 评审记录格式
-
-```yaml
-# 在 diagrams/reviews/<diagram-id>-review.md 中
-
-diagram_id: erc4337-architecture-l2
-diagram_path: diagrams/source/erc4337-architecture.puml
-review_date: 2024-01-15
-
-reviewers:
-  - name: XXX
-    role: technical
-    reviewed_at: 2024-01-15
-  - name: YYY
-    role: readability
-    reviewed_at: 2024-01-15
-
-issues:
-  - id: ISSUE-001
-    dimension: accuracy
-    severity: high
-    description: "EntryPoint 和 Bundler 的关系标注错误"
-    suggestion: "应该是 Bundler --> EntryPoint，而非反向"
-    status: resolved
-
-  - id: ISSUE-002
-    dimension: consistency
-    severity: medium
-    description: "UserOperation 的 stereotype 未标注"
-    suggestion: "添加 <<protocol>> 标注"
-    status: resolved
-
-summary:
-  accuracy: pass
-  consistency: pass
-  readability: pass
-  completeness: pass
-  overall: approved
-
-resolved_at: 2024-01-15
-```
-
-## 严重性定义
-
-| 严重性 | 描述 | 处理 |
-|--------|------|------|
-| High | 事实错误、误导 | 必须修复 |
-| Medium | 不规范、不一致 | 建议修复 |
-| Low | 可改进、可优化 | 酌情修复 |
-
-## 常见问题模式
-
-### Pattern 1: 关系错误
-
-**症状**：箭头方向错误
-**影响**：High
-**检查**：对照规范验证
-
-### Pattern 2: 抽象层混用
-
-**症状**：Protocol 和 Ecosystem 混在一起
-**影响**：Medium
-**检查**：识别每个组件的 layer
-
-### Pattern 3: 过度简化
-
-**症状**：关键组件缺失
-**影响**：High
-**检查**：对照 atoms 检查
-
-### Pattern 4: 过度复杂
-
-**症状**：组件过多、关系混乱
-**影响**：Medium
-**检查**：5 秒理解测试
-
-### Pattern 5: 缺少简化标注
-
-**症状**：简化了但未说明
-**影响**：Low
-**检查**：检查简化说明
-
-## 自动化检查
-
-```bash
-# 验证 PlantUML 语法
-scripts/diagrams/render.sh --validate <diagram>
-
-# 检查组件命名
-scripts/diagrams/validate_diagram_model.py --check-names <diagram>
-
-# 检查引用
-scripts/diagrams/check_diagram_references.py <diagram>
-```
-
-## 评审通过标准
-
-**必须全部满足**：
-- [ ] 无 High 严重性问题
-- [ ] Medium 问题已修复或记录
-- [ ] 简化已标注
-- [ ] 来源已引用
-- [ ] 评审人已签字
 
 ---
 
-## 架构组件图专项检查
+## 评审通过标准
 
-### 元素类型检查（必须）
+**Brief 评审通过**：
+- 无 Blocker 问题
+- Major 问题已修复或记录
 
-| 检查项 | 是/否 | 备注 |
-|--------|------|------|
-| 组件使用了 `component` 语法（蓝色矩形） | | |
-| 外部角色使用了 `actor` 语法（灰色人形） | | |
-| 数据存储使用了 `database` 语法（绿色圆柱） | | |
-| 数据对象使用了 `note` 语法（黄色矩形） | | |
-| 没有所有元素使用相同矩形框的问题 | | |
-
-### 分层检查（必须）
-
-| 检查项 | 是/否 | 备注 |
-|--------|------|------|
-| 有明确的分层边界（package） | | |
-| 层次命名符合区块链术语（Protocol/Data/Application/External） | | |
-| 通过背景色或 package 边界区分层次 | | |
-| 使用 `top to bottom direction` 纵向布局 | | |
-
-### 箭头语义检查（必须）
-
-| 检查项 | 是/否 | 备注 |
-|--------|------|------|
-| 所有箭头都有标注说明 | | |
-| 调用/请求使用实线箭头 | | |
-| 数据流使用虚线箭头 | | |
-| 依赖使用虚线无箭头 | | |
-| 流程序号从 S1 开始连续编号 | | |
-
-### 可读性检查（推荐）
-
-| 检查项 | 是/否 | 备注 |
-|--------|------|------|
-| 配色方案一致 | | |
-| 核心组件在视觉中心 | | |
-| 组件数量适中（5-9 个） | | |
-| 图例说明完整 | | |
-| edge 文案无重叠/遮挡 | | |
-
-### 常见问题模式（架构组件图）
-
-| 问题 | 症状 | 修复 |
-|------|------|------|
-| 元素混用 | 所有元素都是相同矩形 | 使用 component/actor/database/note 区分 |
-| 分层缺失 | 所有组件平铺 | 用 package 包裹分层 |
-| 箭头无标注 | 线上没有文字 | 添加 S1/S2 等编号 |
-| 横向过宽 | 超出屏幕 | 改用 top to bottom direction |
+**PlantUML 评审通过**：
+- 无 High 严重性问题
+- Medium 问题已修复或记录
+- 简化已标注
+- 来源已引用
+- 评审人已签字

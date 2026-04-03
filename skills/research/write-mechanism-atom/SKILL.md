@@ -29,7 +29,6 @@
 
 - `harness/workflows/principle-atom-workflow.md` - Atom 写作流程
 - `harness/rules/research/mechanism-rules.md` - 机制分析规则
-- `harness/rules/diagrams/abstraction-boundaries.md` - 抽象边界规则
 - `openspec/changes/<change-id>/sources/` - 来源
 
 ## Files to Write
@@ -52,7 +51,6 @@
 2. 检查核心流程是否完整
 3. 检查关键决策是否有替代方案对比
 4. 检查边界情况是否覆盖
-5. 检查 diagram（如有）是否符合抽象边界
 
 ## Output Contract
 
