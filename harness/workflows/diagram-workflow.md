@@ -2,22 +2,17 @@
 
 ## Goal
 
-基于 brief 创建 PlantUML 图表，经过 brief 校验→生成→覆盖校验→布局校验→渲染校验流程。
+创建 PlantUML 图表，辅助说明机制/架构/流程。
 
 ## Trigger
 
 - 需要可视化机制/架构/流程
-- 研究内容需要图表支撑
+- `plan.md` 或 `draft.md` 需要图表支撑
 
 ## Required Inputs
 
 - 研究主题/内容描述
 - 图表用途说明
-
-## Optional Inputs
-
-- 已有 brief 文件
-- 特定样式要求
 
 ## Rule Set to Load
 
@@ -29,8 +24,8 @@
 
 ## Primary Skills（优先使用）
 
-**架构图/组件图** → `feipi-gen-plantuml-arch-diagram` (全局 skill)
-**时序图** → `feipi-gen-plantuml-sequence-diagram` (全局 skill)
+**架构图/组件图** → `feipi-gen-plantuml-arch-diagram`（全局 skill）
+**时序图** → `feipi-gen-plantuml-sequence-diagram`（全局 skill）
 
 这两个 skills 提供完整的 brief→PlantUML→校验流程。
 
@@ -49,7 +44,7 @@
 
 ### Step 2: 创建 Brief
 
-**架构图**使用 `architecture-brief.yaml` 格式：
+**架构图**使用 `architecture-brief.yaml` 格式（由 user skill 定义）：
 ```yaml
 title: <图标题>
 summary: <系统摘要>
@@ -67,7 +62,7 @@ flows:
     description: <流程说明>
 ```
 
-**时序图**使用 `sequence-brief.yaml` 格式：
+**时序图**使用 `sequence-brief.yaml` 格式（由 user skill 定义）：
 ```yaml
 title: <图标题>
 summary: <场景摘要>
@@ -85,13 +80,13 @@ messages:
 ### Step 3: 调用 Skill 生成
 
 **架构图**：
-```bash
+```
 # 直接调用 skill（Claude Code 会自动识别）
 使用 feipi-gen-plantuml-arch-diagram skill，传入 brief
 ```
 
 **时序图**：
-```bash
+```
 # 直接调用 skill（Claude Code 会自动识别）
 使用 feipi-gen-plantuml-sequence-diagram skill，传入 brief
 ```
@@ -105,18 +100,19 @@ messages:
 3. **布局校验** - `scripts/lint_layout.sh`
 4. **渲染校验** - `scripts/check_render.sh`
 
+**注意**：这些脚本由用户级 skill 管理，不在本仓库 `scripts/` 目录。
+
 ### Step 5: 手动创建图表（备选）
 
-当图表类型不属于架构/时序图时，手动创建：
+当图表类型不属于架构/时序图，或用户级 skill 不可用时：
 
-1. 创建 diagram model
-2. 编写 PlantUML source
-3. 使用 `scripts/diagrams/render.sh` 渲染
-4. 使用 `scripts/diagrams/validate_diagram_model.py` 验证
+1. 创建 PlantUML source
+2. 使用 `scripts/check_plantuml.sh` 校验语法
+3. 使用 `scripts/diagrams/render.sh` 渲染（如需要）
 
-### Step 6: 集成到 Atoms
+### Step 6: 集成到 draft.md
 
-在 atoms 中引用图：
+在 `draft.md` 中引用图：
 
 ```markdown
 ## 核心架构
@@ -129,33 +125,18 @@ messages:
 ## Outputs
 
 - brief.yaml（规范化后的）
-- diagrams/source/<diagram-id>.puml
-- diagrams/build/<diagram-id>.svg（环境可用时）
-- diagrams/validation-<diagram-id>.md（校验摘要）
+- `.puml` 源码
+- `.svg`（环境可用时）
+- 校验摘要
 
 ## Done Criteria
 
-- [ ] brief 已创建并通过校验
+- [ ] brief 已创建
 - [ ] PlantUML source 已生成
-- [ ] 覆盖校验通过（所有组件/参与者落图）
-- [ ] 布局校验通过
-- [ ] 渲染校验完成（或明确标注未完成）
+- [ ] 语法校验通过
+- [ ] 渲染完成（或明确标注未完成）
 
 ## Failure Handling
-
-### brief 校验失败
-
-**处理**：
-1. 检查必填字段
-2. 补充缺失的 components/participants
-3. 重新校验
-
-### 覆盖校验失败
-
-**处理**：
-1. 检查是否有组件未落图
-2. 检查是否有流程未体现
-3. 修正后重新校验
 
 ### 渲染失败
 
@@ -163,3 +144,9 @@ messages:
 1. 检查 PlantUML 语法
 2. 简化复杂结构
 3. 检查渲染服务可用性
+
+### Skill 不可用
+
+**处理**：
+1. 使用备选手动流程
+2. 标注"未完成真实渲染校验"

@@ -1,104 +1,50 @@
-# Principle Atom Workflow - 知识原子写作
+# Principle Note Workflow - 知识笔记写作
 
 ## Goal
 
-基于来源编写知识原子（definition / mechanism / evolution）。
+基于来源编写知识笔记（definition / mechanism / evolution / comparison），作为 `draft.md` 的组成部分。
 
 ## Trigger
 
-- Source workflow 完成后
-- 已有 source-pack.yaml 和 excerpts
+- source workflow 完成后
+- 已有 `source-pack.yaml` 和 `excerpts`
+- `plan.md` 已填写
 
 ## Required Inputs
 
-- source-pack.yaml
-- sources/excerpts/*
-- request.md
-
-## Optional Inputs
-
-- 现有 knowledge/中的相关 atoms
-- 依赖的 topics
+- `source-pack.yaml`
+- `sources/excerpts/*`
+- `plan.md`
 
 ## Rule Set to Load
 
-根据 atom 类型加载：
+根据笔记类型加载：
 
-| Atom 类型 | Rules |
+| 笔记类型 | Rules |
 |----------|-------|
 | definition | definition-rules.md, structure-rules.md |
 | mechanism | mechanism-rules.md, structure-rules.md, table-rules.md |
 | evolution | evolution-rules.md, structure-rules.md |
+| comparison | comparison-rules.md, table-rules.md, summary-rules.md |
 
 ## Step-by-Step Procedure
 
-### Step 1: 创建 Atom 目录结构
+### Step 1: 创建笔记结构
+
+在 `openspec/changes/<change-id>/` 中创建：
 
 ```
-knowledge/topics/<topic>/
-├── atoms/
+openspec/changes/<change-id>/
+├── notes/                # 知识笔记
 │   ├── definition.md
-│   ├── prerequisites.md
-│   ├── core-mechanism.md
-│   ├── module-evolution.md
-│   ├── limits-and-assumptions.md
-│   └── open-questions.md
-├── claims/
-│   ├── facts.yaml
-│   ├── inferences.yaml
-│   └── estimates.yaml
-└── terms/
-    └── .gitkeep
+│   ├── mechanism.md
+│   └── evolution.md
+└── comparisons/          # 比较分析（如适用）
 ```
 
-### Step 2: 提取 Claims
+### Step 2: 编写 Definition Note
 
-从 excerpts 中提取 claims：
-
-```yaml
-# claims/facts.yaml
-version: "1.0"
-topic: <topic>
-
-facts:
-  - claim_id: claim-001
-    statement: <事实陈述>
-    sources:
-      - source_id: <source>
-        excerpt: <引用>
-        location: <位置>
-    evidence_level: L1|L2|L3|L4
-    confidence: high|medium|low
-    related_atoms:
-      - definition
-      - core-mechanism
-    notes: <说明>
-```
-
-**Claim 分类**：
-- **facts**: 事实性主张
-- **inferences**: 推论
-- **estimates**: 估算
-
-### Step 3: 提取术语
-
-从来源中提取关键术语：
-
-```yaml
-# terms/terms.yaml
-terms:
-  - term: UserOperation
-    aliases:
-      - UserOp
-    category: protocol-entity
-    layer: protocol
-    definition: <简洁定义>
-    source: <source_id>
-```
-
-### Step 4: 编写 Definition Atom
-
-按照 definition-rules.md 编写：
+按照 `definition-rules.md` 编写：
 
 ```markdown
 # 定义
@@ -111,11 +57,10 @@ terms:
 
 ## 关键术语
 
-**术语 1**
-: 定义
-
-**术语 2**
-: 定义
+| 术语 | 定义 |
+|------|------|
+| 术语 1 | 定义 |
+| 术语 2 | 定义 |
 
 ## 边界条件
 
@@ -134,9 +79,9 @@ terms:
 [区分相关概念]
 ```
 
-### Step 5: 编写 Mechanism Atom
+### Step 3: 编写 Mechanism Note
 
-按照 mechanism-rules.md 编写：
+按照 `mechanism-rules.md` 编写：
 
 ```markdown
 # 概述
@@ -170,9 +115,9 @@ terms:
 [时间/空间/Gas]
 ```
 
-### Step 6: 编写 Evolution Atom
+### Step 4: 编写 Evolution Note
 
-按照 evolution-rules.md 编写：
+按照 `evolution-rules.md` 编写：
 
 ```markdown
 # 演进概述
@@ -197,51 +142,67 @@ terms:
 ## 当前状态
 ```
 
-### Step 7: 关联 Claims
+### Step 5: 编写 Comparison Note
 
-在 atoms 中引用 claims：
-
-```markdown
-UserOperation 是基本单位 [← claim-001]。
-
-处理流程包括验证 [← claim-015] 和执行 [← claim-016]。
-```
-
-### Step 8: 创建术语表
+按照 `comparison-rules.md` 编写：
 
 ```markdown
-## 关键术语
+# 比较分析
 
-**UserOperation** (category: protocol-entity, layer: protocol)
-: EIP-4337 定义的用户操作原子。
-  来源：[EIP-4337](url)
+## 比较对象
 
-**EntryPoint** (category: protocol-entity, layer: protocol)
-: 单例合约，处理 UserOperations。
-  来源：[EIP-4337](url)
+[列出比较的对象]
+
+## 比较维度
+
+| 维度 | 对象 A | 对象 B |
+|------|--------|--------|
+| 维度 1 | ... | ... |
+| 维度 2 | ... | ... |
+
+## 分析
+
+[逐项分析]
+
+## 总结
+
+[高层判断]
 ```
 
-### Step 9: 自审
+### Step 6: 关联来源
+
+在笔记中引用来源：
+
+```markdown
+UserOperation 是基本单位 [L1: EIP-4337]。
+
+处理流程包括验证和执行 [L2: reference-impl]。
+```
+
+### Step 7: 自审
 
 检查：
-- [ ] 所有 claims 都有 sources
-- [ ] 所有 atoms 都有 claims 支撑
+- [ ] 所有主张都有 sources 支撑
+- [ ] 证据等级适当
 - [ ] 术语一致性
 - [ ] 边界清晰
 - [ ] 符合 rules
 
 ## Outputs
 
-- atoms/*.md
-- claims/*.yaml
-- terms/terms.yaml
+- `notes/*.md`
+- `comparisons/*.md`
 
 ## Done Criteria
 
-- [ ] 所有 atoms 已编写
-- [ ] claims 已提取并关联
-- [ ] 术语已定义
+- [ ] 所有必要笔记已编写
+- [ ] 来源关联完整
 - [ ] 自审通过
+
+## Next Step
+
+→ 使用 `skills/openspec-research-build-draft/` 辅助生成 `draft.md`
+→ 或手动整合笔记到 `draft.md`
 
 ## Failure Handling
 
@@ -250,7 +211,7 @@ UserOperation 是基本单位 [← claim-001]。
 **处理**：
 1. 降低结论置信度
 2. 标注 evidence gap
-3. 列入 open-questions
+3. 列入 `draft.md` 的 open questions
 
 ### 来源冲突
 
@@ -262,6 +223,6 @@ UserOperation 是基本单位 [← claim-001]。
 ### 术语不一致
 
 **处理**：
-1. 检查 glossary
+1. 检查 `knowledge/glossary/meta/`
 2. 统一定义
 3. 记录术语决策

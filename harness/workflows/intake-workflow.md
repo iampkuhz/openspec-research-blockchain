@@ -12,71 +12,52 @@
 
 - 研究主题/问题
 - 研究目的（可选）
-- 目标读者（可选）
-
-## Optional Inputs
-
-- 已知来源
-- 时间约束
-- 特定关注点
 
 ## Rule Set to Load
 
 - harness/rules/general/repo-governance.md
 - harness/rules/general/terminology-policy.md
-- harness/rules/research/definition-rules.md
 
 ## Step-by-Step Procedure
 
 ### Step 1: 判断研究对象类型
 
-询问或分析研究对象属于：
-
-| 类型 | 描述 | 示例 |
-|------|------|------|
-| domain | 主题域 | account-abstraction |
-| primitive | 单个协议/EIP/机制 | eip-4337, consensus-qbft |
-| synthesis | 关系/演进/分类分析 | bft-comparison, aa-evolution |
-| decision | 场景决策 | chain-comparison |
+| 类型 | 描述 | 示例 | 产出位置 |
+|------|------|------|----------|
+| **primitive** | 单个协议/EIP/机制 | eip-4337, consensus-qbft | `knowledge/analysis/primitives/` |
+| **synthesis** | 关系/演进/分类分析 | aa-eip-evolution, bft-comparison | `knowledge/analysis/synthesis/` |
+| **domain** | 主题域定义 | account-abstraction | `knowledge/analysis/domains/` |
+| **decision** | 场景决策 | agentic-payment | `knowledge/decisions/` |
 
 ### Step 2: 判断研究路径
 
-| 路径 | 描述 | 示例 |
-|------|------|------|
-| deep-dive | 单个对象深度分析 | EIP-4337 深度分析 |
-| evolution | 演进历史分析 | AA EIP 演进 |
-| scenario | 场景驱动分析 | Agentic Payment 选型 |
-| comparison | 对比分析 | BFT 共识对比 |
+| 路径 | 描述 | 适用类型 |
+|------|------|----------|
+| `deep-dive` | 单个对象深度分析 | primitive |
+| `evolution` | 演进历史分析 | synthesis |
+| `scenario` | 场景驱动分析 | decision |
 
 ### Step 3: 检查现有知识
 
 ```bash
-# 检查 knowledge/是否已有相关研究
+# 检查 knowledge/analysis/ 和 knowledge/decisions/ 是否已有相关研究
 find knowledge/ -name "*<topic>*"
 ```
 
 **如果有现有知识**：
-- 读取 artifact.md
+- 读取 `artifact.md`
 - 评估是否需要更新
-- 如需更新，走 update-topic 流程
+- 如需更新，走 `update-existing-knowledge.md` 流程
 
 **如果没有**：
-- 继续 new-topic 流程
+- 继续 new-research 流程
 
-### Step 4: 确定输出位置
+### Step 4: 创建 OpenSpec Change
 
-```
-primitive → knowledge/topics/<domain>/<topic>/
-synthesis → knowledge/topics/<domain>/<topic>/
-domain → knowledge/domains/<domain>/
-decision → knowledge/decisions/<domain>/<topic>/
-```
-
-### Step 5: 创建 OpenSpec Change
-
-**必须**创建 change，禁止直接修改 knowledge/。
+**必须**创建 change，禁止直接修改 `knowledge/`。
 
 ```bash
+# 使用 OpenSpec 命令
 openspec new change <name> --schema blockchain-research
 ```
 
@@ -84,42 +65,26 @@ openspec new change <name> --schema blockchain-research
 
 示例：
 - `primitive-eip-4337-deep-dive-pass-1`
-- `comparison-bft-consensus-pass-1`
+- `decision-agentic-payment-scenario-pass-1`
 
-### Step 6: 初始化 request.md
+### Step 5: 初始化 request.md
 
 在 `openspec/changes/<change-id>/request.md` 中填写：
 
-```yaml
-topic: <主题>
-type: primitive|synthesis|domain|decision
-path: deep-dive|evolution|scenario|comparison
+- 研究对象类型（primitive/synthesis/domain/decision）
+- 研究路径（deep-dive/evolution/scenario）
+- 研究背景和目的
+- 范围与非目标
+- 预期输出
 
-background: |
-  [为什么研究这个主题]
-
-goal: |
-  [研究目标]
-
-scope: |
-  [研究范围]
-
-non-goals: |
-  [不研究什么]
-
-target-audience: |
-  [目标读者]
-
-success-criteria: |
-  [成功标准]
-```
+**详情**：`openspec/schemas/blockchain-research/templates/request.md`
 
 ## Outputs
 
 - 研究对象类型
 - 研究路径
 - Change ID
-- request.md
+- `openspec/changes/<change-id>/request.md`
 
 ## Done Criteria
 
@@ -128,6 +93,11 @@ success-criteria: |
 - [ ] Change 已创建
 - [ ] request.md 已填写
 
+## Next Step
+
+→ `harness/workflows/source-workflow.md`（收集来源）
+→ 或使用 `skills/openspec-research-build-plan/` 辅助生成 plan.md
+
 ## Failure Handling
 
 ### 无法确定对象类型
@@ -135,14 +105,14 @@ success-criteria: |
 **处理**：
 1. 询问用户更多信息
 2. 默认按 primitive 处理
-3. 在 request.md 中标注不确定
+3. 在 request.md 中标注待确认
 
 ### 发现类似研究已存在
 
 **处理**：
-1. 读取现有 artifact.md
+1. 读取现有 `artifact.md`
 2. 评估差异
-3. 如差异小，建议 update-topic 而非 new-topic
+3. 如差异小，建议 update-research 而非 new-research
 
 ### 研究范围过大
 

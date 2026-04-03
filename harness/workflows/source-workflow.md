@@ -2,22 +2,17 @@
 
 ## Goal
 
-获取、验证、归档研究来源，提取关键信息。
+获取、验证、归档研究来源，为 `plan.md` 和 `draft.md` 提供证据基础。
 
 ## Trigger
 
-- Intake workflow 完成后
-- request.md 已填写
+- intake workflow 完成后
+- `request.md` 已填写
 
 ## Required Inputs
 
-- request.md 中的研究范围
-- plan.md 中的来源规划
-
-## Optional Inputs
-
-- 用户提供的来源列表
-- 已有来源包
+- `request.md` 中的研究范围
+- 研究问题列表
 
 ## Rule Set to Load
 
@@ -40,27 +35,14 @@ openspec/changes/<change-id>/sources/
 
 ### Step 2: 收集来源
 
-根据 plan.md 的来源规划，收集：
+根据研究问题，按证据等级收集：
 
-#### L1 来源
-- [ ] EIP / RFC / 标准文档
-- [ ] 白皮书
-- [ ] 官方规范
-
-#### L2 来源
-- [ ] 参考实现代码
-- [ ] SDK / API 文档
-- [ ] 官方开发者文档
-
-#### L3 来源
-- [ ] 官方博客
-- [ ] Release notes
-- [ ] Roadmap
-
-#### L4 来源
-- [ ] 第三方分析
-- [ ] 技术博客
-- [ ] 社区讨论
+| 等级 | 来源类型 | 用途 |
+|------|----------|------|
+| L1 | 官方规范/EIP/白皮书 | 核心技术主张 |
+| L2 | 参考实现/官方文档 | 技术主张支持 |
+| L3 | 官方博客/Release notes | 背景/动机 |
+| L4 | 第三方分析/社区讨论 | 社区观点参考 |
 
 ### Step 3: 记录来源到 inbox.yaml
 
@@ -88,16 +70,7 @@ sources:
 1. 访问 URL
 2. 抓取内容
 3. 归档（PDF/截图/文本）
-4. 保存到 fetched/
-
-**归档元数据**：
-```yaml
-archive:
-  original_url: https://...
-  archived_at: <date>
-  archive_type: pdf|screenshot|text
-  archive_path: sources/fetched/<filename>
-```
+4. 保存到 `fetched/`
 
 ### Step 5: 提取关键信息
 
@@ -118,17 +91,10 @@ archive:
 
 ## Relevance
 
-[为什么这个来源重要，支持哪些 claims]
-
-## Related Atoms
-
-- definition
-- core-mechanism
+[为什么这个来源重要，支持哪些分析]
 ```
 
 ### Step 6: 验证来源
-
-**验证维度**：
 
 | 维度 | 检查项 |
 |------|--------|
@@ -137,36 +103,7 @@ archive:
 | 完整性 | 是否覆盖所需 |
 | 一致性 | 与其他来源是否一致 |
 
-**验证记录**：
-```yaml
-validation:
-  source_id: <source_id>
-  validated_at: <date>
-  authority: high|medium|low
-  timeliness: current|outdated|historical
-  consistency: consistent|conflicts_with_X
-  notes: <说明>
-```
-
-### Step 7: 处理来源冲突
-
-如发现冲突：
-
-1. 记录冲突：
-```yaml
-conflict_id: CONF-SRC-001
-sources:
-  - source_a: <说法 A>
-  - source_b: <说法 B>
-discrepancy: <差异描述>
-resolution: <解决方式>
-```
-
-2. 解决优先级：L1 > L2 > L3 > L4
-
-3. 在 source-review.md 中记录
-
-### Step 8: 创建 Source Pack
+### Step 7: 创建 Source Pack
 
 ```yaml
 # sources/source-pack.yaml
@@ -181,17 +118,11 @@ sources:
     source_type: standard|implementation|blog|discussion
     source_tier: L1|L2|L3|L4
     accessed_at: <日期>
-    relevant_atoms:
-      - definition
-      - core-mechanism
-    supported_claims:
-      - claim-001
-      - claim-002
     confidence: high|medium|low
     notes: <可选说明>
 ```
 
-### Step 9: 编写 Source Review
+### Step 8: 编写 Source Review
 
 ```markdown
 # Source Review
@@ -213,10 +144,6 @@ sources:
 
 [哪些重要内容缺乏来源支持]
 
-## 来源冲突
-
-[是否有冲突，如何解决]
-
 ## 待确认问题
 
 [需要进一步验证的内容]
@@ -224,19 +151,23 @@ sources:
 
 ## Outputs
 
-- sources/inbox.yaml
-- sources/fetched/*
-- sources/excerpts/*
-- sources/source-pack.yaml
-- sources/source-review.md
+- `sources/inbox.yaml`
+- `sources/fetched/*`
+- `sources/excerpts/*`
+- `sources/source-pack.yaml`
+- `sources/source-review.md`
 
 ## Done Criteria
 
 - [ ] 所有计划的来源已收集
 - [ ] 来源已归档
 - [ ] 关键 excerpts 已提取
-- [ ] 来源冲突已记录
 - [ ] 证据缺口已识别
+
+## Next Step
+
+→ 使用 `skills/openspec-research-build-plan/` 辅助生成 `plan.md`
+→ 或手动编写 `plan.md`，整合来源规划
 
 ## Failure Handling
 
@@ -245,7 +176,7 @@ sources:
 **处理**：
 1. 尝试替代来源
 2. 记录证据缺口
-3. 在 uncertainty 中标注
+3. 在 `draft.md` 的 uncertainty 中标注
 
 ### 来源之间存在重大冲突
 

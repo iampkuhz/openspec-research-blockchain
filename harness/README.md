@@ -1,6 +1,6 @@
 # Harness Directory
 
-`harness/` 目录包含研究系统的规则、工作流、提示词和评估材料。
+`harness/` 目录包含研究系统的规则和工作流定义。
 
 ## 结构
 
@@ -13,23 +13,14 @@ harness/
 │   ├── diagrams/         # 图表规则
 │   └── writing/          # 写作规则
 ├── workflows/            # 工作流定义
-├── prompts/              # 提示词模板
-│   ├── system/
-│   ├── tasks/
-│   └── fragments/
-├── evals/                # 评估材料
-│   ├── rubrics/
-│   ├── scorecards/
-│   ├── golden-cases/
-│   └── failure-cases/
-└── adapters/             # 适配器配置
+└── README.md             # 本文件
 ```
 
 ## 规则索引
 
 完整规则列表见 [rules/_index.yaml](./rules/_index.yaml)。
 
-### General Rules
+### General Rules (`harness/rules/general/`)
 
 - `repo-governance.md` - 仓库治理
 - `evidence-policy.md` - 证据政策
@@ -37,7 +28,7 @@ harness/
 - `traceability-policy.md` - 可追溯性
 - `update-policy.md` - 更新政策
 
-### Research Rules
+### Research Rules (`harness/rules/research/`)
 
 - `definition-rules.md` - 定义写作
 - `mechanism-rules.md` - 机制分析
@@ -46,7 +37,7 @@ harness/
 - `source-validation-rules.md` - 来源验证
 - `uncertainty-rules.md` - 不确定性处理
 
-### Diagram Rules
+### Diagram Rules (`harness/rules/diagrams/`)
 
 - `diagram-selection-matrix.md` - 图选择矩阵
 - `abstraction-boundaries.md` - 抽象边界
@@ -55,7 +46,7 @@ harness/
 - `simplification-policy.md` - 简化政策
 - `diagram-review-checklist.md` - 评审清单
 
-### Writing Rules
+### Writing Rules (`harness/rules/writing/`)
 
 - `structure-rules.md` - 结构规范
 - `table-rules.md` - 表格规范
@@ -67,11 +58,11 @@ harness/
 |--------|------|
 | `intake-workflow.md` | 研究请求接入 |
 | `source-workflow.md` | 来源处理 |
-| `principle-atom-workflow.md` | Atom 写作 |
+| `principle-atom-workflow.md` | 笔记写作 |
 | `comparison-workflow.md` | 比较分析 |
 | `diagram-workflow.md` | 图表创建 |
 | `review-workflow.md` | 知识评审 |
-| `merge-workflow.md` | 合并到 knowledge |
+| `merge-workflow.md` | 应用到 knowledge |
 | `update-existing-knowledge.md` | 更新现有知识 |
 
 ## 使用方法
@@ -86,9 +77,13 @@ harness/
 
 按照工作流文件中的 step-by-step procedure 执行。
 
-### 使用提示词
+## 与 OpenSpec 的关系
 
-提示词模板供 skills 和 workflows 使用。
+`harness/` 是路由层和规则索引层，真正的系统约束定义在：
+
+- `openspec/config.yaml` - OpenSpec 工作流配置
+- `openspec/schemas/blockchain-research/schema.yaml` - 研究对象模型
+- `openspec/specs/` - 研究系统规范（规划中）
 
 ## 更新规则
 

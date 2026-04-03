@@ -6,59 +6,137 @@ OpenSpec 区块链研究协作的导航入口。
 
 ---
 
-## 一、启动行为
+## 一、系统架构分层
+
+```
+┌─────────────────────────────────────────────────────────┐
+│  入口层 (Entry Point)                                   │
+│  → AGENTS.md (本文件)                                    │
+└─────────────────────────────────────────────────────────┘
+                          ↓
+┌─────────────────────────────────────────────────────────┐
+│  系统约束层 (Source of Truth)                            │
+│  → openspec/config.yaml      - OpenSpec 工作流配置        │
+│  → openspec/schemas/.../schema.yaml - 研究对象模型        │
+│  → openspec/specs/...        - 研究系统规范 (规划中)       │
+└─────────────────────────────────────────────────────────┘
+                          ↓
+┌─────────────────────────────────────────────────────────┐
+│  路由层 (Routing / Harness)                              │
+│  → harness/rules/_index.yaml  - 规则域索引               │
+│  → harness/workflows/...     - 工作流程                 │
+│  → harness/rules/...         - 规则详情                 │
+└─────────────────────────────────────────────────────────┘
+                          ↓
+┌─────────────────────────────────────────────────────────┐
+│  过程层 (Process)                                        │
+│  → openspec/changes/...      - 研究改动包                │
+│  → skills/...                - 可复用操作                │
+│  → scripts/...               - 自动化工具                │
+└─────────────────────────────────────────────────────────┘
+                          ↓
+┌─────────────────────────────────────────────────────────┐
+│  资产层 (Canonical Assets)                               │
+│  → knowledge/analysis/...    - 事实分析资产              │
+│  → knowledge/decisions/...   - 场景决策资产              │
+└─────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 二、启动行为
 
 | 步骤 | 操作 | 来源 |
 |------|------|------|
-| 1 | 读取规则域索引 | `harness/rules/_index.yaml` |
-| 2 | 识别任务类型并路由 | `harness/workflows/` |
-| 3 | 按需加载规则 | `_index.yaml` 中对应 domain 的规则列表 |
-| 4 | 读取本地 knowledge | `knowledge/` 按问题类型定位 |
-| 5 | 结合联网搜索 | 补充缺口或验证 >6 个月前的信息 |
+| 1 | 读取本文件 (AGENTS.md) | 获取系统架构概览 |
+| 2 | 读取 OpenSpec 配置 | `openspec/config.yaml` - 工作流定义 |
+| 3 | 读取对象模型 | `openspec/schemas/blockchain-research/schema.yaml` |
+| 4 | 识别任务类型 | 路由到对应 workflow |
+| 5 | 按需加载规则 | `harness/rules/_index.yaml` |
+| 6 | 结合联网搜索 | 补充本地知识缺口 |
 
-**详情**：`harness/workflows/intake-workflow.md`
-
----
-
-## 二、任务与路由
-
-| 任务类型 | 触发条件 | Workflow | 主要规则域 |
-|----------|----------|----------|------------|
-| `new-topic` | 创建新主题研究 | `intake-workflow.md` | intake |
-| `update-topic` | 更新现有主题 | `update-existing-knowledge.md` | merge |
-| `source-extraction` | 提取来源 | `source-workflow.md` | source |
-| `atom-writing` | 编写知识原子 | `principle-atom-workflow.md` | definition/mechanism/evolution |
-| `comparison` | 比较分析 | `comparison-workflow.md` | comparison |
-| `diagram` | 创建图表 | `diagram-workflow.md` | diagram |
-| `review` | 评审 | `review-workflow.md` | review |
-| `merge` | 合并到 knowledge | `merge-workflow.md` | merge |
+**Source of Truth**：`openspec/config.yaml` + `openspec/schemas/blockchain-research/schema.yaml`
 
 ---
 
-## 三、规则索引
+## 三、任务与路由
+
+| 任务类型 | 触发条件 | Workflow | 产出位置 |
+|----------|----------|----------|----------|
+| `new-research` | 创建新研究 | `harness/workflows/intake-workflow.md` | `openspec/changes/` |
+| `update-research` | 更新现有研究 | `harness/workflows/update-existing-knowledge.md` | `openspec/changes/` |
+| `review` | 评审研究产出 | `harness/workflows/review-workflow.md` | `openspec/changes/<id>/review/` |
+| `apply` | 应用到 knowledge | `openspec/config.yaml` apply 段 | `knowledge/analysis/` 或 `knowledge/decisions/` |
+
+---
+
+## 四、资产模型（单一事实源）
+
+**长期资产只存在于两处**：
+
+| 资产类型 | 路径 | 产出物 | 用途 |
+|----------|------|--------|------|
+| **事实分析** | `knowledge/analysis/` | `artifact.md` | 技术机制、演进关系、域定义 |
+| **场景决策** | `knowledge/decisions/` | `artifact.md` + `verdict.md` | 场景比较、选型判断 |
+
+**过程产物（不进入长期目录）**：
+
+| 产物 | 位置 | 用途 |
+|------|------|------|
+| `request.md` | `openspec/changes/<id>/` | 研究问题定义 |
+| `plan.md` | `openspec/changes/<id>/` | 研究计划与来源规划 |
+| `draft.md` | `openspec/changes/<id>/` | 集中 review 稿 |
+| `decision-criteria.md` | `openspec/changes/<id>/` | 决策标准（可选） |
+
+**详情**：`openspec/schemas/blockchain-research/schema.yaml`
+
+---
+
+## 五、研究对象模型
+
+| 类型 | 描述 | 示例 | 产出位置 |
+|------|------|------|----------|
+| **primitive** | 单个协议/EIP/机制 | eip-4337, consensus-qbft | `knowledge/analysis/primitives/` |
+| **synthesis** | 关系/演进/分类分析 | aa-eip-evolution, bft-comparison | `knowledge/analysis/synthesis/` |
+| **domain** | 主题域定义 | account-abstraction | `knowledge/analysis/domains/` |
+| **decision** | 场景决策 | agentic-payment | `knowledge/decisions/` |
+
+**研究路径**：
+
+| 路径 | 用途 | 适用类型 |
+|------|------|----------|
+| `deep-dive` | 深度分析单个对象 | primitive |
+| `evolution` | 演进历史分析 | synthesis |
+| `scenario` | 场景驱动分析 | decision |
+
+**详情**：`openspec/schemas/blockchain-research/schema.yaml` (context 段)
+
+---
+
+## 六、规则索引
 
 **总索引**：`harness/rules/_index.yaml`
 
 ### General Rules (`harness/rules/general/`)
 
-| 规则 | 用途 | 约束 |
-|------|------|------|
-| `repo-governance.md` | 仓库治理 | 变更必须走 OpenSpec |
-| `evidence-policy.md` | 证据政策 | L1/L2/L3/L4 等级定义 |
-| `terminology-policy.md` | 术语治理 | 复用 glossary taxonomy |
-| `traceability-policy.md` | 可追溯性 | claim→source 映射 |
-| `update-policy.md` | 更新政策 | 知识更新流程 |
+| 规则 | 用途 |
+|------|------|
+| `repo-governance.md` | 仓库治理（变更必须走 OpenSpec） |
+| `evidence-policy.md` | 证据政策（L1/L2/L3/L4 等级定义） |
+| `terminology-policy.md` | 术语治理（复用 glossary taxonomy） |
+| `traceability-policy.md` | 可追溯性（claim→source 映射） |
+| `update-policy.md` | 更新政策（向后兼容处理） |
 
 ### Research Rules (`harness/rules/research/`)
 
-| 规则 | 用途 | 约束 |
-|------|------|------|
-| `definition-rules.md` | 定义写作 | primitive 结构规范 |
-| `mechanism-rules.md` | 机制分析 | 机制拆解方法 |
-| `evolution-rules.md` | 演进分析 | 时间线/里程碑 |
-| `comparison-rules.md` | 比较分析 | 维度/矩阵 |
-| `source-validation-rules.md` | 来源验证 | 来源可信度评估 |
-| `uncertainty-rules.md` | 不确定性 | 置信度标注 |
+| 规则 | 用途 |
+|------|------|
+| `definition-rules.md` | 定义写作 |
+| `mechanism-rules.md` | 机制分析 |
+| `evolution-rules.md` | 演进分析 |
+| `comparison-rules.md` | 比较分析 |
+| `source-validation-rules.md` | 来源验证 |
+| `uncertainty-rules.md` | 不确定性处理 |
 
 ### Diagram Rules (`harness/rules/diagrams/`)
 
@@ -81,7 +159,7 @@ OpenSpec 区块链研究协作的导航入口。
 
 ---
 
-## 四、Skills 索引
+## 七、Skills 索引
 
 ### Research Skills (`skills/research/`)
 
@@ -89,9 +167,9 @@ OpenSpec 区块链研究协作的导航入口。
 |-------|------|
 | `create-research-item/` | 初始化研究项目结构 |
 | `extract-source-pack/` | 从 URL 提取来源包 |
-| `write-definition-atom/` | 编写定义类型 atom |
-| `write-mechanism-atom/` | 编写机制类型 atom |
-| `write-evolution-atom/` | 编写演进类型 atom |
+| `write-definition-atom/` | 编写定义类型笔记 |
+| `write-mechanism-atom/` | 编写机制类型笔记 |
+| `write-evolution-atom/` | 编写演进类型笔记 |
 | `write-comparison-note/` | 编写比较分析笔记 |
 | `review-knowledge-item/` | 评审知识产出物 |
 
@@ -99,14 +177,18 @@ OpenSpec 区块链研究协作的导航入口。
 
 | Skill | 用途 |
 |-------|------|
-| `refresh-existing-topic/` | 刷新现有主题（检查更新） |
-| `merge-change-into-knowledge/` | 将 change 合并到 knowledge |
+| `refresh-existing-topic/` | 刷新现有主题 |
+| `merge-change-into-knowledge/` | 合并 change 到 knowledge |
 
-**详情**：`skills/README.md`
+### OpenSpec Research Skills (`skills/openspec-research-*/`)
 
----
+| Skill | 用途 |
+|-------|------|
+| `openspec-research-build-plan/` | 辅助生成 plan.md |
+| `openspec-research-build-draft/` | 辅助生成 draft.md |
+| `openspec-research-promote-canonical/` | 辅助提升到 canonical 资产 |
 
-## 五、用户级 Skills（全局）
+### 用户级 Skills（全局）
 
 以下 skills 配置在 `~/.claude/skills/`，优先使用：
 
@@ -115,13 +197,11 @@ OpenSpec 区块链研究协作的导航入口。
 | `feipi-gen-plantuml-arch-diagram` | 生成 PlantUML 架构图 | `architecture-brief.yaml` |
 | `feipi-gen-plantuml-sequence-diagram` | 生成 PlantUML 时序图 | `sequence-brief.yaml` |
 
-**工作流程**：brief 校验 → 覆盖校验 → 布局校验 → 渲染校验
-
-**详情**：`~/.claude/skills/feipi-gen-plantuml-*/SKILL.md`
+**详情**：`skills/README.md`
 
 ---
 
-## 六、Scripts 索引
+## 八、Scripts 索引
 
 ### General Scripts (`scripts/general/`)
 
@@ -148,53 +228,38 @@ OpenSpec 区块链研究协作的导航入口。
 | `move_change_outputs.py` | 移动 change 到 knowledge | `--change <id> --topic <topic> --domain <domain>` |
 | `generate_topic_index.py` | 生成 topic 索引 | `--output <path>` |
 
+### Diagram Scripts（备选）
+
+**注意**：架构图和时序图优先使用用户级 skills。以下脚本仅在手动创建图表时使用：
+
+| 脚本 | 用途 | 用法 |
+|------|------|------|
+| `check_plantuml.sh` | 校验 PlantUML 语法 | `<file.puml> [--svg-output <output>]` |
+| `diagrams/render.sh` | 渲染 PlantUML | `<file.puml>` |
+| `diagrams/validate_diagram_model.py` | 验证 diagram model | `<model.yaml>` |
+
 **详情**：`scripts/README.md`
 
 ---
 
-## 七、目录结构
-
-### Knowledge 目录
-
-| 目录 | 用途 |
-|------|------|
-| `knowledge/glossary/meta/` | 术语元数据（categories/taxonomy/relations） |
-| `knowledge/domains/` | 域级知识 |
-| `knowledge/topics/` | 主题知识（primitives / synthesis） |
-| `knowledge/decisions/` | 场景决策知识 |
-| `knowledge/indexes/` | 索引文件 |
-| `knowledge/templates/` | 写作模板 |
-
-### OpenSpec Changes 目录
-
-| 路径 | 用途 |
-|------|------|
-| `openspec/changes/<change-id>/request.md` | 问题定义 |
-| `openspec/changes/<change-id>/plan.md` | 研究计划 |
-| `openspec/changes/<change-id>/draft.md` | 分析草稿 |
-| `openspec/changes/<change-id>/evidence-matrix.md` | 证据矩阵 |
-| `openspec/changes/<change-id>/sources/` | 来源文件 |
-
-**详情**：`openspec/changes/README.md`
-
----
-
-## 八、核心约束速查
+## 九、核心约束速查
 
 | 约束 | 来源 |
 |------|------|
-| 禁止直接修改 `knowledge/` 主线 | `repo-governance.md` |
-| 每个 claim 必须绑定 source id | `traceability-policy.md` |
+| 禁止直接修改 `knowledge/` 主线 | `openspec/config.yaml` / `repo-governance.md` |
+| 长期资产只在 `analysis/` 和 `decisions/` | `openspec/schemas/blockchain-research/schema.yaml` |
+| 过程文件保留在 `openspec/changes/` | `openspec/changes/README.md` |
 | 证据等级 L1/L2 用于核心技术主张 | `evidence-policy.md` |
-| 术语复用 `knowledge/glossary/meta/` taxonomy | `terminology-policy.md` |
-| 每个 topic 独立目录，atoms 与 claims 对应 | `definition-rules.md` |
+| 术语复用 glossary taxonomy | `terminology-policy.md` |
+| 每个 claim 必须绑定 source id | `traceability-policy.md` |
 
 ---
 
-## 九、遇到问题时
+## 十、遇到问题时
 
 | 问题类型 | 查看位置 |
 |----------|----------|
+| 系统约束（artifact 模型、工作流） | `openspec/config.yaml` + `openspec/schemas/blockchain-research/schema.yaml` |
 | 流程问题（下一步做什么） | `harness/workflows/` |
 | 规范问题（如何写/约束） | `harness/rules/` |
 | 操作问题（具体执行） | `skills/` |

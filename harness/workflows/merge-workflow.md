@@ -1,8 +1,10 @@
-# Merge Workflow - 合并到知识库
+# Apply Workflow - 应用到知识库
 
 ## Goal
 
-将通过评审的 change 产物合并到 knowledge/主线。
+将通过评审的 change 产物应用到 `knowledge/` 主线。
+
+**注意**：本流程由 OpenSpec `apply` 命令执行，不是手动 merge。
 
 ## Trigger
 
@@ -12,13 +14,9 @@
 
 ## Required Inputs
 
-- openspec/changes/<change-id>/ 完整内容
-- review/review-summary.md（结论为 approved）
-
-## Optional Inputs
-
-- 现有 knowledge/中的相关 topic
-- 依赖的 topics 更新
+- `openspec/changes/<change-id>/` 完整内容
+- `draft.md`（集中 review 稿）
+- 评审结论
 
 ## Rule Set to Load
 
@@ -28,206 +26,69 @@
 
 ## Step-by-Step Procedure
 
-### Step 1: 确认 Merge 条件
+### Step 1: 确认 Apply 条件
 
 检查：
-```yaml
-# merge-checklist.yaml
-prerequisites:
-  - item: review 结论为 approved
-    status: pass|fail
+- [ ] 评审结论为 approved
+- [ ] 所有 high severity 问题已修复
+- [ ] `draft.md` 内容完整
 
-  - item: 所有 high 问题已修复
-    status: pass|fail
+### Step 2: 确定 Apply 位置
 
-  - item: sources 完整
-    status: pass|fail
+根据研究对象类型确定目标位置：
 
-  - item: claims 有 sources 支撑
-    status: pass|fail
+| 类型 | 目标位置 | 产物 |
+|------|----------|------|
+| **primitive** | `knowledge/analysis/primitives/<domain>/<topic>/` | `artifact.md` |
+| **synthesis** | `knowledge/analysis/synthesis/<topic>/` | `artifact.md` |
+| **domain** | `knowledge/analysis/domains/<domain>/` | `artifact.md` |
+| **decision** | `knowledge/decisions/<domain>/<topic>/` | `artifact.md` + `verdict.md` |
 
-  - item: 术语一致
-    status: pass|fail
-```
-
-### Step 2: 确定 Merge 类型
-
-| 类型 | 描述 | 处理 |
-|------|------|------|
-| new-topic | 新主题 | 创建完整 topic 目录 |
-| update-topic | 更新现有 | 合并变更内容 |
-| refactor-topic | 重构 | 重组目录结构 |
-
-### Step 3: New-Topic Merge
-
-创建 topic 目录结构：
+### Step 3: 执行 Apply
 
 ```bash
-# 创建目录
-mkdir -p knowledge/topics/<domain>/<topic>/{atoms,claims,comparisons,diagrams,reviews,sources,terms}
-
-# 复制 atoms
-cp openspec/changes/<change-id>/draft.md knowledge/topics/<domain>/<topic>/overview.md
-cp atoms/*.md knowledge/topics/<domain>/<topic>/atoms/
-
-# 复制 claims
-cp claims/*.yaml knowledge/topics/<domain>/<topic>/claims/
-
-# 复制 sources
-cp sources/source-pack.yaml knowledge/topics/<domain>/<topic>/sources/
-cp sources/excerpts/* knowledge/topics/<domain>/<topic>/sources/excerpts/
-
-# 复制 diagrams（如有）
-cp diagrams/build/* knowledge/topics/<domain>/<topic>/diagrams/build/
-cp diagrams/source/* knowledge/topics/<domain>/<topic>/diagrams/source/
-cp diagrams/reviews/* knowledge/topics/<domain>/<topic>/diagrams/reviews/
+# 使用 OpenSpec apply 命令
+openspec apply --change <change-id>
 ```
 
-创建 changelog：
+Apply 命令会根据 `openspec/config.yaml` 的 apply 段执行：
 
-```yaml
-# knowledge/topics/<domain>/<topic>/changelog.md
-changelog:
-  - version: "1.0"
-    date: <date>
-    change_id: <change-id>
-    type: new-topic
+1. 将稳定的事实分析提升到 `knowledge/analysis/`
+2. 将稳定的场景判断提升到 `knowledge/decisions/`
+3. 过程文件（`request.md`、`plan.md`）保留在 `openspec/changes/`
+4. 术语区默认并入 `artifact.md` 或 `verdict.md`
 
-    summary: "<change 摘要>"
-
-    atoms_created:
-      - overview
-      - definition
-      - core-mechanism
-
-    claims_count: <数量>
-    diagrams_count: <数量>
-
-    merged_at: <date>
-    merge_commit: <commit hash>
-```
-
-### Step 4: Update-Topic Merge
-
-更新现有 topic：
+### Step 4: 更新 Indexes
 
 ```bash
-# 对比现有内容
-diff knowledge/topics/<topic>/atoms/core-mechanism.md \
-     openspec/changes/<change-id>/atoms/core-mechanism.md
-
-# 合并变更
-# 使用 git merge 或手动合并
+# 更新 topic 索引
+python scripts/general/build_index.py
 ```
 
-更新 changelog：
-
-```yaml
-# knowledge/topics/<topic>/changelog.md
-changelog:
-  - version: "1.1"
-    date: <date>
-    change_id: <change-id>
-    type: update-topic
-
-    summary: "<更新摘要>"
-
-    changes:
-      - atom: core-mechanism
-        action: updated
-        sections:
-          - "Gas Calculation"
-        summary: "补充 EIP-3860 影响"
-
-      - atom: definition
-        action: updated
-        sections:
-          - "Key Terms"
-        summary: "更新术语定义"
-
-    new_claims:
-      - claim-025
-      - claim-026
-
-    deprecated_claims:
-      - claim-020
-      reason: "旧数据不再准确"
-```
-
-### Step 5: 更新 Indexes
-
-更新 topic 索引：
-
-```markdown
-# knowledge/indexes/topic-index.md
-
-## Topics
-
-| Topic | Domain | Type | Last Updated | Change ID |
-|-------|--------|------|--------------|-----------|
-| eip-4337 | account-abstraction | primitive | 2024-01-15 | primitive-eip-4337-deep-dive-pass-1 |
-```
-
-更新 diagram 索引（如有）：
-
-```markdown
-# knowledge/indexes/diagram-index.md
-
-## Diagrams
-
-| ID | Topic | Type | Description |
-|----|-------|------|-------------|
-| erc4337-arch | eip-4337 | component | ERC-4337 架构 |
-```
-
-### Step 6: 更新依赖此 Topic 的内容
-
-检查是否有 topics 依赖此 topic：
+### Step 5: 提交 Commit
 
 ```bash
-# 查找依赖
-grep -r "eip-4337" knowledge/topics/*/dependencies.md
-```
-
-如有依赖，通知相关 topic 维护者或触发 refresh。
-
-### Step 7: 提交 Commit
-
-```bash
-git add knowledge/topics/<topic>/
-git commit -m "Merge <change-id>: <summary>
+git add knowledge/
+git commit -m "Apply <change-id>: <summary>
 
 Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>
 "
 ```
 
-### Step 4: Archive Change（可选）
-
-将完成的 change 移到 archive：
-
-```bash
-mv openspec/changes/<change-id>/ openspec/archive/
-```
-
-或在 changes/README.md 中标记为 completed。
-
 ## Outputs
 
-- knowledge/topics/<topic>/ 更新或创建
-- knowledge/indexes/ 更新
+- `knowledge/analysis/` 或 `knowledge/decisions/` 更新
 - Git commit
 
 ## Done Criteria
 
-- [ ] 所有产物已复制
-- [ ] changelog 已更新
-- [ ] indexes 已更新
+- [ ] 产物已应用到正确位置
+- [ ] Indexes 已更新
 - [ ] Commit 已创建
-- [ ] Change 已归档
 
 ## Failure Handling
 
-### Merge 冲突
+### Apply 冲突
 
 **处理**：
 1. 手动解决冲突
@@ -237,11 +98,5 @@ mv openspec/changes/<change-id>/ openspec/archive/
 ### 评审后又有新来源
 
 **处理**：
-1. 如 minor，记录到 changelog
+1. 如 minor，记录到后续更新计划
 2. 如 major，创建新的 change
-
-### 发现遗漏内容
-
-**处理**：
-1. 记录遗漏
-2. 创建 follow-up change
