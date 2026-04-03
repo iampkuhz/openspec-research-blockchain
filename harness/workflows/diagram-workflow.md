@@ -2,23 +2,22 @@
 
 ## Goal
 
-基于 knowledge atoms 创建图表，经历建模→渲染→验证→评审流程。
+基于 brief 创建 PlantUML 图表，经过 brief 校验→生成→覆盖校验→布局校验→渲染校验流程。
 
 ## Trigger
 
 - 需要可视化机制/架构/流程
-- atom 写作完成
+- 研究内容需要图表支撑
 
 ## Required Inputs
 
-- atoms/*.md
-- claims/facts.yaml
-- terms/terms.yaml
+- 研究主题/内容描述
+- 图表用途说明
 
 ## Optional Inputs
 
-- 现有 diagrams
-- 简化级别要求
+- 已有 brief 文件
+- 特定样式要求
 
 ## Rule Set to Load
 
@@ -28,228 +27,139 @@
 - harness/rules/diagrams/annotation-rules.md
 - harness/rules/diagrams/simplification-policy.md
 
+## Primary Skills（优先使用）
+
+**架构图/组件图** → `feipi-gen-plantuml-arch-diagram` (全局 skill)
+**时序图** → `feipi-gen-plantuml-sequence-diagram` (全局 skill)
+
+这两个 skills 提供完整的 brief→PlantUML→校验流程。
+
 ## Step-by-Step Procedure
 
 ### Step 1: 确定图表类型
 
 根据内容选择：
 
-| 内容 | 推荐类型 |
-|------|----------|
-| 组件关系 | Component Diagram |
-| 时序流程 | Sequence Diagram |
-| 状态变化 | State Diagram |
-| 部署架构 | Deployment Diagram |
+| 内容 | 推荐类型 | 使用 Skill |
+|------|----------|------------|
+| 系统架构/组件关系 | Architecture Diagram | `feipi-gen-plantuml-arch-diagram` |
+| 交互流程/调用链路 | Sequence Diagram | `feipi-gen-plantuml-sequence-diagram` |
+| 状态变化 | State Diagram | 手动创建 |
+| 部署架构 | Deployment Diagram | 手动创建 |
 
-记录选择：
+### Step 2: 创建 Brief
+
+**架构图**使用 `architecture-brief.yaml` 格式：
 ```yaml
-# diagrams/diagram-plan.yaml
-diagrams:
-  - id: arch-overview
-    type: component
-    purpose: 展示核心组件关系
-    target_atoms:
-      - core-mechanism
-    simplification_level: L2
+title: <图标题>
+summary: <系统摘要>
+layers:
+  - id: <layer-id>
+    label: <显示名称>
+    components:
+      - id: <component-id>
+        label: <显示名称>
+        description: <组件说明>
+flows:
+  - id: <flow-id>
+    from: <component-id>
+    to: <component-id>
+    description: <流程说明>
 ```
 
-### Step 2: 提取 Diagram Model
-
-从 atoms 中提取图元素：
-
+**时序图**使用 `sequence-brief.yaml` 格式：
 ```yaml
-# diagrams/models/<diagram-id>-model.yaml
-diagram_id: arch-overview
-source_atoms:
-  - atoms/core-mechanism.md
-
-components:
-  - id: UserOperation
-    label: UserOperation
-    type: component
-    layer: protocol
-    stereotype: "<<protocol>>"
-    source_claims:
-      - claim-001
-
-  - id: EntryPoint
-    label: EntryPoint
-    type: component
-    layer: protocol
-    stereotype: "<<protocol>>"
-    source_claims:
-      - claim-002
-
-relationships:
-  - from: UserOperation
-    to: EntryPoint
-    type: processes
-    label: "processed by"
-    source_claims:
-      - claim-003
+title: <图标题>
+summary: <场景摘要>
+participants:
+  - id: <participant-id>
+    label: <显示名称>
+    type: actor|system|database
+messages:
+  - id: <message-id>
+    from: <participant-id>
+    to: <participant-id>
+    description: <消息说明>
 ```
 
-### Step 3: 创建 PlantUML Source
+### Step 3: 调用 Skill 生成
 
-```plantuml
-@startuml
-title <标题>
-
-skinparam <样式>
-
-' 组件定义
-component "UserOperation" as UO <<protocol>>
-component "EntryPoint" as EP <<protocol>>
-
-' 关系
-UO --> EP : processed by
-
-' 注释
-note right of UO
-  <b>说明</b>
-  EIP-4337 定义的用户操作原子
-end note
-
-@enduml
-```
-
-### Step 4: 渲染 Diagram
-
+**架构图**：
 ```bash
-scripts/diagrams/render.sh <diagram-id>
+# 直接调用 skill（Claude Code 会自动识别）
+使用 feipi-gen-plantuml-arch-diagram skill，传入 brief
 ```
 
-输出到：
-- `diagrams/build/<diagram-id>.svg`
-- `diagrams/build/<diagram-id>.png`
-
-### Step 5: 验证 Diagram Model
-
+**时序图**：
 ```bash
-scripts/diagrams/validate_diagram_model.py <diagram-id>
+# 直接调用 skill（Claude Code 会自动识别）
+使用 feipi-gen-plantuml-sequence-diagram skill，传入 brief
 ```
 
-检查：
-- [ ] 组件命名一致
-- [ ] 关系语义正确
-- [ ] 抽象层不混用
-- [ ] stereotype 标注
+### Step 4: Skill 内部校验流程
 
-### Step 6: 检查引用
+用户级 skills 会自动执行：
 
-```bash
-scripts/diagrams/check_diagram_references.py <diagram-id>
-```
+1. **brief 校验** - `scripts/validate_brief.py`
+2. **覆盖校验** - `scripts/check_coverage.py`（所有组件/参与者落图）
+3. **布局校验** - `scripts/lint_layout.sh`
+4. **渲染校验** - `scripts/check_render.sh`
 
-检查：
-- [ ] 所有组件在 atoms 中有定义
-- [ ] 所有关系有 claim 支撑
-- [ ] 简化已标注
+### Step 5: 手动创建图表（备选）
 
-### Step 7: 创建 Diagram Review
+当图表类型不属于架构/时序图时，手动创建：
 
-```markdown
-# Diagram Review: <diagram-id>
+1. 创建 diagram model
+2. 编写 PlantUML source
+3. 使用 `scripts/diagrams/render.sh` 渲染
+4. 使用 `scripts/diagrams/validate_diagram_model.py` 验证
 
-**Diagram**: <diagram-id>
-**Created At**: <date>
-**Author**: <author>
-
-## 准确性
-
-- [ ] 组件/概念准确
-- [ ] 关系语义正确
-- [ ] 符合官方规范
-
-## 抽象层一致性
-
-- [ ] 未混用不同层
-- [ ] stereotype 正确标注
-
-## 可读性
-
-- [ ] 组件数量合适
-- [ ] 布局清晰
-- [ ] 注释必要
-
-## 问题
-
-| ID | 维度 | 严重性 | 描述 | 状态 |
-|----|------|--------|------|------|
-| ISSUE-001 | accuracy | high | ... | open |
-
-## 结论
-
-- [ ] approved
-- [ ] approved with minor fixes
-- [ ] needs revision
-```
-
-### Step 8: 简化（可选）
-
-如需要简化版本：
-
-```plantuml
-' 简化版 - 仅核心组件
-component "UserOperation" as UO
-component "EntryPoint" as EP
-
-note bottom
-  <b>简化说明</b>
-  仅展示核心组件
-  完整版见 architecture-full
-end note
-```
-
-### Step 9: 集成到 Atoms
+### Step 6: 集成到 Atoms
 
 在 atoms 中引用图：
 
 ```markdown
 ## 核心架构
 
-如图 1 所示，系统包含 UserOperation 和 EntryPoint 两个核心组件。
+![架构图标题](../diagrams/build/<diagram-id>.svg)
 
-![图 1: ERC-4337 架构](../diagrams/build/erc4337-architecture.svg)
-
-图 1: ERC-4337 架构。展示核心组件及其关系。
+图 1: 架构说明
 ```
 
 ## Outputs
 
-- diagrams/models/<diagram-id>-model.yaml
+- brief.yaml（规范化后的）
 - diagrams/source/<diagram-id>.puml
-- diagrams/build/<diagram-id>.svg
-- diagrams/reviews/<diagram-id>-review.md
+- diagrams/build/<diagram-id>.svg（环境可用时）
+- diagrams/validation-<diagram-id>.md（校验摘要）
 
 ## Done Criteria
 
-- [ ] Diagram model 已创建
-- [ ] PlantUML source 已编写
-- [ ] 渲染成功
-- [ ] 验证通过
-- [ ] Review 完成
-- [ ] 简化已标注（如适用）
+- [ ] brief 已创建并通过校验
+- [ ] PlantUML source 已生成
+- [ ] 覆盖校验通过（所有组件/参与者落图）
+- [ ] 布局校验通过
+- [ ] 渲染校验完成（或明确标注未完成）
 
 ## Failure Handling
 
-### PlantUML 渲染失败
+### brief 校验失败
 
 **处理**：
-1. 检查语法
+1. 检查必填字段
+2. 补充缺失的 components/participants
+3. 重新校验
+
+### 覆盖校验失败
+
+**处理**：
+1. 检查是否有组件未落图
+2. 检查是否有流程未体现
+3. 修正后重新校验
+
+### 渲染失败
+
+**处理**：
+1. 检查 PlantUML 语法
 2. 简化复杂结构
-3. 使用在线渲染器验证
-
-### 验证不通过
-
-**处理**：
-1. 修复命名问题
-2. 修正关系语义
-3. 重新验证
-
-### Review 发现问题
-
-**处理**：
-1. 记录问题
-2. 修复 High 严重性
-3. 酌情修复 Medium/Low
+3. 检查渲染服务可用性

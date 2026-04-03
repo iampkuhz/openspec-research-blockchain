@@ -95,15 +95,6 @@ OpenSpec 区块链研究协作的导航入口。
 | `write-comparison-note/` | 编写比较分析笔记 |
 | `review-knowledge-item/` | 评审知识产出物 |
 
-### Diagram Skills (`skills/diagrams/`)
-
-| Skill | 用途 |
-|-------|------|
-| `create-diagram-model-from-atom/` | 从 atom 生成 diagram model |
-| `render-plantuml/` | 渲染 PlantUML 为 SVG |
-| `review-diagram/` | 评审图表质量 |
-| `simplify-diagram/` | 简化复杂图表 |
-
 ### Maintenance Skills (`skills/maintenance/`)
 
 | Skill | 用途 |
@@ -115,7 +106,22 @@ OpenSpec 区块链研究协作的导航入口。
 
 ---
 
-## 五、Scripts 索引
+## 五、用户级 Skills（全局）
+
+以下 skills 配置在 `~/.claude/skills/`，优先使用：
+
+| Skill | 用途 | 输入 |
+|-------|------|------|
+| `feipi-gen-plantuml-arch-diagram` | 生成 PlantUML 架构图 | `architecture-brief.yaml` |
+| `feipi-gen-plantuml-sequence-diagram` | 生成 PlantUML 时序图 | `sequence-brief.yaml` |
+
+**工作流程**：brief 校验 → 覆盖校验 → 布局校验 → 渲染校验
+
+**详情**：`~/.claude/skills/feipi-gen-plantuml-*/SKILL.md`
+
+---
+
+## 六、Scripts 索引
 
 ### General Scripts (`scripts/general/`)
 
@@ -135,15 +141,6 @@ OpenSpec 区块链研究协作的导航入口。
 | `validate_sources.py` | 验证来源 | `--topic <topic>` |
 | `find_term_drift.py` | 查找术语漂移 | `--term <term>` |
 
-### Diagram Scripts (`scripts/diagrams/`)
-
-| 脚本 | 用途 | 用法 |
-|------|------|------|
-| `render.sh` | 渲染 PlantUML | `<file.puml> [--output-dir <dir>]` |
-| `validate_diagram_model.py` | 验证 diagram model | `<model.yaml>` |
-| `check_diagram_references.py` | 检查 diagram 引用 | `<diagram-id> --topic <topic>` |
-| `compare_svg.sh` | 比较 SVG 差异 | `<old.svg> <new.svg>` |
-
 ### Publish Scripts (`scripts/publish/`)
 
 | 脚本 | 用途 | 用法 |
@@ -155,7 +152,7 @@ OpenSpec 区块链研究协作的导航入口。
 
 ---
 
-## 六、目录结构
+## 七、目录结构
 
 ### Knowledge 目录
 
@@ -182,7 +179,7 @@ OpenSpec 区块链研究协作的导航入口。
 
 ---
 
-## 七、核心约束速查
+## 八、核心约束速查
 
 | 约束 | 来源 |
 |------|------|
@@ -194,7 +191,7 @@ OpenSpec 区块链研究协作的导航入口。
 
 ---
 
-## 八、遇到问题时
+## 九、遇到问题时
 
 | 问题类型 | 查看位置 |
 |----------|----------|
