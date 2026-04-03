@@ -2,23 +2,18 @@
 
 ## Goal
 
-编写比较分析 note，对比多个对象的差异。
+编写比较分析笔记，对比多个研究对象的差异。
 
 ## Trigger
 
 - 需要对比多个 primitive/synthesis
-- request.md 中指定 comparison 类型
+- request.md 中指定 comparison 需求
 
 ## Required Inputs
 
 - 比较对象列表
 - 比较目的
 - 目标读者/场景
-
-## Optional Inputs
-
-- 现有比较分析
-- 决策标准
 
 ## Rule Set to Load
 
@@ -30,15 +25,14 @@
 
 ### Step 1: 确定比较对象
 
+在 `request.md` 或 `plan.md` 中声明：
+
 ```yaml
-# 在 request.md 或独立的 comparison-plan.yaml 中
 comparison:
   objects:
     - topic: tendermint
       scope: consensus-mechanism
     - topic: qbft
-      scope: consensus-mechanism
-    - topic: simplex
       scope: consensus-mechanism
 
   purpose: <比较目的>
@@ -60,10 +54,11 @@ comparison:
 
 ### Step 3: 收集各对象数据
 
-为每个对象读取：
-- atoms/core-mechanism.md
-- atoms/limits-and-assumptions.md
-- claims/facts.yaml
+为每个对象读取 `knowledge/analysis/` 中的 `artifact.md`：
+
+```bash
+cat knowledge/analysis/primitives/<domain>/<topic>/artifact.md
+```
 
 ### Step 4: 创建对比表格
 
@@ -97,23 +92,15 @@ comparison:
 
 [分析说明]
 
-## 维度 2: [名称]
-
-...
-
 ## 综合对比
 
-[跨维度综合]
+[跨维度综合分析]
 
 ## 适用场景
 
 | 场景 | 推荐 | 理由 |
 |------|------|------|
 | ... | ... | ... |
-
-## 不适用场景
-
-[各方案局限性]
 
 ## 证据等级
 
@@ -122,38 +109,7 @@ comparison:
 | ... | ... | ... |
 ```
 
-### Step 6: 创建 Matrix（可选）
-
-```yaml
-# comparisons/matrix.yaml
-version: "1.0"
-
-dimensions:
-  - name: latency
-    weights: 0.3
-    scores:
-      tendermint: 3
-      qbft: 3
-      simplex: 4
-      malachite: 5
-
-  - name: maturity
-    weights: 0.4
-    scores:
-      tendermint: 5
-      qbft: 4
-      simplex: 2
-      malachite: 1
-
-summary:
-  weighted_scores:
-    tendermint: 4.1
-    qbft: 3.7
-    simplex: 2.8
-    malachite: 2.4
-```
-
-### Step 7: 标注证据等级
+### Step 6: 标注证据等级
 
 为每个比较主张标注证据：
 
@@ -163,7 +119,7 @@ Tendermint 延迟约 1s [L2 - Cosmos benchmarks]。
 Malachite 吞吐量 10000 TPS [L3 - 官方博客，需验证]。
 ```
 
-### Step 8: 自审
+### Step 7: 自审
 
 检查：
 - [ ] 维度是否固定
@@ -174,8 +130,8 @@ Malachite 吞吐量 10000 TPS [L3 - 官方博客，需验证]。
 
 ## Outputs
 
-- comparison-note.md
-- comparisons/matrix.yaml（可选）
+- 比较分析内容写入 `draft.md` 的比较章节
+- 或独立的比较笔记文件
 
 ## Done Criteria
 

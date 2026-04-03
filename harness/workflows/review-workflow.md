@@ -2,34 +2,34 @@
 
 ## Goal
 
-评审知识产出物，确保准确性、一致性、完整性。
+评审研究产出（draft.md），确保准确性、一致性、完整性，为 apply 到 knowledge/ 做准备。
 
 ## Trigger
 
-- Draft 完成后
-- Merge 到 knowledge 前
+- `draft.md` 完成后
+- apply 到 knowledge/ 前
 
 ## Required Inputs
 
-- draft.md 或 atoms/*.md
-- claims/*.yaml
-- sources/source-pack.yaml
-- diagrams/*（如有）
+- `openspec/changes/<change-id>/draft.md`
+- `openspec/changes/<change-id>/plan.md`
+- `openspec/changes/<change-id>/sources/`
 
 ## Optional Inputs
 
 - 现有相关知识
-- 依赖的 topics
+- 依赖的研究对象
 
 ## Rule Set to Load
 
-根据评审对象加载：
+根据评审对象类型加载：
 
-| 对象 | Rules |
-|------|-------|
-| Principle Note | definition/mechanism/evolution-rules.md |
-| Comparison | comparison-rules.md |
-| Diagram | diagram-review-checklist.md |
+| 对象类型 | Rules |
+|----------|-------|
+| primitive | definition-rules.md / mechanism-rules.md |
+| synthesis | evolution-rules.md / comparison-rules.md |
+| domain | definition-rules.md |
+| decision | comparison-rules.md / decision-criteria |
 
 ## Step-by-Step Procedure
 
@@ -46,91 +46,83 @@ openspec/changes/<change-id>/review/
 
 ### Step 2: 技术准确性评审
 
-**评审人**：领域专家或 Claude
-
 **检查项**：
 
 ```yaml
 # review/checklist.yaml
 accuracy:
-  - item: 所有 claims 有 sources 支撑
-    status: pass|fail
+  - item: 所有主张有 sources 支撑
+    status: pass/fail
     notes: ""
 
-  - item: 证据等级适当
-    status: pass|fail
+  - item: 证据等级适当（L1/L2 用于核心主张）
+    status: pass/fail
     notes: ""
 
   - item: 无事实错误
-    status: pass|fail
+    status: pass/fail
     notes: ""
 
   - item: 术语使用准确
-    status: pass|fail
+    status: pass/fail
     notes: ""
 
 consistency:
   - item: 术语一致
-    status: pass|fail
+    status: pass/fail
     notes: ""
 
   - item: 与其他知识不冲突
-    status: pass|fail
+    status: pass/fail
     notes: ""
 
 completeness:
   - item: 核心内容完整
-    status: pass|fail
+    status: pass/fail
     notes: ""
 
   - item: 边界条件说明
-    status: pass|fail
+    status: pass/fail
     notes: ""
 
   - item: 待决问题列出
-    status: pass|fail
+    status: pass/fail
     notes: ""
 ```
 
 ### Step 3: 可读性评审
 
-**评审人**：非本领域人员或 Claude
-
 **检查项**：
 
 ```yaml
 readability:
-  - item: 5 秒理解主旨
-    status: pass|fail
-    notes: ""
-
   - item: 结构清晰
-    status: pass|fail
+    status: pass/fail
     notes: ""
 
   - item: 段落长度适当
-    status: pass|fail
+    status: pass/fail
     notes: ""
 
-  - item: 图表帮助理解
-    status: pass|fail|na
+  - item: 图表帮助理解（如有）
+    status: pass/fail/na
     notes: ""
 ```
 
-### Step 4:  Diagram 评审（如有）
+### Step 4: Diagram 评审（如有）
 
-使用 diagram-review-checklist.md：
+使用 `diagram-review-checklist.md`：
 
 ```yaml
 diagram_review:
   - item: 抽象层不混用
-    status: pass|fail|na
+    status: pass/fail/na
 
   - item: 关系语义正确
-    status: pass|fail|na
+    status: pass/fail/na
 
   - item: 简化已标注
-    status: pass|fail|na
+    status: pass/fail/na
 ```
 
 ### Step 5: 记录问题
@@ -142,11 +134,11 @@ diagram_review:
 
 ### ISSUE-001: 事实错误
 
-**位置**：atoms/core-mechanism.md, 第 3 节
+**位置**：draft.md，第 3 节
 
-**问题**：Gas 计算公式错误，应为 A+B 而非 A*B
+**问题**：[具体描述]
 
-**建议**：修正公式
+**建议**：[修复建议]
 
 **状态**：open
 
@@ -156,9 +148,9 @@ diagram_review:
 
 **位置**：全文
 
-**问题**：混用 UserOperation 和 UserOp
+**问题**：混用不同术语
 
-**建议**：统一为 UserOperation，首次使用时说明简称
+**建议**：统一术语
 
 **状态**：open
 
@@ -168,9 +160,9 @@ diagram_review:
 
 **位置**：diagrams/build/architecture.svg
 
-**问题**：组件布局可优化
+**问题**：布局可优化
 
-**建议**：调整位置减少交叉
+**建议**：调整组件位置
 
 **状态**：open
 ```
@@ -202,19 +194,17 @@ diagram_review:
 | ID | 严重性 | 描述 |
 |----|--------|------|
 | ISSUE-001 | high | ... |
-| ISSUE-002 | high | ... |
 
 ## 建议修复的问题
 
 | ID | 严重性 | 描述 |
 |----|--------|------|
-| ISSUE-003 | medium | ... |
-| ISSUE-004 | low | ... |
+| ISSUE-002 | medium | ... |
 
 ## 评审结论
 
-- [ ] approved - 可直接 merge
-- [ ] approved with minor fixes - 修复后 merge
+- [ ] approved - 可直接 apply
+- [ ] approved with minor fixes - 修复后 apply
 - [ ] needs revision - 需要重大修改后重新评审
 ```
 
@@ -238,19 +228,14 @@ resolution:
   ISSUE-001:
     resolved: true
     resolved_at: <date>
-    notes: "已修正公式"
-
-  ISSUE-002:
-    resolved: true
-    resolved_at: <date>
-    notes: "已统一术语"
+    notes: "已修正"
 ```
 
 ## Outputs
 
-- review/checklist.yaml
-- review/issues.md
-- review/review-summary.md
+- `review/checklist.yaml`
+- `review/issues.md`
+- `review/review-summary.md`
 
 ## Done Criteria
 
@@ -259,12 +244,16 @@ resolution:
 - [ ] High 问题已修复
 - [ ] 评审结论已给出
 
+## Next Step
+
+→ `merge-workflow.md`（apply 到 knowledge/）
+
 ## Failure Handling
 
 ### 评审发现重大问题
 
 **处理**：
-1. 暂停 merge
+1. 暂停 apply
 2. 重新研究问题
 3. 可能需要补充来源
 4. 重新评审
@@ -273,5 +262,5 @@ resolution:
 
 **处理**：
 1. 列出分歧点
-2. 优先采纳技术评审
+2. 优先采纳技术评审意见
 3. 记录不同意见

@@ -1,85 +1,139 @@
-schema: blockchain-research
+name: blockchain-research
+version: 3
+description: 面向区块链技术调研的研究驱动 OpenSpec 工作流
+
+# =============================================================================
+# 系统约束：资产模型（单一事实源）
+# =============================================================================
+# 本仓库只有一套长期资产模型：
+# - 过程层：openspec/changes/<change-id>/ 中的 request.md, plan.md, draft.md 等
+# - 长期资产层：knowledge/analysis/ 和 knowledge/decisions/ 中的 artifact.md / verdict.md
+#
+# knowledge/topics/ 是遗留目录，不再作为主线 canonical 资产目标
+# atoms/claims/terms 是可选中间工作结构，不作为长期正式产物
+# =============================================================================
 
 context: |
   仓库类型：基于 OpenSpec 的区块链技术调研工作台。
-  长期正式资产统一挂在 knowledge/ 下，并分为两类：
-  - knowledge/analysis/：长期事实分析资产
-  - knowledge/decisions/：长期场景决策资产
+
+  长期正式资产统一挂在 knowledge/ 下，分为两类：
+  - knowledge/analysis/primitives/：底层机制研究（按领域分组）
+  - knowledge/analysis/synthesis/：演进/综合分析
+  - knowledge/analysis/domains/：主题域定义
+  - knowledge/decisions/：场景决策分析
 
   研究对象模型：
-  - primitive：单个协议、单个 EIP、单个机制、单个链能力点
-  - synthesis：多个对象之间的关系、演进、分类、框架层分析
+  - primitive：单个协议、EIP、机制
+  - synthesis：多个对象之间的关系、演进、分类
   - domain：长期主题域与知识组织层
-  - decision：面向具体场景的比较、选型与判断
+  - decision：面向场景的比较、选型与判断
 
-  层级理解：
-  - 技术分析主链：primitive -> synthesis -> domain
-  - 决策应用层：decision 独立存在，但消费前述技术分析资产
-  - primitive 和 synthesis 不应通过路径硬绑定到某个 domain
-
-  主要研究路径：
-  - deep-dive
-  - evolution
-  - scenario
-
-  OpenSpec 使用方式：
-  - openspec/changes/<change-name>/ 用于承载当前一轮研究改动包
-  - knowledge/analysis/... 与 knowledge/decisions/... 用于承载长期维护的正式 case
-  - openspec/specs/... 用于承载可跨多次调研复用的研究系统 specs
-  - request.md、plan.md、evidence-matrix.md 等过程 artifact 不应进入长期 canonical 目录
+  研究路径：
+  - deep-dive：单个对象深度分析
+  - evolution：演进历史分析
+  - scenario：场景驱动分析
 
   写作规则：
   - 中文优先
-  - 英文术语优先保留
   - 先机制，后价值
-  - 先事实，后判断
   - 先边界，后结论
-  - 必须解释为什么这样设计，而不是那样设计
-  - 禁止把营销性表述直接写入结论
+  - 必须解释设计原因与替代方案
+  - 禁止营销性表述作为结论
 
-  证据政策：
-  - L1：官方 spec / EIP / whitepaper / protocol docs
-  - L2：官方 docs / repo / SDK / API / 实现证据
-  - L3：官方 blog / release / roadmap / ecosystem material
-  - L4：第三方解读 / 媒体 / 评论材料
-  - 技术结论优先依赖 L1/L2
-  - 必须区分原生协议能力、官方生态能力、第三方能力
-  - 必须区分已上线能力、规划中能力、宣传性表述
-  - 必须记录 evidence gaps 与 unresolved ambiguities
+artifacts:
+  # ==========================================================================
+  # request.md - 研究问题定义（过程文件）
+  # ==========================================================================
+  - id: request
+    generates: request.md
+    description: 定义研究问题、范围与非目标
+    template: request.md
+    instruction: |
+      创建研究入口文件，定义：
+      - 研究对象类型（primitive/synthesis/domain/decision）
+      - 研究路径（deep-dive/evolution/scenario）
+      - 研究背景与目的
+      - 范围与非目标
+      - 预期输出
 
-  复用规则：
-  - 上层研究必须声明依赖，而不是重写下层全文
-  - 每个上层依赖都必须声明 research budget：deep / focused / light
-  - glossary 层是核心 artifact，但默认并入 draft.md 与 reference.md 的术语区
-  - change packet 产出需要经过提炼后才能提升为 canonical asset
-  - primitive、synthesis、domain 的稳定内容提升为 knowledge 下的 reference.md
-  - decision 的 verdict.md 可以保留在长期目录
+      不提前写结论或完整机制。
+    requires: []
 
-rules:
-  request:
-    - 先定义问题、范围和非目标，再进入分析
-    - 明确当前对象属于 domain、primitive、synthesis、decision 中的哪一类
-    - request.md 不要求提前写清完整机制流程
-    - 需要后续确认的机制问题、层级判断和边界问题，进入 plan.md
-  plan:
-    - 合并研究计划与来源规划
-    - 明确写出 research path、research budget、source plan 和 completion criteria
-    - 明确区分 L1、L2、L3、L4，并标记 read、pending、needs verification
-    - 对 primitive，plan.md 应显式列出后续确认问题，例如为何不改传统 transaction 路径、角色位于哪一层、哪些能力不是 protocol-native
-  dependencies:
-    - 写明 dependency target、budget、strength、extraction scope 和 reason
-    - 不得脱离上下文直接搬运下层结论
-  decision-criteria:
-    - 决策标准必须服务具体场景，且可比较、可复核、可绑定证据
-    - 明确区分 hard constraints、soft preferences、open questions
-  evidence-matrix:
-    - 每条重要 claim 都要绑定到具体 evidence level
-    - 如果只有 L3/L4 证据，必须主动降低结论强度
-  draft:
-    - 合并 glossary、analysis、verdict
-    - 术语区必须使用列表，不使用按词分标题的卡片式结构
-    - 先解释机制，再解释影响
-    - 明确区分 protocol-native、official ecosystem、third-party 三层
-    - 明确区分 shipped、planned、promotional 三类状态
-    - 只输出 bounded conclusions，不输出脱离场景的 universal rankings
-    - 必须写清前提条件、证据基础和 unresolved questions
+  # ==========================================================================
+  # plan.md - 研究计划（过程文件）
+  # ==========================================================================
+  - id: plan
+    generates: plan.md
+    description: 研究计划、来源规划与依赖声明
+    template: plan.md
+    instruction: |
+      将 request 收紧为可执行计划：
+      - 研究路径与预算（deep/focused/light）
+      - 核心问题与后续确认问题
+      - 来源规划（L1/L2/L3/L4）
+      - 依赖声明（synthesis/decision 必需）
+      - 完成标准
+
+      这是 plan 文件，不是分析正文。
+    requires:
+      - request
+
+  # ==========================================================================
+  # draft.md - 集中 review 稿（过程文件）
+  # ==========================================================================
+  - id: draft
+    generates: draft.md
+    description: 合并术语、分析与结论的集中 review 文件
+    template: draft.md
+    instruction: |
+      创建集中 review 用的研究草稿：
+      - 先补关键术语区
+      - 先讲机制，再讨论价值
+      - 解释设计原因与替代方案
+      - 写清边界、前提、失败条件
+      - 输出有限结论
+      - 写清不能确认什么
+
+      类型适配：
+      - primitive：组件架构、核心流程、能力边界
+      - synthesis：演进框架、关系定位、趋势判断
+      - domain：问题簇、边界划分、价值定位
+      - decision：场景定义、比较维度、有限结论
+    requires:
+      - plan
+
+  # ==========================================================================
+  # decision-criteria.md - 决策标准（可选过程文件）
+  # ==========================================================================
+  - id: decision-criteria
+    generates: decision-criteria.md
+    description: 面向场景比较的决策标准（decision 类型可选）
+    template: decision-criteria.md
+    instruction: |
+      为 scenario 类研究创建决策标准：
+      - 定义具体场景
+      - 区分 hard constraints / soft preferences
+      - 解释每个标准为何重要
+      - 定义 confirmed/partial/unclear 判定
+
+      简单决策可直接在 plan.md 中说明，无需单独文件。
+    requires:
+      - plan
+
+apply:
+  # ==========================================================================
+  # Apply - 提升到 canonical 资产
+  # ==========================================================================
+  requires: [draft]
+  tracks: null
+  instruction: |
+    将通过评审的 draft 提升到 knowledge/ 长期资产：
+
+    目标位置：
+    - primitive → knowledge/analysis/primitives/<domain>/<topic>/artifact.md
+    - synthesis → knowledge/analysis/synthesis/<topic>/artifact.md
+    - domain → knowledge/analysis/domains/<domain>/artifact.md
+    - decision → knowledge/decisions/<domain>/<topic>/artifact.md + verdict.md
+
+    过程文件（request.md, plan.md）保留在 openspec/changes/，不进入 knowledge/。
+    术语区默认折叠进 artifact.md 或 verdict.md。
