@@ -15,8 +15,6 @@ term: <canonical term>
 aliases:
   - <alias 1>
   - <alias 2>
-category: <见下方枚举>
-layer: <见下方枚举>
 definition: <简洁定义，1-2 句>
 boundaries:
   includes:
@@ -34,58 +32,49 @@ sources:
   - <source id>
 ```
 
-## Category 枚举
+### 字段说明
 
-| Category | 描述 | 示例 |
-|----------|------|------|
-| protocol-entity | 协议实体 | UserOperation, Bundler, EntryPoint |
-| protocol-action | 协议行为/流程 | validateUserOp, executeUserOp |
-| protocol-state | 协议状态 | pending, confirmed, reverted |
-| protocol-parameter | 协议参数 | gasLimit, maxFeePerGas |
-| protocol-interface | 协议接口 | IEntryPoint, IAggregator |
-| conceptual | 概念性术语 | account abstraction, paymaster sponsorship |
-| role | 角色 | user, bundler, paymaster |
-| mechanism | 机制 | signature aggregation, gas metering |
-
-## Layer 枚举
-
-| Layer | 描述 | 示例 |
-|-------|------|------|
-| protocol | 协议层定义 | EIP-4337 规范中的 UserOperation |
-| implementation | 实现层 | 参考实现中的 structs.UserOperation |
-| ecosystem | 生态层 | Bundler 服务中的扩展字段 |
-| application | 应用层 | 钱包 UI 中的概念映射 |
+| 字段 | 说明 | 是否必填 |
+|------|------|----------|
+| `term` | 规范术语（canonical form） | 必填 |
+| `aliases` | 同义词、缩写、变体 | 可选 |
+| `definition` | 简洁定义，1-2 句 | 必填 |
+| `boundaries` | 边界声明（includes/excludes） | 可选，新术语建议填写 |
+| `forbidden_confusions` | 易混淆术语列表 | 可选，有已知陷阱时必填 |
+| `usage_constraints` | 使用约束 | 可选 |
+| `related_terms` | 相关术语及关系 | 可选 |
+| `sources` | 来源 ID 列表 | 必填 |
 
 ## 何时新建术语
 
 **必须**新建术语当：
 
 1. 当前 topic 引入新概念，且：
-   - 在 `knowledge/glossary/meta/concept-categories.yaml` 中有对应 category
    - 与已有术语有不同边界或约束
+   - 需要在 `boundaries` 中明确声明范围
 
-2. 下层 topic 定义了新的 protocol-entity 或 protocol-action
+2. 下层 topic 定义了新的实体或机制
 
 **禁止**新建术语当：
 
-1. 仅是已有术语的 synonym（应使用 aliases）
+1. 仅是已有术语的 synonym（应使用 `aliases`）
 2. 术语边界与已有术语重叠超过 80%
 3. 未在 L1/L2 来源中出现
 
 ### 新建流程
 
 ```
-1. 检查 knowledge/glossary/meta/ 中的 taxonomy
+1. 检查 knowledge/glossary/ 中是否已有该术语
 2. 检查依赖的 topic 中是否已有定义
 3. 在 topic 的 terms/ 下创建术语条目
-4. 如为跨 topic 通用术语，提交到 glossary/meta/
+4. 如为跨 topic 通用术语，提交到 knowledge/glossary/
 ```
 
 ## 何时复用术语
 
 **必须**复用术语当：
 
-1. 同一概念在同一 layer 已有定义
+1. 同一概念在同一 context 中已有定义
 2. 依赖的 topic 中已定义该术语
 3. 官方规范中使用相同术语
 
@@ -113,12 +102,12 @@ context_note: 本 topic 中特指 EIP-4337 定义的 UserOperation
 ### 在写作中的处理
 
 **禁止**：
-- "Bundler 类似于矿工"（混淆了不同层的角色）
+- "Bundler 类似于矿工"（混淆了不同 context 的角色）
 - "UserOperation 就是交易"（忽略关键差异）
 
 **必须**：
 - 首次使用时明确"不同于 X，本术语 Y 指..."
-- 在 boundaries 中明确 excludes
+- 在 `boundaries.excludes` 中明确排除项
 
 ## 在 Principle / Comparison / Diagram 中引用术语
 
@@ -127,7 +116,7 @@ context_note: 本 topic 中特指 EIP-4337 定义的 UserOperation
 ```markdown
 ## 关键术语
 
-**UserOperation** (category: protocol-entity, layer: protocol)
+**UserOperation**
 : ERC-4337 定义的用户操作原子，包含 sender, nonce, initCode, callData 等字段。
   不同于 Transaction，UserOperation 不直接存在于 L1 状态。
 
@@ -147,7 +136,7 @@ terms_used:
 
 ```plantuml
 ' 术语映射
-rectangle "UserOperation" as UO <<protocol-entity>>
+rectangle "UserOperation" as UO
 note "包含 sender, nonce, callData" as UO_NOTE
 UO .. UO_NOTE
 ```
@@ -158,9 +147,9 @@ UO .. UO_NOTE
 
 当同一术语在不同 topic 中有不同定义：
 
-1. **检查 layer 是否不同**
-   - 如 layer 不同，明确标注各自 layer
-   - 如 layer 相同，进入 reconciliate 流程
+1. **检查 context 是否不同**
+   - 如 context 不同，明确标注各自 context
+   - 如 context 相同，进入 reconciliate 流程
 
 2. **Reconciliate 流程**：
    ```
@@ -203,7 +192,6 @@ scripts/research/find_term_drift.py --term <term>
 | 跨 topic 通用 | `knowledge/glossary/terms/<term>.md` |
 | topic 特有 | `knowledge/topics/<topic>/terms/<term>.md` |
 | domain 特有 | `knowledge/domains/<domain>/terms/<term>.md` |
-| Meta 分类 | `knowledge/glossary/meta/*.yaml` |
 
 ## 示例：完整术语条目
 
@@ -215,8 +203,6 @@ term: UserOperation
 aliases:
   - UserOp
   - user operation (小写)
-category: protocol-entity
-layer: protocol
 definition: |
   ERC-4337 定义的用户操作原子，包含执行用户意图所需的全部信息。
   UserOperation 不直接存在于 L1 状态，而是通过 EntryPoint 合约处理。
