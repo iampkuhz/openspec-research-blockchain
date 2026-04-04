@@ -75,7 +75,7 @@
 **禁止**主观判断。
 
 **必须**：
-- 每个主张绑定 evidence level
+- 每个 `claim` 绑定 `evidence` level
 - 区分事实和观点
 - 说明数据来源
 

@@ -182,7 +182,7 @@ UserOperation 是基本单位 [L1: EIP-4337]。
 ### Step 7: 自审
 
 检查：
-- [ ] 所有主张都有 sources 支撑
+- [ ] 所有 `claim` 都有 `source` 支撑
 - [ ] 证据等级适当
 - [ ] 术语一致性
 - [ ] 边界清晰
@@ -210,7 +210,7 @@ UserOperation 是基本单位 [L1: EIP-4337]。
 
 **处理**：
 1. 降低结论置信度
-2. 标注 evidence gap
+2. 标注 `evidence-gap`
 3. 列入 `draft.md` 的 open questions
 
 ### 来源冲突

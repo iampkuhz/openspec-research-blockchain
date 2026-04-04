@@ -144,16 +144,20 @@ note: 用于说明规划来源，不作为实现证据
 
 ## Claim 定义与粒度
 
-### 什么是 Claim
+### 什么是 `claim`
 
-**Claim** = 一个可验证的技术主张/断言
+**`claim`** = 一个可验证的技术主张/断言
+
+**注意**：本文件统一使用英文 `claim` 作为术语，中文"主张"或"声明"仅在非技术性描述中出现。在技术文档写作中，必须使用 `` `claim` `` 格式（行内代码）以区别于日常英文。
+
+详情见：`harness/GLOBAL-GLOSSARY.md`
 
 **判断标准**：
 - 能用一句话清晰表述
 - 有明确的真伪判断
 - 能追溯到具体来源
 
-### Claim 粒度示例
+### `claim` 粒度示例
 
 | ❌ 不是 Claim（太笼统） | ✅ 是 Claim（可验证） |
 |--------------------------|------------------------|
@@ -162,9 +166,9 @@ note: 用于说明规划来源，不作为实现证据
 | "Gas 费用很低" | "verificationGasLimit 默认 100000" |
 | "AA 生态很成熟" | "Stackup 是 ERC-4337 Bundler 实现方之一" |
 
-### Claim 拆分原则
+### `claim` 拆分原则
 
-**一个 Claim 应该多细？**
+**一个 `claim` 应该多细？**
 
 | 场景 | 一个 Claim | 拆成多个 Claims |
 |------|-----------|-----------------|
@@ -189,28 +193,28 @@ claim-004: "Bundler 通过 EntryPoint.handleOps() 提交 UserOp"
 
 ### 结构要求
 
-每个 change 必须包含 `evidence-matrix.md` 或 `sources/source-pack.yaml` 中的 Claim 映射：
+每个 change 必须包含 `evidence-matrix.md` 或 `sources/source-pack.yaml` 中的 `claim` 映射：
 
 ```markdown
 ## Claim 映射
 
-| Claim ID | Claim 内容 | Source ID | Evidence Level | Confidence |
+| `claim` ID | `statement` 内容 | Source ID | Evidence Level | Confidence |
 |----------|-----------|-----------|----------------|------------|
-| claim-001 | "UserOperation 包含 sender 字段" | eip-4337 | L1 | high |
-| claim-002 | "Bundler 调用 handleOps()" | eip-4337, aa-repo | L1 + L2 | high |
-| claim-003 | "Stackup 是主流 Bundler 提供商" | stackup-docs | L2 | medium |
+| `claim-001` | "UserOperation 包含 sender 字段" | eip-4337 | L1 | high |
+| `claim-002` | "Bundler 调用 handleOps()" | eip-4337, aa-repo | L1 + L2 | high |
+| `claim-003` | "Stackup 是主流 Bundler 提供商" | stackup-docs | L2 | medium |
 ```
 
 ### 置信度计算
 
-| 证据组合 | Confidence |
+| `evidence` 组合 | `confidence` |
 |----------|------------|
-| 多个独立 L1 | high |
-| 单一 L1 或多 L2 | high |
-| 仅 L3 | medium |
-| 有 L4 支持但无 L1/L2 | low |
+| 多个独立 L1 | `high` |
+| 单一 L1 或多 L2 | `high` |
+| 仅 L3 | `medium` |
+| 有 L4 支持但无 L1/L2 | `low` |
 
-## Evidence Gap 处理
+## `evidence-gap` 处理
 
 ### 必须记录的场景
 
@@ -254,3 +258,17 @@ sources:
     confidence: high|medium|low
     notes: <可选说明>
 ```
+
+## 术语统一说明
+
+本文件中的核心术语：
+
+| 术语 | 格式 | 说明 |
+|------|------|------|
+| `claim` | 行内代码 | 可验证的技术主张 |
+| `statement` | 行内代码 | `claim` 的具体表述内容（YAML 字段名） |
+| `evidence` | 行内代码 | 支撑 `claim` 的来源材料 |
+| `confidence` | 行内代码 | 置信度（high/medium/low） |
+| `source` | 行内代码 | `evidence` 的载体 |
+
+详情见：`harness/GLOBAL-GLOSSARY.md`

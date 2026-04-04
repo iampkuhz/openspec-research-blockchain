@@ -2,13 +2,15 @@
 
 ## 目的
 
-确保所有知识主张都可追溯到来源，所有修改都可追溯到变更。
+确保所有知识主张（`claim`）都可追溯到来源，所有修改都可追溯到变更。
+
+**术语统一说明**：本政策统一使用英文 `` `claim` `` 作为术语，YAML 字段使用 `` `statement` `` 表示 `claim` 的具体表述内容。详情见 `harness/GLOBAL-GLOSSARY.md`。
 
 ## 可追溯性层级
 
-### L1: Claim → Source
+### L1: `claim` → `source`
 
-每个主张必须可追溯到具体来源：
+每个 `claim` 必须可追溯到具体 `source`：
 
 ```yaml
 # 在 claims/facts.yaml 中
@@ -22,9 +24,9 @@
   confidence: high
 ```
 
-### L2: Atom → Claims
+### L2: `atom` → `claim`
 
-每个知识原子必须绑定 claims：
+每个知识原子必须绑定 `claim`：
 
 ```markdown
 <!-- 在 atoms/core-mechanism.md 中 -->
@@ -37,9 +39,9 @@ UserOperation 是 ERC-4337 的基本单位 [← claim-001]。
 2. executeUserOp [← claim-016]
 ```
 
-### L3: Topic → Atoms
+### L3: `topic` → `atom`
 
-每个 topic 必须有 atom 索引：
+每个 `topic` 必须有 `atom` 索引：
 
 ```yaml
 # 在 topic overview.md 中
@@ -51,9 +53,9 @@ atoms:
   limits-and-assumptions: atoms/limits-and-assumptions.md
 ```
 
-### L4: Change → Topic
+### L4: `change` → `topic`
 
-每次更新必须有 change packet：
+每次更新必须有 `change` packet：
 
 ```yaml
 # 在 topic changelog.md 中
@@ -125,7 +127,7 @@ Related claims:
 ├── request.md           # 问题定义
 ├── plan.md              # 研究计划 + 来源规划
 ├── draft.md             # 术语 + 分析 + 结论
-├── evidence-matrix.md   # Claim-Source 映射
+├── evidence-matrix.md   # `claim`-`source` 映射
 ├── sources/
 │   ├── inbox.yaml       # 原始来源入口
 │   ├── fetched/         # 抓取的来源
@@ -170,15 +172,15 @@ scripts/research/find_term_drift.py --topic eip-4337
 ### 验证规则
 
 **必须通过**：
-- 所有 claims 都有 source 绑定
-- 所有 atoms 都有 claims 支撑
+- 所有 `claim` 都有 `source` 绑定
+- 所有 `atom` 都有 `claim` 支撑
 - 所有术语都有定义来源
-- 所有修改都有 change 记录
+- 所有修改都有 `change` 记录
 
 **禁止**：
 - 无来源的主张
-- 无 claims 的 atoms
-- 无 change 的主线修改
+- 无 `claim` 的 `atom`
+- 无 `change` 的主线修改
 
 ## 证据链示例
 
@@ -189,7 +191,7 @@ Topic: eip-4337
   ↓
 Atom: core-mechanism.md
   ↓
-  Claim: claim-001 ("UserOperation 包含 sender, nonce, callData")
+  `claim`: claim-001 ("UserOperation 包含 sender, nonce, callData")
     ↓
     Source: eip-4337 (L1)
       ↓

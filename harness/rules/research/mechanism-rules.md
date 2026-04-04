@@ -2,7 +2,7 @@
 
 ## 目的
 
-规范 mechanism atom 的写作结构和内容要求。
+规范 `mechanism atom` 的写作结构和内容要求。
 
 ## Mechanism Atom 结构
 

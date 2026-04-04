@@ -13,8 +13,17 @@ harness/
 │   ├── diagrams/         # 图表规则
 │   └── writing/          # 写作规则
 ├── workflows/            # 工作流定义
+├── GLOBAL-GLOSSARY.md    # 全局术语表（核心元术语）
 └── README.md             # 本文件
 ```
+
+## 全局术语表
+
+**核心元术语定义**：`GLOBAL-GLOSSARY.md`
+
+本术语表定义研究工作中的核心概念（如 `claim`、`evidence`、`source`、`traceability` 等），而非技术领域术语。
+
+**术语使用规范**：在文档中提到核心元术语时，必须使用行内代码格式（如 `` `claim` ``）以区别于日常英文。
 
 ## 与 OpenSpec 的关系
 

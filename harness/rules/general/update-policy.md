@@ -34,31 +34,31 @@
 ### 标准更新流程
 
 ```
-1. 创建 OpenSpec change
+1. 创建 OpenSpec `change`
    - 类型：update-topic 或 refactor-topic
    - 在 request.md 说明更新原因
 
 2. 读取现有知识
-   - 读取 topic 的 artifact.md 或 atoms
+   - 读取 `topic` 的 artifact.md 或 `atom`s
    - 读取相关的 comparison/principle
 
 3. 评估影响范围
-   - 哪些 atoms 需要更新
+   - 哪些 `atom`s 需要更新
    - 哪些 comparisons 需要重新评估
-   - 哪些 topics 依赖此知识
+   - 哪些 `topic`s 依赖此知识
 
 4. 执行更新
-   - 更新目标 atoms
-   - 更新 claims
+   - 更新目标 `atom`s
+   - 更新 `claim`s
    - 更新 changelog.md
 
 5. 验证
-   - 运行 traceability 检查
+   - 运行 `traceability` 检查
    - 运行术语一致性检查
    - Review
 
 6. Merge
-   - 将 change 产物合并到 knowledge/
+   - 将 `change` 产物合并到 knowledge/
    - 更新 indexes
 ```
 
@@ -67,17 +67,17 @@
 仅适用于修复严重错误：
 
 ```
-1. 创建 minimal change 记录
+1. 创建 minimal `change` 记录
 2. 直接修复 knowledge/
 3. 在 changelog.md 说明紧急原因
-4. 后续补充完整 evidence
+4. 后续补充完整 `evidence`
 ```
 
 ## 更新类型
 
 ### Type 1: Atom 更新
 
-**影响范围**：单个 atom
+**影响范围**：单个 `atom`
 **流程**：轻量流程
 **示例**：
 ```yaml
@@ -90,7 +90,7 @@ reason: "补充 EIP-3860 影响"
 
 ### Type 2: Topic 更新
 
-**影响范围**：整个 topic
+**影响范围**：整个 `topic`
 **流程**：标准流程
 **示例**：
 ```yaml
@@ -104,7 +104,7 @@ reason: "EIP-4337 规范版本从 v0.6 更新到 v0.7"
 
 ### Type 3: 重构 Topic
 
-**影响范围**：topic 结构
+**影响范围**：`topic` 结构
 **流程**：完整流程 + 额外 review
 **示例**：
 ```yaml
@@ -133,8 +133,8 @@ reason: "提高原子化程度"
 ### 结构兼容性
 
 **禁止**：
-- 删除 atom 而不留说明
-- 改变 atom 语义
+- 删除 `atom` 而不留说明
+- 改变 `atom` 语义
 
 **必须**：
 - 在 changelog.md 记录结构变更
@@ -142,19 +142,19 @@ reason: "提高原子化程度"
 
 ### Claim 兼容性
 
-当更新导致 claim 变化：
+当更新导致 `claim` 变化：
 
 | 变化类型 | 处理方式 |
 |----------|----------|
-| 修正错误 | 标记 claim 为 deprecated，新增 claim |
-| 补充细节 | 更新原 claim，记录版本 |
-| 改变结论 | 保留原 claim 为 historical，新增 claim |
+| 修正错误 | 标记 `claim` 为 deprecated，新增 `claim` |
+| 补充细节 | 更新原 `claim`，记录版本 |
+| 改变结论 | 保留原 `claim` 为 historical，新增 `claim` |
 
 ## 依赖管理
 
 ### 更新有依赖的 topic
 
-当 topic A 依赖 topic B，更新 B 时：
+当 `topic` A 依赖 `topic` B，更新 B 时：
 
 ```
 1. 检查 A 的 dependencies.md

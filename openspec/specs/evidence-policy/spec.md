@@ -9,5 +9,5 @@
 - 技术主张优先依赖 `L1` 或 `L2` 证据。
 - 必须区分协议原生能力、官方生态能力、第三方能力。
 - 必须区分已上线能力、规划中能力、宣传性表述。
-- 必须显式记录 `evidence gap` 与 `unresolved ambiguity`。
+- 必须显式记录 `` `evidence-gap` `` 与 `unresolved ambiguity`。
 - `decision` 输出必须继承这些证据约束，不得绕开。

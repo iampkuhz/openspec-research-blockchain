@@ -2,7 +2,7 @@
 
 ## Goal
 
-将通过评审的 change 产物应用到 `knowledge/` 主线。
+将通过评审的 `change` 产物应用到 `knowledge/` 主线。
 
 **注意**：本流程由 OpenSpec `apply` 命令执行，不是手动 merge。
 
@@ -99,4 +99,4 @@ Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>
 
 **处理**：
 1. 如 minor，记录到后续更新计划
-2. 如 major，创建新的 change
+2. 如 major，创建新的 `change`

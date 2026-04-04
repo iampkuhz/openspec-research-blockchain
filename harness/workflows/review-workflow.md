@@ -51,11 +51,11 @@ openspec/changes/<change-id>/review/
 ```yaml
 # review/checklist.yaml
 accuracy:
-  - item: 所有主张有 sources 支撑
+  - item: 所有 `claim` 都有 `source` 支撑
     status: pass/fail
     notes: ""
 
-  - item: 证据等级适当（L1/L2 用于核心主张）
+  - item: 证据等级适当（L1/L2 用于核心 `claim`）
     status: pass/fail
     notes: ""
 

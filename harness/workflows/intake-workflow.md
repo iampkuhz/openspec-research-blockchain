@@ -20,7 +20,7 @@
 
 ## Step-by-Step Procedure
 
-### Step 1: 判断研究对象类型
+## Step 1: 判断研究对象类型
 
 | 类型 | 描述 | 示例 | 产出位置 |
 |------|------|------|----------|
@@ -54,7 +54,7 @@ find knowledge/ -name "*<topic>*"
 
 ### Step 4: 创建 OpenSpec Change
 
-**必须**创建 change，禁止直接修改 `knowledge/`。
+**必须**创建 `change`，禁止直接修改 `knowledge/`。
 
 ```bash
 # 使用 OpenSpec 命令
@@ -90,12 +90,12 @@ openspec new change <name> --schema blockchain-research
 
 - [ ] 对象类型已确定
 - [ ] 研究路径已确定
-- [ ] Change 已创建
+- [ ] `change` 已创建
 - [ ] request.md 已填写
 
 ## Next Step
 
-→ `harness/workflows/source-workflow.md`（收集来源）
+→ `harness/workflows/source-workflow.md`（收集 `source`）
 → 或使用 `skills/openspec-research-build-plan/` 辅助生成 plan.md
 
 ## Failure Handling
