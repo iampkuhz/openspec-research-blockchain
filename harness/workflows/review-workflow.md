@@ -115,7 +115,7 @@ readability:
 
 ```yaml
 diagram_review:
-  - item: 抽象层不混用
+  - item: 抽象层次清晰（规范/实现/生态不混淆）
     status: pass/fail/na
 
   - item: 关系语义正确

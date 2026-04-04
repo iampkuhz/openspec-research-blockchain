@@ -12,7 +12,7 @@ domains:
     rules:
       - harness/rules/general/repo-governance.md
       - harness/rules/general/terminology-policy.md
-      - harness/rules/research/definition-rules.md
+      - harness/rules/research/atom-definition-rules.md
 
   source:
     description: "来源验证与证据提取"
@@ -27,7 +27,7 @@ domains:
     rules:
       - harness/rules/general/terminology-policy.md
       - harness/rules/general/traceability-policy.md
-      - harness/rules/research/definition-rules.md
+      - harness/rules/research/atom-definition-rules.md
       - harness/rules/writing/structure-rules.md
 
   mechanism:
@@ -90,7 +90,7 @@ rule_metadata:
     - traceability-policy.md
     - update-policy.md
   research:
-    - definition-rules.md
+    - atom-definition-rules.md
     - mechanism-rules.md
     - evolution-rules.md
     - comparison-rules.md
