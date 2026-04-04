@@ -22,10 +22,10 @@
 
 | 笔记类型 | Rules |
 |----------|-------|
-| definition | definition-rules.md, structure-rules.md |
-| mechanism | mechanism-rules.md, structure-rules.md, table-rules.md |
-| evolution | evolution-rules.md, structure-rules.md |
-| comparison | comparison-rules.md, table-rules.md, summary-rules.md |
+| definition | `atom-definition-rules.md`, `structure-rules.md` |
+| mechanism | `atom-mechanism-rules.md`, `structure-rules.md`, `table-rules.md` |
+| evolution | `atom-evolution-rules.md`, `structure-rules.md` |
+| comparison | `note-comparison-rules.md`, `table-rules.md`, `summary-rules.md` |
 
 ## Step-by-Step Procedure
 
@@ -44,7 +44,7 @@ openspec/changes/<change-id>/
 
 ### Step 2: 编写 Definition Note
 
-按照 `definition-rules.md` 编写：
+按照 `atom-definition-rules.md` 编写：
 
 ```markdown
 # 定义
@@ -81,7 +81,7 @@ openspec/changes/<change-id>/
 
 ### Step 3: 编写 Mechanism Note
 
-按照 `mechanism-rules.md` 编写：
+按照 `atom-mechanism-rules.md` 编写：
 
 ```markdown
 # 概述
@@ -117,7 +117,7 @@ openspec/changes/<change-id>/
 
 ### Step 4: 编写 Evolution Note
 
-按照 `evolution-rules.md` 编写：
+按照 `atom-evolution-rules.md` 编写：
 
 ```markdown
 # 演进概述
@@ -144,7 +144,7 @@ openspec/changes/<change-id>/
 
 ### Step 5: 编写 Comparison Note
 
-按照 `comparison-rules.md` 编写：
+按照 `note-comparison-rules.md` 编写：
 
 ```markdown
 # 比较分析

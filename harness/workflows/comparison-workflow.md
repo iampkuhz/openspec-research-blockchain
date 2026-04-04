@@ -17,7 +17,7 @@
 
 ## Rule Set to Load
 
-- harness/rules/research/comparison-rules.md
+- harness/rules/research/note-comparison-rules.md
 - harness/rules/writing/table-rules.md
 - harness/rules/writing/summary-rules.md
 

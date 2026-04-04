@@ -26,10 +26,10 @@
 
 | 对象类型 | Rules |
 |----------|-------|
-| primitive | definition-rules.md / mechanism-rules.md |
-| synthesis | evolution-rules.md / comparison-rules.md |
-| domain | definition-rules.md |
-| decision | comparison-rules.md / decision-criteria |
+| primitive | `atom-definition-rules.md` / `atom-mechanism-rules.md` |
+| synthesis | `atom-evolution-rules.md` / `note-comparison-rules.md` |
+| domain | `atom-definition-rules.md` |
+| decision | `note-comparison-rules.md` / decision-criteria |
 
 ## Step-by-Step Procedure
 

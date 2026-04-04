@@ -35,7 +35,7 @@ domains:
     rules:
       - harness/rules/general/evidence-policy.md
       - harness/rules/general/traceability-policy.md
-      - harness/rules/research/mechanism-rules.md
+      - harness/rules/research/atom-mechanism-rules.md
       - harness/rules/writing/structure-rules.md
       - harness/rules/writing/table-rules.md
 
@@ -44,7 +44,7 @@ domains:
     rules:
       - harness/rules/general/evidence-policy.md
       - harness/rules/general/traceability-policy.md
-      - harness/rules/research/evolution-rules.md
+      - harness/rules/research/atom-evolution-rules.md
       - harness/rules/writing/structure-rules.md
 
   comparison:
@@ -52,7 +52,7 @@ domains:
     rules:
       - harness/rules/general/evidence-policy.md
       - harness/rules/general/terminology-policy.md
-      - harness/rules/research/comparison-rules.md
+      - harness/rules/research/note-comparison-rules.md
       - harness/rules/writing/table-rules.md
       - harness/rules/writing/summary-rules.md
 
@@ -91,9 +91,9 @@ rule_metadata:
     - update-policy.md
   research:
     - atom-definition-rules.md
-    - mechanism-rules.md
-    - evolution-rules.md
-    - comparison-rules.md
+    - atom-mechanism-rules.md
+    - atom-evolution-rules.md
+    - note-comparison-rules.md
     - source-validation-rules.md
     - uncertainty-rules.md
   diagrams:
