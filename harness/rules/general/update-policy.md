@@ -9,9 +9,9 @@
 ### 必须更新知识当
 
 1. **来源变更**
-   - 规范更新（EIP 版本升级）
+   - 规范/标准更新（如 EIP、RFC、协议规范版本升级）
    - 参考实现有 breaking changes
-   - 官方宣布废弃某机制
+   - 官方宣布废弃某机制或特性
 
 2. **发现错误**
    - 机制描述有误
@@ -79,41 +79,44 @@
 
 **影响范围**：单个 `atom`
 **流程**：轻量流程
-**示例**：
+
+**request.md 模板**：
 ```yaml
 change_type: atom-update
-target: eip-4337/atoms/core-mechanism.md
+target: <topic>/<atom-name>.md
 sections:
-  - "Gas Calculation"
-reason: "补充 EIP-3860 影响"
+  - <section-name>
+reason: <更新原因>
 ```
 
 ### Type 2: Topic 更新
 
 **影响范围**：整个 `topic`
 **流程**：标准流程
-**示例**：
+
+**request.md 模板**：
 ```yaml
 change_type: topic-update
-target: eip-4337
+target: <topic-name>
 atoms:
-  - core-mechanism
-  - limits-and-assumptions
-reason: "EIP-4337 规范版本从 v0.6 更新到 v0.7"
+  - <atom-1>
+  - <atom-2>
+reason: <更新原因，如规范版本升级>
 ```
 
 ### Type 3: 重构 Topic
 
 **影响范围**：`topic` 结构
 **流程**：完整流程 + 额外 review
-**示例**：
+
+**request.md 模板**：
 ```yaml
 change_type: topic-refactor
-target: eip-4337
+target: <topic-name>
 changes:
-  - 拆分 core-mechanism 为 mechanism-overview 和 gas-mechanism
-  - 新增 integration-points atom
-reason: "提高原子化程度"
+  - <变更描述 1>
+  - <变更描述 2>
+reason: <重构原因>
 ```
 
 ## 向后兼容性
@@ -163,80 +166,119 @@ reason: "提高原子化程度"
 4. 在 A 的 changelog.md 记录
 ```
 
-### 依赖强度
+### 依赖强度定义
+
+在 `dependencies.md` 中声明依赖关系：
 
 ```yaml
 dependencies:
-  - topic: eip-4337
-    strength: strong  # B 的变化很可能影响 A
-    budget: deep      # 需要深度 re-read
-
-  - topic: account-abstraction-domain
-    strength: light   # 仅复用术语
-    budget: focused   # 仅需检查术语一致性
+  - topic: <topic-name>
+    strength: <strong|light>
+    budget: <deep|focused>
 ```
+
+**依赖强度枚举**：
+
+| strength | 说明 | 触发 refresh 条件 |
+|----------|------|------------------|
+| `strong` | B 的变化很可能影响 A | B 的任何更新 |
+| `light` | 仅复用术语或概念 | B 的核心机制变化 |
+
+**检查预算枚举**：
+
+| budget | 说明 | 检查范围 |
+|--------|------|----------|
+| `deep` | 需要深度 re-read | 全文检查 + claims 验证 |
+| `focused` | 仅需检查特定方面 | 依赖的相关 atoms |
 
 ## Changelog 格式
 
-```yaml
-# 在 topic/changelog.md 中
-changelog:
-  - version: "1.1"
-    date: 2024-01-15
-    change_id: primitive-eip-4337-deep-dive-pass-2
-    type: update
+### 文件位置
 
-    summary: "补充 gas 计算细节，更新术语定义"
+`changelog.md` 必须位于 `topic` 目录下。
+
+### 必填字段
+
+每个 changelog 条目必须包含：
+
+```yaml
+changelog:
+  - version: "<semver 版本>"
+    date: <YYYY-MM-DD>
+    change_id: <change-id>
+    type: <update|refactor>
+
+    summary: "<更新摘要>"
 
     changes:
-      - atom: core-mechanism
-        action: updated
+      - atom: <atom-name>
+        action: <updated|added|removed|renamed>
         sections:
-          - "Gas Calculation"
-        summary: "补充 EIP-3860 对 initCode 的影响"
+          - <section-name>
+        summary: "<变更摘要>"
 
-      - atom: definition
-        action: updated
-        sections:
-          - "Key Terms"
-        summary: "更新 UserOperation 定义，明确边界"
-
-    breaking_changes: []
-    deprecated_claims:
-      - claim-020
-      reason: "旧 gas 计算方式不再准确"
-
-    new_claims:
-      - claim-025
-      - claim-026
+    breaking_changes: []  # 如有，列出并说明
+    deprecated_claims: [] # 如有，列出 claim IDs
+    new_claims: []        # 如有，列出 claim IDs
 
     related_changes:
-      - change_id: evolution-aa-eip-pass-2
-        relationship: "consumes this update"
+      - change_id: <related-change-id>
+        relationship: "<关系说明>"
 ```
+
+### 字段说明
+
+| 字段 | 类型 | 说明 |
+|------|------|------|
+| `version` | string | Topic 版本号，遵循 semver |
+| `date` | date | 更新日期 |
+| `change_id` | string | 对应的 change ID |
+| `type` | enum | 更新类型：`update` 或 `refactor` |
+| `summary` | string | 本次更新的高层摘要 |
+| `changes` | array | 详细变更列表 |
+| `changes[].atom` | string | 被更新的 atom 名称 |
+| `changes[].action` | enum | 操作类型 |
+| `changes[].sections` | array | 被更新的具体章节 |
+| `changes[].summary` | string | 该变更的摘要 |
+| `breaking_changes` | array | Breaking changes 列表 |
+| `deprecated_claims` | array | 被废弃的 claim IDs |
+| `new_claims` | array | 新增的 claim IDs |
+| `related_changes` | array | 相关的其他 changes |
 
 ## 版本标记
 
-### Topic 版本
+### Topic 版本格式
+
+在 topic overview 文件（如 `overview.md`）的 frontmatter 中声明：
 
 ```yaml
-# 在 topic overview.md 的 frontmatter 中
 ---
-topic: eip-4337
-version: "1.1"
-last_updated: 2024-01-15
-last_change_id: primitive-eip-4337-deep-dive-pass-2
+topic: <topic-name>
+version: "<semver 版本>"
+last_updated: <YYYY-MM-DD>
+last_change_id: <change-id>
 ---
 ```
 
-### Atom 版本
+### Atom 版本格式
 
-```yaml
-# 在 atom 文件顶部
+在 `atom` 文件顶部使用 HTML 注释声明：
+
+```html
 <!--
-  Atom: core-mechanism
-  Version: 1.1
-  Last Updated: 2024-01-15
-  Change: primitive-eip-4337-deep-dive-pass-2
+  Atom: <atom-name>
+  Version: <semver 版本>
+  Last Updated: <YYYY-MM-DD>
+  Change: <change-id>
 -->
 ```
+
+### 版本号规范
+
+遵循 semver 格式：`<major>.<minor>.<patch>`
+
+| 变更类型 | 版本号更新 |
+|----------|------------|
+| breaking change | `major` + 1 |
+| 新增内容/大幅更新 | `minor` + 1 |
+| 小幅修正/勘误 | `patch` + 1 |
