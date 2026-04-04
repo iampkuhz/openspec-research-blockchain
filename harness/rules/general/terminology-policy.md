@@ -193,46 +193,31 @@ scripts/research/find_term_drift.py --term <term>
 | topic 特有 | `knowledge/topics/<topic>/terms/<term>.md` |
 | domain 特有 | `knowledge/domains/<domain>/terms/<term>.md` |
 
-## 示例：完整术语条目
+## 术语条目模板
 
 ```yaml
-# knowledge/glossary/terms/user-operation.md
+# knowledge/glossary/terms/<term>.md
 ---
-name: user-operation
-term: UserOperation
+name: <term-name>
+term: <Canonical Term>
 aliases:
-  - UserOp
-  - user operation (小写)
+  - <alias 1>
 definition: |
-  ERC-4337 定义的用户操作原子，包含执行用户意图所需的全部信息。
-  UserOperation 不直接存在于 L1 状态，而是通过 EntryPoint 合约处理。
+  <简洁定义，1-2 句>
 boundaries:
   includes:
-    - sender 账户地址
-    - nonce 防重放
-    - initCode (可选) 合约部署代码
-    - callData 调用数据
-    - gas 限制和价格参数
-    - paymaster 相关字段 (可选)
-    - signature 用户签名
+    - <包含的内容>
   excludes:
-    - L1 Transaction 的 blockNumber
-    - L1 Transaction 的 transactionIndex
-    - 传统交易的 v/r/s 签名格式
+    - <不包含的内容>
 forbidden_confusions:
-  - 不可与 Transaction 混用
-  - 不可与 CallRequest 混用
+  - <易混淆术语>
 usage_constraints:
-  - 仅在 ERC-4337 上下文中使用
-  - 必须区分 UserOperation 和包装后的 Transaction
+  - <使用约束>
 related_terms:
-  - term: Transaction
-    relation: mapped-to
-  - term: EntryPoint
-    relation: processed-by
+  - term: <相关术语>
+    relation: <关系类型>
 sources:
-  - eip-4337
-  - account-abstraction-repo
+  - <source id>
 ---
 
 ## 正文

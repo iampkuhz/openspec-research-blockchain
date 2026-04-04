@@ -182,45 +182,5 @@ scripts/research/review_uncertainties.py --topic <topic>
 
 1. 检查相关来源更新
 2. 更新不确定性状态
-3. 如已解决，更新相关 claims
+3. 如已解决，更新相关 `claim`s
 4. 记录在 changelog
-
-## 示例：完整不确定性记录
-
-```yaml
-# uncertainties.yaml
-uncertainties:
-  - uncertainty_id: UNC-001
-    created_at: 2024-01-10
-    type: insufficient-evidence
-    subject: "EIP-7702 Gas 计算"
-
-    description: |
-      EIP-7702 的具体 gas 计算方式在规范中未明确。
-      目前仅有 Vitalik 博客中的粗略估算。
-
-    current_understanding: |
-      可能使用 base_cost + calldata_cost 模式，
-      但具体参数未知。
-
-    evidence_gaps:
-      - 规范草案无详细公式
-      - 无参考实现
-      - 无官方测试向量
-
-    related_claims:
-      - claim-gas-estimate
-
-    impact: |
-      如计算方式与当前理解有重大差异，
-      成本分析部分需要重写。
-
-    status: unresolved
-
-    tracking:
-      - EIP-7702 规范更新
-      - 参考实现发布
-
-    last_reviewed: 2024-01-15
-    next_review: 2024-02-15
-```

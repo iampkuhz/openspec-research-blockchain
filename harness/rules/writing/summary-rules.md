@@ -177,51 +177,6 @@ Gas 计算三个核心环节。
 | 1000-3000 字 | 100-200 字 |
 | 3000-5000 字 | 200-300 字 |
 | >5000 字 | 300-500 字 |
-
-## 示例
-
-### 示例 1: Definition Atom 摘要
-
-```markdown
-# EIP-4337 定义
-
-EIP-4337 是一个实现账户抽象的 ERC 标准。
-
-## 摘要
-
-EIP-4337 通过 UserOperation 伪交易和 EntryPoint 合约，
-在应用层实现账户抽象。核心角色包括 Bundler、Paymaster、
-Aggregator。与 EIP-2938 不同，不修改协议层。
-
-[正文]
-```
-
-### 示例 2: Comparison Note 摘要
-
-```markdown
-# BFT 共识比较
-
-## 摘要
-
-对比 Tendermint、QBFT、Simplex、Malachite 四种 BFT 共识方案。
-Tendermint 生态最成熟，Simplex 性能最优，Malachite 是新兴
-方案。联盟链推荐 QBFT，公链推荐 Tendermint，高性能场景可
-考虑 Malachite（风险较高）。
-
-[正文]
-```
-
-### 示例 3: Evolution Atom 摘要
-
-```markdown
-# AA EIP 演进
-
-## 摘要
-
-AA EIP 从 2021 年 EIP-2938 发展至今，经历了协议层探索、
-ERC 方案、方案分化三阶段。当前 EIP-4337 已主网上线，
-EIP-7702 在规划中。演进驱动因素包括技术复杂性、生态需求、
-Gas 优化。
 ```
 
 ## 检查清单
