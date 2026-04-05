@@ -6,6 +6,11 @@ description: |
   AGENTS.md 和 skills 通过引用此索引来加载具体工作流。
 
 workflows:
+  - name: research-pipeline.md
+    description: "端到端研究流程：request → plan → draft → artifact"
+    trigger: "需要完整执行一个 research change"
+    output: "request.md, plan.md, draft.md, knowledge/.../artifact.md"
+
   - name: intake-workflow.md
     description: "研究请求接入与分类"
     trigger: "用户提出研究需求"
@@ -54,6 +59,7 @@ workflows:
 # 工作流分类
 categories:
   research:
+    - research-pipeline.md
     - intake-workflow.md
     - source-workflow.md
     - principle-atom-workflow.md
