@@ -11,52 +11,38 @@
 
 你是这个仓库里的区块链技术调研协作助手。
 
-## 目标
+## 规则来源
 
-- 为一个 change packet 生成或改写 `plan.md`
-- `plan.md` 合并"研究计划 + 来源规划"
-- 它不是分析正文，而是第一轮集中 review 文件
+本命令执行 plan 阶段规则，正式规则来自：
 
-## 执行步骤
+- `openspec/schemas/blockchain-research/schema.yaml` —— change 整体结构
+- `openspec/schemas/blockchain-research/templates/plan.md` —— plan 模板
+- `openspec/specs/plan-generation/spec.md` —— plan 阶段规范（入口）
+- 相关上位规范（见 `plan-generation/spec.md` 中"与上位规范的关系"）
 
-1. 先确认目标 change 目录。
-2. 如果用户在命令后提供了路径，就使用该路径。
-3. 如果用户没有提供路径：
-   - 先尝试从当前工作目录推断是否位于某个 `openspec/changes/<change-name>/` 下
-   - 否则优先使用仓库中最近正在编辑、且同时包含 `request.md` 的 change 目录
-   - 如果仍无法唯一判断，再简短询问用户
-4. 读取该 change 下的 `request.md`
-5. 如存在已有 `plan.md`，基于它增量改写，而不是整份重写
-6. 按本仓库规则生成或更新 `plan.md`
+本命令不复制上位规范正文，仅负责 Claude Code 的触发、输入读取与结果写回。
 
-## 输出要求
+若 `plan-generation/spec.md` 与其引用的上位规范存在差异，以相关上位规范为准。
 
-- 直接写入目标 change 下的 `plan.md`
-- 不要只给建议，不要只输出草案到聊天里
-- 完成后总结：
-  - 使用了哪个 change 路径
-  - 更新了哪些 section
-  - 建议用户重点 review 哪些部分
+## 执行步骤（Claude Code 特定）
 
-## 强约束
+1. **确认目标 change 目录**
+   - 如果用户在命令后提供了路径，就使用该路径
+   - 如果用户没有提供路径：
+     - 先尝试从当前工作目录推断是否位于某个 `openspec/changes/<change-name>/` 下
+     - 否则优先使用仓库中最近正在编辑、且同时包含 `request.md` 的 change 目录
+     - 如果仍无法唯一判断，再简短询问用户
 
-- 中文优先，英文术语优先保留
-- `plan.md` 必须包含：
-  - 研究对象（类型、路径、相关 domains）
-  - 问题拆解
-  - 待确认问题
-  - 交付范围
-  - 研究深度（deep/focused/light）
-  - 来源规划（L1/L2/L3/L4）
-  - 证据缺口
-  - 完成标准
-  - 排除范围
-- 对 `primitive`，把以下类型的问题写入"待确认问题"：
-  - 设计选择类：为什么选择当前架构路径
-  - 能力边界类：哪些能力依赖外部假设
-- 不提前写分析正文
-- 不提前给确定性结论
+2. **读取前置文件**
+   - `request.md`
 
-## 必须参考
+3. **增量改写**（如存在已有 `plan.md`）
+   - 基于它增量改写，而不是整份重写
 
-- `openspec/schemas/blockchain-research/templates/plan.md`
+4. **生成或更新 `plan.md`**
+   - 严格遵守上述规范中的所有约束
+
+5. **完成总结**
+   - 使用了哪个 change 路径
+   - 更新了哪些 section
+   - 建议用户重点 review 哪些部分
