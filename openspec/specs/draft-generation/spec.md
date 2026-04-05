@@ -1,198 +1,139 @@
-# Draft 生成规范
+# Draft 阶段规范
 
 ## 目的
 
-定义为本仓库中 research change 生成 `draft.md` 的标准，确保输出一致、结构清晰、图表规范。
+定义本仓库 blockchain research change 中 `draft.md` artifact 的正式规则，包括：
+- draft 在 research change 中的定位
+- 进入 draft 阶段的前置条件
+- draft 必须满足的形式要求
+- draft 完成标准
 
-## 目标
+## 适用范围
 
-- 为一个 change packet 生成或改写 `draft.md`
-- `draft.md` 合并"关键术语 + 分析正文 + 有限结论"
-- 它是第二轮集中 review 文件
+本规范适用于本仓库所有 research change 的 draft 阶段。
 
-## 何时使用
+## draft.md 的定位
 
-- `plan.md` 已经通过 review
-- 来源规划已经足以支撑第一轮正文
-- 需要把术语、分析、有限结论合并为一次 review
+`draft.md` 是 research change 的第二轮集中 review artifact，负责：
+- 合并关键术语、分析正文、有限结论为单一交付物
+- 承载该 change 的核心图表（演进、架构、流程、对比）
+- 作为从 plan 阶段迈向 synthesis 阶段的过渡交付物
 
-## 执行步骤
+## 进入 draft 阶段的前置条件
 
-1. 确认目标 change 目录
-2. 读取该 change 下的：
-   - `request.md`
-   - `plan.md`
-   - `dependencies.md`（如有）
-   - `evidence-matrix.md`（如有）
-3. 如存在已有 `draft.md`，基于它增量改写
-4. 按本规范生成或更新 `draft.md`
+必须满足以下条件方可进入 draft 阶段：
 
-## 输出要求
+1. **plan.md 已完成 review**
+   - `plan.md` 已存在且通过 review
 
-- 直接写入目标 change 下的 `draft.md`
-- 不要只给建议，不要只输出草案到聊天里
-- 完成后总结：
-  - 使用了哪个 change 路径
-  - 更新了哪些 section
-  - 建议用户重点 review 哪些部分
+2. **来源规划足以支撑正文**
+   - `evidence-matrix.md`（如有）已足以支撑第一轮分析
 
-## 强约束
+## draft 阶段的正式要求
 
-### 图表策略
+### 结构要求
 
-**图表优先级（从高到低）**：
+`draft.md` 必须包含以下章节（顺序固定）：
 
-1. **PlantUML**（复杂图首选）
-   - 适用：组件架构图、核心流程时序图、复杂关系网络
-   - 必须通过 `feipi-gen-plantuml-code` skill 生成
-   - 必须通过 `syntax_result=ok` 校验
+1. 概述
+2. 术语表
+3. 组件架构
+4. 核心流程（如必要）
+5. 设计取舍
+6. 能力边界
+7. 相关协议对比
+8. 结论
+9. 待确认问题
+10. 参考资料
 
-2. **Mermaid**（简单图备选）
-   - 适用：简单流程图、时序图、时间线
-   - GitHub 原生支持，语法简洁
+### 术语表要求
 
-3. **Markdown 表格**（结构化信息首选）
-   - 适用：特性对比、能力归属、时间线、状态对比
-   - 零依赖、占用空间最小
+- 必须使用**表格形式**（三列：术语、定义、作用）
+- 不得采用按词分标题的卡片式写法
 
-4. **URL 图**（外部引用）
-   - 适用：已有官方图表、复杂架构图
-   - 直接引用官方来源链接
+### 图表要求
 
-5. **本地图片文件**（最差选项）
-   - 仅在以上方案都无法满足时使用
-   - 需说明原因
+draft 阶段必须遵守：
 
-### 图表优先原则
+- `openspec/specs/diagram-policy/spec.md`
+- `openspec/specs/architecture-diagram-quality/spec.md`
+- `openspec/specs/component-abstraction-level/spec.md`
 
-**必须遵循图表优先原则**：
+**draft 阶段落点**：
+- 必须包含核心图表：演进时间线图、组件架构图、核心流程图、能力归属表、对比表格
+- 图表必须承载主干信息（演进脉络、架构关系、流程步骤）
 
-1. **先图后文**：能可视化的内容必须先展示图表，再用文字补充图中不易表达的细节
-2. **图表承载主干**：演进脉络、架构关系、流程步骤等主干信息必须由图表承载
-3. **文字补充细节**：文字只补充图表中不易展示的：
-   - 设计原因和 trade-off
-   - 失败条件和边界情况
-   - 证据等级和不确定性
-   - 具体数值和引用来源
-4. **禁止文字重复图表**：不得用大段文字完整复述图表已清晰表达的内容
+### 内容要求
 
-### 分层图表策略
-
-对于复杂主题，必须采用分层图表策略：
-
-1. **主框架图**：展示整体演进脉络/架构全景
-2. **子阶段图**：每个关键阶段/子模块有自己的详细图表
-3. **对比表格**：特性对比、能力归属等结构化信息优先用表格
-
-### 图表规划要求
-
-**在 `draft.md` 中必须显式列出所有图表**：
-
-- **synthesis 类型**：
-  - 演进时间线图（必须）
-  - 问题层分布图（必须）
-  - 演进关系图（必须）
-  - 阶段子图（推荐）
-  - 对比表格（必须）
-
-- **primitive 类型**：
-  - 组件架构图（必须）
-  - 核心流程图（必须）
-  - 能力归属表（必须）
-  - 子流程图（推荐）
-
-- **domain 类型**：
-  - 问题簇划分图（必须）
-  - 与相邻 domain 关系图（必须）
-
-### 架构图设计原则
-
-**禁止死板分层**：
-
-- 不得按"应用层、协议层、实现层"等抽象分层组织架构图
-- 必须按**真实场景**归纳组件和模块
-
-**必须遵循的原则**：
-
-1. **场景驱动**：按实际使用场景组织组件（如"用户交易提交场景"、"Bundler 打包场景"）
-2. **角色清晰**：每个组件标注"谁提供的服务"、"哪里实现"
-3. **结合实例**：组件说明必须结合现有著名项目、工具（如：Bundler → Stackup、Pimlico）
-4. **容易理解**：组件命名和分组要让人一眼看懂，避免过度抽象
-
-**示例结构**：
-
-```
-用户钱包场景：
-├── 用户交互入口（MetaMask、Rabby）
-├── 签名验证（1271 合约钱包、智能合约）
-└── 交易广播（Public RPC、Bundler 私有 RPC）
-
-Bundler 处理场景：
-├── Bundler 服务（Stackup、Pimlico、Infra）
-├── Builder/中继器
-└── EntryPoint 合约（链上）
-```
-
-### 内容结构约束
-
-- 中文优先，英文术语优先保留
-- 必须包含**目录**
-- 术语区必须使用**表格**（三列：术语、定义、作用），不使用按词分标题的卡片式写法
-- 必须先画**组件图**（展示组件、层级、负责人），再画时序图（如必要）
-- 所有 PlantUML 必须通过 `feipi-gen-plantuml-code` skill 生成，禁止直接手写
-- 所有 PlantUML 必须通过 `syntax_result=ok` 校验后才可写入 draft
-- 顺序固定为：
-  1. 概述
-  2. 术语表（表格）
-  3. 组件架构（必须包含组件图）
-  4. 核心流程（时序图，如必要）
-  5. 设计取舍
-  6. 能力边界
-  7. 相关协议对比
-  8. 结论
-  9. 待确认问题
-  10. 参考资料（必须包含链接和说明）
-- 必须区分 live、planned、promotional
-- 若证据不足，明确写不确定性，不要脑补
-- `draft.md` 先写机制，再写价值
-- 必须回答为什么这样设计，而不是那样设计
+- 必须区分 live / planned / promotional
 - 必须写边界、失败条件、前提条件
-- 结论只能写 bounded conclusions，不得写绝对化判断
+- 证据不足时必须明确写不确定性
+- 结论只能是 bounded conclusions，不得写绝对化判断
+- 先写机制，再写价值
+- 必须回答"为什么这样设计，而不是那样设计"
 
-### 流程图步骤说明约束
+### 风格要求
 
-- **必须使用无序列表**，禁止使用有序列表（避免与图中序号错位）
-- 必须使用 `【S1→S3】` 格式与图中序号关联（如：`【S1→S3】Bundler 模拟验证机制...`）
-- **不要重复完整流程文字**，而是针对重点流程补充说明核心机制或设计原因
+draft 阶段必须遵守：
+
+- `openspec/specs/language-style/spec.md`
+- `openspec/specs/evidence-policy/spec.md`
+
+**draft 阶段落点**：
+- 不确定性必须显式声明，不得脑补
+- 不得把 promotional 能力写成 live
+
+### 流程图步骤说明要求
+
+- 必须使用**无序列表**，禁止使用有序列表（避免与图中序号错位）
+- 必须使用 `【S1→S3】` 格式与图中序号关联
 - 每个要点聚焦一个关键机制，而非罗列步骤
 
-### 图表保留原则
+### PlantUML 要求
 
-**draft.md 必须保留所有核心图表**：
+- PlantUML 图必须经过语法校验并通过后才可写入 draft
 
-- 演进时间线图（synthesis）
-- 组件架构图（primitive）
-- 核心流程图（primitive）
-- 能力归属表
-- 对比表格
-- 关系网络图（synthesis）
+## draft 阶段完成标准
 
-**图表信息密度要求**：
+draft 阶段视为完成，当且仅当：
 
-- 每张图必须有独立的信息价值
-- 不得用文字重复图表已清晰表达的内容
-- 文字只补充图中不易展示的：设计原因、trade-off、边界情况
+1. **结构完整**
+   - 包含所有必须章节
+   - 包含目录
 
-## PlantUML 约束
+2. **图表完备**
+   - 包含所有核心图表类型
+   - 所有 PlantUML 通过语法校验
 
-- 所有 PlantUML 代码必须通过 `feipi-gen-plantuml-code` skill 生成
-- 禁止直接手写 PlantUML 代码后未经校验就提交
-- skill 会自动执行语法校验（`syntax_result=ok`）和布局检查
-- 必须通过 `syntax_result=ok` 校验后才可写入 draft
+3. **内容合规**
+   - 遵守所有上位规范要求
+   - 满足本规范"正式要求"所有条款
 
-## 相关文件
+## 与上位规范的关系
 
-- `openspec/schemas/blockchain-research/templates/draft.md`：draft 模板
-- `openspec/specs/diagram-policy/spec.md`：图表政策（上级规范）
-- `openspec/specs/architecture-diagram-quality/spec.md`：架构组件图质量规约
-- `openspec/specs/component-abstraction-level/spec.md`：组件抽象层级规约
+本规范是以下规范的 draft 阶段特化：
+
+| 上位规范 | 约束范围 |
+|----------|----------|
+| `openspec/schemas/blockchain-research/schema.yaml` | change 整体结构 |
+| `openspec/specs/diagram-policy/spec.md` | 图表政策 |
+| `openspec/specs/architecture-diagram-quality/spec.md` | 架构图质量 |
+| `openspec/specs/component-abstraction-level/spec.md` | 组件抽象层级 |
+| `openspec/specs/language-style/spec.md` | 语言风格 |
+| `openspec/specs/evidence-policy/spec.md` | 证据政策 |
+| `openspec/specs/canonical-output-model/spec.md` | 输出模型 |
+
+本规范不重复上位规范的正文，仅定义：
+- draft 阶段的入口条件
+- draft 阶段的形式要求
+- draft 阶段的完成标准
+
+## 相关规范
+
+- `openspec/schemas/blockchain-research/templates/draft.md` —— draft 模板
+- `openspec/specs/diagram-policy/spec.md` —— 图表政策
+- `openspec/specs/architecture-diagram-quality/spec.md` —— 架构图质量
+- `openspec/specs/component-abstraction-level/spec.md` —— 组件抽象层级
+- `openspec/specs/language-style/spec.md` —— 语言风格
+- `openspec/specs/evidence-policy/spec.md` —— 证据政策
+- `openspec/specs/canonical-output-model/spec.md` —— 输出模型
