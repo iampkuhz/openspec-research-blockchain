@@ -1,22 +1,22 @@
 # Principle Note Workflow - 知识笔记写作
 
-## Goal
+## 目标
 
 基于来源编写知识笔记（definition / mechanism / evolution / comparison），作为 `draft.md` 的组成部分。
 
-## Trigger
+## 触发条件
 
 - source workflow 完成后
 - 已有 `source-pack.yaml` 和 `excerpts`
 - `plan.md` 已填写
 
-## Required Inputs
+## 必需输入
 
 - `source-pack.yaml`
 - `sources/excerpts/*`
 - `plan.md`
 
-## Rule Set to Load
+## 加载规则
 
 根据笔记类型加载：
 
@@ -27,9 +27,9 @@
 | evolution | `atom-evolution-rules.md`, `structure-rules.md` |
 | comparison | `note-comparison-rules.md`, `table-rules.md`, `summary-rules.md` |
 
-## Step-by-Step Procedure
+## 步骤
 
-### Step 1: 创建笔记结构
+### 步骤 1：创建笔记结构
 
 在 `openspec/changes/<change-id>/` 中创建：
 
@@ -42,7 +42,7 @@ openspec/changes/<change-id>/
 └── comparisons/          # 比较分析（如适用）
 ```
 
-### Step 2: 编写 Definition Note
+### 步骤 2：编写 Definition Note
 
 按照 `atom-definition-rules.md` 编写：
 
@@ -79,7 +79,7 @@ openspec/changes/<change-id>/
 [区分相关概念]
 ```
 
-### Step 3: 编写 Mechanism Note
+### 步骤 3：编写 Mechanism Note
 
 按照 `atom-mechanism-rules.md` 编写：
 
@@ -115,7 +115,7 @@ openspec/changes/<change-id>/
 [时间/空间/Gas]
 ```
 
-### Step 4: 编写 Evolution Note
+### 步骤 4：编写 Evolution Note
 
 按照 `atom-evolution-rules.md` 编写：
 
@@ -142,7 +142,7 @@ openspec/changes/<change-id>/
 ## 当前状态
 ```
 
-### Step 5: 编写 Comparison Note
+### 步骤 5：编写 Comparison Note
 
 按照 `note-comparison-rules.md` 编写：
 
@@ -169,7 +169,7 @@ openspec/changes/<change-id>/
 [高层判断]
 ```
 
-### Step 6: 关联来源
+### 步骤 6：关联来源
 
 在笔记中引用来源：
 
@@ -179,7 +179,7 @@ UserOperation 是基本单位 [L1: EIP-4337]。
 处理流程包括验证和执行 [L2: reference-impl]。
 ```
 
-### Step 7: 自审
+### 步骤 7：自审
 
 检查：
 - [ ] 所有 `claim` 都有 `source` 支撑
@@ -188,23 +188,23 @@ UserOperation 是基本单位 [L1: EIP-4337]。
 - [ ] 边界清晰
 - [ ] 符合 rules
 
-## Outputs
+## 输出
 
 - `notes/*.md`
 - `comparisons/*.md`
 
-## Done Criteria
+## 完成标准
 
 - [ ] 所有必要笔记已编写
 - [ ] 来源关联完整
 - [ ] 自审通过
 
-## Next Step
+## 下一步
 
 → 使用 `skills/openspec-research-build-draft/` 辅助生成 `draft.md`
 → 或手动整合笔记到 `draft.md`
 
-## Failure Handling
+## 异常处理
 
 ### 证据不足
 

@@ -1,39 +1,39 @@
 # Apply Workflow - 应用到知识库
 
-## Goal
+## 目标
 
 将通过评审的 `change` 产物应用到 `knowledge/` 主线。
 
 **注意**：本流程由 OpenSpec `apply` 命令执行，不是手动 merge。
 
-## Trigger
+## 触发条件
 
 - Review workflow 完成
 - 评审结论为 approved 或 approved with minor fixes
 - 所有 high severity 问题已修复
 
-## Required Inputs
+## 必需输入
 
 - `openspec/changes/<change-id>/` 完整内容
 - `draft.md`（集中 review 稿）
 - 评审结论
 
-## Rule Set to Load
+## 加载规则
 
 - harness/rules/general/repo-governance.md
 - harness/rules/general/update-policy.md
 - harness/rules/general/traceability-policy.md
 
-## Step-by-Step Procedure
+## 步骤
 
-### Step 1: 确认 Apply 条件
+### 步骤 1：确认 Apply 条件
 
 检查：
 - [ ] 评审结论为 approved
 - [ ] 所有 high severity 问题已修复
 - [ ] `draft.md` 内容完整
 
-### Step 2: 确定 Apply 位置
+### 步骤 2：确定 Apply 位置
 
 根据研究对象类型确定目标位置：
 
@@ -44,7 +44,7 @@
 | **domain** | `knowledge/analysis/domains/<domain>/` | `artifact.md` |
 | **decision** | `knowledge/decisions/<domain>/<topic>/` | `artifact.md` + `verdict.md` |
 
-### Step 3: 执行 Apply
+### 步骤 3：执行 Apply
 
 ```bash
 # 使用 OpenSpec apply 命令
@@ -58,14 +58,14 @@ Apply 命令会根据 `openspec/config.yaml` 的 apply 段执行：
 3. 过程文件（`request.md`、`plan.md`）保留在 `openspec/changes/`
 4. 术语区默认并入 `artifact.md` 或 `verdict.md`
 
-### Step 4: 更新 Indexes
+### 步骤 4：更新 Indexes
 
 ```bash
 # 更新 topic 索引
 python scripts/general/build_index.py
 ```
 
-### Step 5: 提交 Commit
+### 步骤 5：提交 Commit
 
 ```bash
 git add knowledge/
@@ -75,18 +75,18 @@ Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>
 "
 ```
 
-## Outputs
+## 输出
 
 - `knowledge/analysis/` 或 `knowledge/decisions/` 更新
 - Git commit
 
-## Done Criteria
+## 完成标准
 
 - [ ] 产物已应用到正确位置
 - [ ] Indexes 已更新
 - [ ] Commit 已创建
 
-## Failure Handling
+## 异常处理
 
 ### Apply 冲突
 

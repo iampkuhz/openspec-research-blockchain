@@ -131,10 +131,10 @@ OpenSpec 区块链研究协作的导航入口。
 
 | 规则 | 用途 |
 |------|------|
-| `definition-rules.md` | 定义写作 |
-| `mechanism-rules.md` | 机制分析 |
-| `evolution-rules.md` | 演进分析 |
-| `comparison-rules.md` | 比较分析 |
+| `atom-definition-rules.md` | 定义原子写作 |
+| `atom-mechanism-rules.md` | 机制分析写作 |
+| `atom-evolution-rules.md` | 演进分析写作 |
+| `note-comparison-rules.md` | 比较分析写作 |
 | `source-validation-rules.md` | 来源验证 |
 | `uncertainty-rules.md` | 不确定性处理 |
 

@@ -1,26 +1,26 @@
 # Review Workflow - 知识评审
 
-## Goal
+## 目标
 
 评审研究产出（draft.md），确保准确性、一致性、完整性，为 apply 到 knowledge/ 做准备。
 
-## Trigger
+## 触发条件
 
 - `draft.md` 完成后
 - apply 到 knowledge/ 前
 
-## Required Inputs
+## 必需输入
 
 - `openspec/changes/<change-id>/draft.md`
 - `openspec/changes/<change-id>/plan.md`
 - `openspec/changes/<change-id>/sources/`
 
-## Optional Inputs
+## 可选输入
 
 - 现有相关知识
 - 依赖的研究对象
 
-## Rule Set to Load
+## 加载规则
 
 根据评审对象类型加载：
 
@@ -31,9 +31,9 @@
 | domain | `atom-definition-rules.md` |
 | decision | `note-comparison-rules.md` / decision-criteria |
 
-## Step-by-Step Procedure
+## 步骤
 
-### Step 1: 准备评审材料
+### 步骤 1：准备评审材料
 
 创建评审目录：
 
@@ -44,7 +44,7 @@ openspec/changes/<change-id>/review/
 └── review-summary.md
 ```
 
-### Step 2: 技术准确性评审
+### 步骤 2：技术准确性评审
 
 **检查项**：
 
@@ -90,7 +90,7 @@ completeness:
     notes: ""
 ```
 
-### Step 3: 可读性评审
+### 步骤 3：可读性评审
 
 **检查项**：
 
@@ -109,7 +109,7 @@ readability:
     notes: ""
 ```
 
-### Step 4: Diagram 评审（如有）
+### 步骤 4：Diagram 评审（如有）
 
 使用 `diagram-review-checklist.md`：
 
@@ -125,7 +125,7 @@ diagram_review:
     status: pass/fail/na
 ```
 
-### Step 5: 记录问题
+### 步骤 5：记录问题
 
 ```markdown
 # Review Issues
@@ -167,7 +167,7 @@ diagram_review:
 **状态**：open
 ```
 
-### Step 6: 编写评审总结
+### 步骤 6：编写评审总结
 
 ```markdown
 # Review Summary
@@ -208,7 +208,7 @@ diagram_review:
 - [ ] needs revision - 需要重大修改后重新评审
 ```
 
-### Step 7: 修复问题
+### 步骤 7：修复问题
 
 作者根据评审意见修复：
 
@@ -218,7 +218,7 @@ diagram_review:
 - [ ] low severity 酌情处理
 ```
 
-### Step 8: 评审确认
+### 步骤 8：评审确认
 
 评审人确认修复：
 
@@ -231,24 +231,24 @@ resolution:
     notes: "已修正"
 ```
 
-## Outputs
+## 输出
 
 - `review/checklist.yaml`
 - `review/issues.md`
 - `review/review-summary.md`
 
-## Done Criteria
+## 完成标准
 
 - [ ] 评审检查完成
 - [ ] 问题已记录
 - [ ] High 问题已修复
 - [ ] 评审结论已给出
 
-## Next Step
+## 下一步
 
 → `merge-workflow.md`（apply 到 knowledge/）
 
-## Failure Handling
+## 异常处理
 
 ### 评审发现重大问题
 

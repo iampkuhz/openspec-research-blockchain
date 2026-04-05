@@ -1,29 +1,29 @@
 # Comparison Workflow - 比较分析
 
-## Goal
+## 目标
 
 编写比较分析笔记，对比多个研究对象的差异。
 
-## Trigger
+## 触发条件
 
 - 需要对比多个 primitive/synthesis
 - request.md 中指定 comparison 需求
 
-## Required Inputs
+## 必需输入
 
 - 比较对象列表
 - 比较目的
 - 目标读者/场景
 
-## Rule Set to Load
+## 加载规则
 
 - harness/rules/research/note-comparison-rules.md
 - harness/rules/writing/table-rules.md
 - harness/rules/writing/summary-rules.md
 
-## Step-by-Step Procedure
+## 步骤
 
-### Step 1: 确定比较对象
+### 步骤 1：确定比较对象
 
 在 `request.md` 或 `plan.md` 中声明：
 
@@ -40,7 +40,7 @@ comparison:
   decision_context: <决策场景>
 ```
 
-### Step 2: 确定比较维度
+### 步骤 2：确定比较维度
 
 选择 3-5 个核心维度：
 
@@ -52,7 +52,7 @@ comparison:
 | 成熟度 | 实现数、部署案例 |
 | 生态 | 工具、文档、社区 |
 
-### Step 3: 收集各对象数据
+### 步骤 3：收集各对象数据
 
 为每个对象读取 `knowledge/analysis/` 中的 `artifact.md`：
 
@@ -60,7 +60,7 @@ comparison:
 cat knowledge/analysis/primitives/<domain>/<topic>/artifact.md
 ```
 
-### Step 4: 创建对比表格
+### 步骤 4：创建对比表格
 
 ```markdown
 **表 1**: [维度名称] 对比
@@ -71,7 +71,7 @@ cat knowledge/analysis/primitives/<domain>/<topic>/artifact.md
 | 子维度 2 | ... | ... | ... |
 ```
 
-### Step 5: 编写比较正文
+### 步骤 5：编写比较正文
 
 ```markdown
 # [比较主题]
@@ -109,7 +109,7 @@ cat knowledge/analysis/primitives/<domain>/<topic>/artifact.md
 | ... | ... | ... |
 ```
 
-### Step 6: 标注证据等级
+### 步骤 6：标注证据等级
 
 为每个比较主张标注证据：
 
@@ -119,7 +119,7 @@ Tendermint 延迟约 1s [L2 - Cosmos benchmarks]。
 Malachite 吞吐量 10000 TPS [L3 - 官方博客，需验证]。
 ```
 
-### Step 7: 自审
+### 步骤 7：自审
 
 检查：
 - [ ] 维度是否固定
@@ -128,12 +128,12 @@ Malachite 吞吐量 10000 TPS [L3 - 官方博客，需验证]。
 - [ ] 是否有适用场景
 - [ ] 是否有不适用场景
 
-## Outputs
+## 输出
 
 - 比较分析内容写入 `draft.md` 的比较章节
 - 或独立的比较笔记文件
 
-## Done Criteria
+## 完成标准
 
 - [ ] 比较维度明确
 - [ ] 数据已填充
@@ -141,7 +141,7 @@ Malachite 吞吐量 10000 TPS [L3 - 官方博客，需验证]。
 - [ ] 场景分析完成
 - [ ] 自审通过
 
-## Failure Handling
+## 异常处理
 
 ### 数据不足
 

@@ -1,37 +1,37 @@
 # Update Existing Knowledge Workflow - 更新现有知识
 
-## Goal
+## 目标
 
 安全地更新 `knowledge/` 中的现有研究，确保一致性和向后兼容。
 
-## Trigger
+## 触发条件
 
 - 规范更新（EIP 版本升级）
 - 发现错误需要修正
 - 生态有重大变化
 
-## Required Inputs
+## 必需输入
 
 - 现有研究路径
 - 更新原因
 - 新来源或新信息
 
-## Rule Set to Load
+## 加载规则
 
 - harness/rules/general/update-policy.md
 - harness/rules/general/traceability-policy.md
 - harness/rules/general/repo-governance.md
 
-## Step-by-Step Procedure
+## 步骤
 
-### Step 1: 读取现有知识
+### 步骤 1：读取现有知识
 
 ```bash
 # 读取现有 artifact.md
 cat knowledge/analysis/<path>/<topic>/artifact.md
 ```
 
-### Step 2: 评估更新范围
+### 步骤 2：评估更新范围
 
 确定更新类型：
 
@@ -41,7 +41,7 @@ cat knowledge/analysis/<path>/<topic>/artifact.md
 | `major-update` | 大幅更新 | 规范版本升级、核心机制变化 |
 | `refactor` | 重构 | 结构调整、内容重组 |
 
-### Step 3: 创建 OpenSpec Change
+### 步骤 3：创建 OpenSpec Change
 
 **必须**创建 change，禁止直接修改 `knowledge/`。
 
@@ -55,12 +55,12 @@ openspec new change <name> --schema blockchain-research
 - `update-eip-4337-spec-v07-pass-1`
 - `update-eip-7702-scope-expansion-pass-1`
 
-### Step 4: 对比新旧内容
+### 步骤 4：对比新旧内容
 
 在 `openspec/changes/<change-id>/` 中创建对比文档：
 
 ```markdown
-# Content Comparison
+# 内容对比
 
 ## 主要变化
 
@@ -73,40 +73,40 @@ openspec new change <name> --schema blockchain-research
 - 是否影响依赖者
 ```
 
-### Step 5: 执行更新
+### 步骤 5：执行更新
 
 在 change 目录中更新 `draft.md`，反映新内容。
 
-### Step 6: 处理向后兼容
+### 步骤 6：处理向后兼容
 
-**Breaking Changes 处理**：
+**破坏性变更处理**：
 
 1. 在 `draft.md` 中明确标注变化
-2. 保留旧内容为 historical context（如需要）
+2. 保留旧内容为历史背景（如需要）
 3. 记录影响范围
 
-### Step 7: 评审
+### 步骤 7：评审
 
 执行 `review-workflow.md`。
 
-### Step 8: Apply
+### 步骤 8：Apply
 
 通过 OpenSpec apply 流程提升到 `knowledge/`。
 
-## Outputs
+## 输出
 
 - `openspec/changes/<change-id>/` 完整内容
 - 评审记录
 - Git commit
 
-## Done Criteria
+## 完成标准
 
 - [ ] 更新内容已记录
-- [ ] breaking changes 已标注
+- [ ] 破坏性变更已标注
 - [ ] 评审通过
 - [ ] Apply 完成
 
-## Failure Handling
+## 异常处理
 
 ### 更新导致重大破坏
 
@@ -115,7 +115,7 @@ openspec new change <name> --schema blockchain-research
 2. 重新评估更新范围
 3. 考虑版本并存
 
-### 依赖者反对
+### 依赖方反对
 
 **处理**：
 1. 记录反对意见
