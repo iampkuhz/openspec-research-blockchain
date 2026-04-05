@@ -45,10 +45,7 @@
 │   │   ├── research/         # 研究规则
 │   │   ├── diagrams/         # 图表规则
 │   │   └── writing/          # 写作规则
-│   ├── workflows/            # 工作流定义
-│   ├── prompts/              # 提示词模板
-│   ├── evals/                # 评估材料
-│   └── adapters/             # 适配器配置
+│   └── workflows/            # 工作流定义
 │
 ├── skills/                   # 可复用技能
 │   ├── README.md
@@ -77,11 +74,6 @@
 │   ├── templates/            # Change 模板
 │   ├── changes/              # 进行中的 changes
 │   └── archive/              # 已归档 changes
-│
-├── shared/                   # 共享资源
-│   ├── README.md
-│   ├── skills/
-│   └── prompts/
 │
 └── tests/                    # 测试
     ├── fixtures/
