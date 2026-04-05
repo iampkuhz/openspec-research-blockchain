@@ -1,8 +1,8 @@
 # TODO
 
-## slash command 统一
+## 重新跑历史的调研，确认新版本的分析质量
 
-不同 agent 的 slash command 在一个地方维护，不要分开维护
+## 以 登链的 Tendermint 文章作为入口，分析仓库对于指定文章来源扩充知识库的能力效果
 
 ## 基于 karpathy wiki 优化
 
