@@ -46,6 +46,11 @@ workflows:
     trigger: "规范更新/发现错误/生态变化"
     output: "openspec/changes/ → knowledge/"
 
+  - name: governance-review-workflow.md
+    description: "规约与架构评审"
+    trigger: "修改 openspec/**、harness/**、AGENTS.md、docs/governance/"
+    output: "openspec/changes/<change-id>/review/governance-review.md"
+
 # 工作流分类
 categories:
   research:
@@ -59,3 +64,5 @@ categories:
   merge:
     - merge-workflow.md
     - update-existing-knowledge.md
+  governance:
+    - governance-review-workflow.md

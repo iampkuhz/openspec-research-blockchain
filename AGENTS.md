@@ -254,7 +254,28 @@ OpenSpec 区块链研究协作的导航入口。
 
 ---
 
-## 十、遇到问题时
+## 十、OpenSpec / Harness 边界（条件加载）
+
+**任务语义优先，路径辅助**：不要因为文件位于某个路径下就自动加载边界规范，只有当任务语义涉及规约/架构调整时才加载。
+
+**必须读取** `docs/governance/openspec-harness-boundary.md`：
+- 调整 OpenSpec / Harness 职责边界
+- 修改 schema / specs / templates / governance / repository architecture
+- 修改用于定义或评审规约分层的 workflow / rules / skills
+- 修改 AGENTS.md 中与仓库路由、治理、分层相关的段落
+- 评审上述类型的变更
+
+**不要默认读取**：
+- 普通技术调研、知识条目更新
+- 来源收集与验证、图表生成
+- 一般性的 research workflow 微调
+- 与仓库分层无关的 skills 优化
+
+**详情**：`docs/governance/openspec-harness-boundary.md`
+
+---
+
+## 十一、遇到问题时
 
 | 问题类型 | 查看位置 |
 |----------|----------|
