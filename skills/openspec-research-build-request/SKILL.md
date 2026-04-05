@@ -35,11 +35,13 @@ description: 用于生成或完善 research change 的 request.md；适合研究
 
 ## 上下文不足时的补问规则
 
-如用户未提供足够上下文，需要先补齐以下信息：
+如用户未提供足够上下文，按 `openspec/specs/request-generation/spec.md` 补齐 request 所需关键信息：
 
-1. **研究对象类型**：primitive / synthesis / domain / decision
-2. **研究路径**：deep-dive / evolution / scenario / domain overview
-3. **核心问题**：3-5 个开放性问题
-4. **触发原因**：为什么现在要研究这个
-5. **范围边界**：覆盖对象、协议、时间窗口、非目标
-6. **已知输入**：手上已有的资料、已有研究成果
+- 研究对象类型
+- 研究路径
+- 核心问题
+- 触发原因
+- 范围边界
+- 已知输入
+
+request 完成后应能直接支撑后续 `plan.md` 生成。
