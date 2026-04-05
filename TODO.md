@@ -1,5 +1,9 @@
 # TODO
 
+## slash command 统一
+
+不同 agent 的 slash command 在一个地方维护，不要分开维护
+
 ## 基于 karpathy wiki 优化
 
 > https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f 
