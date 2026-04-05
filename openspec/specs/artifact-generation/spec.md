@@ -5,7 +5,8 @@
 定义本仓库 blockchain research change 中从 `draft.md` 生成 `artifact.md` / `verdict.md` 的正式规则，包括：
 - artifact 在 research change 中的定位
 - 进入 artifact 阶段的前置条件
-- artifact 必须满足的形式要求
+- durable 内容提炼规则
+- 过程性内容移除要求
 - artifact 阶段完成标准
 
 ## 适用范围
@@ -35,50 +36,49 @@
 
 ### 长期资产结构要求
 
-artifact 阶段的输出路径服从 `openspec/specs/canonical-output-model/spec.md`：
+artifact 阶段的基础结构服从 `openspec/specs/canonical-output-model/spec.md`。
 
-- `primitive` / `synthesis` / `domain` 类型：输出至 `knowledge/analysis/.../artifact.md`
-- `decision` 类型：输出至 `knowledge/decisions/.../artifact.md` + `verdict.md`（可选）
+本规范仅补充 artifact 阶段特有的提炼与移除要求。
 
-### artifact.md 结构要求
+### 输出路径要求
 
-**必须保留的核心章节**（按顺序）：
+| 对象类型 | 长期路径 |
+|----------|----------|
+| primitive / synthesis / domain | `knowledge/analysis/.../artifact.md` |
+| decision | `knowledge/decisions/.../artifact.md` |
 
-1. 目录（导航目录）
-2. 关键术语（表格：术语、定义、作用）
-3. 组件架构（含组件分层和角色归属说明）
-4. 核心流程（含流程说明和关键步骤）
-5. 设计取舍
-6. 能力边界
-7. 相关协议关系
-8. 可确认结论
-9. Evidence Gap
-10. 参考资料（简化格式）
+**decision 类型的 verdict.md**：
+- 当已形成稳定判断时，必须额外输出 `verdict.md`
+- `verdict.md` 与 `artifact.md` 并列，前者聚焦判断结论，后者保留完整分析
+
+### durable 内容提炼要求
+
+**必须保留的核心内容类型**：
+
+- 关键术语（表格：术语、定义、作用）
+- 分析正文（组件架构、核心流程、演进关系、问题簇划分等）
+- 设计取舍（为什么这样设计，而不是那样设计）
+- 能力边界（能解决什么、不能解决什么、失败条件）
+- 相关协议关系（与相邻协议/对象的关系定位）
+- 可确认结论（基于证据的有限结论）
+- Evidence Gap（已知的证据缺口）
+- 参考资料（简化格式）
 
 ### 图表保留要求
 
-**必须优先保留图表**：
+**核心图表不得在提炼时丢失**：
 
-- **架构图（必须）**：组件架构图、演进框架图、问题层分布图
-- **核心流程图（必须）**：关键交互时序图、核心业务流转流程
-- **对比表格（必须）**：能力归属表、特性对比表、链适配对比表
-- **关系网络图（synthesis 必须）**：EIP 演进关系图、协议依赖关系图
-
-**原则**：每张图/表必须有独立的信息价值。
+- 对长期理解仍有独立信息价值的图表必须保留
+- 图表优先原则在长期资产中仍成立（能可视化的内容应优先保留图表形式）
 
 ### 参考资料格式要求
 
-**必须使用简化表格格式**（2 列）：
+**长期资产中必须简化格式**：
 
-| 来源 | 说明 |
-|------|------|
-| [EIP-4337](url) | 账户抽象主规范 |
-
-**格式要求**：
+- 使用两列表达：`来源 | 说明`
+- 不保留 L1/L2/L3/L4 证据等级
+- 不单独设置"类型"列
 - 链接直接嵌入来源名称
-- 只保留"来源"和"说明"两列
-- 不设置"类型"列
-- 不标注证据等级（L1/L2/L3/L4）
 
 ### 必须移除的内容
 
@@ -99,22 +99,21 @@ artifact 阶段的输出路径服从 `openspec/specs/canonical-output-model/spec
 
 artifact 阶段视为完成，当且仅当：
 
-1. **结构完整**
-   - 包含所有必须章节
-   - 章节顺序符合要求
+1. **durable 内容已提炼**
+   - 核心内容类型已完整保留
+   - 分析正文已提炼为长期可复用的形式
 
-2. **图表完备**
-   - 所有核心图表已保留
-   - 图表具有独立信息价值
-
-3. **内容合规**
-   - 已移除所有过程性内容
-   - 参考资料使用简化格式
+2. **过程性内容已移除**
+   - 无过程性注释和标记
    - 无证据等级标注
+   - 无中间处理术语
 
-4. **输出路径正确**
-   - 对象类型与目标长期路径匹配
-   - 符合 `canonical-output-model` 要求
+3. **格式合规**
+   - 参考资料使用简化格式
+   - 输出路径符合 `canonical-output-model` 要求
+
+4. **decision 类型额外要求**
+   - 如已形成稳定判断，`verdict.md` 已输出
 
 ## 与上位规范的关系
 
@@ -123,17 +122,18 @@ artifact 阶段视为完成，当且仅当：
 | 上位规范 | 约束范围 |
 |----------|----------|
 | `openspec/schemas/blockchain-research/schema.yaml` | change 整体结构 |
-| `openspec/specs/canonical-output-model/spec.md` | 长期资产结构 |
+| `openspec/specs/canonical-output-model/spec.md` | 长期资产结构本体 |
 | `openspec/specs/diagram-policy/spec.md` | 图表政策（artifact 阶段的图表保留） |
 | `openspec/specs/language-style/spec.md` | 语言风格 |
 
 本规范不重复上位规范的正文，仅定义：
 - artifact 阶段的入口条件
-- artifact 阶段的形式要求
+- durable 内容提炼规则
+- 过程性内容移除要求
 - artifact 阶段的完成标准
 
 ## 相关规范
 
-- `openspec/specs/canonical-output-model/spec.md` —— 长期产出模型
+- `openspec/specs/canonical-output-model/spec.md` —— 长期产出模型（结构本体）
 - `openspec/specs/diagram-policy/spec.md` —— 图表政策
 - `openspec/specs/language-style/spec.md` —— 语言风格
