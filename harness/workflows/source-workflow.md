@@ -14,16 +14,29 @@
 - `request.md` 中的研究范围
 - 研究问题列表
 
-## Rule Set to Load
+## 规则加载策略
 
-- harness/rules/general/evidence-policy.md
-- harness/rules/general/traceability-policy.md
-- harness/rules/research/source-validation-rules.md
-- harness/rules/research/uncertainty-rules.md
+### 初始加载（workflow 开始时）
 
-## Step-by-Step Procedure
+| 规则 | 路径 | 用途 |
+|------|------|------|
+| `traceability-policy.md` | `harness/rules/general/` | 可追溯性要求（claim→source 映射） |
 
-### Step 1: 创建 Sources 目录结构
+**注**：证据等级政策见 `openspec/specs/evidence-policy/spec.md`。
+
+### 按需加载（执行到对应步骤前）
+
+| 步骤 | 规则 | 用途 |
+|------|------|------|
+| 步骤 5（提取关键信息） | `source-validation-rules.md` | 来源验证与证据提取 |
+| 步骤 6（验证来源） | `uncertainty-rules.md` | 不确定性处理与置信度标注 |
+| 步骤 8（Source Review） | 重新读取 `openspec/specs/evidence-policy/spec.md` | 对照证据等级检查 |
+
+**注意**：规则文件在对话中可能被压缩，**Source Review 前必须重新读取** `openspec/specs/evidence-policy/spec.md`。
+
+## 步骤
+
+### 步骤 1：创建 Sources 目录结构
 
 ```
 openspec/changes/<change-id>/sources/
@@ -33,7 +46,7 @@ openspec/changes/<change-id>/sources/
 └── source-review.md   # 来源评审
 ```
 
-### Step 2: 收集来源
+### 步骤 2：收集来源
 
 根据研究问题，按证据等级收集：
 
@@ -44,7 +57,7 @@ openspec/changes/<change-id>/sources/
 | L3 | 官方博客/Release notes | 背景/动机 |
 | L4 | 第三方分析/社区讨论 | 社区观点参考 |
 
-### Step 3: 记录来源到 inbox.yaml
+### 步骤 3：记录来源到 inbox.yaml
 
 ```yaml
 version: "1.0"
@@ -64,7 +77,7 @@ sources:
     notes: <说明>
 ```
 
-### Step 4: 获取来源内容
+### 步骤 4：获取来源内容
 
 **对于在线来源**：
 1. 访问 URL
@@ -72,7 +85,7 @@ sources:
 3. 归档（PDF/截图/文本）
 4. 保存到 `fetched/`
 
-### Step 5: 提取关键信息
+### 步骤 5：提取关键信息
 
 为每个核心来源创建 excerpt：
 
@@ -94,7 +107,7 @@ sources:
 [为什么这个来源重要，支持哪些分析]
 ```
 
-### Step 6: 验证来源
+### 步骤 6：验证来源
 
 | 维度 | 检查项 |
 |------|--------|
@@ -103,7 +116,7 @@ sources:
 | 完整性 | 是否覆盖所需 |
 | 一致性 | 与其他来源是否一致 |
 
-### Step 7: 创建 Source Pack
+### 步骤 7：创建 Source Pack
 
 ```yaml
 # sources/source-pack.yaml
@@ -122,7 +135,7 @@ sources:
     notes: <可选说明>
 ```
 
-### Step 8: 编写 Source Review
+### 步骤 8：编写 Source Review
 
 ```markdown
 # Source Review
@@ -149,7 +162,7 @@ sources:
 [需要进一步验证的内容]
 ```
 
-## Outputs
+## 输出
 
 - `sources/inbox.yaml`
 - `sources/fetched/*`
@@ -157,19 +170,19 @@ sources:
 - `sources/source-pack.yaml`
 - `sources/source-review.md`
 
-## Done Criteria
+## 完成标准
 
 - [ ] 所有计划的来源已收集
 - [ ] 来源已归档
 - [ ] 关键 excerpts 已提取
 - [ ] 证据缺口已识别
 
-## Next Step
+## 下一步
 
 → 使用 `skills/openspec-research-build-plan/` 辅助生成 `plan.md`
 → 或手动编写 `plan.md`，整合来源规划
 
-## Failure Handling
+## 异常处理
 
 ### 关键来源无法访问
 

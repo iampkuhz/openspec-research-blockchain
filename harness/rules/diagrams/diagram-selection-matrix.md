@@ -4,6 +4,10 @@
 
 根据要表达的内容选择合适的图表类型。
 
+**相关**：术语表见 `harness/rules/general/GLOBAL-GLOSSARY.md`。
+
+**详见**：`openspec/specs/diagram-policy/spec.md`（图表政策，定义图表生成、验证与交付标准）。
+
 ## 图表类型矩阵
 
 | 要表达的内容 | 推荐类型 | 备选类型 |

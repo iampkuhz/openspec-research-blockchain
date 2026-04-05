@@ -26,7 +26,7 @@
 ## Files to Read
 
 - `harness/workflows/source-workflow.md` - 来源处理流程
-- `harness/rules/general/evidence-policy.md` - 证据政策
+- `openspec/specs/evidence-policy/spec.md` - 证据政策
 - `harness/rules/research/source-validation-rules.md` - 来源验证规则
 - `openspec/changes/<change-id>/plan.md` - 来源规划
 

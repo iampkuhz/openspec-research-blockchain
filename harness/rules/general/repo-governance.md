@@ -21,7 +21,7 @@
 
 **禁止**无来源的主张。
 
-所有技术主张必须有对应的证据等级（L1/L2/L3/L4），参见 [evidence-policy.md](./evidence-policy.md)。
+所有技术主张必须有对应的证据等级（L1/L2/L3/L4），参见 `openspec/specs/evidence-policy/spec.md`。
 
 ### 约束 3：术语一致性
 

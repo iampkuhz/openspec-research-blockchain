@@ -15,11 +15,21 @@
 - 比较目的
 - 目标读者/场景
 
-## 加载规则
+## 规则加载策略
 
-- harness/rules/research/note-comparison-rules.md
-- harness/rules/writing/table-rules.md
-- harness/rules/writing/summary-rules.md
+### 初始加载（workflow 开始时）
+
+- `harness/rules/research/note-comparison-rules.md` — 比较分析的整体框架和质量标准
+
+### 按需加载（执行到对应步骤前）
+
+| 步骤 | 规则 | 用途 |
+|------|------|------|
+| 步骤 4 | `harness/rules/writing/table-rules.md` | 创建对比表格 |
+| 步骤 5 | `harness/rules/writing/summary-rules.md` | 编写摘要和分析 |
+| 步骤 7（自审） | `harness/rules/research/note-comparison-rules.md` | 重新读取，对照检查清单 |
+
+**注意**：规则文件在对话中可能被压缩，**自审前必须重新读取**核心规则。
 
 ## 步骤
 

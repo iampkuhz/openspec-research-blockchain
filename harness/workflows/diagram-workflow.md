@@ -14,14 +14,23 @@
 - 研究主题/内容描述
 - 图表用途说明
 
-## 加载规则
+## 规则加载策略
 
-- harness/rules/diagrams/diagram-selection-matrix.md
-- harness/rules/diagrams/brief-quality-rules.md
-- harness/rules/diagrams/relationship-rules.md
-- harness/rules/diagrams/annotation-rules.md
-- harness/rules/diagrams/simplification-policy.md
-- harness/rules/diagrams/diagram-review-checklist.md
+### 初始加载（workflow 开始时）
+
+- `harness/rules/diagrams/diagram-selection-matrix.md` — 图表类型选择
+
+### 按需加载（执行到对应步骤前）
+
+| 步骤 | 规则 | 用途 |
+|------|------|------|
+| 步骤 2（创建 Brief） | `brief-quality-rules.md` | 检查 Brief 质量 |
+| 步骤 2（创建 Brief） | `relationship-rules.md` | 关系语义规范 |
+| 步骤 2（创建 Brief） | `annotation-rules.md` | 注释规范 |
+| 步骤 2（创建 Brief） | `simplification-policy.md` | 简化政策 |
+| 步骤 4（校验） | `diagram-review-checklist.md` | 对照评审清单 |
+
+**注意**：规则文件在对话中可能被压缩，**校验前必须重新读取** `diagram-review-checklist.md`。
 
 ## 主要技能（优先使用）
 

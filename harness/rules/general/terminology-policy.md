@@ -6,6 +6,8 @@
 
 **注意**：本文件是治理规则，不是术语表本身。术语表位于 `knowledge/glossary/` 和各 topic 下。
 
+**相关**：全局术语表见 `harness/rules/general/GLOBAL-GLOSSARY.md`。
+
 ## 术语条目最小字段
 
 每个术语条目必须包含：

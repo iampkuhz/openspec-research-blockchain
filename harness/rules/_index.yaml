@@ -1,167 +1,114 @@
-# 规则索引 - 用于按需加载，不承载全部正文
-# 每个 domain 列出需要加载的规则文件路径
+# 规则索引
 
 version: "1.0"
 description: |
   轻量级规则索引，用于支持渐进式加载。
   AGENTS.md 和 workflows 通过引用此索引来加载具体规则。
 
+# 按领域分组的规则
+# 路径：相对于本文件 (_index.yaml)
+
 domains:
   intake:
     description: "研究请求接入与分类"
     rules:
-      - path: harness/rules/general/repo-governance.md
-        description: "仓库治理约束（变更必须走 OpenSpec）"
-      - path: harness/rules/general/terminology-policy.md
-        description: "术语治理（复用 glossary taxonomy）"
-      - path: harness/rules/research/atom-definition-rules.md
-        description: "定义原子写作结构"
+      - file: general/GLOBAL-GLOSSARY.md
+        description: "全局术语表"
+      - file: general/repo-governance.md
+        description: "仓库治理"
+      - file: general/terminology-policy.md
+        description: "术语治理"
+      - file: research/atom-definition-rules.md
+        description: "定义原子写作"
 
   source:
     description: "来源验证与证据提取"
     rules:
-      - path: harness/rules/general/evidence-policy.md
-        description: "证据等级定义（L1/L2/L3/L4）"
-      - path: harness/rules/general/traceability-policy.md
-        description: "可追溯性要求（claim→source 映射）"
-      - path: harness/rules/research/source-validation-rules.md
-        description: "来源验证与证据提取规则"
-      - path: harness/rules/research/uncertainty-rules.md
-        description: "不确定性处理与置信度标注"
+      - file: general/traceability-policy.md
+        description: "可追溯性"
+      - file: research/source-validation-rules.md
+        description: "来源验证"
+      - file: research/uncertainty-rules.md
+        description: "不确定性处理"
 
   definition:
     description: "定义原子写作"
     rules:
-      - path: harness/rules/general/terminology-policy.md
+      - file: general/terminology-policy.md
         description: "术语治理"
-      - path: harness/rules/general/traceability-policy.md
-        description: "可追溯性要求"
-      - path: harness/rules/research/atom-definition-rules.md
-        description: "定义原子写作结构与内容要求"
-      - path: harness/rules/writing/structure-rules.md
-        description: "文档结构规范"
+      - file: general/traceability-policy.md
+        description: "可追溯性"
+      - file: research/atom-definition-rules.md
+        description: "定义原子写作"
+      - file: writing/structure-rules.md
+        description: "结构规范"
 
   mechanism:
     description: "机制分析写作"
     rules:
-      - path: harness/rules/general/evidence-policy.md
-        description: "证据等级定义"
-      - path: harness/rules/general/traceability-policy.md
-        description: "可追溯性要求"
-      - path: harness/rules/research/atom-mechanism-rules.md
-        description: "机制分析写作结构与内容要求"
-      - path: harness/rules/writing/structure-rules.md
-        description: "文档结构规范"
-      - path: harness/rules/writing/table-rules.md
-        description: "表格使用规范"
+      - file: general/traceability-policy.md
+        description: "可追溯性"
+      - file: research/atom-mechanism-rules.md
+        description: "机制分析"
+      - file: writing/structure-rules.md
+        description: "结构规范"
+      - file: writing/table-rules.md
+        description: "表格规范"
 
   evolution:
     description: "演进分析写作"
     rules:
-      - path: harness/rules/general/evidence-policy.md
-        description: "证据等级定义"
-      - path: harness/rules/general/traceability-policy.md
-        description: "可追溯性要求"
-      - path: harness/rules/research/atom-evolution-rules.md
-        description: "演进分析写作结构与内容要求"
-      - path: harness/rules/writing/structure-rules.md
-        description: "文档结构规范"
+      - file: general/traceability-policy.md
+        description: "可追溯性"
+      - file: research/atom-evolution-rules.md
+        description: "演进分析"
+      - file: writing/structure-rules.md
+        description: "结构规范"
 
   comparison:
     description: "比较分析写作"
     rules:
-      - path: harness/rules/general/evidence-policy.md
-        description: "证据等级定义"
-      - path: harness/rules/general/terminology-policy.md
+      - file: general/terminology-policy.md
         description: "术语治理"
-      - path: harness/rules/research/note-comparison-rules.md
-        description: "比较分析写作结构与内容要求"
-      - path: harness/rules/writing/table-rules.md
-        description: "表格使用规范"
-      - path: harness/rules/writing/summary-rules.md
-        description: "摘要撰写规范"
+      - file: research/note-comparison-rules.md
+        description: "比较分析"
+      - file: writing/table-rules.md
+        description: "表格规范"
+      - file: writing/summary-rules.md
+        description: "摘要规范"
 
   diagram:
     description: "图表建模与渲染"
     rules:
-      - path: harness/rules/diagrams/diagram-selection-matrix.md
-        description: "图表类型选择矩阵"
-      - path: harness/rules/diagrams/brief-quality-rules.md
-        description: "Brief 质量评估规则"
-      - path: harness/rules/diagrams/relationship-rules.md
-        description: "关系语义规范"
-      - path: harness/rules/diagrams/annotation-rules.md
-        description: "图表注释规范"
-      - path: harness/rules/diagrams/simplification-policy.md
-        description: "图表简化政策"
-      - path: harness/rules/diagrams/diagram-review-checklist.md
-        description: "图表评审检查清单"
+      - file: diagrams/diagram-selection-matrix.md
+        description: "图类型选择"
+      - file: diagrams/brief-quality-rules.md
+        description: "Brief 质量"
+      - file: diagrams/relationship-rules.md
+        description: "关系语义"
+      - file: diagrams/annotation-rules.md
+        description: "注释规范"
+      - file: diagrams/simplification-policy.md
+        description: "简化政策"
+      - file: diagrams/diagram-review-checklist.md
+        description: "评审清单"
 
   review:
     description: "知识评审"
     rules:
-      - path: harness/rules/general/evidence-policy.md
-        description: "证据等级定义"
-      - path: harness/rules/general/terminology-policy.md
+      - file: general/terminology-policy.md
         description: "术语治理"
-      - path: harness/rules/diagrams/diagram-review-checklist.md
-        description: "图表评审检查清单"
-      - path: harness/rules/writing/structure-rules.md
-        description: "文档结构规范"
+      - file: diagrams/diagram-review-checklist.md
+        description: "图表评审"
+      - file: writing/structure-rules.md
+        description: "结构规范"
 
   merge:
     description: "Change 合并到主线知识"
     rules:
-      - path: harness/rules/general/repo-governance.md
-        description: "仓库治理约束"
-      - path: harness/rules/general/update-policy.md
-        description: "更新政策（向后兼容处理）"
-      - path: harness/rules/general/traceability-policy.md
-        description: "可追溯性要求"
-
-# 规则元数据
-rule_metadata:
-  general:
-    - name: repo-governance.md
-      description: "仓库治理（变更必须走 OpenSpec）"
-    - name: evidence-policy.md
-      description: "证据政策（L1/L2/L3/L4 等级定义）"
-    - name: terminology-policy.md
-      description: "术语治理（复用 glossary taxonomy）"
-    - name: traceability-policy.md
-      description: "可追溯性（claim→source 映射）"
-    - name: update-policy.md
-      description: "更新政策（向后兼容处理）"
-  research:
-    - name: atom-definition-rules.md
-      description: "定义原子写作"
-    - name: atom-mechanism-rules.md
-      description: "机制分析写作"
-    - name: atom-evolution-rules.md
-      description: "演进分析写作"
-    - name: note-comparison-rules.md
-      description: "比较分析写作"
-    - name: source-validation-rules.md
-      description: "来源验证与证据提取"
-    - name: uncertainty-rules.md
-      description: "不确定性处理与置信度标注"
-  diagrams:
-    - name: diagram-selection-matrix.md
-      description: "图表类型选择矩阵"
-    - name: brief-quality-rules.md
-      description: "Brief 质量评估规则"
-    - name: relationship-rules.md
-      description: "关系语义规范"
-    - name: annotation-rules.md
-      description: "图表注释规范"
-    - name: simplification-policy.md
-      description: "图表简化政策"
-    - name: diagram-review-checklist.md
-      description: "图表评审检查清单"
-  writing:
-    - name: structure-rules.md
-      description: "文档结构规范"
-    - name: table-rules.md
-      description: "表格使用规范"
-    - name: summary-rules.md
-      description: "摘要撰写规范"
+      - file: general/repo-governance.md
+        description: "仓库治理"
+      - file: general/update-policy.md
+        description: "更新政策"
+      - file: general/traceability-policy.md
+        description: "可追溯性"

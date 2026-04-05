@@ -75,7 +75,7 @@ primitive（底层机制） → synthesis（演进关系） → domain（问题�
 | L3 | 官方博客/Release notes | 背景/动机 |
 | L4 | 第三方分析/社区讨论 | 社区观点参考 |
 
-**详情**：`harness/rules/general/evidence-policy.md`
+**详情**：`openspec/specs/evidence-policy/spec.md`
 
 ---
 

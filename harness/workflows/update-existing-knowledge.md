@@ -16,11 +16,17 @@
 - 更新原因
 - 新来源或新信息
 
-## 加载规则
+## 规则加载策略
 
-- harness/rules/general/update-policy.md
-- harness/rules/general/traceability-policy.md
-- harness/rules/general/repo-governance.md
+### 初始加载（workflow 开始时）
+
+| 规则 | 路径 | 用途 |
+|------|------|------|
+| `update-policy.md` | `harness/rules/general/` | 更新政策（向后兼容处理） |
+| `traceability-policy.md` | `harness/rules/general/` | 可追溯性要求 |
+| `repo-governance.md` | `harness/rules/general/` | 禁止直接修改 knowledge/ |
+
+**注意**：规则文件在对话中可能被压缩，**步骤 6（处理向后兼容）和步骤 8（Apply）前建议重新读取** `update-policy.md`。
 
 ## 步骤
 

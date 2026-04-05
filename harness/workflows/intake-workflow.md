@@ -13,10 +13,16 @@
 - 研究主题/问题
 - 研究目的（可选）
 
-## 加载规则
+## 规则加载策略
 
-- harness/rules/general/repo-governance.md
-- harness/rules/general/terminology-policy.md
+### 初始加载（workflow 开始时）
+
+| 规则 | 路径 | 用途 |
+|------|------|------|
+| `repo-governance.md` | `harness/rules/general/` | 变更必须走 OpenSpec |
+| `terminology-policy.md` | `harness/rules/general/` | 术语使用规范 |
+
+**注意**：这两个规则在 workflow 开始加载，后续步骤如需确认术语用法应重新读取。
 
 ## 步骤
 

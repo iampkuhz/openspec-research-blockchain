@@ -266,7 +266,7 @@ python scripts/diagrams/validate_diagram_model.py diagrams/models/<diagram-id>-m
 | L3 | 官方博客 / Release notes | 背景/动机 |
 | L4 | 第三方分析 / 社区讨论 | 社区观点参考 |
 
-详见：[harness/rules/general/evidence-policy.md](./harness/rules/general/evidence-policy.md)
+详见：`openspec/specs/evidence-policy/spec.md`
 
 ## 先看哪里
 

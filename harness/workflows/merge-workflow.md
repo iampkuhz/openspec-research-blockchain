@@ -18,11 +18,17 @@
 - `draft.md`（集中 review 稿）
 - 评审结论
 
-## 加载规则
+## 规则加载策略
 
-- harness/rules/general/repo-governance.md
-- harness/rules/general/update-policy.md
-- harness/rules/general/traceability-policy.md
+### 初始加载（workflow 开始时）
+
+| 规则 | 路径 | 用途 |
+|------|------|------|
+| `repo-governance.md` | `harness/rules/general/` | 仓库治理约束 |
+| `update-policy.md` | `harness/rules/general/` | 更新政策（向后兼容处理） |
+| `traceability-policy.md` | `harness/rules/general/` | 可追溯性要求 |
+
+**注意**：规则文件在对话中可能被压缩，**步骤 3（执行 Apply）前建议重新读取** `update-policy.md` 确认向后兼容处理。
 
 ## 步骤
 

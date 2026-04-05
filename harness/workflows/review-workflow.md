@@ -20,16 +20,28 @@
 - 现有相关知识
 - 依赖的研究对象
 
-## 加载规则
+## 规则加载策略
+
+### 初始加载（workflow 开始时）
 
 根据评审对象类型加载：
 
-| 对象类型 | Rules |
-|----------|-------|
-| primitive | `atom-definition-rules.md` / `atom-mechanism-rules.md` |
-| synthesis | `atom-evolution-rules.md` / `note-comparison-rules.md` |
-| domain | `atom-definition-rules.md` |
-| decision | `note-comparison-rules.md` / decision-criteria |
+| 对象类型 | 核心规则 | 路径 |
+|----------|----------|------|
+| primitive | `atom-definition-rules.md` 或 `atom-mechanism-rules.md` | `harness/rules/research/` |
+| synthesis | `atom-evolution-rules.md` 或 `note-comparison-rules.md` | `harness/rules/research/` |
+| domain | `atom-definition-rules.md` | `harness/rules/research/` |
+| decision | `note-comparison-rules.md` | `harness/rules/research/` |
+
+### 按需加载（执行到对应步骤前）
+
+| 步骤 | 规则 | 用途 |
+|------|------|------|
+| 步骤 2（技术评审） | `openspec/specs/evidence-policy/spec.md` | 对照证据等级要求 |
+| 步骤 4（Diagram 评审） | `diagram-review-checklist.md` | 对照图表评审清单 |
+| 步骤 6（编写总结） | 重新读取核心规则 | 确认评审结论 |
+
+**注意**：规则文件在对话中可能被压缩，**评审结论前必须重新读取**核心规则。
 
 ## 步骤
 

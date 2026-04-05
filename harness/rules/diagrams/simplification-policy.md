@@ -4,6 +4,10 @@
 
 在保证准确性的前提下，规范图表的简化策略。
 
+**相关**：术语表见 `harness/rules/general/GLOBAL-GLOSSARY.md`。
+
+**详见**：`openspec/specs/diagram-policy/spec.md`（图表政策，定义图表生成、验证与交付标准）。
+
 ## 简化原则
 
 ### 原则 1: 准确性优先

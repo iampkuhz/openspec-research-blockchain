@@ -4,7 +4,7 @@
 
 确保所有知识主张（`claim`）都可追溯到来源，所有修改都可追溯到变更。
 
-**术语统一说明**：本政策统一使用英文 `` `claim` `` 作为术语，YAML 字段使用 `` `statement` `` 表示 `claim` 的具体表述内容。详情见 `harness/GLOBAL-GLOSSARY.md`。
+**术语统一说明**：本政策统一使用英文 `` `claim` `` 作为术语，YAML 字段使用 `` `statement` `` 表示 `claim` 的具体表述内容。详情见 `harness/rules/general/GLOBAL-GLOSSARY.md`。
 
 ## 可追溯性层级
 

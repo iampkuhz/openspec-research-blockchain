@@ -16,16 +16,29 @@
 - `sources/excerpts/*`
 - `plan.md`
 
-## 加载规则
+## 规则加载策略
 
-根据笔记类型加载：
+### 初始加载（workflow 开始时）
 
-| 笔记类型 | Rules |
-|----------|-------|
-| definition | `atom-definition-rules.md`, `structure-rules.md` |
-| mechanism | `atom-mechanism-rules.md`, `structure-rules.md`, `table-rules.md` |
-| evolution | `atom-evolution-rules.md`, `structure-rules.md` |
-| comparison | `note-comparison-rules.md`, `table-rules.md`, `summary-rules.md` |
+根据笔记类型加载核心规则：
+
+| 笔记类型 | 核心规则 | 路径 |
+|----------|----------|------|
+| definition | `atom-definition-rules.md` | `harness/rules/research/` |
+| mechanism | `atom-mechanism-rules.md` | `harness/rules/research/` |
+| evolution | `atom-evolution-rules.md` | `harness/rules/research/` |
+| comparison | `note-comparison-rules.md` | `harness/rules/research/` |
+
+### 按需加载（执行到对应步骤前）
+
+| 步骤 | 规则 | 路径 |
+|------|------|------|
+| 所有类型 | `structure-rules.md` | `harness/rules/writing/` |
+| mechanism/comparison | `table-rules.md` | `harness/rules/writing/` |
+| comparison | `summary-rules.md` | `harness/rules/writing/` |
+| 步骤 7（自审） | 重新读取核心规则 | 对照检查清单 |
+
+**注意**：规则文件在对话中可能被压缩，**自审前必须重新读取**核心规则。
 
 ## 步骤
 

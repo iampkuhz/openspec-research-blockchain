@@ -1,0 +1,61 @@
+# 工作流索引
+
+version: "1.0"
+description: |
+  工作流索引，用于支持按需加载。
+  AGENTS.md 和 skills 通过引用此索引来加载具体工作流。
+
+workflows:
+  - name: intake-workflow.md
+    description: "研究请求接入与分类"
+    trigger: "用户提出研究需求"
+    output: "openspec/changes/<change-id>/request.md"
+
+  - name: source-workflow.md
+    description: "来源验证与证据提取"
+    trigger: "intake workflow 完成，request.md 已填写"
+    output: "openspec/changes/<change-id>/sources/"
+
+  - name: principle-atom-workflow.md
+    description: "知识笔记写作（definition/mechanism/evolution/comparison）"
+    trigger: "source workflow 完成，已有 source-pack.yaml 和 excerpts"
+    output: "openspec/changes/<change-id>/notes/"
+
+  - name: comparison-workflow.md
+    description: "比较分析写作"
+    trigger: "需要对比多个 primitive/synthesis"
+    output: "openspec/changes/<change-id>/comparisons/"
+
+  - name: diagram-workflow.md
+    description: "图表创建（PlantUML）"
+    trigger: "需要可视化机制/架构/流程"
+    output: "openspec/changes/<change-id>/diagrams/"
+
+  - name: review-workflow.md
+    description: "知识评审"
+    trigger: "draft.md 完成后，apply 到 knowledge/ 前"
+    output: "openspec/changes/<change-id>/review/"
+
+  - name: merge-workflow.md
+    description: "Change 合并到主线知识"
+    trigger: "review workflow 完成，评审结论为 approved"
+    output: "knowledge/analysis/ 或 knowledge/decisions/"
+
+  - name: update-existing-knowledge.md
+    description: "更新现有知识"
+    trigger: "规范更新/发现错误/生态变化"
+    output: "openspec/changes/ → knowledge/"
+
+# 工作流分类
+categories:
+  research:
+    - intake-workflow.md
+    - source-workflow.md
+    - principle-atom-workflow.md
+    - comparison-workflow.md
+    - diagram-workflow.md
+  quality:
+    - review-workflow.md
+  merge:
+    - merge-workflow.md
+    - update-existing-knowledge.md

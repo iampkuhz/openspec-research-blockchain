@@ -122,7 +122,6 @@ OpenSpec 区块链研究协作的导航入口。
 | 规则 | 用途 |
 |------|------|
 | `repo-governance.md` | 仓库治理（变更必须走 OpenSpec） |
-| `evidence-policy.md` | 证据政策（L1/L2/L3/L4 等级定义） |
 | `terminology-policy.md` | 术语治理（复用 glossary taxonomy） |
 | `traceability-policy.md` | 可追溯性（claim→source 映射） |
 | `update-policy.md` | 更新政策（向后兼容处理） |
@@ -249,7 +248,7 @@ OpenSpec 区块链研究协作的导航入口。
 | 禁止直接修改 `knowledge/` 主线 | `openspec/config.yaml` / `repo-governance.md` |
 | 长期资产只在 `analysis/` 和 `decisions/` | `openspec/schemas/blockchain-research/schema.yaml` |
 | 过程文件保留在 `openspec/changes/` | `openspec/changes/README.md` |
-| 证据等级 L1/L2 用于核心技术主张 | `evidence-policy.md` |
+| 证据等级 L1/L2 用于核心技术主张 | `openspec/specs/evidence-policy/spec.md` |
 | 术语复用 glossary taxonomy | `terminology-policy.md` |
 | 每个 claim 必须绑定 source id | `traceability-policy.md` |
 

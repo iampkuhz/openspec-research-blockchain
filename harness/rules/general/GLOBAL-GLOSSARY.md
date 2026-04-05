@@ -42,7 +42,7 @@
 - `evidence_level`：证据等级（L1/L2/L3/L4）
 - `confidence`：置信度（high/medium/low）
 
-**来源**：`harness/rules/general/evidence-policy.md`
+**来源**：`openspec/specs/evidence-policy/spec.md`
 
 ---
 
@@ -59,7 +59,7 @@
 | `L3` | 官方生态材料 | 官方博客、Roadmap |
 | `L4` | 第三方分析 | 社区博客、媒体文章 |
 
-**来源**：`harness/rules/general/evidence-policy.md`
+**来源**：`openspec/specs/evidence-policy/spec.md`
 
 ---
 
@@ -90,7 +90,7 @@
 | `medium` | 中置信度 | 仅 L3 |
 | `low` | 低置信度 | 有 L4 支持但无 L1/L2 |
 
-**来源**：`harness/rules/general/evidence-policy.md`
+**来源**：`openspec/specs/evidence-policy/spec.md`
 
 ---
 
@@ -175,7 +175,7 @@ related_claims:
 status: unresolved
 ```
 
-**来源**：`harness/rules/general/evidence-policy.md`
+**来源**：`openspec/specs/evidence-policy/spec.md`
 
 ---
 
