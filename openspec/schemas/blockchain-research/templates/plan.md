@@ -16,9 +16,8 @@
 request 阶段还回答不了、但进入正文前必须确认的问题。
 
 primitive 类型必须覆盖以下三类：
-- 设计选择类：为什么选择当前架构路径（如：为什么不改传统 transaction 路径）
-- 角色分层类：关键角色分别位于哪一层（protocol-native / official / third-party）
-- 能力边界类：哪些能力不是 protocol-native
+- 设计选择类：为什么选择当前架构路径
+- 能力边界类：哪些能力依赖外部假设
 
 synthesis/decision 类型需覆盖：
 - 演进关系类：各对象的关系定位（替代/互补/演进）

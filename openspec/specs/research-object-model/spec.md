@@ -11,7 +11,7 @@
 - 组件架构与分层
 - 执行流程
 - 设计取舍
-- 能力边界（protocol-native / official / third-party）
+- 能力边界（哪些是协议原生能力，哪些依赖外部假设）
 
 **交付物**：
 - `artifact.md`：机制分析文档

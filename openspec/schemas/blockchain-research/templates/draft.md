@@ -182,23 +182,13 @@ synthesis 类型建议包含：
 
 <!--
 明确区分：
-- protocol-native / official ecosystem / third-party
+- 协议原生能力与外部依赖
 - live / planned / promotional
 - 能解决什么 / 不能解决什么
 
-primitive 类型必须包含角色归属分类表：
-
-**分类定义**：
-
-- **protocol-native**：规范本身定义的接口/合约，无需额外信任假设，链上行为由合约代码保证
-- **official ecosystem**：核心团队提供的参考实现或协议规范，但不由链上代码强制执行
-- **third-party**：完全由独立第三方运营的服务或产品，需额外信任假设
-
-**角色归属表**：
-
-| 角色 | 作用说明 | protocol-native | official ecosystem | third-party | 状态 |
-|------|----------|-----------------|-------------------|-------------|------|
-| | | | | | |
+primitive 类型必须包含能力边界说明：
+- 哪些能力由协议本身保证
+- 哪些能力依赖外部组件或服务
 
 synthesis 类型建议包含：
 - 演进分析的边界（时间范围、对象范围）

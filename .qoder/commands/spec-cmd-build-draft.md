@@ -56,7 +56,6 @@ description: |
   - 结论
   - 待确认问题
   - 参考资料（必须包含链接和说明）
-- 必须区分 protocol-native、official ecosystem、third-party
 - 必须区分 live、planned、promotional
 - 若证据不足，明确写不确定性，不要脑补
 

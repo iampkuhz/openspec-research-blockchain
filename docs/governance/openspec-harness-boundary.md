@@ -38,11 +38,11 @@
 
 | 职责 | 文件位置 |
 |------|----------|
-| **Artifact Contract 主定义** | `openspec/schemas/blockchain-research/schema.yaml` |
-| **Canonical Templates** | `openspec/schemas/blockchain-research/templates/*.md` |
-| **Schema-level Workflow Semantics** | `openspec/schemas/blockchain-research/schema.yaml` (artifacts 段 dependencies) |
-| **Canonical Semantic Constraints** | `openspec/specs/*/spec.md` |
-| **Project-level Configuration** | `openspec/config.yaml` (default schema selection, context injection, per-artifact rules injection) |
+| **工件契约主定义** | `openspec/schemas/blockchain-research/schema.yaml` |
+| **标准模板** | `openspec/schemas/blockchain-research/templates/*.md` |
+| **模式级工作流语义** | `openspec/schemas/blockchain-research/schema.yaml` (artifacts 段 dependencies) |
+| **标准语义约束** | `openspec/specs/*/spec.md` |
+| **项目级配置** | `openspec/config.yaml` (默认模式选择、上下文注入、单工件规则注入) |
 
 **必须在 OpenSpec 的内容**：
 - artifact 依赖链定义
@@ -57,13 +57,13 @@
 
 | 职责 | 文件位置 |
 |------|----------|
-| **Research Execution Playbooks** | `harness/workflows/*.md` |
-| **Execution-facing Governance** | `harness/rules/general/repo-governance.md` |
-| **Execution-facing Traceability Procedures** | `harness/rules/general/traceability-policy.md` |
-| **Execution-facing Update Procedures** | `harness/rules/general/update-policy.md` |
-| **Execution-facing Terminology Governance** | `harness/rules/general/terminology-policy.md` |
-| **Diagram Execution Guidance** | `harness/rules/diagrams/*.md` |
-| **Research Writing Guidance** | `harness/rules/research/*.md`, `harness/rules/writing/*.md` |
+| **研究执行手册** | `harness/workflows/*.md` |
+| **执行面治理** | `harness/rules/general/repo-governance.md` |
+| **执行面追溯流程** | `harness/rules/general/traceability-policy.md` |
+| **执行面更新流程** | `harness/rules/general/update-policy.md` |
+| **执行面术语治理** | `harness/rules/general/terminology-policy.md` |
+| **图表执行指南** | `harness/rules/diagrams/*.md` |
+| **研究写作指南** | `harness/rules/research/*.md`, `harness/rules/writing/*.md` |
 
 **可以合理保留在 Harness 的内容**：
 - 来源收集、评审、修复、应用操作配方
@@ -79,7 +79,7 @@
 | 约束 | 归属 | 说明 |
 |------|------|------|
 | 变更必须走 OpenSpec | OpenSpec | 禁止直接修改 `knowledge/` |
-| Artifact 模板结构 | OpenSpec | 定义 artifact 的 required structure |
+| 工件模板结构 | OpenSpec | 定义 artifact 的必需结构 |
 | 证据等级政策 | OpenSpec | L1/L2/L3/L4 定义及使用规则 |
 | 图表政策 | OpenSpec | 图表生成/验证/交付标准 |
 | 语言风格 | OpenSpec | 中文优先、英文术语保留 |

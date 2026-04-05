@@ -97,7 +97,7 @@ Deployment (1014) ─────┘
 
 - **组件架构图**（必须）：**必须使用 PlantUML 组件图**（展示核心组件、层级关系、角色归属）
 - **核心流程图**（必须）：**必须使用 PlantUML 时序图**（展示关键交互流程）
-- **能力归属表**（必须）：**必须使用 Markdown 表格**（protocol-native / official ecosystem / third-party 分类）
+- **能力归属表**（必须）：**必须使用 Markdown 表格**（区分协议原生能力与外部依赖）
 - **子流程图**（推荐）：复杂流程分解为多个子流程时序图（PlantUML 或 Mermaid）
 
 **domain 类型必须包含的图表**：
