@@ -103,6 +103,18 @@ Deployment (1014) ─────┘
 
 ### 2. 图表类型要求（按优先级选择方案）
 
+在决定具体图表前，作者必须先把正文中的关键实体归类为：
+- `role`
+- `component`
+- `data object`
+- `state`
+- `external system`
+
+归类原则以 `openspec/specs/component-abstraction-level/spec.md` 为准：
+- **角色**：控制方不同、跨信任边界通信
+- **组件**：控制方相同、内部无条件信任
+- **状态**：同一角色/组件的运行阶段，不是组件
+
 **synthesis 类型必须包含的图表**：
 
 - **演进时间线图**（必须）：优先使用 Markdown 表格或 Mermaid timeline，复杂演进用 PlantUML Architecture skill
@@ -113,10 +125,18 @@ Deployment (1014) ─────┘
 
 **primitive 类型必须包含的图表**：
 
-- **组件架构图**（必须）：**必须使用 PlantUML Architecture skill**（展示核心组件、层级关系、角色归属）
-- **核心流程图**（必须）：**必须使用 PlantUML Sequence skill**（展示关键交互流程）
-- **能力归属表**（必须）：**必须使用 Markdown 表格**（区分协议原生能力与外部依赖）
-- **子流程图**（推荐）：复杂流程分解为多个子流程时序图（PlantUML Sequence skill 或 Mermaid）
+- **角色与信任边界总览图**（按条件必须）：当存在两个及以上独立控制方，或正文需要解释 trust assumption 时，**必须**使用 PlantUML Architecture skill 展示角色边界、职责与跨边界通信
+- **角色内部组件图**（必须）：对每个**内部结构 materially 不同**的核心角色族，**必须**至少提供一张 PlantUML Architecture 图；若多个角色内部结构相同，可只画一张 canonical 图，再用差异表补充说明
+- **跨角色核心流程图**（按条件必须）：当协议行为依赖跨角色消息、调用或证明流转时，**必须**使用 PlantUML Sequence skill；至少提供 1 张 happy path，若失败/超时路径影响安全性、活性或资金安全，则必须补异常路径图或表
+- **状态转换图/表**（按条件必须）：当行为依赖命名状态、轮次、epoch、timeout、challenge window、lock/unlock 等阶段转换时，**必须**使用 Mermaid stateDiagram、Markdown 状态表或 ASCII 草图之一
+- **能力归属表**（必须）：**必须使用 Markdown 表格**，区分协议原生能力、角色职责、外部依赖与非目标
+- **角色差异表**（按条件必须）：当多个角色复用同一张 canonical 内部组件图时，必须补一张表说明差异点与省略原因
+
+**primitive 的最低覆盖问题**：
+- 系统里有哪些角色、边界在哪里？
+- 每个核心角色内部由哪些组件协作？
+- 关键步骤如何在角色之间流转？
+- 哪些状态转换决定安全性/活性/资金行为？
 
 **domain 类型必须包含的图表**：
 

@@ -137,9 +137,18 @@ openspec/changes/<change-id>/
    - `evidence-matrix.md`（如有）
 
 2. **生成分析内容**
+   - 对 primitive 或 mechanism-heavy 内容，先写实体分类表（role / component / data / state / external）
+   - 再写图表清单表，明确哪些图是必需、回答什么问题、为什么可省略
    - 先写术语表（表格形式）
    - 再写分析正文
    - 图表优先：能可视化的内容必须先展示图表
+
+   **primitive 四视图最低要求**：
+   - 有多角色或 trust assumption → 角色与信任边界总览图
+   - 对每个 materially 不同的核心角色族 → 角色内部组件图
+   - 有跨角色交互 → 跨角色核心流程图
+   - 有显式状态 / round / epoch / timeout / challenge → 状态图或状态表
+   - 始终补能力归属表；若复用 canonical 内部组件图，补角色差异表
 
 3. **生成 PlantUML 图（如有需要）**
    - 先写 brief 文件

@@ -26,7 +26,7 @@
 ## Files to Read
 
 - `harness/workflows/principle-atom-workflow.md` - Atom 写作流程
-- `harness/rules/research/definition-rules.md` - 定义写作规则
+- `harness/rules/research/atom-definition-rules.md` - 定义写作规则
 - `harness/rules/general/terminology-policy.md` - 术语政策
 - `openspec/changes/<change-id>/sources/source-pack.yaml` - 来源包
 

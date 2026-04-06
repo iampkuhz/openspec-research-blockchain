@@ -28,8 +28,8 @@
 根据评审对象加载：
 
 - `harness/workflows/review-workflow.md` - 评审流程
-- `harness/rules/research/definition-rules.md` (如适用)
-- `harness/rules/research/mechanism-rules.md` (如适用)
+- `harness/rules/research/atom-definition-rules.md` (如适用)
+- `harness/rules/research/atom-mechanism-rules.md` (如适用)
 - `harness/rules/diagrams/diagram-review-checklist.md` (如图评审)
 - `openspec/specs/evidence-policy/spec.md` - 证据政策
 

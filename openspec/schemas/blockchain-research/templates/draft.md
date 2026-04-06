@@ -93,52 +93,97 @@ python3 scripts/research/validate_draft_diagram_contract.py <change-dir>/draft.m
 
 ### primitive 类型
 
-#### 组件架构
+#### primitive 的四视图（先做分类，再决定图）
 
-必须先画组件图，说明：
-- 有哪些核心组件
-- 每个组件位于哪一层（协议层/基础设施层/应用层）
-- 谁负责/控制这个组件
+**先回答两个问题**：
+
+1. 这是跨信任边界的"角色"问题，还是同一控制方内部的"组件"问题？
+2. 这是边界、内部结构、跨角色流程，还是角色局部状态问题？
+
+**判定规则**：
+- `Role`：控制方不同，跨边界通信依赖 trust assumption
+- `Component`：控制方相同，内部默认无条件信任
+- `State`：同一角色/组件的运行阶段，不是组件
+- `Data Object`：消息、区块、证明、证书等载荷
+- `External System`：系统边界之外的集成对象
+
+#### 实体分类表（必须）
+
+在正文开头先补一张表，避免后续混图：
+
+| 实体 | 类型（role/component/data/state/external） | 控制方 | 是否跨信任边界 | 主要职责 | 应落入哪类图 |
+|------|-------------------------------------------|--------|----------------|----------|--------------|
+| | | | | | |
+
+#### 图表清单表（必须）
+
+在开画之前先声明本文计划交付哪些图：
+
+| 图名 | 要回答的问题 | 是否必须 | 采用格式 | 为什么需要/可省略 |
+|------|--------------|----------|----------|------------------|
+| | | | | |
+
+#### 1. 角色与信任边界总览图（按条件必须）
+
+当存在两个及以上独立控制方，或正文需要解释 trust assumption 时，必须先画角色边界图，说明：
+- 系统里有哪些角色
+- 谁和谁跨边界通信
+- 边界上的关键消息/证明/调用
+- 关键 trust assumption
 
 **生成方式**：
-使用 `feipi-plantuml-generate-architecture-diagram` skill 生成组件图。
+使用 `feipi-plantuml-generate-architecture-diagram` skill 生成。
 
 **交付要求**：
 - 必须产出 diagram package（`diagrams/<id>/validation.json` + `diagram.puml` + `diagram.svg`）
 - `validation.json` 必须显示 `final_status=success` 且 `render_result=ok`
 - PlantUML block 前必须有 contract comment
 
-```markdown
-<!-- verified-diagram: package=./diagrams/arch-overview/validation.json puml=./diagrams/arch-overview/diagram.puml sha256=abc123... -->
-```plantuml
-@startuml
-...
-@enduml
-```
-```
+#### 2. 角色内部组件图（必须）
 
-#### 核心流程
+对每个**内部结构 materially 不同**的核心角色族，至少提供一张组件图，说明：
+- 该角色内部有哪些核心组件
+- 每个组件位于哪一层
+- 组件之间如何协作
+- 哪些只是临时职责或状态，不应被画成组件
 
-时序图（如必要），展示关键交互流程
+**去重规则**：
+- 如果多个角色内部结构相同，只画 1 张 canonical 图
+- 剩余角色用 Markdown 表格说明差异，不要重复画同构图
+
+**生成方式**：
+使用 `feipi-plantuml-generate-architecture-diagram` skill 生成。
+
+**差异表模板**：
+
+| 角色/节点类型 | 是否复用 canonical 图 | 差异点 |
+|--------------|----------------------|--------|
+| | | |
+
+#### 3. 跨角色核心流程图（按条件必须）
+
+当机制依赖跨角色交互时，必须至少提供 1 张时序图，展示关键交互流程。
+
+**最低要求**：
+- 至少 1 张 happy path
+
+**补充要求**：
+- 如果超时、挑战、回滚、失败恢复会影响安全性、活性或资金安全，必须再补 1 张异常路径图或表
 
 **生成方式**：
 使用 `feipi-plantuml-generate-sequence-diagram` skill 生成。
 
-**交付要求**：
-- 必须产出 diagram package
-- `validation.json` 必须显示 `final_status=success` 且 `render_result=ok`
-- PlantUML block 前必须有 contract comment
-
 **流程步骤说明**（与图中序号对应）：
-
 - 必须使用无序列表，不能用有序列表
-- 使用 【S1→S3】格式与图中序号关联，如：【S1→S3】Bundler 模拟验证机制...
+- 使用 `【S1→S3】` 格式与图中序号关联
 - 不要重复完整流程文字，而是针对重点流程补充说明
 - 每个要点聚焦一个关键机制或设计决策
 
-- 【S1→Sn】**关键步骤说明**：补充说明该步骤的核心机制或设计原因
+- `【S1→Sn】关键步骤说明`：补充说明该步骤的核心机制或设计原因
 
-#### 状态机图（如需要）
+#### 4. 角色局部状态转换（按条件必须）
+
+当行为依赖命名状态、phase、round、epoch、timeout、challenge window、lock/unlock 等转换时，必须提供状态图或状态表。
 
 **注意**：状态机图**无** dedicated skill 支持，**不得使用 PlantUML**。
 
@@ -167,6 +212,14 @@ stateDiagram-v2
 ```
 [*] --> Idle --> Running --> Failed --> [*]
 ```
+
+#### 5. 能力归属表（必须）
+
+必须明确区分：
+- 协议原生能力
+- 各角色承担的职责
+- 外部依赖
+- 非目标 / 不能解决的问题
 
 ### synthesis 类型
 
