@@ -3,12 +3,71 @@
 ## 目的
 
 提供图表评审的系统性检查项，分为两个阶段：
-1. **Brief 评审** - 评估输入需求的质量
-2. **PlantUML 评审** - 评估输出图的质量
+1. **Brief 评审** - 评估输入需求的质量（仅限 PlantUML 类型）
+2. **图表评审** - 评估输出图的质量
+
+**重要**：本清单用于执行层评审，正式规则来源为 `openspec/specs/diagram-policy/spec.md`。
 
 ---
 
-## 阶段 1: Brief 评审
+## 阶段 0: 类型合规性检查（新增）
+
+**在进入详细评审前，首先检查图表类型选择是否合规**。
+
+### 检查项 1: PlantUML 类型是否在支持范围内
+
+| 检查项 | 是/否 | 备注 |
+|--------|------|------|
+| 如使用 PlantUML，是否为 Architecture 或 Sequence 类型？ | | |
+| 如为 Architecture/Sequence，是否通过全局 skill 生成？ | | |
+| 是否有 diagram package 和 `validation.json`？ | | |
+| `validation.json` 是否显示 `final_status=success`？ | | |
+| `validation.json` 是否显示 `render_result=ok`？ | | |
+
+**违规处理**：
+- ❌ 使用 PlantUML 但类型为 State/Activity/Deployment → **Blocker**，必须降级为 Mermaid/表格/ASCII
+- ❌ 使用 PlantUML 但无 diagram package → **Blocker**，必须重新执行 skill
+- ❌ 使用 PlantUML 但 `validation.json` 显示失败 → **Blocker**，必须修复后重新执行
+
+### 检查项 2: Contract Comment 完整性（PlantUML 类型）
+
+| 检查项 | 是/否 | 备注 |
+|--------|------|------|
+| PlantUML block 前是否有 `<!-- verified-diagram: ... -->` comment？ | | |
+| comment 格式是否正确？ | | |
+| `package` 路径是否指向存在的 `validation.json`？ | | |
+| `puml` 路径是否指向存在的 `diagram.puml`？ | | |
+| `sha256` 是否与 block 内容一致？ | | |
+
+**验证命令**：
+```bash
+python3 scripts/research/validate_draft_diagram_contract.py <change-dir>/draft.md
+```
+
+### 检查项 3: Unsupported Type 硬塞检测
+
+**如何发现"把不支持的图硬塞成 PlantUML"**：
+
+| 检查项 | 是/否 | 备注 |
+|--------|------|------|
+| 是否为状态机图却使用 PlantUML？ | | |
+| 是否为部署图却使用 PlantUML？ | | |
+| 是否为活动图却使用 PlantUML？ | | |
+| 是否为比较总览图却使用 PlantUML？ | | |
+| 是否有手写的 `@startuml ... @enduml` 但无 diagram package？ | | |
+
+**检测技巧**：
+- 搜索 `@startuml` 但无 `<!-- verified-diagram:` → 可能为手写
+- 搜索 `stateDiagram` / `activityDiagram` in PlantUML → unsupported type
+- 有 diagram 但无 `diagrams/<id>/validation.json` → 可能为手写
+
+**违规处理**：
+- ❌ Unsupported type 使用 PlantUML → **Major**，建议降级为 Mermaid/表格/ASCII
+- ❌ 手写 PlantUML 无 contract → **Blocker**，必须删除或重新执行 skill
+
+---
+
+## 阶段 1: Brief 评审（PlantUML 类型）
 
 ### 检查项 1: 完整性
 
@@ -70,7 +129,7 @@ issues:
 
 ---
 
-## 阶段 2: PlantUML 评审
+## 阶段 2: PlantUML 评审（仅限 PlantUML 类型）
 
 ### 维度 1: 覆盖性
 
@@ -134,7 +193,7 @@ dimensions:
   coverage: pass|warn|fail
   accuracy: pass|warn|fail
   readability: pass|warn|fail
- 规范性：pass|warn|fail
+  规范性：pass|warn|fail
   consistency: pass|warn|fail
 
 overall: approved|conditional|rejected
@@ -145,15 +204,37 @@ issues:
     description: 问题描述
     suggestion: 修复建议
     status: open|resolved
-
-summary:
-  accuracy: pass
-  consistency: pass
-  readability: pass
-  completeness: pass
- 规范性：pass
-  overall: approved
 ```
+
+---
+
+## 阶段 3: Fallback 类型评审（Mermaid/表格/ASCII）
+
+### Mermaid 评审
+
+| 检查项 | 是/否 | 备注 |
+|--------|------|------|
+| GitHub/GitLab 预览可渲染 | | |
+| 无语法错误 | | |
+| 复杂度适中（状态<10，节点<15） | | |
+| 标签清晰 | | |
+
+### Markdown 表格评审
+
+| 检查项 | 是/否 | 备注 |
+|--------|------|------|
+| 对齐清晰 | | |
+| 表头语义明确 | | |
+| 列数适中（3-6 列） | | |
+| 内容简洁 | | |
+
+### ASCII 草图评审
+
+| 检查项 | 是/否 | 备注 |
+|--------|------|------|
+| 等宽字体下可读 | | |
+| 已标注"ASCII 草图" | | |
+| 用于快速说明（非核心图表） | | |
 
 ---
 
@@ -161,18 +242,30 @@ summary:
 
 | 严重性 | 描述 | 处理 |
 |--------|------|------|
-| **Blocker/High** | 事实错误、误导、引用断裂 | 必须修复 |
-| **Major/Medium** | 不规范、不一致、描述模糊 | 建议修复 |
-| **Minor/Low** | 可改进、可优化 | 酌情修复 |
+| **Blocker** | 类型不合规、手写 PlantUML 无 contract、validation 失败 | 必须修复，draft 不得完成 |
+| **High** | 事实错误、误导、引用断裂 | 必须修复 |
+| **Medium** | 不规范、不一致、描述模糊 | 建议修复 |
+| **Low** | 可改进、可优化 | 酌情修复 |
 
 ---
 
 ## 评审流程
 
-### Step 1: Brief 评审（生成前）
+### Step 0: 类型合规性检查（自动化）
+
+```bash
+# 执行 contract 校验
+python3 scripts/research/validate_draft_diagram_contract.py <change-dir>/draft.md
+```
+
+**通过标准**：
+- 返回码为 0
+- 所有 PlantUML blocks 通过 validation
+
+### Step 1: Brief 评审（PlantUML 类型，生成前）
 
 ```
-1. 执行 python3 scripts/validate_brief.py
+1. 执行 python3 scripts/validate_brief.py（skill 自动执行）
 2. 检查完整性、一致性、清晰度、可渲染性
 3. 输出 brief-evaluation.yaml
 4. 状态为 blocked 时，先修复 brief
@@ -182,6 +275,9 @@ summary:
 
 ```
 作者自行检查：
+- [ ] 类型合规性（非 Architecture/Sequence 不得使用 PlantUML）
+- [ ] Contract comment 完整
+- [ ] validation.json 显示 success
 - [ ] 覆盖性检查
 - [ ] 规范性检查
 - [ ] 简化标注
@@ -207,7 +303,7 @@ summary:
 ### Step 5: 修订
 
 ```
-- [ ] 修复 High 严重性问题
+- [ ] 修复 Blocker/High 严重性问题
 - [ ] 修复或记录 Medium 问题
 - [ ] 更新评审记录
 ```
@@ -216,13 +312,40 @@ summary:
 
 ## 评审通过标准
 
+**类型合规性**：
+- ✅ 所有 PlantUML 类型为 Architecture 或 Sequence
+- ✅ 所有 PlantUML 通过全局 skill 生成
+- ✅ 所有 PlantUML 有 diagram package 和 validation.json
+- ✅ `validation.json` 显示 `final_status=success` 且 `render_result=ok`
+- ✅ 所有 PlantUML blocks 有 contract comment 且 hash 一致
+
 **Brief 评审通过**：
-- 无 Blocker 问题
-- Major 问题已修复或记录
+- ✅ 无 Blocker 问题
+- ✅ Major 问题已修复或记录
 
 **PlantUML 评审通过**：
-- 无 High 严重性问题
-- Medium 问题已修复或记录
-- 简化已标注
-- 来源已引用
-- 评审人已签字
+- ✅ 无 High 严重性问题
+- ✅ Medium 问题已修复或记录
+- ✅ 简化已标注
+- ✅ 来源已引用
+- ✅ 评审人已签字
+
+**Fallback 评审通过**：
+- ✅ Mermaid 可渲染
+- ✅ 表格清晰
+- ✅ ASCII 可读
+
+---
+
+## 附录：快速检查命令
+
+```bash
+# 检查所有 PlantUML contract
+python3 scripts/research/validate_draft_diagram_contract.py <change-dir>/draft.md
+
+# 手动验证 validation.json
+cat <change-dir>/diagrams/<id>/validation.json | jq '{final_status, render_result}'
+
+# 搜索手写 PlantUML（无 contract）
+grep -B1 '@startuml' <change-dir>/draft.md | grep -v 'verified-diagram'
+```

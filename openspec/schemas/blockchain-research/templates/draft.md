@@ -42,11 +42,54 @@
 
 ### 分层图表策略
 
-**复杂主题必须采用分层图表**：
+**复杂主题必须采用分层图表策略**：
 
 1. 主框架图：展示整体演进脉络/架构全景
 2. 子阶段图：每个关键阶段/子模块有自己的详细图表
 3. 对比表格：特性对比、能力归属等结构化信息优先用表格
+
+### PlantUML 支持范围（重要）
+
+**本仓库正式支持的 PlantUML 类型仅限**：
+
+| 类型 | 用途 | 生成方式 |
+|------|------|----------|
+| **Architecture Diagram**（架构图/组件图） | 系统架构、组件分层、模块关系 | 必须通过全局 skill `feipi-plantuml-generate-architecture-diagram` |
+| **Sequence Diagram**（时序图/交互图） | 交互流程、调用链路、消息时序 | 必须通过全局 skill `feipi-plantuml-generate-sequence-diagram` |
+
+**Unsupported Types（不支持的 PlantUML 类型）**：
+
+以下类型**没有** dedicated skill 支持，**不得**使用 PlantUML 手写交付：
+
+| 类型 | 推荐 Fallback |
+|------|---------------|
+| State Diagram（状态机图） | Mermaid stateDiagram / Markdown 表格 / ASCII 草图 |
+| Activity Diagram（活动图） | Mermaid flowchart / Markdown 表格 / ASCII 草图 |
+| Deployment Diagram（部署图） | Mermaid deployment / Markdown 表格 / ASCII 草图 |
+| 比较总览图 | Markdown 表格 / ASCII 草图 |
+| 时间线 | Mermaid timeline / Markdown 表格 |
+
+详见：`openspec/specs/diagram-policy/spec.md`
+
+### PlantUML Diagram Contract Comment（正式交付必需）
+
+**所有 PlantUML block 前必须有紧邻的 contract comment**：
+
+```markdown
+<!-- verified-diagram: package=./diagrams/<diagram-id>/validation.json puml=./diagrams/<diagram-id>/diagram.puml sha256=<sha256> -->
+```plantuml
+@startuml
+...
+@enduml
+```
+```
+
+**校验命令**：
+```bash
+python3 scripts/research/validate_draft_diagram_contract.py <change-dir>/draft.md
+```
+
+**无 contract comment 的 PlantUML block 视为手写，draft 不得完成**。
 
 ### primitive 类型
 
@@ -57,19 +100,34 @@
 - 每个组件位于哪一层（协议层/基础设施层/应用层）
 - 谁负责/控制这个组件
 
-使用 feipi-plantuml-generate-architecture-diagram skill 生成组件图，确保 syntax_result=ok
+**生成方式**：
+使用 `feipi-plantuml-generate-architecture-diagram` skill 生成组件图。
 
+**交付要求**：
+- 必须产出 diagram package（`diagrams/<id>/validation.json` + `diagram.puml` + `diagram.svg`）
+- `validation.json` 必须显示 `final_status=success` 且 `render_result=ok`
+- PlantUML block 前必须有 contract comment
+
+```markdown
+<!-- verified-diagram: package=./diagrams/arch-overview/validation.json puml=./diagrams/arch-overview/diagram.puml sha256=abc123... -->
 ```plantuml
 @startuml
 ...
 @enduml
+```
 ```
 
 #### 核心流程
 
 时序图（如必要），展示关键交互流程
 
-使用 feipi-plantuml-generate-sequence-diagram skill 生成，确保 syntax_result=ok
+**生成方式**：
+使用 `feipi-plantuml-generate-sequence-diagram` skill 生成。
+
+**交付要求**：
+- 必须产出 diagram package
+- `validation.json` 必须显示 `final_status=success` 且 `render_result=ok`
+- PlantUML block 前必须有 contract comment
 
 **流程步骤说明**（与图中序号对应）：
 
@@ -80,18 +138,61 @@
 
 - 【S1→Sn】**关键步骤说明**：补充说明该步骤的核心机制或设计原因
 
+#### 状态机图（如需要）
+
+**注意**：状态机图**无** dedicated skill 支持，**不得使用 PlantUML**。
+
+**推荐 Fallback**：
+
+1. **Mermaid stateDiagram**（首选）
+
+```mermaid
+stateDiagram-v2
+    [*] --> Idle
+    Idle --> Running : start
+    Running --> Idle : stop
+    Running --> Failed : error
+    Failed --> [*]
+```
+
+2. **Markdown 表格**（结构化）
+
+| 当前状态 | 触发事件 | 转换结果 | 说明 |
+|----------|----------|----------|------|
+| Idle | start | Running | 启动 |
+| Running | stop | Idle | 停止 |
+
+3. **ASCII 草图**（快速说明）
+
+```
+[*] --> Idle --> Running --> Failed --> [*]
+```
+
 ### synthesis 类型
 
 #### 演进框架
 
 **主时间线图**（必须）：展示完整演进脉络
 
-使用 feipi-plantuml-generate-architecture-diagram skill 生成，确保 syntax_result=ok
+**生成方式**：
+- 复杂演进：使用 `feipi-plantuml-generate-architecture-diagram` skill
+- 简单时间线：Mermaid timeline 或 Markdown 表格
 
 **要求**：
 - 展示所有核心对象的时间线位置
 - 标注问题层（infrastructure/authorization/execution/protocol）
 - 展示演进的阶段划分
+
+**Mermaid 时间线示例**：
+
+```mermaid
+timeline
+    title AA EIP 演进时间线
+    2017 : EIP-712 : 结构化签名
+    2018 : EIP-1014 : CREATE2
+    2021 : EIP-4337 : 应用层 AA
+    2024 : EIP-7702 : EOA 代码化
+```
 
 **子阶段图**（推荐）：每个关键阶段有自己的详细图表
 
@@ -109,6 +210,13 @@
 - 同一问题层的不同方案
 - 跨层依赖关系
 
+**Markdown 表格示例**：
+
+| EIP | 问题层 | 解决方案 |
+|-----|--------|----------|
+| EIP-712 | Infrastructure | 结构化签名 |
+| EIP-4337 | Execution | Alt mempool |
+
 #### 各对象定位
 
 **对比表格**（必须）：
@@ -121,7 +229,9 @@
 
 **演进关系图**（必须）：展示对象间的演进、竞争、互补关系
 
-使用 feipi-plantuml-generate-architecture-diagram skill 生成
+**生成方式**：
+- 复杂关系：使用 `feipi-plantuml-generate-architecture-diagram` skill
+- 简单关系：Mermaid graph 或 ASCII 草图
 
 **文字补充**（只补充图中不易表达的）：
 - 为什么不是简单替代链

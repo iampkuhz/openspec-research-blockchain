@@ -2,7 +2,7 @@
 
 ## 目标
 
-创建 PlantUML 图表，辅助说明机制/架构/流程。
+创建图表，辅助说明机制/架构/流程。
 
 ## 触发条件
 
@@ -19,6 +19,7 @@
 ### 初始加载（workflow 开始时）
 
 - `harness/rules/diagrams/diagram-selection-matrix.md` — 图表类型选择
+- `openspec/specs/diagram-policy/spec.md` — 图表政策（**正式规则来源**）
 
 ### 按需加载（执行到对应步骤前）
 
@@ -34,25 +35,48 @@
 
 ## 主要技能（优先使用）
 
-**架构图/组件图** → `feipi-plantuml-generate-architecture-diagram`（全局 skill）
-**时序图** → `feipi-plantuml-generate-sequence-diagram`（全局 skill）
-
-这两个 skills 提供完整的 brief→PlantUML→校验流程。
+| 图表类型 | Skill | 说明 |
+|----------|-------|------|
+| **架构图/组件图** | `feipi-plantuml-generate-architecture-diagram`（全局 skill） | 唯一正式的 Architecture Diagram 生成方式 |
+| **时序图** | `feipi-plantuml-generate-sequence-diagram`（全局 skill） | 唯一正式的 Sequence Diagram 生成方式 |
+| 其他类型 | 无 dedicated skill | 使用 fallback 方案（Mermaid / 表格 / ASCII） |
 
 ## 步骤
 
 ### 步骤 1：确定图表类型
 
-根据内容选择：
+根据内容选择图表类型，**严格遵守 `openspec/specs/diagram-policy/spec.md` 的支持矩阵**：
 
-| 内容 | 推荐类型 | 使用 Skill |
-|------|----------|------------|
-| 系统架构/组件关系 | Architecture Diagram | `feipi-plantuml-generate-architecture-diagram` |
-| 交互流程/调用链路 | Sequence Diagram | `feipi-plantuml-generate-sequence-diagram` |
-| 状态变化 | State Diagram | 手动创建 |
-| 部署架构 | Deployment Diagram | 手动创建 |
+| 内容 | 推荐类型 | 生成方式 |
+|------|----------|----------|
+| 系统架构/组件分层/模块关系 | **Architecture Diagram** | 必须通过全局 `feipi-plantuml-generate-architecture-diagram` skill |
+| 交互流程/调用链路/消息时序 | **Sequence Diagram** | 必须通过全局 `feipi-plantuml-generate-sequence-diagram` skill |
+| 状态变化 | **State Diagram** | ❌ 无 PlantUML skill 支持 → 使用 Mermaid / Markdown 表格 / ASCII |
+| 部署架构 | **Deployment Diagram** | ❌ 无 PlantUML skill 支持 → 使用 Mermaid / Markdown 表格 / ASCII |
+| 数据流/活动流 | **Activity Diagram** | ❌ 无 PlantUML skill 支持 → 使用 Mermaid / Markdown 表格 / ASCII |
+| 比较总览/特性对比 | **对比表格** | 必须使用 Markdown 表格 |
+| 简单关系/快速草图 | **ASCII/Unicode 图** | 直接手写 ASCII |
 
-### 步骤 2：创建 Brief
+**决策树**：
+
+```
+要表达什么？
+├── 组件架构/分层关系 → Architecture Diagram (PlantUML skill)
+│
+├── 交互流程/消息时序 → Sequence Diagram (PlantUML skill)
+│
+├── 状态变化 → Mermaid stateDiagram / Markdown 表格 / ASCII
+│
+├── 特性对比/能力归属 → Markdown 表格（首选）
+│
+├── 时间线 → Mermaid timeline / Markdown 表格
+│
+└── 快速草图/简单关系 → ASCII/Unicode
+```
+
+### 步骤 2：创建 Brief（仅限 PlantUML 类型）
+
+**仅当图表类型为 Architecture Diagram 或 Sequence Diagram 时执行此步骤**。
 
 **架构图**使用 `architecture-brief.yaml` 格式（由 user skill 定义）：
 ```yaml
@@ -87,7 +111,9 @@ messages:
     description: <消息说明>
 ```
 
-### 步骤 3：调用 Skill 生成
+### 步骤 3：调用 Skill 生成（仅限 PlantUML 类型）
+
+**仅当图表类型为 Architecture Diagram 或 Sequence Diagram 时执行此步骤**。
 
 **架构图**：
 ```
@@ -101,7 +127,14 @@ messages:
 使用 feipi-plantuml-generate-sequence-diagram skill，传入 brief
 ```
 
-### 步骤 4：Skill 内部校验流程
+**注意**：
+- Skill 会自动执行完整校验链（brief 校验、覆盖校验、布局校验、渲染校验）
+- 只有 `validation.json` 显示 `final_status=success` 且 `render_result=ok` 时才能交付
+- 不得绕过 skill 直接手写 PlantUML
+
+### 步骤 4：Skill 内部校验流程（仅限 PlantUML 类型）
+
+**仅当图表类型为 Architecture Diagram 或 Sequence Diagram 时执行此步骤**。
 
 用户级 skills 会自动执行：
 
@@ -110,53 +143,129 @@ messages:
 3. **布局校验** - `scripts/lint_layout.sh`
 4. **渲染校验** - `scripts/check_render.sh`
 
-**注意**：这些脚本由用户级 skill 管理，不在本仓库 `scripts/` 目录。用户级 skills (`feipi-plantuml-generate-architecture-diagram` 和 `feipi-plantuml-generate-sequence-diagram`) 会自动执行校验流程。
+**注意**：
+- 这些脚本由用户级 skill 管理，不在本仓库 `scripts/` 目录
+- 用户级 skills 会自动执行校验流程
+- 产出物包含 diagram package（`validation.json`、`diagram.puml`、`diagram.svg`、`brief.normalized.yaml`）
 
-### 步骤 5：手动创建图表（备选）
+### 步骤 5：创建 fallback 图表（Unsupported Types）
 
-当图表类型不属于架构/时序图，或用户级 skill 不可用时：
+**当图表类型不属于 Architecture Diagram 或 Sequence Diagram 时，使用以下 fallback 方案**：
 
-1. 创建 PlantUML source
-2. 使用 `scripts/check_plantuml.sh` 校验语法
-3. 使用 `scripts/diagrams/render.sh` 渲染（如需要）
+#### 5.1 Mermaid（首选 fallback）
+
+```markdown
+```mermaid
+stateDiagram-v2
+    [*] --> Initial
+    Initial --> Processing : event
+    Processing --> Complete : success
+    Complete --> [*]
+```
+```
+
+#### 5.2 Markdown 表格（结构化信息）
+
+```markdown
+| 状态 | 触发条件 | 转换结果 | 说明 |
+|------|----------|----------|------|
+| Initial | event | Processing | 初始状态 |
+| Processing | success | Complete | 处理成功 |
+```
+
+#### 5.3 ASCII/Unicode 草图（快速说明）
+
+```
+[State A] --event--> [State B] --success--> [State C]
+                          |
+                          v
+                     [State D]
+```
 
 ### 步骤 6：集成到 draft.md
 
-在 `draft.md` 中引用图：
+**PlantUML 类型（Architecture/Sequence）**：
+
+在 `draft.md` 中引用图，**必须包含 contract comment**：
 
 ```markdown
-## 核心架构
+<!-- verified-diagram: package=./diagrams/<diagram-id>/validation.json puml=./diagrams/<diagram-id>/diagram.puml sha256=<sha256> -->
+```plantuml
+@startuml
+...
+@enduml
+```
+```
 
-![架构图标题](../diagrams/build/<diagram-id>.svg)
+**Fallback 类型（Mermaid/表格/ASCII）**：
 
-图 1: 架构说明
+```markdown
+### 状态机图
+
+```mermaid
+stateDiagram-v2
+    [*] --> Initial
+```
+
+图 1: 状态机说明
 ```
 
 ## 输出
 
-- brief.yaml（规范化后的）
-- `.puml` 源码
-- `.svg`（环境可用时）
-- 校验摘要
+**PlantUML 类型**：
+- diagram package（位于 `diagrams/<diagram-id>/`）
+  - `brief.normalized.yaml`
+  - `diagram.puml`
+  - `diagram.svg`（环境可用时）
+  - `validation.json`（必须显示 `final_status=success` 且 `render_result=ok`）
+
+**Fallback 类型**：
+- Mermaid 代码块（直接嵌入 draft.md）
+- Markdown 表格（直接嵌入 draft.md）
+- ASCII 草图（直接嵌入 draft.md）
 
 ## 完成标准
 
-- [ ] brief 已创建
-- [ ] PlantUML source 已生成
-- [ ] 语法校验通过
-- [ ] 渲染完成（或明确标注未完成）
+- [ ] 图表类型已选择（遵守支持矩阵）
+- [ ] PlantUML 类型：brief 已创建
+- [ ] PlantUML 类型：skill 已调用
+- [ ] PlantUML 类型：`validation.json` 显示 success
+- [ ] Fallback 类型：渲染/预览验证通过
+- [ ] contract comment 已添加（PlantUML 类型）
 
 ## 异常处理
-
-### 渲染失败
-
-**处理**：
-1. 检查 PlantUML 语法
-2. 简化复杂结构
-3. 检查渲染服务可用性
 
 ### Skill 不可用
 
 **处理**：
-1. 使用备选手动流程
-2. 标注"未完成真实渲染校验"
+1. 不得降级为手写 PlantUML
+2. 如为 Architecture/Sequence 类型，必须等待 skill 可用
+3. 如为 unsupported type，直接使用 fallback 方案
+
+### 渲染失败
+
+**处理**：
+1. 检查 skill 的 `validation.json` 错误原因
+2. 根据 `blocked_reason` 修复
+3. 重新执行 skill 完整流程
+
+### 需要 unsupported type
+
+**处理**：
+1. 确认类型确实无 dedicated skill 支持
+2. 选择 Mermaid / Markdown 表格 / ASCII fallback
+3. 不得使用 PlantUML 手写
+
+## 重要约束
+
+1. **repo-local `scripts/diagrams/check_plantuml.sh` 不是正式 gate**
+   - 仅用于手工 troubleshooting
+   - draft pipeline 的正式真相是 skill 的 `validation.json`
+
+2. **全局 skill 是 PlantUML 生成与验证的 source of truth**
+   - 不得绕过 skill 直接手写 PlantUML
+   - 不得把 unsupported type 硬塞成 PlantUML
+
+3. **Unsupported type 的 fallback 是正式交付方式**
+   - Mermaid / Markdown 表格 / ASCII 是正式交付
+   - 不是临时替代

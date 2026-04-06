@@ -65,11 +65,15 @@ scripts/
 
 ### 图表脚本（diagrams/）
 
-> **注意**：架构图和时序图优先使用用户级 skills（`feipi-plantuml-generate-architecture-diagram` 和 `feipi-plantuml-generate-sequence-diagram`）。以下脚本用于图表校验。
+> **重要**：架构图和时序图优先使用用户级 skills（`feipi-plantuml-generate-architecture-diagram` 和 `feipi-plantuml-generate-sequence-diagram`）。
+>
+> **`check_plantuml.sh` 仅用于手工 troubleshooting，不是 draft pipeline 的正式 gate**。
+>
+> 正式 PlantUML 验证通过全局 skill 的 `validation.json` 进行。
 
 | 脚本 | 功能 | 命令示例 |
 |------|------|----------|
-| `check_plantuml.sh` | PlantUML 语法校验（使用本地 PlantUML server） | `bash scripts/diagrams/check_plantuml.sh diagrams/source/architecture.puml` |
+| `check_plantuml.sh` | PlantUML 语法校验（**仅用于手工 troubleshooting**） | `bash scripts/diagrams/check_plantuml.sh diagrams/source/architecture.puml` |
 | `validate_diagram_model.py` | 验证 diagram model YAML 的字段完整性（diagram_id、title、components 等） | `python scripts/diagrams/validate_diagram_model.py diagrams/models/architecture-model.yaml` |
 | `check_diagram_references.py` | 检查 diagram 在 draft.md 或其他文件中是否被正确引用 | `python scripts/diagrams/check_diagram_references.py architecture --topic eip-4337` |
 
@@ -86,8 +90,10 @@ scripts/
 | 脚本 | 功能 | 命令示例 |
 |------|------|----------|
 | `install_repo_skills.sh` | 将 skills/ 目录链接到 Codex/Qoder 本地 skills 目录 | `bash scripts/maintenance/install_repo_skills.sh` |
-| `render.sh` | 渲染 PlantUML → SVG（当不使用 skill 时手动渲染） | `bash scripts/maintenance/render.sh diagrams/source/architecture.puml --output-dir diagrams/build/` |
+| `render.sh` | 渲染 PlantUML → SVG（**仅用于手工渲染，非正式交付**） | `bash scripts/maintenance/render.sh diagrams/source/architecture.puml --output-dir diagrams/build/` |
 | `compare_svg.sh` | 比较两个 SVG 文件的差异（用于检查图表变更） | `bash scripts/maintenance/compare_svg.sh old/architecture.svg new/architecture.svg` |
+
+**注意**：正式 PlantUML 交付必须通过全局 skill 生成，不得直接使用 `render.sh` 渲染手写 PlantUML。
 
 ---
 
