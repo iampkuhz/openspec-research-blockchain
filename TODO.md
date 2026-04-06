@@ -2,37 +2,6 @@
 
 ## bug： [未验证] 网络限制 类型的资料，修复后不会重试
 
-## PlantUML 正式交付流程
-
-**正式交付要求**：
-
-1. **支持的 PlantUML 类型（仅限两种）**：
-   - Architecture Diagram（组件架构图）→ 必须通过全局 skill `feipi-plantuml-generate-architecture-diagram`
-   - Sequence Diagram（时序图/交互图）→ 必须通过全局 skill `feipi-plantuml-generate-sequence-diagram`
-
-2. **不支持的 PlantUML 类型**（不得使用 PlantUML 手写交付）：
-   - State Diagram（状态机图）→ Fallback: Mermaid stateDiagram / Markdown 表格 / ASCII 草图
-   - Activity Diagram（活动图）→ Fallback: Mermaid flowchart / Markdown 表格 / ASCII 草图
-   - Deployment Diagram（部署图）→ Fallback: Mermaid deployment / Markdown 表格 / ASCII 草图
-   - 比较总览图 → Fallback: Markdown 表格 / ASCII 草图
-   - 时间线 → Fallback: Mermaid timeline / Markdown 表格
-
-3. **验证流程**：
-   - 正式验证通过 skill 的 `validation.json` 进行（必须显示 `final_status=success` 且 `render_result=ok`）
-   - PlantUML block 前必须有 `<!-- verified-diagram: ... -->` contract comment
-   - 必须产出 diagram package（`diagrams/<id>/validation.json` + `diagram.puml` + `diagram.svg`）
-
-4. **repo-local 脚本定位**：
-   - `scripts/check_plantuml.sh` 仅用于手工 troubleshooting，**不是** draft pipeline 的正式 gate
-   - `scripts/maintenance/render.sh` 仅用于本地渲染预览，**不得**用于正式交付
-
-## bug：已修复 - 使用旧版本 skill 名称
-
-已修复：所有文档已更新为使用最新版本的 skill 名称：
-- `feipi-gen-plantuml-arch-diagram` → `feipi-plantuml-generate-architecture-diagram`
-- `feipi-gen-plantuml-sequence-diagram` → `feipi-plantuml-generate-sequence-diagram`
-- 移除了 `feipi-gen-plantuml-code` 引用（此 skill 已删除）
-
 ## tool： intellij preview 不展示 plantuml 代码
 
 ## knowledge/ 子目录优化 indexes/ && glossary/

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""校验 draft.md 中 PlantUML diagram 的 contract 和 hash 一致性。
+"""校验 draft.md 中 PlantUML diagram 的 contract、一致性与来源证明。
 
 本脚本只做 contract/provenance/hash 校验，不重新渲染 PlantUML。
 
@@ -13,17 +13,29 @@
 
 from __future__ import annotations
 
-import hashlib
 import json
 import re
 import sys
 from pathlib import Path
-from typing import Any
+import hashlib
 
 
 def sha256_text(text: str) -> str:
     """计算文本的 SHA256 哈希。"""
     return hashlib.sha256(text.encode("utf-8")).hexdigest()
+
+
+def sha256_file(path: Path) -> str:
+    """计算文件原始字节的 SHA256 哈希。"""
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def normalize_plantuml_text(text: str) -> str:
+    """统一换行并补齐结尾换行，避免 markdown block 与 .puml 文件因 EOF 差异误报。"""
+    normalized = text.replace("\r\n", "\n").replace("\r", "\n")
+    if normalized and not normalized.endswith("\n"):
+        normalized += "\n"
+    return normalized
 
 
 def parse_contract_comment(comment: str) -> dict[str, str] | None:
@@ -64,7 +76,7 @@ def extract_plantuml_blocks(content: str) -> list[tuple[str, str, int]]:
                 block_lines.append(lines[i])
                 i += 1
 
-            block_content = "\n".join(block_lines)
+            block_content = normalize_plantuml_text("\n".join(block_lines))
 
             # 查找 preceding comment（紧邻的单行 HTML 注释）
             preceding_comment = ""
@@ -126,6 +138,14 @@ def validate_draft(draft_path: Path) -> tuple[bool, list[str]]:
             )
             continue
 
+        # 验证 diagram.puml 存在
+        puml_path = change_dir / contract["puml"]
+        if not puml_path.exists():
+            errors.append(
+                f"line {line_no}: diagram.puml 不存在：{contract['puml']}"
+            )
+            continue
+
         # 读取并验证 validation.json
         try:
             validation_data = json.loads(validation_path.read_text(encoding="utf-8"))
@@ -147,14 +167,13 @@ def validate_draft(draft_path: Path) -> tuple[bool, list[str]]:
             )
             continue
 
-        # 验证 block 内容的 sha256 与 contract 一致
-        block_sha256 = sha256_text(block_content)
-        if block_sha256 != contract["sha256"]:
+        # 验证 comment / validation / diagram.puml 三者对同一源文件达成一致
+        puml_file_sha256 = sha256_file(puml_path).lower()
+        if puml_file_sha256 != contract["sha256"]:
             errors.append(
-                f"line {line_no}: PlantUML block 内容的 SHA256 与 contract 不匹配。\n"
+                f"line {line_no}: contract sha256 与 diagram.puml 文件不匹配。\n"
                 f"  期望：{contract['sha256']}\n"
-                f"  实际：{block_sha256}\n"
-                f"  这可能意味着 block 内容被手改了。"
+                f"  实际：{puml_file_sha256}"
             )
             continue
 
@@ -165,6 +184,19 @@ def validate_draft(draft_path: Path) -> tuple[bool, list[str]]:
                 f"line {line_no}: contract sha256 与 validation.json 中的 puml_sha256 不匹配。\n"
                 f"  contract: {contract['sha256']}\n"
                 f"  validation.json: {validation_puml_sha256}"
+            )
+            continue
+
+        # 验证 draft 中 block 内容与 diagram.puml 一致。
+        puml_text = normalize_plantuml_text(puml_path.read_text(encoding="utf-8"))
+        if block_content != puml_text:
+            block_sha256 = sha256_text(block_content)
+            canonical_sha256 = sha256_text(puml_text)
+            errors.append(
+                f"line {line_no}: PlantUML block 内容与 diagram.puml 不一致。\n"
+                f"  block sha256: {block_sha256}\n"
+                f"  diagram sha256: {canonical_sha256}\n"
+                f"  这可能意味着 draft 中的 block 被手改了。"
             )
             continue
 

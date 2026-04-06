@@ -91,7 +91,10 @@ draft 阶段必须遵守：
 
 ### PlantUML 要求
 
-- PlantUML 图必须经过语法校验并通过后才可写入 draft
+- PlantUML 仅限用于 **Architecture Diagram** 和 **Sequence Diagram**
+- 这两类 PlantUML 必须通过对应的全局 skill 完整生成与验证
+- 每个 PlantUML block 必须有可追溯的 diagram package 与验证合同
+- 不支持的图表类型（如状态机图、活动图、部署图、比较总览图）不得手写 PlantUML 交付，必须使用 Mermaid / Markdown 表格 / ASCII fallback
 
 ## draft 阶段完成标准
 
@@ -103,7 +106,7 @@ draft 阶段视为完成，当且仅当：
 
 2. **图表完备**
    - 包含所有核心图表类型
-   - 所有 PlantUML 通过语法校验
+   - 所有 PlantUML 满足 diagram policy 的支持矩阵与验证合同要求
 
 3. **内容合规**
    - 遵守所有上位规范要求
@@ -127,6 +130,25 @@ draft 阶段视为完成，当且仅当：
 - draft 阶段的入口条件
 - draft 阶段的形式要求
 - draft 阶段的完成标准
+
+## PlantUML 在 draft 阶段的落点
+
+对 draft 阶段，PlantUML 的正式要求进一步收紧为：
+
+1. **支持范围**
+   - 仅 `Architecture Diagram` 和 `Sequence Diagram` 可以使用 PlantUML
+
+2. **生成方式**
+   - 必须通过对应的全局 skill 生成
+   - 不得手写或手改后冒充 skill 产物
+
+3. **交付证明**
+   - 每个 PlantUML block 必须能追溯到 diagram package
+   - diagram package 必须包含验证合同，且显示成功
+
+4. **不支持类型**
+   - 状态机图、活动图、部署图、比较总览图等无 dedicated skill 支持的类型
+   - 必须使用 Mermaid、Markdown 表格或 ASCII/Unicode 图交付
 
 ## 相关规范
 

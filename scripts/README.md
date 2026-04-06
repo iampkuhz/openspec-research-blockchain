@@ -18,7 +18,8 @@ scripts/
 │   ├── normalize_claims.py        # 标准化 claims 格式
 │   ├── build_comparison_matrix.py # 构建特性对比矩阵
 │   ├── validate_sources.py        # 验证来源有效性
-│   └── find_term_drift.py         # 查找术语定义漂移
+│   ├── find_term_drift.py         # 查找术语定义漂移
+│   └── validate_draft_diagram_contract.py # 校验 draft.md 中 PlantUML contract
 ├── publish/              # 发布工具（apply 阶段使用）
 │   ├── move_change_outputs.py     # 移动 change 到 knowledge/
 │   └── generate_topic_index.py    # 生成 topic 索引文件
@@ -55,6 +56,7 @@ scripts/
 | `build_comparison_matrix.py` | 根据多个 topic 的 claims 生成特性对比矩阵（YAML 格式） | `python scripts/research/build_comparison_matrix.py --topics eip-4337,eip-7702 --output comparison.yaml` |
 | `validate_sources.py` | 验证来源 URL 是否可访问、证据等级是否适当 | `python scripts/research/validate_sources.py --topic eip-4337` |
 | `find_term_drift.py` | 查找某个术语在不同 topic 中的定义是否一致（检测术语漂移） | `python scripts/research/find_term_drift.py --term UserOperation` |
+| `validate_draft_diagram_contract.py` | 校验 `draft.md` 中 PlantUML block 的 contract、hash 和 diagram package 一致性 | `python scripts/research/validate_draft_diagram_contract.py openspec/changes/<id>/draft.md` |
 
 ### 发布脚本（publish/）
 
