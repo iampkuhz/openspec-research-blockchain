@@ -42,7 +42,54 @@
 4. **生成或更新 `draft.md`**
    - 严格遵守上述规范中的所有约束
 
-5. **完成总结**
+5. **PlantUML diagram 合同校验（强制）**
+   - 所有 PlantUML 图必须通过用户级 skills 生成：
+     - 架构图：`feipi-plantuml-generate-architecture-diagram`
+     - 时序图：`feipi-plantuml-generate-sequence-diagram`
+   - **禁止**直接手写或手改 PlantUML 代码后未经 skill 完整执行合同就写入 draft.md
+   - 每个 PlantUML block 前必须有紧邻的 contract comment：
+     ```
+     <!-- verified-diagram: package=./diagrams/<diagram-id>/validation.json puml=./diagrams/<diagram-id>/diagram.puml sha256=<sha256> -->
+     ```
+   - diagram package 必须位于标准位置：`openspec/changes/<change-id>/diagrams/<diagram-id>/`
+   - 必须包含 `validation.json` 且 `final_status=success` 和 `render_result=ok`
+   - 写完 `draft.md` 后，必须执行：
+     ```bash
+     python3 scripts/research/validate_draft_diagram_contract.py <change-dir>/draft.md
+     ```
+   - 只有脚本返回 0，才能声称 draft 完成
+
+6. **完成总结**
    - 使用了哪个 change 路径
    - 更新了哪些 section
    - 建议用户重点 review 哪些部分
+   - diagram contract 校验结果（如有 PlantUML blocks）
+
+## PlantUML diagram 完整执行合同
+
+**所有 PlantUML 图必须遵守以下合同，否则不得写入 draft.md：**
+
+1. **必须使用全局 skill 生成**
+   - 架构图：`feipi-plantuml-generate-architecture-diagram`
+   - 时序图：`feipi-plantuml-generate-sequence-diagram`
+   - 禁止手写或手改 PlantUML 代码
+
+2. **必须产出 diagram package**
+   - 标准位置：`openspec/changes/<change-id>/diagrams/<diagram-id>/`
+   - 包含：`brief.normalized.yaml`、`diagram.puml`、`diagram.svg`、`validation.json`
+
+3. **必须通过 validation.json 验证**
+   - `final_status=success`
+   - `render_result=ok`
+   - `puml_sha256` 与 diagram.puml 一致
+
+4. **必须在 draft.md 中添加 contract comment**
+   - 每个 PlantUML block 前必须有紧邻的单行 HTML 注释
+   - 格式固定：`<!-- verified-diagram: package=... puml=... sha256=... -->`
+   - sha256 必须与 diagram.puml 和 validation.json 一致
+
+5. **必须通过合同校验脚本**
+   - 写完 draft.md 后必须执行 `validate_draft_diagram_contract.py`
+   - 校验通过（返回 0）后才能声称 draft 完成
+
+**违反以上任一约束的 draft.md 视为未完成。**

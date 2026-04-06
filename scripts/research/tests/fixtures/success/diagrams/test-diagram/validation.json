@@ -1,0 +1,17 @@
+{
+  "schema_version": "1.0",
+  "skill_name": "feipi-plantuml-generate-architecture-diagram",
+  "diagram_type": "architecture",
+  "brief_path": "brief.yaml",
+  "diagram_path": "diagram.puml",
+  "svg_path": "diagram.svg",
+  "brief_check": "ok",
+  "coverage_check": "ok",
+  "layout_check": "ok",
+  "render_result": "ok",
+  "render_server": "https://www.plantuml.com/plantuml",
+  "puml_sha256": "ccce9288bb1632f485e6d024c8d239a06317b229da0b17edaf413437c326df4d",
+  "svg_sha256": "abc123",
+  "final_status": "success",
+  "blocked_reason": ""
+}
