@@ -43,7 +43,7 @@ description: |
 - 必须包含**目录**
 - 术语区必须使用**表格**（三列：术语、定义、作用）
 - 必须先画**组件图**（展示组件、层级、负责人），再画时序图（如必要）
-- **所有 PlantUML 必须通过 `/feipi-gen-plantuml-code` skill 生成**，禁止直接手写
+- **所有 PlantUML 必须通过 `/feipi-plantuml-generate-architecture-diagram` 或 `/feipi-plantuml-generate-sequence-diagram` skill 生成**，禁止直接手写
 - 所有 PlantUML 必须通过 `syntax_result=ok` 校验后才可写入 draft
 - 顺序固定为：
   - 概述

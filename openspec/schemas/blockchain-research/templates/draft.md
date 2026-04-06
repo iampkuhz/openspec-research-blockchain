@@ -57,7 +57,7 @@
 - 每个组件位于哪一层（协议层/基础设施层/应用层）
 - 谁负责/控制这个组件
 
-使用 feipi-gen-plantuml-code skill 生成组件图，确保 syntax_result=ok
+使用 feipi-plantuml-generate-architecture-diagram skill 生成组件图，确保 syntax_result=ok
 
 ```plantuml
 @startuml
@@ -69,7 +69,7 @@
 
 时序图（如必要），展示关键交互流程
 
-使用 feipi-gen-plantuml-code skill 生成，确保 syntax_result=ok
+使用 feipi-plantuml-generate-sequence-diagram skill 生成，确保 syntax_result=ok
 
 **流程步骤说明**（与图中序号对应）：
 
@@ -86,7 +86,7 @@
 
 **主时间线图**（必须）：展示完整演进脉络
 
-使用 feipi-gen-plantuml-code skill 生成，确保 syntax_result=ok
+使用 feipi-plantuml-generate-architecture-diagram skill 生成，确保 syntax_result=ok
 
 **要求**：
 - 展示所有核心对象的时间线位置
@@ -121,7 +121,7 @@
 
 **演进关系图**（必须）：展示对象间的演进、竞争、互补关系
 
-使用 feipi-gen-plantuml-code skill 生成
+使用 feipi-plantuml-generate-architecture-diagram skill 生成
 
 **文字补充**（只补充图中不易表达的）：
 - 为什么不是简单替代链

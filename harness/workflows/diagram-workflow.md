@@ -34,8 +34,8 @@
 
 ## 主要技能（优先使用）
 
-**架构图/组件图** → `feipi-gen-plantuml-arch-diagram`（全局 skill）
-**时序图** → `feipi-gen-plantuml-sequence-diagram`（全局 skill）
+**架构图/组件图** → `feipi-plantuml-generate-architecture-diagram`（全局 skill）
+**时序图** → `feipi-plantuml-generate-sequence-diagram`（全局 skill）
 
 这两个 skills 提供完整的 brief→PlantUML→校验流程。
 
@@ -47,8 +47,8 @@
 
 | 内容 | 推荐类型 | 使用 Skill |
 |------|----------|------------|
-| 系统架构/组件关系 | Architecture Diagram | `feipi-gen-plantuml-arch-diagram` |
-| 交互流程/调用链路 | Sequence Diagram | `feipi-gen-plantuml-sequence-diagram` |
+| 系统架构/组件关系 | Architecture Diagram | `feipi-plantuml-generate-architecture-diagram` |
+| 交互流程/调用链路 | Sequence Diagram | `feipi-plantuml-generate-sequence-diagram` |
 | 状态变化 | State Diagram | 手动创建 |
 | 部署架构 | Deployment Diagram | 手动创建 |
 
@@ -92,13 +92,13 @@ messages:
 **架构图**：
 ```
 # 直接调用 skill（Claude Code 会自动识别）
-使用 feipi-gen-plantuml-arch-diagram skill，传入 brief
+使用 feipi-plantuml-generate-architecture-diagram skill，传入 brief
 ```
 
 **时序图**：
 ```
 # 直接调用 skill（Claude Code 会自动识别）
-使用 feipi-gen-plantuml-sequence-diagram skill，传入 brief
+使用 feipi-plantuml-generate-sequence-diagram skill，传入 brief
 ```
 
 ### 步骤 4：Skill 内部校验流程
@@ -110,7 +110,7 @@ messages:
 3. **布局校验** - `scripts/lint_layout.sh`
 4. **渲染校验** - `scripts/check_render.sh`
 
-**注意**：这些脚本由用户级 skill 管理，不在本仓库 `scripts/` 目录。
+**注意**：这些脚本由用户级 skill 管理，不在本仓库 `scripts/` 目录。用户级 skills (`feipi-plantuml-generate-architecture-diagram` 和 `feipi-plantuml-generate-sequence-diagram`) 会自动执行校验流程。
 
 ### 步骤 5：手动创建图表（备选）
 

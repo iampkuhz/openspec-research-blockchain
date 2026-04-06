@@ -41,9 +41,8 @@
 
 | Skill | 用途 |
 |-------|------|
-| `feipi-gen-plantuml-arch-diagram` | 生成 PlantUML 架构图 |
-| `feipi-gen-plantuml-sequence-diagram` | 生成 PlantUML 时序图 |
-| `feipi-gen-plantuml-code` | 生成 PlantUML 代码图 |
+| `feipi-plantuml-generate-architecture-diagram` | 生成 PlantUML 架构图 |
+| `feipi-plantuml-generate-sequence-diagram` | 生成 PlantUML 时序图 |
 
 ---
 

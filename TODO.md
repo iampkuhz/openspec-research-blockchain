@@ -9,7 +9,12 @@ PlantUML 图表说明：
 - 由于本地 PlantUML server 未运行，无法通过 scripts/check_plantuml.sh 进行语法校验
 - 建议用户在有 PlantUML server 环境中运行校验
 
-## bug： 使用 feipi-gen-plantuml-code 这个老版本的 skill 工作
+## bug：已修复 - 使用旧版本 skill 名称
+
+已修复：所有文档已更新为使用最新版本的 skill 名称：
+- `feipi-gen-plantuml-arch-diagram` → `feipi-plantuml-generate-architecture-diagram`
+- `feipi-gen-plantuml-sequence-diagram` → `feipi-plantuml-generate-sequence-diagram`
+- 移除了 `feipi-gen-plantuml-code` 引用（此 skill 已删除）
 
 ## tool： intellij preview 不展示 plantuml 代码
 

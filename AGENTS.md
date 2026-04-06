@@ -193,8 +193,8 @@ OpenSpec 区块链研究协作的导航入口。
 
 | Skill | 用途 | 输入 |
 |-------|------|------|
-| `feipi-gen-plantuml-arch-diagram` | 生成 PlantUML 架构图 | `architecture-brief.yaml` |
-| `feipi-gen-plantuml-sequence-diagram` | 生成 PlantUML 时序图 | `sequence-brief.yaml` |
+| `feipi-plantuml-generate-architecture-diagram` | 生成 PlantUML 架构图 | `architecture-brief.yaml` |
+| `feipi-plantuml-generate-sequence-diagram` | 生成 PlantUML 时序图 | `sequence-brief.yaml` |
 
 **详情**：`skills/README.md`
 

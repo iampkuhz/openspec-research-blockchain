@@ -65,7 +65,7 @@ scripts/
 
 ### 图表脚本（diagrams/）
 
-> **注意**：架构图和时序图优先使用用户级 skills（`feipi-gen-plantuml-arch-diagram` 和 `feipi-gen-plantuml-sequence-diagram`）。以下脚本用于图表校验。
+> **注意**：架构图和时序图优先使用用户级 skills（`feipi-plantuml-generate-architecture-diagram` 和 `feipi-plantuml-generate-sequence-diagram`）。以下脚本用于图表校验。
 
 | 脚本 | 功能 | 命令示例 |
 |------|------|----------|

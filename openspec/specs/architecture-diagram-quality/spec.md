@@ -4,7 +4,7 @@
 
 定义区块链技术分析中架构组件图的质量标准。
 
-**注意**：本规约是领域特定要求，通用 PlantUML 规范见 `feipi-gen-plantuml-code` skill。
+**注意**：本规约是领域特定要求，通用 PlantUML 规范参见用户级 skills (`feipi-plantuml-generate-architecture-diagram` 和 `feipi-plantuml-generate-sequence-diagram`)。
 
 ## 两段式架构
 
@@ -15,9 +15,9 @@
 | 阶段 1 | 发起方 | brief 需求模板（YAML 格式） |
 | 阶段 2 | 画图方 | `<diagram-id>.puml` + `.svg` |
 
-发起方填写需求模板，画图方（`feipi-gen-plantuml-code` skill）根据模板生成并校验。
+发起方填写需求模板，画图方（用户级 skill）根据模板生成并校验。
 
-两段式架构详细说明见 skill 文档：`feipi-gen-plantuml-code/SKILL.md`
+两段式架构详细说明见 skill 文档：`feipi-plantuml-generate-architecture-diagram/SKILL.md`
 
 ## 领域特定要求
 
@@ -52,6 +52,6 @@
 ## 相关文件
 
 - `openspec/specs/diagram-policy/spec.md`：图表总政策
-- `feipi-gen-plantuml-code/SKILL.md`：PlantUML 生成 skill（包含两段式架构说明、元素规范和样式库）
-- `feipi-gen-plantuml-code/assets/templates/architecture-brief.yaml`：架构组件图需求模板
-- `feipi-gen-plantuml-code/references/template-architecture-brief.md`：需求模板详细说明
+- `feipi-plantuml-generate-architecture-diagram/SKILL.md`：PlantUML 生成 skill（包含两段式架构说明、元素规范和样式库）
+- `feipi-plantuml-generate-architecture-diagram/assets/templates/architecture-brief.yaml`：架构组件图需求模板
+- `feipi-plantuml-generate-architecture-diagram/references/template-architecture-brief.md`：需求模板详细说明

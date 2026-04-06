@@ -39,7 +39,7 @@
 - **适用场景**：组件架构图、核心流程时序图、复杂关系网络
 - **优势**：表达能力强、自动布局、支持复杂交互
 - **约束**：
-  - 必须通过 `/feipi-gen-plantuml-code` skill 生成和校验
+  - 必须通过用户级 skills (`feipi-plantuml-generate-architecture-diagram` 或 `feipi-plantuml-generate-sequence-diagram`) 生成和校验
   - 推荐使用 diagram-brief 需求模板（详见 skill 内 `references/template-architecture-brief.md`）
 
 **Markdown 表格**（结构化信息首选）：
@@ -107,7 +107,7 @@ Deployment (1014) ─────┘
 
 ### 3. PlantUML 必须通过 skill 生成
 
-- 所有 PlantUML 代码必须通过 `/feipi-gen-plantuml-code` skill 生成
+- 所有 PlantUML 代码必须通过用户级 skills (`feipi-plantuml-generate-architecture-diagram` 或 `feipi-plantuml-generate-sequence-diagram`) 生成
 - 禁止直接手写 PlantUML 代码后未经校验就提交
 - skill 会自动执行语法校验（`syntax_result=ok`）和布局检查
 
@@ -125,7 +125,7 @@ Deployment (1014) ─────┘
 
 ### 6. 流程集成
 
-- `build-draft` skill 必须在生成包含 PlantUML 的 draft 时，调用 `feipi-gen-plantuml-code` skill
+- `build-draft` skill 必须在生成包含 PlantUML 的 draft 时，调用用户级 skills (`feipi-plantuml-generate-architecture-diagram` 或 `feipi-plantuml-generate-sequence-diagram`)
 - `build-draft` skill 的 SKILL.md 必须显式声明此依赖关系
 
 ### 7. 问题追溯
@@ -137,7 +137,7 @@ Deployment (1014) ─────┘
 
 - `skills/openspec-research-build-draft/SKILL.md`：必须引用本政策
 - `openspec/schemas/blockchain-research/templates/draft.md`：必须提示使用 PlantUML skill
-- `.qoder/skills/feipi-gen-plantuml-code/`：图表生成与校验工具
+- 用户级 skills (`feipi-plantuml-generate-architecture-diagram` 和 `feipi-plantuml-generate-sequence-diagram`)：图表生成与校验工具
 - `openspec/specs/architecture-diagram-quality/spec.md`：架构组件图质量规约（必须遵守）
 - `openspec/specs/component-abstraction-level/spec.md`：组件抽象层级规约（必须遵守）
 - `openspec/specs/consensus-algorithm-analysis/spec.md`：共识算法分析深度规约（必须遵守）
