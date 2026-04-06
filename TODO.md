@@ -1,6 +1,33 @@
 # TODO
 
+## bug： [未验证] 网络限制 类型的资料，修复后不会重试
+
+## bug： platuml 没找到 服务
+
+PlantUML 图表说明：
+- draft.md 中包含 3 个 PlantUML 图（组件架构图、状态机流程图、PBFT 对比图、ABCI 时序图）
+- 由于本地 PlantUML server 未运行，无法通过 scripts/check_plantuml.sh 进行语法校验
+- 建议用户在有 PlantUML server 环境中运行校验
+
+## bug： 使用 feipi-gen-plantuml-code 这个老版本的 skill 工作
+
+## tool： intellij preview 不展示 plantuml 代码
+
+## knowledge/ 子目录优化 indexes/ && glossary/
+
+看上去这2个子文件夹无意义
+
 ## 重新跑历史的调研，确认新版本的分析质量
+
+### Tendermint 共识算法
+
+/Users/zhehan/Documents/tools/llm/openspec/openspec-research-blockchain/openspec/changes/primitive-tendermint-consensus-deep-dive-pass-1/plan.md
+
+1. 图标交付可能要区分：一个角色内部的组件分层；和不同角色之间的流程，可能是多个图
+   2. 图1*n：每个角色一个图，每个角色内部的组件架构图
+   3. 角色之间的流程图：每一个步骤，怎么在角色之间流转和处理
+   4. 每个角色内部的状态机转换
+2. 说明角色和组件的区分关系：组件是指他们的掌控方是同一个人，互相之间没有任何信任假设，无条件信任；角色不同之间有信任假设，基于信任假设才能互相通信
 
 ## 以 登链的 Tendermint 文章作为入口，分析仓库对于指定文章来源扩充知识库的能力效果
 
