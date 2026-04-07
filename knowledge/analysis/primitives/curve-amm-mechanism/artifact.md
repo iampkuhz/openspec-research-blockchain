@@ -29,47 +29,43 @@ Curve Finance 是第一个针对稳定币交易优化的去中心化交易所（
 StableSwap 结合了两个不变量：
 
 1. **恒定和公式**（极低滑点，但会耗尽流动性）：
-   ```
-   A * n^n * Σx_i = D
-   ```
+
+   $$A \cdot n^n \cdot \sum{x_i} = D$$
 
 2. **恒定积公式**（Uniswap，保证流动性不枯竭）：
-   ```
-   Πx_i = (D/n)^n
-   ```
+
+   $$\prod{x_i} = \left(\frac{D}{n}\right)^n$$
 
 **StableSwap 不变量**（结合两者）：
 
-```
-A * n^n * Σx_i + D = A * D * n^n + D^(n+1) / (n^n * Πx_i)
-```
+$$A \cdot n^n \cdot \sum{x_i} + D = A \cdot D \cdot n^n + \frac{D^{n+1}}{n^n \cdot \prod{x_i}}$$
 
 其中：
-- `A` = Amplification Coefficient
-- `n` = 资产数量
-- `x_i` = 第 i 个资产的储备量
-- `D` = 不变量（交易前后保持不变）
+- $A$ = Amplification Coefficient
+- $n$ = 资产数量
+- $x_i$ = 第 $i$ 个资产的储备量
+- $D$ = 不变量（交易前后保持不变）
 
 ### 公式的直观理解
 
-**当 A → 0 时**：公式退化为 x*y=k（Uniswap）
-**当 A → ∞时**：公式趋近于恒定和（极低滑点）
+**当 $A \to 0$ 时**：公式退化为 $x \cdot y = k$（Uniswap）
+**当 $A \to \infty$ 时**：公式趋近于恒定和（极低滑点）
 
 **设计精妙之处**：
-- 在 peg 附近（x_i ≈ x_j），表现像恒定和，滑点极低
+- 在 peg 附近（$x_i \approx x_j$），表现像恒定和，滑点极低
 - 远离 peg 时，表现像恒定积，保证流动性不枯竭
 
 ## Amplification Coefficient 机制
 
 ### A 的作用
 
-```
-A 值大小 → 流动性集中度 → 滑点特性 → 风险特征
+| A 值 | 流动性集中度 | 滑点特性 | 风险 |
+|------|-------------|---------|------|
+| $A = 1$ | 均匀分布 | 滑点较高 | 安全性高 |
+| $A = 100$ | 中度集中 | 滑点中等 | 中等风险 |
+| $A = 10000$ | 高度集中 | 滑点极低 | 脱 peg 风险高 |
 
-A = 1    → 均匀分布    → 滑点较高   → 安全性高
-A = 100  → 中度集中    → 滑点中等   → 中等风险
-A = 10000→ 高度集中    → 滑点极低   → 脱 peg 风险高
-```
+**关系链**：$A$ 值大小 → 流动性集中度 → 滑点特性 → 风险特征
 
 ### A 值的选择
 
@@ -94,14 +90,13 @@ StableSwap **不直接维持 peg**，而是通过：
 
 ### 价格发现机制
 
-```
-内部价格 = f(储备比例，A 值)
-外部价格 = 市场供需
+$$\text{内部价格} = f(\text{储备比例}, A)$$
 
-当 内部价格 ≠ 外部价格时：
-→ 套利机会出现
-→ 套利者交易直到价格一致
-```
+$$\text{外部价格} = \text{市场供需}$$
+
+当 $\text{内部价格} \neq \text{外部价格}$ 时：
+- 套利机会出现
+- 套利者交易直到价格一致
 
 ### 是否依赖预言机？
 
@@ -119,19 +114,15 @@ StableSwap **不直接维持 peg**，而是通过：
 
 对于多资产池，LP Token 的铸造公式：
 
-```
-minted = totalSupply * (depositAmount / max(reserves))
-```
+$$\text{minted} = \text{totalSupply} \times \frac{\text{depositAmount}}{\max(\text{reserves})}$$
 
 **与两资产池的差异**：
-- Uniswap：`sqrt(x * y)` 计算
-- Curve：考虑 n 个资产的相对比例
+- Uniswap：$\sqrt{x \cdot y}$ 计算
+- Curve：考虑 $n$ 个资产的相对比例
 
 ### 费用累积和分配
 
-```
-费用累积 → 增加池子总储备 → Virtual Price 上升 → LP Token 升值
-```
+$$\text{费用累积} \to \text{增加池子总储备} \to \text{Virtual Price} \uparrow \to \text{LP Token} \uparrow$$
 
 | 步骤 | 说明 |
 |------|------|
@@ -142,11 +133,9 @@ minted = totalSupply * (depositAmount / max(reserves))
 
 ### Virtual Price
 
-```
-Virtual Price = (总储备价值) / (LP Token 总量)
-```
+$$\text{Virtual Price} = \frac{\text{总储备价值}}{\text{LP Token 总量}}$$
 
-- 初始值：1.0
+- 初始值：$1.0$
 - 随时间增长（因为有交易费用累积）
 - LP 退出时的实际兑换比率
 
@@ -213,13 +202,11 @@ Virtual Price = (总储备价值) / (LP Token 总量)
 
 ### A 值的 Trade-off
 
-```
-高 A 值                    低 A 值
-  │                         │
-  ├─ 优势：极低滑点          ├─ 优势：脱 peg 时更安全
-  ├─ 劣势：脱 peg 风险高      ├─ 劣势：滑点优势不明显
-  └─ 适用：USDC/USDT 等      └─ 适用：弱相关资产对
-```
+| 维度 | 高 A 值 | 低 A 值 |
+|------|--------|--------|
+| 优势 | 极低滑点 | 脱 peg 时更安全 |
+| 劣势 | 脱 peg 风险高 | 滑点优势不明显 |
+| 适用 | USDC/USDT 等稳定币对 | 弱相关资产对 |
 
 ### 为什么不依赖预言机？
 
@@ -267,7 +254,7 @@ Virtual Price = (总储备价值) / (LP Token 总量)
 
 ### 与 Uniswap 的关系
 
-```
+```text
               AMM DEX
                 │
         ┌───────┴───────┐
@@ -275,7 +262,7 @@ Virtual Price = (总储备价值) / (LP Token 总量)
     通用型 AMM      专用型 AMM
         │               │
     Uniswap         Curve
-    (x*y=k)      (StableSwap)
+    (x·y=k)      (StableSwap)
         │               │
     任意资产对    稳定币/类稳定资产
 ```
