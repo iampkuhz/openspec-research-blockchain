@@ -7,7 +7,7 @@
 - `/spec-research openspec/changes/<change-name>/` - 指定 change 目录
 - `/spec-research /absolute/path/to/openspec/changes/<change-name>/` - 绝对路径
 
-**默认模式：全自动连续执行**（4 个阶段不等待用户逐阶段确认）
+**默认模式：带检查点的全自动连续执行**（阶段 3→4 之间暂停 review）
 
 ---
 
@@ -32,10 +32,20 @@
    - 如无法确定，询问用户要使用的 change 名称
    - 检查目录是否存在，不存在则创建
 
-2. **调用端到端 pipeline**
-   - 按 `harness/workflows/research-pipeline.md` 定义的顺序执行 4 个阶段
-   - 默认全自动连续执行，不等待用户逐阶段确认
-   - 如某阶段文件已存在且内容完整，自动跳过该阶段
+2. **委托给分步命令执行**（核心机制）
+
+   **不要自己重新定义各阶段的执行逻辑**，而是委托给已有的分步命令：
+
+   - 执行 `/spec-request <change-dir>` → 生成 `request.md`
+   - 执行 `/spec-plan <change-dir>` → 生成 `plan.md`
+   - 执行 `/spec-draft <change-dir>` → 生成 `draft.md`（含图表决策树和 PlantUML 校验）
+   - **暂停点**：告知用户 draft 已完成，需要 review 图表质量，询问是否继续进入 artifact 阶段
+   - 用户确认后，执行 `/spec-artifact <change-dir>` → 生成 `artifact.md`
+
+   **优势**：
+   - 复用分步命令已验证的规范和质量控制
+   - 避免重新定义流程导致的规范稀释
+   - 图表决策树和 PlantUML 校验由 `/spec-draft` 强制执行
 
 3. **完成总结**
    - 执行模式（全自动/分阶段 review）
@@ -43,4 +53,12 @@
    - 使用的 change 路径
    - 研究对象类型和路径
    - 提炼的长期资产路径
-   - 建议用户下一步操作
+   - 图表闸门执行情况（如有 PlantUML 图）
+   - 建议用户下一步操作（如 review artifact）
+
+## 相关命令
+
+- `/spec-request` - 单独执行 request 阶段
+- `/spec-plan` - 单独执行 plan 阶段
+- `/spec-draft` - 单独执行 draft 阶段（含图表决策树和 PlantUML 校验）
+- `/spec-artifact` - 单独执行 artifact 阶段

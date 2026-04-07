@@ -23,16 +23,24 @@
 
 ## 执行模式
 
-**默认模式：全自动连续执行**
+**默认模式：带检查点的全自动连续执行**
 
 - 连续执行 4 个阶段，不等待用户逐阶段确认
 - 如某阶段文件已存在且内容完整，自动跳过该阶段
 - 如某阶段文件存在但不完整，自动增量修订
+- **阶段 3→4 之间设置质量闸门**：draft.md 完成后暂停，告知用户需要 review 图表质量，用户确认后再进入 artifact 阶段
 
 **可选模式：分阶段 review**
 
 - 用户可要求在每阶段完成后暂停 review
 - 需在触发命令中显式指定
+
+**强制要求：图表闸门**
+
+draft 阶段完成后、artifact 阶段开始前，必须满足：
+1. 图表决策树已执行（实体分类表 + 四个判定问题 + 图表清单表）
+2. 所有 PlantUML 图已生成 diagram package 且 `validation.json` 显示 success
+3. 如使用 PlantUML，必须通过 `feipi-plantuml-generate-*` skills 生成，禁止手写
 
 ## 异常处理：WebFetch 安全策略拦截
 
@@ -127,12 +135,47 @@
 - `openspec/specs/draft-generation/spec.md`
 - `openspec/specs/diagram-policy/spec.md`
 
+**强制步骤（必须在写入 draft.md 前完成）**：
+
+1. **实体分类（强制）**
+   - 基于 request.md/plan.md 中的关键实体，完成实体分类表
+   - 将每个实体归类为 `role / component / data object / state / external system`
+   - 标明控制方和是否跨信任边界
+
+2. **图表决策树（强制）**
+   - 回答四个判定问题：
+     - Q1：是否存在两个及以上独立控制方？
+     - Q2：是否有核心角色内部结构 materially 不同？
+     - Q3：是否依赖跨角色消息/调用/证明流转？
+     - Q4：是否依赖命名状态/轮次/epoch/timeout 转换？
+   - 生成图表清单表，声明必须/可省略的图表
+
+3. **图表生成（强制）**
+   - Architecture Diagram：必须通过 `feipi-plantuml-generate-architecture-diagram` skill 生成
+   - Sequence Diagram：必须通过 `feipi-plantuml-generate-sequence-diagram` skill 生成
+   - 禁止手写 PlantUML 代码
+   - 每个 PlantUML 图必须产出 diagram package（包含 `validation.json` 且显示 success）
+
+4. **合同校验（强制）**
+   - 写完 draft.md 后，必须执行：
+     ```bash
+     python3 scripts/research/validate_draft_diagram_contract.py <change-dir>/draft.md
+     ```
+   - 只有脚本返回 0，才能声称 draft 完成
+
 **跳过条件**：
 - `draft.md` 已存在且包含：概述、术语表、组件架构、核心流程（如必要）、设计取舍、能力边界、相关协议对比、结论、待确认问题、参考资料
+- 图表决策树已执行且图表已生成并通过校验
 
 **增量更新规则**：
 - 如缺少上述任一必需章节，补全缺失部分
-- 如图表未通过语法校验，重新生成
+- 如图表未通过语法校验或未生成 diagram package，重新生成
+
+**完成标准**：
+- draft.md 结构完整（含实体分类表、图表清单表）
+- 所有 PlantUML 图已生成 diagram package 且 validation.json 显示 success
+- validate_draft_diagram_contract.py 返回 0
+- 图表决策树执行记录完整（四个判定问题的答案已记录）
 
 ---
 
@@ -152,6 +195,10 @@
 **规则来源**：
 - `openspec/specs/canonical-output-model/spec.md`
 - `openspec/specs/artifact-generation/spec.md`
+
+**前置条件（强制检查）**：
+- 阶段 3 的完成标准已全部满足
+- 用户已确认 draft.md 质量（尤其是图表）
 
 **跳过条件**：
 - 不适用（artifact 阶段必须执行，除非用户显式跳过）
