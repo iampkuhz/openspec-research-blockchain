@@ -4,7 +4,11 @@
 
 ## tool： intellij preview 不展示 plantuml 代码
 
-## knowledge/ 子目录优化 indexes/ && glossary/
+## knowledge/ 子目录优化
+
+indexes/ 已删除 (2026-04-07)，不再维护独立索引文件。需要查找内容时直接 glob 或使用搜索工具。
+
+glossary/ 保留，用于术语元数据。
 
 看上去这2个子文件夹无意义
 
@@ -237,40 +241,22 @@
 - 不能把 log 写成 changelog 的重复品。
 
 执行步骤：
-1. 在 knowledge/indexes/ 或更合适的位置增加 log.md。
+1. 在 knowledge/ 下合适的位置增加 log.md。
 2. 设计统一日志条目格式，至少包含时间、动作类型、影响对象、来源/问题、结果、后续待办。
 3. 补 README 说明何时写 log、何时不写。
 4. 如现有脚本适合，补最小自动生成或追加建议；否则先用模板。
-5. 更新 knowledge/README.md 中关于 indexes 的说明。
+5. 更新 knowledge/README.md。
 
 验收标准：
 - 有实际 log 文件和固定格式。
-- 文档清楚区分 log、topic index、change record。
+- 文档清楚区分 log、change record。
 - 后续 ingest/query/lint 可以直接复用它。
 ```
 
-### 任务 4：让 index 真正可用
+### 任务 4：让 index 真正可用 [已取消]
 
 ```text
-只做这个任务：把现有 indexes 从占位状态推进到“可持续生成和使用”的状态。
-
-必要约束：
-- 优先复用现有 scripts/publish/generate_topic_index.py 和已有索引文件。
-- 不要求一次做完所有智能索引，但至少把 topic index 做实。
-- 不要改 canonical 内容本身。
-
-执行步骤：
-1. 检查 knowledge/indexes/ 下现有文件和生成脚本。
-2. 优先完善 topic index 的自动生成逻辑，使其能扫描当前 knowledge 目录。
-3. 如果成本可控，再为 concept/comparison/diagram index 补最小生成或生成规则说明。
-4. 更新 scripts/README.md 和 knowledge/README.md。
-5. 运行生成命令并验证输出不是占位状态。
-
-验收标准：
-- 至少 topic-index.md 能从真实目录生成。
-- README 中有清晰用法。
-- 不再只有“空占位”说明。
-
+indexes/ 已删除，不再维护独立索引文件。需要查找内容时直接 glob 或使用搜索工具。
 ```
 
 ### 任务 5：新增 lint workflow
@@ -330,14 +316,13 @@
 - 必须兼容当前 topic-based 结构。
 
 执行步骤：
-1. 检查 concept-index.md 和 glossary/meta/ 的现状。
+1. 检查 glossary/meta/ 的现状。
 2. 设计 concept/entity 的最小资产模型：放哪里、叫什么、和 topic 如何互链。
 3. 新增模板或 README，说明什么适合成为 concept/entity page。
-4. 更新 concept index 或相关生成规则。
-5. 补一个最小示例结构，但不要硬塞大量内容。
+4. 补一个最小示例结构，但不要硬塞大量内容。
 
 验收标准：
-- concept/entity 不再只是索引里的提法，而是有明确资产模型。
+- concept/entity 有明确资产模型。
 - 与 topic page 的边界清楚。
 - 后续像 Bundler、EntryPoint、Paymaster 这类跨主题概念可以落地。
 ```
@@ -377,7 +362,7 @@
 - 不能和 openspec/changes/ 的进行中任务混淆。
 
 执行步骤：
-1. 在 knowledge/indexes/ 或更合适的位置增加 research-backlog.md。
+1. 在 knowledge/ 下合适的位置增加 research-backlog.md。
 2. 设计条目格式，至少包含类型、来源、相关 topic、优先级、建议动作、状态。
 3. 明确 gap/backlog 与 change 的关系：什么时候升级为 change。
 4. 更新知识库 README 和相关 workflow 文档。
@@ -422,12 +407,11 @@
 必要约束：
 - 先做轻量方案，优先复用 rg 或简单脚本。
 - 不引入重型外部服务。
-- 搜索入口要服务于 index 之上，而不是替代 index。
 
 执行步骤：
 1. 检查现有 scripts/ 和 README 是否已有搜索相关能力。
 2. 新增一个最小搜索脚本或统一命令说明，支持按 topic、term、claim、source 等维度搜索。
-3. 在 README 中说明何时先看 index，何时用搜索。
+3. 在 README 中说明搜索用法。
 4. 给出 3 到 5 个清晰示例命令。
 5. 运行至少一个示例验证结果。
 
@@ -462,15 +446,15 @@
 
 ### 任务 13：统一 frontmatter / metadata 规范
 ```text
-只做这个任务：为 artifact、verdict、index 等文档增加统一 frontmatter / metadata 规范。
+只做这个任务：为 artifact、verdict 等文档增加统一 frontmatter / metadata 规范。
 
 必要约束：
 - 先定义规范和模板，不强制一次性迁移所有旧文件。
-- 字段要少而有用，服务于索引、lint、追溯。
+- 字段要少而有用，服务于 lint、追溯。
 - 不能和现有 HTML 注释元数据冲突不清。
 
 执行步骤：
-1. 检查当前 artifact.md、verdict.md、index 文档的元数据现状。
+1. 检查当前 artifact.md、verdict.md 的元数据现状。
 2. 设计一套最小 frontmatter 字段，例如 topic、type、domain、status、updated_at、source_count、related_topics。
 3. 写入规则或模板说明，明确适用范围。
 4. 选 1 到 2 个模板或示例文档演示新格式。
@@ -478,7 +462,7 @@
 
 验收标准：
 - frontmatter 规范明确、简洁、可扩展。
-- 与索引和 lint 有明确关系。
+- 与 lint 有明确关系。
 - 不要求立即全库迁移。
 ```
 

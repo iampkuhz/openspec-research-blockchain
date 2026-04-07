@@ -64,9 +64,7 @@
 │   ├── README.md
 │   ├── glossary/meta/        # 术语元数据
 │   ├── domains/              # 域知识
-│   ├── topics/               # 主题知识
-│   ├── indexes/              # 索引文件
-│   └── templates/            # 知识模板
+│   └── topics/               # 主题知识
 │
 ├── openspec/                 # OpenSpec 配置
 │   ├── README.md
@@ -157,9 +155,6 @@ openspec instructions draft --change <name>              # 生成 draft.md
 # 初始化研究项目
 python scripts/general/init_research_item.py --topic <topic> --type <primitive|synthesis|domain|decision>
 
-# 构建 topic 索引
-python scripts/general/build_index.py
-
 # 检查 frontmatter
 python scripts/general/check_frontmatter.py [file|directory]
 
@@ -189,9 +184,6 @@ python scripts/diagrams/check_diagram_references.py <diagram-id> --topic <topic>
 
 # 移动 change 到 knowledge
 python scripts/publish/move_change_outputs.py --change <change-id> --topic <topic> --domain <domain>
-
-# 生成 topic 索引
-python scripts/publish/generate_topic_index.py --output knowledge/indexes/topic-index.md
 ```
 
 ## 使用流程示例

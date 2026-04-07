@@ -11,7 +11,6 @@ scripts/
 ├── README.md             # 本文件
 ├── general/              # 通用工具（任何阶段可用）
 │   ├── init_research_item.py    # 初始化研究项目
-│   ├── build_index.py           # 构建 topic 索引
 │   ├── check_frontmatter.py     # 检查 YAML frontmatter
 │   └── check_traceability.py    # 检查 claim→source 追溯
 ├── research/             # 研究辅助（写作阶段使用）
@@ -21,8 +20,7 @@ scripts/
 │   ├── find_term_drift.py         # 查找术语定义漂移
 │   └── validate_draft_diagram_contract.py # 校验 draft.md 中 PlantUML contract
 ├── publish/              # 发布工具（apply 阶段使用）
-│   ├── move_change_outputs.py     # 移动 change 到 knowledge/
-│   └── generate_topic_index.py    # 生成 topic 索引文件
+│   └── move_change_outputs.py     # 移动 change 到 knowledge/
 ├── diagrams/             # 图表工具（校验用）
 │   ├── check_plantuml.sh          # PlantUML 语法校验
 │   ├── validate_diagram_model.py  # 验证 diagram model 结构
@@ -44,7 +42,6 @@ scripts/
 | 脚本 | 功能 | 命令示例 |
 |------|------|----------|
 | `init_research_item.py` | 初始化研究项目结构，创建必要的目录和空文件 | `python scripts/general/init_research_item.py --topic eip-4337 --type primitive` |
-| `build_index.py` | 扫描 knowledge/ 目录并生成 topic 索引文件 | `python scripts/general/build_index.py --output knowledge/indexes/topic-index.md` |
 | `check_frontmatter.py` | 检查 Markdown 文件的 YAML frontmatter 是否完整（如 topic、version 字段） | `python scripts/general/check_frontmatter.py knowledge/analysis/primitives/` |
 | `check_traceability.py` | 检查指定 topic 的 claim→source 追溯链是否完整 | `python scripts/general/check_traceability.py --topic eip-4337` |
 
@@ -63,7 +60,6 @@ scripts/
 | 脚本 | 功能 | 命令示例 |
 |------|------|----------|
 | `move_change_outputs.py` | 将通过评审的 change 产物移动到 knowledge/ 长期目录 | `python scripts/publish/move_change_outputs.py --change primitive-eip-4337-deep-dive-pass-1 --topic eip-4337 --domain account-abstraction` |
-| `generate_topic_index.py` | 生成或更新 topic 索引 Markdown 文件（含分类和链接） | `python scripts/publish/generate_topic_index.py --output knowledge/indexes/topic-index.md` |
 
 ### 图表脚本（diagrams/）
 

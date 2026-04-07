@@ -20,7 +20,7 @@
 
 - 不要在评审未完成时 merge
 - 不要跳过 merge 检查清单
-- 不要忽略更新 indexes
+- 不要忽略更新 changelog
 
 ## Files to Read
 
@@ -39,9 +39,9 @@
 
 `knowledge/topics/<domain>/<topic>/changelog.md` (新增或更新)
 
-### 3. Indexes
+### 3. Changelog
 
-`knowledge/indexes/topic-index.md` (更新)
+`knowledge/topics/<domain>/<topic>/changelog.md` (新增或更新)
 
 ## Local Validation Steps
 
@@ -49,9 +49,8 @@
 2. 确定 merge 类型
 3. 复制产物到 knowledge/
 4. 更新 changelog
-5. 更新 indexes
-6. 提交 commit
-7. 归档 change
+5. 提交 commit
+6. 归档 change
 
 ## Output Contract
 
@@ -60,7 +59,7 @@ change_id: <change-id>
 merge_type: new-topic|update-topic|refactor-topic
 knowledge_path: knowledge/topics/<domain>/<topic>/
 commit_hash: <git commit hash>
-indexes_updated: yes|no
+changelog_updated: yes|no
 change_archived: yes|no
 ```
 
@@ -69,7 +68,6 @@ change_archived: yes|no
 - [ ] 评审 approved
 - [ ] 所有产物复制
 - [ ] changelog 更新
-- [ ] indexes 更新
 - [ ] commit 创建
 - [ ] change 归档
 

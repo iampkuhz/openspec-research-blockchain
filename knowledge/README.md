@@ -37,12 +37,10 @@ knowledge/
 │       └── account-abstraction/
 ├── decisions/              # 场景决策资产
 │   └── agentic-payment/
-├── glossary/meta/          # 术语元数据
-│   ├── concept-categories.yaml
-│   ├── layer-taxonomy.yaml
-│   └── relation-types.yaml
-└── indexes/                # 索引文件
-    └── topic-index.md
+└── glossary/meta/          # 术语元数据
+    ├── concept-categories.yaml
+    ├── layer-taxonomy.yaml
+    └── relation-types.yaml
 ```
 
 ---
@@ -90,12 +88,6 @@ primitive（底层机制） → synthesis（演进关系） → domain（问题�
 3. 通过 review 后 apply 到 knowledge
 
 **详情**：`openspec/changes/README.md`
-
----
-
-## 索引
-
-- [Topic Index](./indexes/topic-index.md)
 
 ---
 

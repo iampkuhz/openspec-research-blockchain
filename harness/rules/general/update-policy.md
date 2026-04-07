@@ -59,7 +59,7 @@
 
 6. Merge
    - 将 `change` 产物合并到 knowledge/
-   - 更新 indexes
+   - 更新 changelog
 ```
 
 ### 紧急更新流程
@@ -141,7 +141,6 @@ reason: <重构原因>
 
 **必须**：
 - 在 changelog.md 记录结构变更
-- 更新 topic-template 索引
 
 ### Claim 兼容性
 
