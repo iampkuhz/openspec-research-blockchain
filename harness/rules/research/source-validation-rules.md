@@ -6,6 +6,31 @@
 
 ## 来源获取流程
 
+### 步骤 0: WebFetch 安全策略检查
+
+**重要**：在使用 WebFetch 工具前，必须确认目标域名是否被安全策略拦截。
+
+**拦截场景**：
+- `claude.ai` 域名被企业安全策略 blocking
+- 特定域名被标记为 "Unable to verify if domain is safe to fetch"
+
+**处理方式**：
+1. **立即停止** WebFetch 尝试，不要重复触发
+2. **记录拦截**：在 `request.md` 和 `plan.md` 的验证状态中标注 `[未验证] 安全策略拦截`
+3. **替代方案**：
+   - 使用 WebSearch 获取第三方来源（如 Mirror、Medium、GitHub）
+   - 依赖已有的 L1/L2 来源知识
+   - 在 `draft.md` 的"证据缺口"中明确记录
+
+**示例标注**：
+```markdown
+| 来源 | 类型 | 说明 | 验证状态 |
+|------|------|------|----------|
+| curve.fi/stableswap-paper.pdf | whitepaper | 官方技术白皮书 | [未验证] 安全策略拦截 |
+```
+
+**规约更新**：此规则已记录在 `harness/rules/research/source-validation-rules.md`。
+
 ### 步骤 1: 识别来源类型
 
 ```yaml

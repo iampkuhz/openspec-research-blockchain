@@ -34,6 +34,29 @@
 - 用户可要求在每阶段完成后暂停 review
 - 需在触发命令中显式指定
 
+## 异常处理：WebFetch 安全策略拦截
+
+**问题**：WebFetch 工具可能被企业安全策略拦截，返回 "Unable to verify if domain is safe to fetch"。
+
+**处理流程**：
+
+1. **检测到拦截时**：
+   - 立即停止对该域名的 WebFetch 尝试
+   - 不要重复触发相同请求
+
+2. **记录拦截状态**：
+   - 在 `request.md` 和 `plan.md` 的来源规划中，验证状态标注为 `[未验证] 安全策略拦截`
+   - 在 `draft.md` 的"证据缺口"章节记录受影响的来源
+
+3. **替代方案**：
+   - 优先使用 WebSearch 获取第三方来源（Mirror、Medium、GitHub 等通常不被拦截）
+   - 如 L1 来源无法获取，在 `request.md` 中调整研究深度预期
+   - 依赖已有知识时，在 `参考资料` 中明确标注"基于已有知识，待后续验证"
+
+4. **规约更新**：
+   - 拦截规则已记录在 `harness/rules/research/source-validation-rules.md`
+   - 本 workflow 的异常处理流程优先于正常来源获取流程
+
 ## 阶段顺序
 
 ```
