@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git mv:*)",
+      "Bash(mv .claude/commands/build-plan.md .claude/commands/spec-plan.md)",
+      "Bash(mv .claude/commands/build-draft.md .claude/commands/spec-draft.md)",
+      "Bash(mv .claude/commands/promote-artifact.md .claude/commands/spec-promote.md)",
+      "WebSearch",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:arxiv.org)",
+      "WebFetch(domain:news.curve.finance)",
+      "Bash(find /Users/zhehan/Documents/tools/llm/openspec/openspec-research-blockchain -name *plantuml* -o -name *feipi*)",
+      "Bash(ln -s ../../skills/openspec-research-build-artifact /Users/zhehan/Documents/tools/llm/openspec/openspec-research-blockchain/.qoder/skills/openspec-research-build-artifact)",
+      "Bash(ln:*)",
+      "Bash(find /Users/zhehan/Documents/tools/llm/openspec/openspec-research-blockchain -name *build-request* -o -name *request*)",
+      "Bash(curl:*)"
+    ],
+    "defaultMode": "bypassPermissions"
+  }
+}
