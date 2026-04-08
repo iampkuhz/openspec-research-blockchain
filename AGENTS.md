@@ -12,6 +12,7 @@ OpenSpec 区块链研究协作的导航入口。
 ┌─────────────────────────────────────────────────────────┐
 │  入口层 (Entry Point)                                   │
 │  → AGENTS.md (本文件)                                    │
+│  → .claude/agents/         - Claude 侧 agent 映射层       │
 └─────────────────────────────────────────────────────────┘
                           ↓
 ┌─────────────────────────────────────────────────────────┐
@@ -53,9 +54,10 @@ OpenSpec 区块链研究协作的导航入口。
 | 2 | 读取 OpenSpec 配置 | `openspec/config.yaml` - 工作流定义 |
 | 3 | 读取对象模型 | `openspec/schemas/blockchain-research/schema.yaml` |
 | 4 | 识别任务类型 | 路由到对应 workflow |
-| 5 | 如 workflow 支持 multi-agent，加载 agent 注册表 | `harness/agents/_index.yaml` |
-| 6 | 按需加载规则 | `harness/rules/_index.yaml` |
-| 7 | 结合联网搜索 | 补充本地知识缺口 |
+| 5 | Claude 场景下可从 `.claude/agents/` 发现 agent 映射 | `.claude/agents/` |
+| 6 | 如 workflow 支持 multi-agent，加载 agent 注册表 | `harness/agents/_index.yaml` |
+| 7 | 按需加载规则 | `harness/rules/_index.yaml` |
+| 8 | 结合联网搜索 | 补充本地知识缺口 |
 
 **Source of Truth**：`openspec/config.yaml` + `openspec/schemas/blockchain-research/schema.yaml`
 
@@ -74,6 +76,12 @@ OpenSpec 区块链研究协作的导航入口。
 ### v1 Multi-Agent 执行（条件加载）
 
 当 workflow 明确支持 multi-agent 执行时，优先从 `harness/agents/` 读取角色合同，而不是在命令层临时发明新角色。
+
+**Claude 映射层**：
+
+- `.claude/agents/` 只作为 Claude 侧可发现入口
+- 它应通过软链接指向 `harness/agents/`
+- `harness/agents/` 仍是唯一真源，避免双份 contract 漂移
 
 **常驻角色**：
 

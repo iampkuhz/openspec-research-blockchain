@@ -70,6 +70,7 @@ sources/ + diagrams/ -> plan.md / draft.md / review/
 ├── AGENTS.md
 ├── CLAUDE.md
 ├── README.md
+├── .claude/agents/            # Claude 侧 agent 映射（软链接到 harness/agents）
 ├── .claude/commands/          # Claude Code 入口命令
 ├── .qoder/agents/             # Qoder agent skeleton（本轮仅骨架）
 ├── harness/
