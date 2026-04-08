@@ -24,6 +24,8 @@
 
 - `research-author-agent` 写 `plan.md` 与 `source-evidence-agent` 收集来源
 - `research-author-agent` 写正文时，`diagram-agent` 可并行准备 diagram package
+- `review-critic-agent` 可在作者收尾时预热 checklist，但不能提前给正式结论
+- `publish-agent` 可提前判断目标路径与 impact scope，但不能提前写长期资产
 
 ### 不应并行
 
@@ -43,3 +45,30 @@
 - 仍按同一套 contract 顺序执行
 - 由主 agent 串行模拟 active agents
 - 但必须在总结中说明哪些角色被串行折叠执行
+
+## 冰箱策略
+
+“冰箱策略”用于处理被阻塞但暂不放弃的子任务。
+
+### 适用场景
+
+- L1 / L2 来源暂时无法访问
+- diagram package 尚未通过 contract 校验
+- review 发现 high severity，publish 必须暂停
+- 用户信息不足，某部分只能先写最小可用版本
+
+### 处理规则
+
+1. 把阻塞项从主执行链中摘出来，放入冰箱清单
+2. 继续推进不依赖它的部分
+3. 在最近的正式落盘位置记录影响：
+   - request / plan：写入“待确认问题”或“证据缺口”
+   - draft：写入“待确认问题”或不确定性说明
+   - publish：不得带着冰箱项进入长期资产
+4. 只有在 wake condition 满足后才允许解冻
+
+### 冰箱清单格式
+
+| blocked item | blocked by | wake condition | downstream impact |
+|--------------|------------|----------------|-------------------|
+| | | | |

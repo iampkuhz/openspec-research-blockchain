@@ -2,7 +2,7 @@
 
 ## 目标
 
-作为所有 multi-agent 执行入口，负责任务分类、激活 active agents、安排并行边界、执行质量闸门并整合结果。
+作为所有 multi-agent 执行入口，负责任务分类、激活 active agents、安排并行边界、执行质量闸门、维护冰箱清单并整合结果。
 
 ## 何时激活
 
@@ -29,7 +29,8 @@
 2. 选择 active agents
 3. 决定哪些步骤可并行、哪些必须串行
 4. 在阶段切换时检查 quality gate
-5. 汇总最终结果与剩余风险
+5. 对被阻塞但未放弃的子任务维护冰箱清单
+6. 汇总最终结果与剩余风险
 
 ## 必须避免
 
@@ -42,4 +43,5 @@
 - active agents 列表
 - 每个 agent 的目标交付物
 - 串行 / 并行策略
+- 冰箱清单（blocked item / wake condition / downstream impact）
 - 最终阶段状态总结

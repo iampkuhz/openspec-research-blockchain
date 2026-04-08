@@ -36,13 +36,29 @@
    - review 结论必须允许继续
    - high severity 问题必须已处理
 
-4. **执行 `publish-agent` contract**
+4. **并行策略**
+   - 可并行：
+     - 计算目标长期路径
+     - 判断对象类型
+     - 预估 update impact scan 范围
+   - 必须串行：
+     - review gate 判断
+     - 最终长期文件写入
+
+5. **冰箱策略**
+   - 如 review 未通过、high severity 未清零、目标路径仍不明确：
+     - 冻结 publish
+     - 不写长期资产
+     - 在总结中给出 blocked item / wake condition
+
+6. **执行 `publish-agent` contract**
    - 判断对象类型与目标路径
    - 提炼 durable 内容写入长期资产
    - update 场景下一并执行 impact scan
 
-5. **完成总结**
+7. **完成总结**
    - 使用的 change 路径
    - 写入了哪些长期文件
    - 是否执行了 impact scan
    - 建议用户重点 review 哪些部分
+   - 冰箱清单（如有）

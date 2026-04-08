@@ -59,6 +59,22 @@
 - 不得跳过 handoff artifact 与 quality gate
 - 必须在最终总结中说明哪些角色被串行折叠执行
 
+### 冰箱策略
+
+当某个子任务被上游信息、网络限制、diagram contract 或 review gate 阻塞时：
+
+1. 不让整个 pipeline 一起停摆
+2. 将该子任务放入冰箱清单
+3. 继续推进所有独立部分
+4. 记录解冻条件与下游影响
+
+冰箱清单至少应包含：
+
+- blocked item
+- blocked by
+- wake condition
+- downstream impact
+
 ## Supporting Track：Sources
 
 `sources/` 不是长期主链 artifact，但在 plan / draft 阶段必须作为支撑轨存在：
@@ -108,6 +124,11 @@ diagrams ────────────┘
 - 图表范围明确
 - 证据缺口和完成标准明确
 
+**并行窗口**：
+- `research-author-agent` 可以先写问题拆解、交付范围、完成标准
+- `source-evidence-agent` 并行收集来源并生成 `source-review.md`
+- `plan.md` 定稿前必须回收 `source-review.md`
+
 ### 阶段 3：draft
 
 **owner**：`research-author-agent`
@@ -131,6 +152,11 @@ diagrams ────────────┘
 3. 如需 PlantUML，只能通过用户级 skill 生成 diagram package
 4. draft 完成后必须执行 diagram contract 校验
 
+**并行窗口**：
+- `research-author-agent` 可并行推进概述、术语表、设计取舍、能力边界
+- `diagram-agent` 可并行准备实体分类、图表清单、diagram package
+- 如发现证据缺口，可短暂唤回 `source-evidence-agent` 定向补证据
+
 ### 阶段 4：review gate
 
 **owner**：`review-critic-agent`
@@ -151,6 +177,10 @@ diagrams ────────────┘
 - 评审结论明确
 - 如存在图表，diagram contract 与内容质量均通过
 
+**并行窗口**：
+- `review-critic-agent` 可在 author 收尾阶段预热 checklist 结构与审查重点
+- 但正式 severity 与结论必须基于冻结后的 `draft.md`
+
 ### 阶段 5：artifact / publish
 
 **owner**：`publish-agent`
@@ -170,6 +200,10 @@ diagrams ────────────┘
 - 长期内容已提炼，而非整包复制
 - 目标路径正确
 - update 场景已完成 impact scan
+
+**并行窗口**：
+- `publish-agent` 可提前计算目标路径与 impact scan 范围
+- 但在 review 通过前不得写长期资产
 
 ## 关键 handoff artifact
 
