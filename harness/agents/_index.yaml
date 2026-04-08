@@ -28,7 +28,7 @@ agents:
 
   - name: diagram-agent
     mode: conditional
-    file: diagram-agent.md
+    file: ../../.claude/agents/diagram-agent.md
     activation: "primitive / mechanism-heavy / 明确需要图表"
     owns: "diagram checklist、brief、diagram package、contract validation"
 
