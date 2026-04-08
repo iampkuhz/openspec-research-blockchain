@@ -31,7 +31,7 @@
 |-------|------|----------|
 | `openspec-research-build-plan/` | 辅助生成 plan.md | 计划阶段 |
 | `openspec-research-build-draft/` | 辅助生成 draft.md | 写作阶段 |
-| `openspec-research-promote-canonical/` | 辅助提升到 canonical 资产 | apply 阶段 |
+| `openspec-research-build-artifact/` | 辅助提升到 canonical 资产 | apply 阶段 |
 
 ---
 

@@ -14,6 +14,13 @@
 - `request.md` 中的研究范围
 - 研究问题列表
 
+## 默认执行角色
+
+- `orchestrator`
+- `source-evidence-agent`
+
+`source-evidence-agent` 是来源生产者，不负责给出最终研究结论，也不负责正式评审。
+
 ## 规则加载策略
 
 ### 初始加载（workflow 开始时）
@@ -169,6 +176,15 @@ sources:
 - `sources/excerpts/*`
 - `sources/source-pack.yaml`
 - `sources/source-review.md`
+
+## handoff
+
+标准交接给 `research-author-agent` 的内容：
+
+- 关键来源清单
+- 核心 excerpts
+- evidence gaps
+- conflicts / unresolved ambiguity
 
 ## 完成标准
 

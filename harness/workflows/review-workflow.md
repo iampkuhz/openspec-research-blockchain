@@ -20,6 +20,14 @@
 - 现有相关知识
 - 依赖的研究对象
 
+## 默认执行角色
+
+- `orchestrator`
+- `review-critic-agent`
+- `diagram-agent`（如存在图表）
+
+`review-critic-agent` 必须保持独立视角，不与正文作者合并。
+
 ## 规则加载策略
 
 ### 初始加载（workflow 开始时）

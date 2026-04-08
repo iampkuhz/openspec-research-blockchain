@@ -2,7 +2,7 @@
 
 ## Purpose
 
-将通过评审的 change 产物合并到 knowledge/主线。
+将通过评审的 change 产物提炼并发布到长期 `knowledge/` 主线。
 
 ## Triggers
 
@@ -14,62 +14,58 @@
 ## Required Inputs
 
 - **change_id**: Change ID
-- **review_status**: 评审状态（必须为 approved）
+- **review_status**: 评审状态（必须允许继续 publish）
 
 ## Forbidden Inputs / Anti-patterns
 
 - 不要在评审未完成时 merge
-- 不要跳过 merge 检查清单
-- 不要忽略更新 changelog
+- 不要把过程文件整包复制到长期目录
+- 不要继续沿用 `knowledge/topics` 旧路径
 
 ## Files to Read
 
-- `harness/workflows/merge-workflow.md` - 合并流程
-- `harness/rules/general/repo-governance.md` - 仓库治理
-- `harness/rules/general/update-policy.md` - 更新政策
-- `openspec/changes/<change-id>/review/review-summary.md` - 评审总结
+- `harness/workflows/merge-workflow.md`
+- `harness/rules/general/repo-governance.md`
+- `harness/rules/general/update-policy.md`
+- `openspec/changes/<change-id>/review/review-summary.md`
 
 ## Files to Write
 
-### 1. Knowledge Files
+### 1. Long-term Outputs
 
-`knowledge/topics/<domain>/<topic>/` 下的所有文件
+- `knowledge/analysis/.../artifact.md`
+- `knowledge/decisions/.../artifact.md`
+- `knowledge/decisions/.../verdict.md`（如适用）
 
-### 2. Changelog
+### 2. Optional Impact Note
 
-`knowledge/topics/<domain>/<topic>/changelog.md` (新增或更新)
-
-### 3. Changelog
-
-`knowledge/topics/<domain>/<topic>/changelog.md` (新增或更新)
+- update 场景需要时，在 change packet 或相关 review 中记录 impact scan
 
 ## Local Validation Steps
 
-1. 确认 merge 条件满足
-2. 确定 merge 类型
-3. 复制产物到 knowledge/
-4. 更新 changelog
-5. 提交 commit
-6. 归档 change
+1. 确认 review gate 满足
+2. 判断对象类型与目标路径
+3. 提炼 durable 内容到长期目录
+4. 如为 update，执行 impact scan
+5. 提交 git 变更
 
 ## Output Contract
 
 ```yaml
 change_id: <change-id>
-merge_type: new-topic|update-topic|refactor-topic
-knowledge_path: knowledge/topics/<domain>/<topic>/
+publish_type: new-artifact|update-artifact|refactor-artifact
+knowledge_paths:
+  - knowledge/analysis/...
+impact_scan: yes|no
 commit_hash: <git commit hash>
-changelog_updated: yes|no
-change_archived: yes|no
 ```
 
 ## Quality Gate
 
-- [ ] 评审 approved
-- [ ] 所有产物复制
-- [ ] changelog 更新
-- [ ] commit 创建
-- [ ] change 归档
+- [ ] 评审结论允许继续
+- [ ] 长期路径正确
+- [ ] 过程文件未被直接提升
+- [ ] update 场景已做 impact scan
 
 ## Failure Modes
 
@@ -79,14 +75,4 @@ change_archived: yes|no
 
 ### 评审后有新来源
 
-**处理**：如 minor 则记录，如 major 则创建新 change。
-
-### 发现遗漏内容
-
-**处理**：记录遗漏，创建 follow-up change。
-
-## When to Stop and Ask for Manual Triage
-
-- Git merge 冲突复杂
-- 发现未评审的问题
-- knowledge 结构与预期不符
+**处理**：如 minor 则记录 follow-up，如 major 则创建新 change。

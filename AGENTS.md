@@ -25,6 +25,7 @@ OpenSpec 区块链研究协作的导航入口。
 │  路由层 (Routing / Harness)                              │
 │  → harness/rules/_index.yaml  - 规则域索引               │
 │  → harness/workflows/...     - 工作流程                 │
+│  → harness/agents/_index.yaml - agent 角色注册表         │
 │  → harness/rules/...         - 规则详情                 │
 └─────────────────────────────────────────────────────────┘
                           ↓
@@ -52,8 +53,9 @@ OpenSpec 区块链研究协作的导航入口。
 | 2 | 读取 OpenSpec 配置 | `openspec/config.yaml` - 工作流定义 |
 | 3 | 读取对象模型 | `openspec/schemas/blockchain-research/schema.yaml` |
 | 4 | 识别任务类型 | 路由到对应 workflow |
-| 5 | 按需加载规则 | `harness/rules/_index.yaml` |
-| 6 | 结合联网搜索 | 补充本地知识缺口 |
+| 5 | 如 workflow 支持 multi-agent，加载 agent 注册表 | `harness/agents/_index.yaml` |
+| 6 | 按需加载规则 | `harness/rules/_index.yaml` |
+| 7 | 结合联网搜索 | 补充本地知识缺口 |
 
 **Source of Truth**：`openspec/config.yaml` + `openspec/schemas/blockchain-research/schema.yaml`
 
@@ -67,6 +69,28 @@ OpenSpec 区块链研究协作的导航入口。
 | `update-research` | 更新现有研究 | `harness/workflows/update-existing-knowledge.md` | `openspec/changes/` |
 | `review` | 评审研究产出 | `harness/workflows/review-workflow.md` | `openspec/changes/<id>/review/` |
 | `apply` | 应用到 knowledge | `openspec/config.yaml` apply 段 | `knowledge/analysis/` 或 `knowledge/decisions/` |
+| `governance-review` | 修改 OpenSpec / Harness / AGENTS 路由 | `harness/workflows/governance-review-workflow.md` | `openspec/changes/<id>/review/` |
+
+### v1 Multi-Agent 执行（条件加载）
+
+当 workflow 明确支持 multi-agent 执行时，优先从 `harness/agents/` 读取角色合同，而不是在命令层临时发明新角色。
+
+**常驻角色**：
+
+| Agent | 职责 |
+|-------|------|
+| `orchestrator` | 任务分类、激活 agent、控制 handoff、整合结果 |
+| `research-author-agent` | 负责 `request.md`、`plan.md`、`draft.md` 主链 |
+| `source-evidence-agent` | 负责来源收集、摘录、source review |
+| `review-critic-agent` | 负责独立技术评审、traceability audit |
+| `publish-agent` | 负责 artifact 提炼与 update impact scan |
+
+**条件角色**：
+
+| Agent | 激活条件 |
+|-------|----------|
+| `diagram-agent` | primitive / mechanism-heavy / 明确需要图表 |
+| `governance-review-agent` | 修改 `openspec/**`、`harness/**`、`AGENTS.md`、`docs/governance/**` |
 
 ---
 
@@ -185,7 +209,7 @@ OpenSpec 区块链研究协作的导航入口。
 |-------|------|
 | `openspec-research-build-plan/` | 辅助生成 plan.md |
 | `openspec-research-build-draft/` | 辅助生成 draft.md |
-| `openspec-research-promote-canonical/` | 辅助提升到 canonical 资产 |
+| `openspec-research-build-artifact/` | 辅助提升到 canonical 资产 |
 
 ### 用户级 Skills（全局）
 
@@ -207,7 +231,6 @@ OpenSpec 区块链研究协作的导航入口。
 | 脚本 | 用途 | 用法 |
 |------|------|------|
 | `init_research_item.py` | 初始化研究项目 | `--topic <topic> --type <type>` |
-| `build_index.py` | 构建 topic 索引 | `--output <path>` |
 | `check_frontmatter.py` | 检查 frontmatter | `[file\|directory]` |
 | `check_traceability.py` | 检查可追溯性 | `--topic <topic>` |
 
@@ -225,7 +248,6 @@ OpenSpec 区块链研究协作的导航入口。
 | 脚本 | 用途 | 用法 |
 |------|------|------|
 | `move_change_outputs.py` | 移动 change 到 knowledge | `--change <id> --topic <topic> --domain <domain>` |
-| `generate_topic_index.py` | 生成 topic 索引 | `--output <path>` |
 
 ### Diagram Scripts（备选）
 
@@ -281,6 +303,7 @@ OpenSpec 区块链研究协作的导航入口。
 |----------|----------|
 | 系统约束（artifact 模型、工作流） | `openspec/config.yaml` + `openspec/schemas/blockchain-research/schema.yaml` |
 | 流程问题（下一步做什么） | `harness/workflows/` |
+| 执行角色问题（谁来做、怎么分工） | `harness/agents/` |
 | 规范问题（如何写/约束） | `harness/rules/` |
 | 操作问题（具体执行） | `skills/` |
 | 自动化需求（脚本） | `scripts/` |

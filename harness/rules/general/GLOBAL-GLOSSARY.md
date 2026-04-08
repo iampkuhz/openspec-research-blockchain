@@ -134,7 +134,7 @@
 - `request.md`：问题定义
 - `plan.md`：研究计划与来源规划
 - `draft.md`：集中 review 稿
-- `evidence-matrix.md`：`claim`-`source` 映射
+- `sources/`：来源抓取、摘录与 source review
 
 **来源**：`harness/rules/general/traceability-policy.md`
 

@@ -133,8 +133,8 @@ openspec/changes/<change-id>/
 1. **读取前置文件**
    - `request.md`
    - `plan.md`
-   - `dependencies.md`（如有）
-   - `evidence-matrix.md`（如有）
+   - `sources/source-review.md`（如有）
+   - `sources/excerpts/`（如有）
 
 2. **生成分析内容**
    - 对 primitive 或 mechanism-heavy 内容，先写实体分类表（role / component / data / state / external）

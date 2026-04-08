@@ -18,6 +18,13 @@
 - `draft.md`（集中 review 稿）
 - 评审结论
 
+## 默认执行角色
+
+- `orchestrator`
+- `publish-agent`
+
+`publish-agent` 除 artifact 提炼外，还负责在 update 场景下执行 impact scan 与兼容性检查。
+
 ## 规则加载策略
 
 ### 初始加载（workflow 开始时）
@@ -64,14 +71,15 @@ Apply 命令会根据 `openspec/config.yaml` 的 apply 段执行：
 3. 过程文件（`request.md`、`plan.md`）保留在 `openspec/changes/`
 4. 术语区默认并入 `artifact.md` 或 `verdict.md`
 
-### 步骤 4：更新 Indexes
+### 步骤 3.5：执行 Update Impact Scan（update 场景）
 
-```bash
-# 更新 topic 索引
-python scripts/general/build_index.py
-```
+如本次为更新现有知识：
 
-### 步骤 5：提交 Commit
+1. 判断受影响的长期资产路径
+2. 记录兼容性处理方式
+3. 明确是否需要 follow-up refresh
+
+### 步骤 4：提交 Commit
 
 ```bash
 git add knowledge/
@@ -89,7 +97,6 @@ Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>
 ## 完成标准
 
 - [ ] 产物已应用到正确位置
-- [ ] Indexes 已更新
 - [ ] Commit 已创建
 
 ## 异常处理

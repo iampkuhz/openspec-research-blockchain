@@ -8,6 +8,8 @@
 openspec/changes/*
 !openspec/changes/README.md
 !openspec/changes/*.md
+!openspec/changes/governance-multi-agent-upgrade-pass-1/
+!openspec/changes/governance-multi-agent-upgrade-pass-1/**
 
 # 临时文件
 tmp/

@@ -29,6 +29,11 @@
 - 变更说明
 - 相关评审人员
 
+## 默认执行角色
+
+- `orchestrator`
+- `governance-review-agent`
+
 ## 规则加载策略
 
 ### 初始加载（workflow 开始时）

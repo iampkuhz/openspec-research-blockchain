@@ -192,8 +192,8 @@ scripts/research/find_term_drift.py --term <term>
 | 范围 | 位置 |
 |------|------|
 | 跨 topic 通用 | `knowledge/glossary/terms/<term>.md` |
-| topic 特有 | `knowledge/topics/<topic>/terms/<term>.md` |
-| domain 特有 | `knowledge/domains/<domain>/terms/<term>.md` |
+| case / topic 特有 | 对应 `artifact.md` 或 `draft.md` 的“关键术语”区 |
+| domain 特有 | `knowledge/analysis/domains/<domain>/artifact.md` 的“关键术语”区 |
 
 ## 术语条目模板
 

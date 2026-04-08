@@ -1,15 +1,16 @@
 # 工作流索引
 
-version: "1.0"
+version: "1.1"
 description: |
   工作流索引，用于支持按需加载。
-  AGENTS.md 和 skills 通过引用此索引来加载具体工作流。
+  当 workflow 支持 multi-agent 执行时，命令层和协作入口还应同时读取
+  `harness/agents/_index.yaml` 作为执行角色注册表。
 
 workflows:
   - name: research-pipeline.md
-    description: "端到端研究流程：request → plan → draft → artifact"
+    description: "端到端研究流程：request → plan → draft → review → artifact"
     trigger: "需要完整执行一个 research change"
-    output: "request.md, plan.md, draft.md, knowledge/.../artifact.md"
+    output: "request.md, plan.md, sources/, draft.md, review/, knowledge/.../artifact.md"
 
   - name: intake-workflow.md
     description: "研究请求接入与分类"
@@ -56,7 +57,6 @@ workflows:
     trigger: "修改 openspec/**、harness/**、AGENTS.md、docs/governance/"
     output: "openspec/changes/<change-id>/review/governance-review.md"
 
-# 工作流分类
 categories:
   research:
     - research-pipeline.md
