@@ -18,7 +18,7 @@
 - `openspec/schemas/blockchain-research/schema.yaml`
 - `openspec/specs/artifact-generation/spec.md`
 - `openspec/specs/canonical-output-model/spec.md`
-- `harness/agents/publish-agent.md`
+- `harness/agents/_index.yaml`
 - `harness/workflows/merge-workflow.md`
 
 ## 执行步骤（Claude Code 特定）
@@ -51,7 +51,7 @@
      - 不写长期资产
      - 在总结中给出 blocked item / wake condition
 
-6. **执行 `publish-agent` contract**
+6. **执行 @publish-agent contract**
    - 判断对象类型与目标路径
    - 提炼 durable 内容写入长期资产
    - update 场景下一并执行 impact scan

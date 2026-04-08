@@ -4,12 +4,12 @@
 
 | 阶段 | Owner | Gate |
 |------|-------|------|
-| request | research-author-agent | 对象类型、路径、核心问题、范围、非目标完整 |
-| source | source-evidence-agent | 来源分层、关键 excerpts、证据缺口完成 |
-| plan | research-author-agent | 来源规划、交付范围、研究深度、完成标准完整 |
-| draft | research-author-agent + diagram-agent | 图表清单与 diagram contract 通过，bounded conclusions 明确 |
-| review | review-critic-agent | high severity 清零，结论明确 |
-| publish | publish-agent | 目标路径正确，长期内容已提炼而非整包照搬 |
+| request | @research-author-agent | 对象类型、路径、核心问题、范围、非目标完整 |
+| source | @source-evidence-agent | 来源分层、关键 excerpts、证据缺口完成 |
+| plan | @research-author-agent | 来源规划、交付范围、研究深度、完成标准完整 |
+| draft | @research-author-agent + @diagram-agent | 图表清单与 diagram contract 通过，bounded conclusions 明确 |
+| review | @review-critic-agent | high severity 清零，结论明确 |
+| publish | @publish-agent | 目标路径正确，长期内容已提炼而非整包照搬 |
 
 ## 人工验收场景
 
@@ -19,11 +19,11 @@
    - `review` 有独立结论
 
 2. update existing knowledge：
-   - `publish-agent` 能同时判断 apply 与 impact scan
+   - @publish-agent 能同时判断 apply 与 impact scan
    - 不再依赖 `knowledge/topics`
 
 3. governance change：
-   - 自动激活 `governance-review-agent`
+   - 自动激活 @governance-review-agent
    - 明确 OpenSpec / Harness 边界
 
 ## 建议的基础检查

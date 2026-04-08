@@ -19,8 +19,7 @@
 - `openspec/schemas/blockchain-research/templates/draft.md`
 - `openspec/specs/draft-generation/spec.md`
 - `openspec/specs/diagram-policy/spec.md`
-- `harness/agents/research-author-agent.md`
-- `harness/agents/diagram-agent.md`
+- `harness/agents/_index.yaml`
 
 ## 执行步骤（Claude Code 特定）
 
@@ -35,15 +34,16 @@
    - 现有 `diagrams/` 目录（如有）
 
 3. **选择 active roles**
-   - `research-author-agent`：负责正文与 bounded conclusions
-   - `diagram-agent`：primitive / mechanism-heavy / 明确需要图表时启用
-   - `source-evidence-agent`：如 draft 过程中发现关键证据缺口，可定向补源
+   - 从 `harness/agents/_index.yaml` 加载：
+     - @research-author-agent：负责正文与 bounded conclusions
+     - @diagram-agent：primitive / mechanism-heavy / 明确需要图表时启用
+     - @source-evidence-agent：如 draft 过程中发现关键证据缺口，可定向补源
 
 4. **并行策略**
    - 可并行：
-     - `research-author-agent` 写概述、术语表、设计取舍、能力边界、相关协议对比
-     - `diagram-agent` 准备实体分类、图表清单、diagram package
-     - 如存在未验证链接或关键 evidence gap，可定向唤回 `source-evidence-agent`
+     - @research-author-agent 写概述、术语表、设计取舍、能力边界、相关协议对比
+     - @diagram-agent 准备实体分类、图表清单、diagram package
+     - 如存在未验证链接或关键 evidence gap，可定向唤回 @source-evidence-agent
    - 必须串行：
      - diagram contract 校验
      - `draft.md` 最终冻结版本
@@ -73,6 +73,6 @@
 9. **完成总结**
    - 使用的 change 路径
    - 更新了哪些 section
-   - 是否启用了 `diagram-agent`
+   - 是否启用了 @diagram-agent
    - diagram contract 校验结果
    - 冰箱清单及其解冻条件

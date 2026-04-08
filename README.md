@@ -53,10 +53,10 @@ sources/ + diagrams/ -> plan.md / draft.md / review/
 
 ## 第一版 Multi-Agent 模式
 
-默认执行面采用 `5 + 2` 结构：
+默认执行面采用 `4 + 2` 结构：
 
-- 常驻：`orchestrator`、`research-author-agent`、`source-evidence-agent`、`review-critic-agent`、`publish-agent`
-- 条件：`diagram-agent`、`governance-review-agent`
+- 常驻：@research-author-agent、@source-evidence-agent、@review-critic-agent、@publish-agent
+- 条件：@diagram-agent、@governance-review-agent
 
 角色真源位于：
 

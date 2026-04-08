@@ -6,11 +6,6 @@ description: |
   workflow 与命令层在需要多 agent 编排时应优先读取本索引。
 
 agents:
-  - name: orchestrator
-    mode: always
-    file: orchestrator.md
-    owns: "任务分类、agent 激活、handoff 控制、最终整合"
-
   - name: research-author-agent
     mode: always
     file: research-author-agent.md
@@ -45,7 +40,6 @@ agents:
 
 categories:
   always_on:
-    - orchestrator
     - research-author-agent
     - source-evidence-agent
     - review-critic-agent

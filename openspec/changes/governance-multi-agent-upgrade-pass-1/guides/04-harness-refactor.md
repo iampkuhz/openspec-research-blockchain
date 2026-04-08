@@ -27,7 +27,6 @@
 harness/
 ├── agents/
 │   ├── _index.yaml
-│   ├── orchestrator.md
 │   ├── research-author-agent.md
 │   ├── source-evidence-agent.md
 │   ├── review-critic-agent.md

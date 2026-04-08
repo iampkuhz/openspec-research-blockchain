@@ -8,7 +8,7 @@
 
 1. 盘点现有执行面真源：`AGENTS.md`、OpenSpec、Harness、Claude 命令层之间的职责边界。
 2. 确定第一版 agent roster，并明确哪些职责合并、哪些职责保持独立。
-3. 设计 orchestrator 驱动的协作协议，包括激活条件、并行边界、handoff artifact、fallback。
+3. 设计命令层驱动的协作协议，包括激活条件、并行边界、handoff artifact、fallback。
 4. 把 agent contract 正式落到 `harness/agents/`，并让 workflow 与命令层改为消费它们。
 5. 修正会直接干扰 multi-agent 质量的关键入口漂移，如资产模型、长期输出、依赖声明与旧 skill 名称。
 

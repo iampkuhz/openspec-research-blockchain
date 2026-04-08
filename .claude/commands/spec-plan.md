@@ -18,8 +18,7 @@
 - `openspec/schemas/blockchain-research/schema.yaml`
 - `openspec/schemas/blockchain-research/templates/plan.md`
 - `openspec/specs/plan-generation/spec.md`
-- `harness/agents/research-author-agent.md`
-- `harness/agents/source-evidence-agent.md`
+- `harness/agents/_index.yaml`
 
 ## 执行步骤（Claude Code 特定）
 
@@ -34,13 +33,14 @@
    - 现有 `plan.md`（如已存在）
 
 3. **选择 active roles**
-   - `research-author-agent`：负责 `plan.md`
-   - `source-evidence-agent`：如来源规划明显缺口，先补 `sources/`
+   - 从 `harness/agents/_index.yaml` 加载：
+     - @research-author-agent：负责 `plan.md`
+     - @source-evidence-agent：如来源规划明显缺口，先补 `sources/`
 
 4. **并行策略**
    - 可并行：
-     - `research-author-agent` 起草问题拆解、交付范围、研究深度、完成标准
-     - `source-evidence-agent` 生成或更新 `sources/source-review.md`
+     - @research-author-agent 起草问题拆解、交付范围、研究深度、完成标准
+     - @source-evidence-agent 生成或更新 `sources/source-review.md`
    - 必须串行：
      - `plan.md` 最终定稿
      - 依赖声明与证据缺口的最终收口

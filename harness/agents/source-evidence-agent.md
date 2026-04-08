@@ -30,7 +30,7 @@
 1. 按 L1-L4 分层组织来源
 2. 提取关键 excerpts，说明 relevance
 3. 标记 evidence gaps、conflicts、unresolved ambiguity
-4. 将结果以稳定 handoff artifact 交给 `research-author-agent`
+4. 将结果以稳定 handoff artifact 交给 @research-author-agent
 
 ## 必须避免
 

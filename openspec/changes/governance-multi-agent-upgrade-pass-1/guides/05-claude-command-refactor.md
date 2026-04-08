@@ -8,11 +8,11 @@
 
 | 命令 | 角色 |
 |------|------|
-| `/spec-research` | orchestrator 入口 |
-| `/spec-request` | request 阶段入口，主要消费 `research-author-agent` contract |
-| `/spec-plan` | plan 阶段入口，联动 `research-author-agent` 与 `source-evidence-agent` |
-| `/spec-draft` | draft 阶段入口，联动 `research-author-agent` 与 `diagram-agent` |
-| `/spec-artifact` | publish 阶段入口，消费 `publish-agent` contract |
+| `/spec-research` | 命令层入口 |
+| `/spec-request` | request 阶段入口，主要消费 @research-author-agent contract |
+| `/spec-plan` | plan 阶段入口，联动 @research-author-agent 与 @source-evidence-agent |
+| `/spec-draft` | draft 阶段入口，联动 @research-author-agent 与 @diagram-agent |
+| `/spec-artifact` | publish 阶段入口，消费 @publish-agent contract |
 
 ## 重构要求
 

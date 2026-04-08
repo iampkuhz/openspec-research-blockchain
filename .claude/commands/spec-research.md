@@ -13,11 +13,11 @@
 
 ## 规则来源
 
-本命令是 **orchestrator 入口**。执行前必须优先读取：
+本命令是 **命令层入口**。执行前必须优先读取：
 
 - `harness/workflows/research-pipeline.md`
 - `harness/agents/_index.yaml`
-- active agents 对应 contract
+- @agent contract
 - 各阶段 OpenSpec spec 与 template
 
 本命令不重新定义 artifact contract，也不复制整份 workflow 正文。
@@ -34,40 +34,39 @@
    - 如果是 OpenSpec / Harness / AGENTS / governance 改造，切到 `governance-review-workflow.md`
 
 3. **选择 active agents**
-   - 默认：
-     - `orchestrator`
-     - `research-author-agent`
-     - `source-evidence-agent`
-     - `review-critic-agent`
-     - `publish-agent`
+   - 从 `harness/agents/_index.yaml` 加载：
+     - @research-author-agent
+     - @source-evidence-agent
+     - @review-critic-agent
+     - @publish-agent
    - 条件启用：
-     - `diagram-agent`
-     - `governance-review-agent`
+     - @diagram-agent
+     - @governance-review-agent
 
 4. **编排执行**
-   - `request`：按 `research-author-agent` contract 生成或修订 `request.md`
-   - `plan`：由 `research-author-agent` 负责，必要时并行拉起 `source-evidence-agent`
-   - `draft`：由 `research-author-agent` 负责，primitive / mechanism-heavy 时启用 `diagram-agent`
-   - `review`：由 `review-critic-agent` 独立完成，不与 author 合并
-   - `artifact`：仅在 review 通过后，交给 `publish-agent`
+   - `request`：按 @research-author-agent contract 生成或修订 `request.md`
+   - `plan`：由 @research-author-agent 负责，必要时并行拉起 @source-evidence-agent
+   - `draft`：由 @research-author-agent 负责，primitive / mechanism-heavy 时启用 @diagram-agent
+   - `review`：由 @review-critic-agent 独立完成，不与 author 合并
+   - `artifact`：仅在 review 通过后，交给 @publish-agent
 
 5. **更细的并行策略**
    - **窗口 A：request bootstrap**
-     - `research-author-agent` 先生成最小可用的 `request.md` 语义骨架
+     - @research-author-agent 先生成最小可用的 `request.md` 语义骨架
      - 同时可并行读取 schema、template、已有 change 文件
    - **窗口 B：plan-source parallel**
-     - `research-author-agent` 并行推进问题拆解、交付范围、完成标准
-     - `source-evidence-agent` 并行生成 `sources/` 和 `source-review.md`
+     - @research-author-agent 并行推进问题拆解、交付范围、完成标准
+     - @source-evidence-agent 并行生成 `sources/` 和 `source-review.md`
      - `plan.md` 定稿前必须回收 `source-review.md`
    - **窗口 C：draft-diagram parallel**
-     - `research-author-agent` 写概述、术语表、设计取舍、能力边界
-     - `diagram-agent` 并行准备实体分类、图表清单、diagram package
+     - @research-author-agent 写概述、术语表、设计取舍、能力边界
+     - @diagram-agent 并行准备实体分类、图表清单、diagram package
      - `draft.md` 只有在 diagram contract 通过后才可声称完成
    - **窗口 D：review preheat**
-     - `review-critic-agent` 可基于 `plan.md`、`sources/` 预热 checklist
+     - @review-critic-agent 可基于 `plan.md`、`sources/` 预热 checklist
      - 但不能在 `draft.md` 冻结前给出正式 severity 和结论
    - **窗口 E：publish preflight**
-     - `publish-agent` 可提前计算目标路径、impact scope、目录落点
+     - @publish-agent 可提前计算目标路径、impact scope、目录落点
      - 但 review 通过前不得写长期资产
 
 6. **冰箱策略**

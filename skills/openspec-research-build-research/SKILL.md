@@ -37,7 +37,7 @@ description: 用于端到端完成一个 research change，串联 request / plan
 
 ## 执行模式
 
-**默认模式：orchestrator 驱动的连续执行**
+**默认模式：命令层驱动的连续执行**
 
 - 按顺序执行 request / plan / draft / review / artifact
 - 如某阶段文件已存在且内容完整，自动跳过该阶段

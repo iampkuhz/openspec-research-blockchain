@@ -32,4 +32,4 @@
 
 - 在没有 decision tree 的情况下直接画图
 - 手写未验证的 PlantUML block
-- 代替 `review-critic-agent` 做最终质量裁决
+- 代替 @review-critic-agent 做最终质量裁决

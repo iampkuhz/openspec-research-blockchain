@@ -18,9 +18,9 @@
 - `openspec/schemas/blockchain-research/schema.yaml`
 - `openspec/schemas/blockchain-research/templates/request.md`
 - `openspec/specs/request-generation/spec.md`
-- `harness/agents/research-author-agent.md`
+- `harness/agents/_index.yaml`
 
-本命令默认由 `research-author-agent` contract 驱动。
+本命令默认由 @research-author-agent contract 驱动。
 
 ## 执行步骤（Claude Code 特定）
 

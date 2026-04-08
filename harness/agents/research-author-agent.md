@@ -16,7 +16,7 @@
 - `openspec/schemas/blockchain-research/schema.yaml`
 - request / plan / draft 相关 spec 与 template
 - 当前 change packet
-- `source-evidence-agent`、`diagram-agent` 的输出
+- @source-evidence-agent、@diagram-agent 的输出
 
 ## 写入范围
 
@@ -39,6 +39,6 @@
 
 ## handoff
 
-- 向 `source-evidence-agent` 输出研究问题与来源优先级
-- 向 `diagram-agent` 输出实体分类与图表清单
-- 向 `review-critic-agent` 输出待审版本与未决问题
+- 向 @source-evidence-agent 输出研究问题与来源优先级
+- 向 @diagram-agent 输出实体分类与图表清单
+- 向 @review-critic-agent 输出待审版本与未决问题

@@ -87,18 +87,17 @@ OpenSpec 区块链研究协作的导航入口。
 
 | Agent | 职责 |
 |-------|------|
-| `orchestrator` | 任务分类、激活 agent、控制 handoff、整合结果 |
-| `research-author-agent` | 负责 `request.md`、`plan.md`、`draft.md` 主链 |
-| `source-evidence-agent` | 负责来源收集、摘录、source review |
-| `review-critic-agent` | 负责独立技术评审、traceability audit |
-| `publish-agent` | 负责 artifact 提炼与 update impact scan |
+| @research-author-agent | 负责 `request.md`、`plan.md`、`draft.md` 主链 |
+| @source-evidence-agent | 负责来源收集、摘录、source review |
+| @review-critic-agent | 负责独立技术评审、traceability audit |
+| @publish-agent | 负责 artifact 提炼与 update impact scan |
 
 **条件角色**：
 
 | Agent | 激活条件 |
 |-------|----------|
-| `diagram-agent` | primitive / mechanism-heavy / 明确需要图表 |
-| `governance-review-agent` | 修改 `openspec/**`、`harness/**`、`AGENTS.md`、`docs/governance/**` |
+| @diagram-agent | primitive / mechanism-heavy / 明确需要图表 |
+| @governance-review-agent | 修改 `openspec/**`、`harness/**`、`AGENTS.md`、`docs/governance/**` |
 
 ---
 

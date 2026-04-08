@@ -31,7 +31,7 @@
 
 ## 执行模式
 
-### 默认模式：orchestrator 驱动的 multi-agent 执行
+### 默认模式：命令层驱动的 multi-agent 执行
 
 执行入口先读取：
 
@@ -44,12 +44,11 @@
 
 | 角色 | 模式 | 责任 |
 |------|------|------|
-| `orchestrator` | always | 任务分类、激活 agent、控制 handoff、整合结果 |
-| `research-author-agent` | always | `request / plan / draft` 主链写作 |
-| `source-evidence-agent` | always | 来源收集与证据缺口盘点 |
-| `review-critic-agent` | always | 独立技术评审与 traceability audit |
-| `publish-agent` | always | artifact 提炼与 update impact scan |
-| `diagram-agent` | conditional | primitive / mechanism-heavy / 明确需要图表时启用 |
+| @research-author-agent | always | `request / plan / draft` 主链写作 |
+| @source-evidence-agent | always | 来源收集与证据缺口盘点 |
+| @review-critic-agent | always | 独立技术评审与 traceability audit |
+| @publish-agent | always | artifact 提炼与 update impact scan |
+| @diagram-agent | conditional | primitive / mechanism-heavy / 明确需要图表时启用 |
 
 ### fallback
 
@@ -90,7 +89,7 @@ diagrams ────────────┘
 
 ### 阶段 1：request
 
-**owner**：`research-author-agent`
+**owner**：@research-author-agent
 
 **输入**：
 - 用户意图
@@ -106,9 +105,9 @@ diagrams ────────────┘
 
 ### 阶段 2：plan
 
-**owner**：`research-author-agent`
+**owner**：@research-author-agent
 
-**并行支持**：`source-evidence-agent`
+**并行支持**：@source-evidence-agent
 
 **输入**：
 - `request.md`
@@ -125,15 +124,15 @@ diagrams ────────────┘
 - 证据缺口和完成标准明确
 
 **并行窗口**：
-- `research-author-agent` 可以先写问题拆解、交付范围、完成标准
-- `source-evidence-agent` 并行收集来源并生成 `source-review.md`
+- @research-author-agent 可以先写问题拆解、交付范围、完成标准
+- @source-evidence-agent 并行收集来源并生成 `source-review.md`
 - `plan.md` 定稿前必须回收 `source-review.md`
 
 ### 阶段 3：draft
 
-**owner**：`research-author-agent`
+**owner**：@research-author-agent
 
-**条件角色**：`diagram-agent`
+**条件角色**：@diagram-agent
 
 **输入**：
 - `request.md`
@@ -153,13 +152,13 @@ diagrams ────────────┘
 4. draft 完成后必须执行 diagram contract 校验
 
 **并行窗口**：
-- `research-author-agent` 可并行推进概述、术语表、设计取舍、能力边界
-- `diagram-agent` 可并行准备实体分类、图表清单、diagram package
-- 如发现证据缺口，可短暂唤回 `source-evidence-agent` 定向补证据
+- @research-author-agent 可并行推进概述、术语表、设计取舍、能力边界
+- @diagram-agent 可并行准备实体分类、图表清单、diagram package
+- 如发现证据缺口，可短暂唤回 @source-evidence-agent 定向补证据
 
 ### 阶段 4：review gate
 
-**owner**：`review-critic-agent`
+**owner**：@review-critic-agent
 
 **输入**：
 - `draft.md`
@@ -178,12 +177,12 @@ diagrams ────────────┘
 - 如存在图表，diagram contract 与内容质量均通过
 
 **并行窗口**：
-- `review-critic-agent` 可在 author 收尾阶段预热 checklist 结构与审查重点
+- @review-critic-agent 可在 author 收尾阶段预热 checklist 结构与审查重点
 - 但正式 severity 与结论必须基于冻结后的 `draft.md`
 
 ### 阶段 5：artifact / publish
 
-**owner**：`publish-agent`
+**owner**：@publish-agent
 
 **输入**：
 - `request.md`
@@ -202,18 +201,18 @@ diagrams ────────────┘
 - update 场景已完成 impact scan
 
 **并行窗口**：
-- `publish-agent` 可提前计算目标路径与 impact scan 范围
+- @publish-agent 可提前计算目标路径与 impact scan 范围
 - 但在 review 通过前不得写长期资产
 
 ## 关键 handoff artifact
 
 | From | To | Artifact |
 |------|----|----------|
-| orchestrator | research-author-agent | 目标 change、对象类型、active agents |
-| research-author-agent | source-evidence-agent | 研究问题、来源优先级 |
-| source-evidence-agent | research-author-agent | `source-review.md`、核心 excerpts、evidence gaps |
-| research-author-agent | review-critic-agent | 待审 `draft.md`、未决问题 |
-| review-critic-agent | publish-agent | approved / blocked 结论、必须修复项 |
+| 命令层 | @research-author-agent | 目标 change、对象类型、active agents |
+| @research-author-agent | @source-evidence-agent | 研究问题、来源优先级 |
+| @source-evidence-agent | @research-author-agent | `source-review.md`、核心 excerpts、evidence gaps |
+| @research-author-agent | @review-critic-agent | 待审 `draft.md`、未决问题 |
+| @review-critic-agent | @publish-agent | approved / blocked 结论、必须修复项 |
 
 ## 完成后的总结要求
 
