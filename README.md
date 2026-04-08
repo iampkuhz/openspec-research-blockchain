@@ -60,8 +60,7 @@ sources/ + diagrams/ -> plan.md / draft.md / review/
 
 角色真源位于：
 
-- `harness/agents/_index.yaml`
-- `harness/agents/*.md`
+- `.claude/agents/*.md`
 
 ## 目录结构
 
@@ -70,11 +69,10 @@ sources/ + diagrams/ -> plan.md / draft.md / review/
 ├── AGENTS.md
 ├── CLAUDE.md
 ├── README.md
-├── .claude/agents/            # Claude 侧 agent 映射（软链接到 harness/agents）
+├── .claude/agents/            # Claude 侧 agent 合同
 ├── .claude/commands/          # Claude Code 入口命令
 ├── .qoder/agents/             # Qoder agent skeleton（本轮仅骨架）
 ├── harness/
-│   ├── agents/                # agent contract
 │   ├── rules/                 # 执行约束
 │   └── workflows/             # 阶段编排
 ├── openspec/
@@ -111,6 +109,6 @@ Claude Code 侧入口：
 - [AGENTS.md](./AGENTS.md) - 协作索引和路由入口
 - [openspec/config.yaml](./openspec/config.yaml) - 项目级正式规则入口
 - [harness/workflows/](./harness/workflows/) - 流程编排
-- [harness/agents/](./harness/agents/) - agent roster 与 contract
+- [.claude/agents/](./.claude/agents/) - agent roster 与 contract
 - [skills/README.md](./skills/README.md) - 可复用 skill 索引
 - [scripts/README.md](./scripts/README.md) - 自动化脚本索引

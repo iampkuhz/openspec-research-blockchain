@@ -18,24 +18,8 @@
 - `openspec/schemas/blockchain-research/schema.yaml`
 - `openspec/schemas/blockchain-research/templates/plan.md`
 - `openspec/specs/plan-generation/spec.md`
-- `harness/agents/_index.yaml`
 
-## 执行步骤（Claude Code 特定）
-
-1. **确认目标 change 目录**
-   - 如果用户提供了路径，就使用该路径
-   - 否则优先尝试从当前工作目录推断
-   - 如仍无法唯一判断，再简短询问用户
-
-2. **读取前置文件**
-   - `request.md`
-   - `sources/source-review.md`（如已存在）
-   - 现有 `plan.md`（如已存在）
-
-3. **选择 active roles**
-   - 从 `harness/agents/_index.yaml` 加载：
-     - @research-author-agent：负责 `plan.md`
-     - @source-evidence-agent：如来源规划明显缺口，先补 `sources/`
+本命令由 @research-author-agent contract 驱动。
 
 4. **并行策略**
    - 可并行：

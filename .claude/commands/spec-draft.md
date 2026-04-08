@@ -19,25 +19,8 @@
 - `openspec/schemas/blockchain-research/templates/draft.md`
 - `openspec/specs/draft-generation/spec.md`
 - `openspec/specs/diagram-policy/spec.md`
-- `harness/agents/_index.yaml`
 
-## 执行步骤（Claude Code 特定）
-
-1. **确认目标 change 目录**
-   - 路径解析规则与 `/spec-plan` 相同
-
-2. **读取前置文件**
-   - `request.md`
-   - `plan.md`
-   - `sources/`
-   - 现有 `draft.md`（如有）
-   - 现有 `diagrams/` 目录（如有）
-
-3. **选择 active roles**
-   - 从 `harness/agents/_index.yaml` 加载：
-     - @research-author-agent：负责正文与 bounded conclusions
-     - @diagram-agent：primitive / mechanism-heavy / 明确需要图表时启用
-     - @source-evidence-agent：如 draft 过程中发现关键证据缺口，可定向补源
+本命令由 @research-author-agent contract 驱动。
 
 4. **并行策略**
    - 可并行：

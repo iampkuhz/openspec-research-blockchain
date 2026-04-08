@@ -18,7 +18,6 @@
 - `openspec/schemas/blockchain-research/schema.yaml`
 - `openspec/schemas/blockchain-research/templates/request.md`
 - `openspec/specs/request-generation/spec.md`
-- `harness/agents/_index.yaml`
 
 本命令默认由 @research-author-agent contract 驱动。
 

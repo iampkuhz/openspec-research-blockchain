@@ -36,7 +36,7 @@
 执行入口先读取：
 
 1. `harness/workflows/_index.yaml`
-2. `harness/agents/_index.yaml`
+2. `.claude/agents/` 中的 agent 合同
 3. 当前 workflow
 4. 对应 OpenSpec spec
 

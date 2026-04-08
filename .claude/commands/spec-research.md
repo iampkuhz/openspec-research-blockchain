@@ -16,32 +16,10 @@
 本命令是 **命令层入口**。执行前必须优先读取：
 
 - `harness/workflows/research-pipeline.md`
-- `harness/agents/_index.yaml`
-- @agent contract
 - 各阶段 OpenSpec spec 与 template
+- @agent contract（如 `@research-author-agent`、`@source-evidence-agent` 等）
 
 本命令不重新定义 artifact contract，也不复制整份 workflow 正文。
-
-## 执行步骤（Claude Code 特定）
-
-1. **确认目标 change 目录**
-   - 如果用户提供了路径，使用该路径
-   - 否则尝试从当前工作目录推断
-   - 如果仍无法确定，再简短询问用户
-
-2. **判断任务语义**
-   - 如果是普通 research / update，继续本命令
-   - 如果是 OpenSpec / Harness / AGENTS / governance 改造，切到 `governance-review-workflow.md`
-
-3. **选择 active agents**
-   - 从 `harness/agents/_index.yaml` 加载：
-     - @research-author-agent
-     - @source-evidence-agent
-     - @review-critic-agent
-     - @publish-agent
-   - 条件启用：
-     - @diagram-agent
-     - @governance-review-agent
 
 4. **编排执行**
    - `request`：按 @research-author-agent contract 生成或修订 `request.md`

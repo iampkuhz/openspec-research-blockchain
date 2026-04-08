@@ -4,7 +4,7 @@ version: "1.1"
 description: |
   工作流索引，用于支持按需加载。
   当 workflow 支持 multi-agent 执行时，命令层和协作入口还应同时读取
-  `harness/agents/_index.yaml` 作为执行角色注册表。
+  `.claude/agents/` 目录中的 agent 合同。
 
 workflows:
   - name: research-pipeline.md

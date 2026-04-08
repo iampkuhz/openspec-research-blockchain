@@ -264,5 +264,4 @@ diagrams/<diagram-id>/
 | `harness/rules/diagrams/diagram-selection-matrix.md` | 图表类型选择 |
 | `harness/rules/diagrams/diagram-review-checklist.md` | 图表评审清单 |
 | `harness/rules/diagrams/brief-quality-rules.md` | Brief 质量评估 |
-| `harness/agents/_index.yaml` | Agent 注册表 |
-| `harness/agents/research-author-agent.md` | Author 合同（handoff 来源） |
+| `@research-author-agent` | Author 合同（handoff 来源） |
