@@ -35,6 +35,8 @@
 
 ## 主要技能（优先使用）
 
+由主会话显式调用 @diagram-agent 执行本 workflow。
+
 | 图表类型 | Skill | 说明 |
 |----------|-------|------|
 | **架构图/组件图** | `feipi-plantuml-generate-architecture-diagram`（全局 skill） | 唯一正式的 Architecture Diagram 生成方式 |

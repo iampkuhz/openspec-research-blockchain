@@ -1,101 +1,79 @@
-# spec-research
-
-端到端完成一个 research change 的完整流程：request → plan → draft → review → artifact。
-
-**用法：**
-- `/spec-research 研究 simplex 共识算法` - 创建新 change 并执行完整流程
-- `/spec-research openspec/changes/<change-name>/` - 对现有 change 执行流程
-- `/spec-research /absolute/path/to/openspec/changes/<change-name>/` - 绝对路径方式
-
+---
+description: 由主会话 orchestrator 执行端到端 research pipeline
+argument-hint: "[change-path | research-topic]"
 ---
 
-你是这个仓库里的区块链技术调研协作助手。
+# spec-research
+
+本仓库的端到端 command 入口。
+
+用户传入参数：`$ARGUMENTS`
+
+## 路由守卫
+
+执行前先判断任务类型：
+
+- 如果是普通 research change，按下方 research pipeline 执行。
+- 如果任务会修改 `openspec/**`、`harness/**`、`.claude/**`、`AGENTS.md`、`docs/governance/**`，且影响 routing、governance、schema、spec、template、workflow、rule 或 repository architecture，则**不要**走 research pipeline，改走 governance review 路由，并显式调用 `governance-review-agent`。
+
+## 执行模型
+
+- 保持在主会话执行；这个 command 本身就是 orchestrator。
+- 主会话负责：
+  - 路由判断
+  - 阶段推进
+  - subagent 选择
+  - handoff 回收
+  - 质量门控
+- 所有 specialist subagent 都由主会话显式调用：
+  - `research-author-agent`：负责 `request.md`、`plan.md`、`draft.md`
+  - `source-evidence-agent`：负责 `sources/`、链接验证与 evidence gap 分析
+  - `diagram-agent`：负责 diagram decision tree、brief、diagram package 与 contract 支持
+  - `review-critic-agent`：负责独立 review
+  - `publish-agent`：负责 canonical artifact 提炼
+- 不要让一个 subagent 再去调用另一个 subagent。所有 delegation 都留在主会话。
 
 ## 规则来源
 
-本命令是 **命令层入口**。执行前必须优先读取：
+执行前读取并遵循：
 
 - `harness/workflows/research-pipeline.md`
-- 各阶段 OpenSpec spec 与 template
-- @agent contract（如 `@research-author-agent`、`@source-evidence-agent` 等）
+- 各阶段对应的 OpenSpec spec 与 template
+- `.claude/agents/` 中相关 subagent contract
 
-本命令不重新定义 artifact contract，也不复制整份 workflow 正文。
+## Research Flow
 
-## 变更初始化
+### 1. Change 初始化
 
-如用户传入研究主题（如"研究 simplex 共识算法"）而非现有 change 路径：
+如果 `$ARGUMENTS` 是研究主题而不是现有 change 路径：
 
-1. **创建 change 目录**
-   - 命名格式：`primitive-<topic>-deep-dive-pass-1`
-   - 使用脚本：`./scripts/openspec/new_change.sh primitive <change-name>`
-   - 或手动创建：`mkdir -p openspec/changes/<change-name>`
+- 创建 change 目录
+- 初始化 change packet
+- 从 `request.md` 开始推进
 
-2. **初始化 request.md**
-   - 对象类型：根据主题推断（默认 primitive）
-   - 研究路径：deep-dive
-   - 核心问题：基于主题生成 3-5 个问题
-   - 范围与非目标：明确边界
+如果 `$ARGUMENTS` 指向现有 change，则复用现有 change packet。
 
-3. **进入流程执行**
+### 2. 阶段编排
 
-## 流程执行
+- `request`：主会话显式调用 `research-author-agent`
+- `plan`：主会话显式调用 `research-author-agent`；需要来源支持时再显式调用 `source-evidence-agent`
+- `draft`：主会话显式调用 `research-author-agent`；需要图表时调用 `diagram-agent`；遇到定向 evidence gap 时调用 `source-evidence-agent`
+- `review`：在 draft 冻结后，主会话显式调用 `review-critic-agent`
+- `artifact`：只有 review 通过后，主会话才显式调用 `publish-agent`
 
-4. **编排执行**
-   - `request`：按 @research-author-agent contract 生成或修订 `request.md`
-   - `plan`：由 @research-author-agent 负责，必要时并行拉起 @source-evidence-agent
-   - `draft`：由 @research-author-agent 负责，primitive / mechanism-heavy 时启用 @diagram-agent
-   - `review`：由 @review-critic-agent 独立完成，不与 author 合并
-   - `artifact`：仅在 review 通过后，交给 @publish-agent
+### 3. Fallback
 
-5. **更细的并行策略**
-   - **窗口 A：request bootstrap**
-     - @research-author-agent 先生成最小可用的 `request.md` 语义骨架
-     - 同时可并行读取 schema、template、已有 change 文件
-   - **窗口 B：plan-source parallel**
-     - @research-author-agent 并行推进问题拆解、交付范围、完成标准
-     - @source-evidence-agent 并行生成 `sources/` 和 `source-review.md`
-     - `plan.md` 定稿前必须回收 `source-review.md`
-     - **网络受限 fallback**：如 WebSearch/WebFetch 受限，在 plan.md 中记录证据缺口并继续
-   - **窗口 C：draft-diagram parallel**
-     - @research-author-agent 写概述、术语表、设计取舍、能力边界
-     - @diagram-agent 并行准备实体分类、图表清单、diagram package
-     - `draft.md` 只有在 diagram contract 通过后才可声称完成
-     - **diagram agent 不可用 fallback**：图表标注为"待生成"，draft 仍可交付为工作草稿
-   - **窗口 D：review preheat**
-     - @review-critic-agent 可基于 `plan.md`、`sources/` 预热 checklist
-     - 但不能在 `draft.md` 冻结前给出正式 severity 和结论
-   - **窗口 E：publish preflight**
-     - @publish-agent 可提前计算目标路径、impact scope、目录落点
-     - 但 review 通过前不得写长期资产
+- 如果某个适合的 subagent 当前不可用，主会话可以按相同 contract 串行继续，但必须在总结中说明。
+- 如果网络限制阻塞来源收集，记录 evidence gap，不要伪造确定性。
+- 如果 required PlantUML package 未通过 validation，不要声称 draft 已完成。
 
-6. **冰箱策略**
-   - 当某个子任务被阻塞时，不让整个命令停摆，而是把它放入冰箱清单
-   - 冰箱项至少记录：
-     - blocked item
-     - blocked by
-     - wake condition
-     - downstream impact
-   - 典型场景：
-     - L1 来源被网络限制拦住 → 记录到 plan.md 证据缺口，继续推进
-     - diagram package 未通过 contract 校验 → 记录到 draft.md 待确认问题，继续推进
-     - review 存在 high severity，publish 必须冻结 → 记录到 review/issues.md
-   - 冰箱项应回写到最近的正式位置：
-     - `plan.md` 的”证据缺口”/”待确认问题”
-     - `draft.md` 的”待确认问题”/不确定性说明
-     - `review/issues.md`
+## 完成总结
 
-7. **fallback**
-   - 如果运行环境不支持真实 subagent，就按相同 contract 串行执行
-   - 但必须在总结中说明哪些角色被折叠执行
-   - **网络受限 fallback**：WebSearch/WebFetch 受限时，使用已知知识并标注证据等级为 L3/L4
-   - **diagram agent fallback**：无法生成 PlantUML 时，用 Markdown 表格和 ASCII 草图代替
+汇报：
 
-8. **完成总结**
-   - active agents 列表
-   - 哪些角色并行、哪些串行
-   - 各阶段状态（request/plan/draft/review/artifact）
-   - 使用的 change 路径
-   - 是否生成 `sources/`、`review/`、`diagrams/`
-   - 是否完成 artifact / apply
-   - 冰箱清单及其解冻条件
-   - 证据缺口说明（L1/L2 缺失情况）
+- 当前任务最终走的是 research flow 还是 governance routing
+- 使用了哪些 subagent
+- 哪些阶段已完成
+- 最终使用的 change 路径
+- 是否生成了 `sources/`、`diagrams/`、`review/` 与 artifact 文件
+- 是否还有 fridge items / evidence gap 未关闭

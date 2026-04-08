@@ -14,6 +14,7 @@
 - 调整 OpenSpec / Harness 职责边界
 - 修改 schema / specs / templates / governance / repository architecture
 - 修改用于定义或评审规约分层的 workflow / rules / skills
+- 修改 `.claude/commands/` 或 `.claude/agents/` 中与仓库路由、角色合同、阶段编排相关的内容
 - 修改 AGENTS.md 中与仓库路由、治理、分层相关的段落
 - 评审上述类型的变更
 
@@ -59,6 +60,7 @@
 |----------|------|------|
 | OpenSpec 修改 | 修改 `openspec/**` | 修改 schema.yaml、specs/、config.yaml |
 | Harness 修改 | 修改 `harness/**` | 修改 workflows/、rules/ |
+| Claude 路由修改 | 修改 `.claude/**` | 修改 commands/、agents/、命令入口编排 |
 | 导航修改 | 修改 `AGENTS.md` | 更新路由、索引 |
 | 边界修改 | 修改 `docs/governance/openspec-harness-boundary.md` | 更新职责边界定义 |
 

@@ -54,7 +54,7 @@ workflows:
 
   - name: governance-review-workflow.md
     description: "规约与架构评审"
-    trigger: "修改 openspec/**、harness/**、AGENTS.md、docs/governance/"
+    trigger: "修改 openspec/**、harness/**、.claude/**、AGENTS.md、docs/governance/"
     output: "openspec/changes/<change-id>/review/governance-review.md"
 
 categories:

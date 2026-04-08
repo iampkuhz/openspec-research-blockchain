@@ -31,7 +31,14 @@
 
 ## 执行模式
 
-### 默认模式：命令层驱动的 multi-agent 执行
+### 默认模式：主会话 orchestrator + 多 subagent
+
+执行入口保持在**主会话**：
+
+- 主会话负责读取 workflow / spec / template
+- 主会话负责判断目标 change、阶段推进、质量门控与最终落盘
+- 主会话按需**显式**拉起 specialist subagent
+- subagent 只负责各自专长，不负责跨阶段路由或嵌套继续拉起其他 subagent
 
 执行入口先读取：
 
@@ -44,10 +51,10 @@
 
 | 角色 | 模式 | 责任 |
 |------|------|------|
-| @research-author-agent | always | `request / plan / draft` 主链写作 |
-| @source-evidence-agent | always | 来源收集与证据缺口盘点 |
-| @review-critic-agent | always | 独立技术评审与 traceability audit |
-| @publish-agent | always | artifact 提炼与 update impact scan |
+| @research-author-agent | stage-scoped | `request / plan / draft` 主链写作 |
+| @source-evidence-agent | on-demand | 来源收集与证据缺口盘点 |
+| @review-critic-agent | review gate | 独立技术评审与 traceability audit |
+| @publish-agent | publish gate | artifact 提炼与 update impact scan |
 | @diagram-agent | conditional | primitive / mechanism-heavy / 明确需要图表时启用 |
 
 ### fallback
@@ -89,7 +96,9 @@ diagrams ────────────┘
 
 ### 阶段 1：request
 
-**owner**：@research-author-agent
+**orchestrator**：主会话
+
+**primary specialist**：@research-author-agent
 
 **输入**：
 - 用户意图
@@ -105,7 +114,9 @@ diagrams ────────────┘
 
 ### 阶段 2：plan
 
-**owner**：@research-author-agent
+**orchestrator**：主会话
+
+**primary specialist**：@research-author-agent
 
 **并行支持**：@source-evidence-agent
 
@@ -130,7 +141,9 @@ diagrams ────────────┘
 
 ### 阶段 3：draft
 
-**owner**：@research-author-agent
+**orchestrator**：主会话
+
+**primary specialist**：@research-author-agent
 
 **条件角色**：@diagram-agent
 
@@ -158,7 +171,9 @@ diagrams ────────────┘
 
 ### 阶段 4：review gate
 
-**owner**：@review-critic-agent
+**orchestrator**：主会话
+
+**primary specialist**：@review-critic-agent
 
 **输入**：
 - `draft.md`
@@ -182,7 +197,9 @@ diagrams ────────────┘
 
 ### 阶段 5：artifact / publish
 
-**owner**：@publish-agent
+**orchestrator**：主会话
+
+**primary specialist**：@publish-agent
 
 **输入**：
 - `request.md`
@@ -212,7 +229,7 @@ diagrams ────────────┘
 | @research-author-agent | @source-evidence-agent | 研究问题、来源优先级 |
 | @source-evidence-agent | @research-author-agent | `source-review.md`、核心 excerpts、evidence gaps |
 | @research-author-agent | @review-critic-agent | 待审 `draft.md`、未决问题 |
-| @review-critic-agent | @publish-agent | approved / blocked 结论、必须修复项 |
+| @review-critic-agent | @publish-agent | `approved` / `approved with minor fixes` / `needs revision` 结论、必须修复项 |
 
 ## 完成后的总结要求
 

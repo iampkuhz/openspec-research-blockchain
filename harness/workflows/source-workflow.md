@@ -18,6 +18,8 @@
 
 - @source-evidence-agent
 
+由主会话显式调用 @source-evidence-agent。
+
 @source-evidence-agent 是来源生产者，不负责给出最终研究结论，也不负责正式评审。
 
 ## 规则加载策略

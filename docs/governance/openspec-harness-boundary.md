@@ -14,6 +14,7 @@
 * 调整 OpenSpec / Harness 的职责边界
 * 修改 schema / specs / templates / governance / repository architecture
 * 修改用于**定义或评审规约分层**的 workflow / rules / skills
+* 修改 `.claude/commands/` 或 `.claude/agents/` 中与仓库路由、角色合同、阶段编排相关的内容
 * 修改 `AGENTS.md` 中与仓库路由、治理、分层相关的段落
 * 评审上述类型的变更
 
@@ -252,6 +253,7 @@ Harness 像 **执行手册 / 检查手册**：
 * 调整 OpenSpec / Harness 职责边界
 * 修改 schema / specs / templates / governance / repository architecture
 * 修改用于定义或评审规约分层的 workflow / rules / skills
+* 修改 `.claude/commands/` 或 `.claude/agents/` 中与仓库路由、角色合同、阶段编排相关的内容
 * 修改 `AGENTS.md` 中与仓库路由、治理、分层相关的段落
 * 评审上述类型的变更
 

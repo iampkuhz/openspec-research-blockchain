@@ -41,7 +41,7 @@
 ### 步骤 1：确认 Apply 条件
 
 检查：
-- [ ] 评审结论为 approved
+- [ ] 评审结论为 approved 或 approved with minor fixes
 - [ ] 所有 high severity 问题已修复
 - [ ] `draft.md` 内容完整
 

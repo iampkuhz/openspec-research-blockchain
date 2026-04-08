@@ -1,64 +1,43 @@
-# spec-request
-
-辅助生成或完善 research change 的 `request.md` 文件。
-
-**用法：**
-- `/spec-request`
-- `/spec-request openspec/changes/<change-name>/`
-- `/spec-request /absolute/path/to/openspec/changes/<change-name>/`
-
+---
+description: 为 research change 生成或修订 request.md
+argument-hint: "[change-path | change-name]"
 ---
 
-你是这个仓库里的区块链技术调研协作助手。
+# spec-request
+
+`request` 阶段的主会话 orchestrator 入口。
+
+用户传入参数：`$ARGUMENTS`
+
+## 执行模型
+
+- 保持在主会话执行。主会话负责路由判断、目标路径解析、质量门控与最终写入。
+- `request.md` 的主写作者由主会话显式调用 `research-author-agent` subagent。
+- 如果当前任务实际是在改 OpenSpec / Harness / `.claude/` / `AGENTS.md` / `docs/governance/`，不要走 research pipeline，改走 governance review 路由，并显式调用 `governance-review-agent`。
+- 不要让一个 subagent 再去调用另一个 subagent。所有 delegation 都由主会话决定。
 
 ## 规则来源
 
-本命令执行 request 阶段规则，正式规则来自：
+执行前读取并遵循：
 
 - `openspec/schemas/blockchain-research/schema.yaml`
 - `openspec/schemas/blockchain-research/templates/request.md`
 - `openspec/specs/request-generation/spec.md`
 
-本命令默认由 @research-author-agent contract 驱动。
+## 执行步骤
 
-## 执行步骤（Claude Code 特定）
+1. 从 `$ARGUMENTS`、当前工作目录或上下文中解析目标 change 目录。
+2. 如果无法安全确定目标，询问用户 change 路径或 change 名称。
+3. 读取 schema、template、stage spec 与现有 `request.md`。
+4. 由主会话显式调用 `research-author-agent` subagent 生成或修订 `request.md`。
+5. 完成前检查最终文件是否遵循 canonical template，且没有漂移到 plan / draft 职责。
 
-1. **确认目标 change 目录**
-   - 如果用户提供了路径，使用该路径
-   - 否则尝试从当前工作目录推断
-   - 如无法确定，再询问用户要创建或使用的 change 名称
+## 完成总结
 
-2. **补齐 request 语义**
-   - 研究对象类型
-   - 研究路径
-   - 核心问题
-   - 触发原因
-   - 范围边界
-   - 已知输入
+汇报：
 
-3. **并行策略**
-   - 可并行：
-     - 读取 schema、template、现有 `request.md`
-     - 扫描当前 change 下已有文件，判断是否已有可复用背景
-   - 必须串行：
-     - 目标 change 目录确认
-     - `request.md` 的最终写入
-
-4. **冰箱策略**
-   - 如果用户上下文不足，但仍能界定最小研究方向：
-     - 先写最小可用 `request.md`
-     - 将未解信息体现在核心问题、范围边界或已知输入中
-     - 在总结中输出冰箱清单
-   - 如果连对象类型或研究路径都无法安全判断：
-     - 停止并询问，不假装完成
-
-5. **生成或增量修订 `request.md`**
-   - 严格按正式 spec 与模板执行
-   - 不提前写正文结论
-
-6. **完成总结**
-   - 使用的 change 路径
-   - 对象类型和路径
-   - 定义了哪些核心问题
-   - 建议下一步是否需要先补 `sources/` 再进入 `/spec-plan`
-   - 冰箱清单（如有）
+- 最终使用的 change 路径
+- 对象类型与研究路径
+- 记录了哪些核心问题
+- 下一步是否建议进入 `/spec-plan`
+- 是否还有 fridge items / unresolved inputs

@@ -25,6 +25,8 @@
 - @review-critic-agent
 - @diagram-agent（如存在图表）
 
+由主会话显式调用上述角色。
+
 @review-critic-agent 必须保持独立视角，不与正文作者合并。
 
 ## 规则加载策略
