@@ -1,0 +1,58 @@
+@startuml
+top to bottom direction
+skinparam nodesep 40
+skinparam ranksep 50
+skinparam packageStyle rectangle
+
+title AI Native 研发流程架构
+
+' ============= 需求输入 =============
+package "需求输入层" #D6EAF8 {
+  component "系分模板" as template
+  component "Spec Workflow" as spec_workflow
+  component "OpenSpec 可理解格式" as spec_format
+}
+
+' ============= Harness 编排层 =============
+package "Harness 编排层" #FCF3CF {
+  component "Harness Core" as harness_core
+  component "研发 Workflow" as research_workflow
+  component "Agents" as agents
+  component "Rules" as rules
+}
+
+' ============= OpenSpec 约束层 =============
+package "OpenSpec 约束层" #FADBD8 {
+  component "OpenSpec Core" as openspec_core
+  component "config.yaml" as config
+  component "Changes" as changes
+}
+
+' ============= 资产层 =============
+package "资产层" #EBDEF0 {
+  database "Knowledge" as knowledge
+  component "CodeMap" as codemap
+}
+
+' ============= 流程定义 =============
+template --> spec_workflow : 兼容现有模板
+spec_workflow --> spec_format : 转换为
+spec_format --> harness_core : 触发研发流程
+harness_core --> research_workflow : 激活
+research_workflow --> agents : 执行
+agents --> rules : 遵循
+harness_core --> openspec_core : 遵循约束
+openspec_core --> changes : 管理过程文件
+changes --> knowledge : 提升为长期资产
+harness_core --> codemap : 维护代码映射
+
+legend
+  | 颜色 | 层级 | 说明 |
+  |------|------|------|
+  | <color:#D6EAF8>█</color> | 需求输入层 | 系分模板与 Spec Workflow |
+  | <color:#FCF3CF>█</color> | Harness 编排层 | 研发流程编排与多 Agent 执行 |
+  | <color:#FADBD8>█</color> | OpenSpec 约束层 | 工作流配置与过程管理 |
+  | <color:#EBDEF0>█</color> | 资产层 | Knowledge 与 CodeMap |
+endlegend
+
+@enduml

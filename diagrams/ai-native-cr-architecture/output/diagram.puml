@@ -1,0 +1,72 @@
+@startuml
+top to bottom direction
+skinparam nodesep 40
+skinparam ranksep 50
+skinparam packageStyle rectangle
+
+title AI Native CR 过程架构
+
+' ============= 代码输入 =============
+package "代码输入" #D6EAF8 {
+  component "待审查代码" as source_code
+  component "CR 触发" as cr_trigger
+}
+
+' ============= 确定性工具层 =============
+package "确定性工具层\nPMD + Checkstyle + ArchUnit + Spotless" #D5F5E3 {
+  component "PMD" as pmd
+  component "Checkstyle" as checkstyle
+  component "ArchUnit" as archunit
+  component "Spotless" as spotless
+}
+
+' ============= AI 规约审查层 =============
+package "AI 规约审查层\nOpenSpec + Harness" #A9DFBF {
+  component "OpenSpec 规则管理" as spec_rules
+  component "Harness 执行" as harness_exec
+  component "AI Reviewer" as ai_reviewer
+}
+
+' ============= Harness 编排层 =============
+package "Harness 编排层" #FCF3CF {
+  component "CR Workflow" as cr_workflow
+  component "Agents" as agents
+}
+
+' ============= CR 输出 =============
+package "CR 输出" #FADBD8 {
+  component "CR 报告" as cr_report
+  component "问题清单" as issues
+}
+
+' ============= 流程定义 =============
+source_code --> cr_trigger : 触发
+cr_trigger --> pmd : 静态分析
+cr_trigger --> checkstyle : 代码规范
+cr_trigger --> archunit : 架构约束
+cr_trigger --> spotless : 代码格式化
+
+pmd --> harness_exec : 传递结果
+checkstyle --> harness_exec : 传递结果
+archunit --> harness_exec : 传递结果
+spotless --> harness_exec : 传递结果
+
+harness_exec --> spec_rules : 获取审查规则
+harness_exec --> ai_reviewer : 执行 AI 审查
+ai_reviewer --> cr_workflow : 汇报结果
+cr_workflow --> agents : 多 Agent 协作
+
+harness_exec --> cr_report : 生成
+harness_exec --> issues : 生成
+
+legend
+  | 颜色 | 层级 | 说明 |
+  |------|------|------|
+  | <color:#D6EAF8>█</color> | 代码输入 | 待审查代码与触发 |
+  | <color:#D5F5E3>█</color> | 确定性工具层 | 简单、确定、规则明确的问题 |
+  | <color:#A9DFBF>█</color> | AI 规约审查层 | 复杂、模糊、需要理解的规约问题 |
+  | <color:#FCF3CF>█</color> | Harness 编排层 | CR 流程编排 |
+  | <color:#FADBD8>█</color> | CR 输出 | 报告与问题清单 |
+endlegend
+
+@enduml
