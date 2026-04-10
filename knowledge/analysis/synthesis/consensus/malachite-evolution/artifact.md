@@ -35,7 +35,7 @@ timeline
     2023 : Malachite : Rust 高性能实现
          : 模块化架构
     2024 : Simplex : 高吞吐两阶段
-         : Commonware 栈
+         : Dummy Block 异常处理 [L2-002]
 ```
 
 ### 问题层分布
@@ -47,7 +47,7 @@ timeline
 | QBFT | 2017 | Consensus (Infrastructure) | Live (成熟) | 动态验证者集、企业权限管理 | Java/Go |
 | HotStuff | 2018 | Consensus (Infrastructure) | Live (成熟) | 流水线优化、线性视图转换 | Move/C++ |
 | Malachite | 2023 | Consensus (Infrastructure) | Early | Rust 实现、模块化架构、可嵌入 | Rust |
-| Simplex | 2024 | Consensus (Infrastructure) | Early | 高吞吐、简化 View Change | Rust |
+| Simplex | 2024 | Consensus (Infrastructure) | Early | 高吞吐、Dummy Block 异常处理 [L2-002] | Rust [L2-001] |
 
 ### 各对象定位对比
 
@@ -58,7 +58,7 @@ timeline
 | QBFT | 企业级联盟链 BFT | Consensus | Live (成熟) | 完整 PBFT 继承 |
 | HotStuff | 流水线优化的 BFT | Consensus | Live (成熟) | 两阶段 + 流水线 |
 | Malachite | 模块化 Rust BFT 实现 | Consensus | Early | 两阶段 + 模块化 |
-| Simplex | 高吞吐 BFT 变体 | Consensus | Early | 两阶段简化 |
+| Simplex | 无许可公链 BFT | Consensus | Early | 两阶段 + Dummy Block [L2-002] |
 
 ### 核心机制对比
 
@@ -83,7 +83,7 @@ timeline
 | QBFT | 不能 | 1. 企业场景需要更强安全性<br>2. 动态验证者集需要严格协议<br>3. 保留完整 PBFT 安全性 | 多一轮通信，延迟略高 |
 | HotStuff | 能 | 1. Leader 预先可知<br>2. 部分同步假设<br>3. 流水线优化 | 完全异步网络无法进展 |
 | Malachite | 能 | 1. 部分同步假设<br>2. Rust 内存安全保证<br>3. 模块化设计 | 完全异步网络无法进展 |
-| Simplex | 能 | 1. Leader Rotation 预先可知<br>2. 部分同步假设<br>3. 简化 View Change | 完全异步网络无法进展 |
+| Simplex | 能 | 1. Leader Rotation 预先可知 [L2-002]<br>2. 部分同步假设<br>3. Dummy Block 跳过 View [L2-002] | 完全异步网络无法进展 |
 
 #### Leader 选举与 View Change 对比
 
@@ -94,7 +94,7 @@ timeline
 | QBFT | Proposer 轮转 `(height + round) % validatorCount` | 简化 View Change（RoundChange） | 中 |
 | HotStuff | Leader Rotation 基于 VRF | 流水线视图转换 | 低 |
 | Malachite | Round-robin 轮转 | Round 超时自动递增 | 低 |
-| Simplex | `hash(height, round) % count` | Leader Rotation 自然切换 | 低 |
+| Simplex | `ViewNumber % CommitteeSize` [L2-002] | Dummy Block 跳过 View [L2-002] | 低 |
 
 **演进规律**：从固定 Primary → 轮转 Proposer → VRF 随机选择，View Change 从显式协议 → 超时自动递增 → 自然切换。
 
@@ -131,19 +131,19 @@ Malachite 采用 Consensus Core + Block Production + Finality Module 的模块�
 | Tendermint | 协议层相似，架构层演进 | Malachite 协议与 Tendermint 高度相似，但架构更模块化 |
 | QBFT | 不同场景 | QBFT 面向联盟链，Malachite 面向公链/可嵌入场景 |
 | HotStuff | 可能参考 | Malachite 可能参考 HotStuff 的流水线思想 |
-| Simplex | 同期竞争方案 | 同为新兴 Rust BFT，Simplex 更聚焦高吞吐 |
+| Simplex | 同期 Rust BFT | 同为新兴 Rust BFT，Simplex 采用 Dummy Block 机制简化异常处理 [L2-002] |
 
 ### 能力边界对比
 
 | 能力 | Tendermint | QBFT | Malachite | Simplex |
 |------|------------|------|-----------|---------|
-| 拜占庭容错 | ✓ (≤1/3) | ✓ (≤1/3) | ✓ (≤1/3) | ✓ (≤1/3) |
-| 即时最终性 | ✓ | ✓ | ✓ | ✓ |
-| 动态验证者集 | ✓ (PoS) | ✓ (授权) | 待确认 | 待确认 |
+| 拜占庭容错 | ✓ (≤1/3) | ✓ (≤1/3) | ✓ (≤1/3) | ✓ (≤1/3) [L2-002] |
+| 即时最终性 | ✓ | ✓ | ✓ | ✓ (两阶段 QC) [L2-002] |
+| 动态验证者集 | ✓ (PoS) | ✓ (授权) | 待确认 | ✗ (固定委员会) [L2-002] |
 | 企业权限管理 | ✗ | ✓ | ✗ | ✗ |
 | 模块化嵌入 | ✗ | ✗ | ✓ | ✗ |
-| 高吞吐优化 | ✗ | ✗ | ✓ | ✓ |
-| 成熟度 | Live | Live | Early | Early |
+| 高吞吐优化 | ✗ | ✗ | ✓ | ✓ (BLS 聚合) [L2-001] |
+| 成熟度 | Live | Live | Early | Early [L2-001] |
 
 ## 设计取舍
 
@@ -224,7 +224,7 @@ Malachite 采用 Consensus Core + Block Production + Finality Module 的模块�
 | PBFT | 上游/理论基础 | 所有现代 BFT 均源自 PBFT |
 | Tendermint | 相似方案/演进 | Malachite 协议与 Tendermint 高度相似 |
 | HotStuff | 参考方案 | Malachite 可能参考流水线优化思想 |
-| Simplex | 同期竞争方案 | 同为新兴 Rust BFT，Simplex 更聚焦高吞吐 |
+| Simplex | 同期 Rust BFT | 同为新兴 Rust BFT，Simplex 采用 Dummy Block 机制简化异常处理 [L2-002] |
 | QBFT | 不同场景 | QBFT 面向联盟链，Malachite 面向公链/可嵌入 |
 
 ### Malachite 的下游依赖
@@ -239,7 +239,7 @@ Malachite 采用 Consensus Core + Block Production + Finality Module 的模块�
 ### BFT 演进的三大趋势
 
 1. **阶段简化**：三阶段（PBFT/QBFT） → 两阶段（Tendermint/Malachite/Simplex）
-2. **View Change 简化**：显式协议 → Round 超时递增 → Leader Rotation 自然切换
+2. **View Change 简化**：显式协议 → Round 超时递增 → Dummy Block 跳过 View [L2-002]
 3. **架构模块化**：单体 Core → 模块化（Consensus Core/BP/FM）
 
 ### Malachite 的定位
@@ -275,4 +275,5 @@ Malachite 采用 Consensus Core + Block Production + Finality Module 的模块�
 | [Cosmos SDK](https://github.com/cosmos/cosmos-sdk) | Tendermint 使用案例 |
 | [Quorum/Besu](https://github.com/consensys/quorum) | QBFT 实现 |
 | [Libra](https://github.com/facebookarchive/libra) | HotStuff 原始实现 |
-| [Simplex 官方博客](https://simplex.blog/) | Simplex 共识协议说明 |
+| [hadv/ockham](https://github.com/hadv/ockham) | Simplex Rust 实现 [L2-001] |
+| [consensus_flow.md](https://raw.githubusercontent.com/hadv/ockham/main/docs/consensus_flow.md) | Simplex 协议文档 [L2-002] |

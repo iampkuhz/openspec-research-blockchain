@@ -148,7 +148,8 @@ messages:
 **注意**：
 - 这些脚本由用户级 skill 管理，不在本仓库 `scripts/` 目录
 - 用户级 skills 会自动执行校验流程
-- 产出物包含 diagram package（`validation.json`、`diagram.puml`、`diagram.svg`、`brief.normalized.yaml`）
+- skill 执行完成后只保留 `diagram.puml`（必需）和 `diagram.svg`（可选）
+- `validation.json` 和 `brief.normalized.yaml` 是 skill 执行中间产物，不保留
 
 ### 步骤 5：创建 fallback 图表（Unsupported Types）
 
@@ -184,19 +185,23 @@ stateDiagram-v2
                      [State D]
 ```
 
-### 步骤 6：集成到 draft.md
+### 步骤 6：集成到 draft.md / artifact.md
 
 **PlantUML 类型（Architecture/Sequence）**：
 
-在 `draft.md` 中引用图，**必须包含 contract comment**：
+在 `draft.md` / `artifact.md` 中嵌入完整 PlantUML 代码块：
 
 ```markdown
-<!-- verified-diagram: package=./diagrams/<diagram-id>/validation.json puml=./diagrams/<diagram-id>/diagram.puml sha256=<sha256> -->
 ```plantuml
 @startuml
 ...
 @enduml
 ```
+```
+
+可选添加 comment 标注来源：
+```markdown
+<!-- diagram: Fabric-X Architecture，来源 L1-01, L1-02, L1-03 -->
 ```
 
 **Fallback 类型（Mermaid/表格/ASCII）**：
@@ -215,25 +220,23 @@ stateDiagram-v2
 ## 输出
 
 **PlantUML 类型**：
-- diagram package（位于 `diagrams/<diagram-id>/`）
-  - `brief.normalized.yaml`
-  - `diagram.puml`
-  - `diagram.svg`（环境可用时）
-  - `validation.json`（必须显示 `final_status=success` 且 `render_result=ok`）
+- `openspec/changes/<change-id>/diagrams/<diagram-id>/diagram.puml`（必需）— PlantUML 源码，skill 执行中间产物
+- `openspec/changes/<change-id>/diagrams/<diagram-id>/diagram.svg`（可选）— 预渲染结果，方便预览
+- `draft.md` / `artifact.md` 中嵌入的完整 PlantUML 代码块（正式交付）
 
 **Fallback 类型**：
-- Mermaid 代码块（直接嵌入 draft.md）
-- Markdown 表格（直接嵌入 draft.md）
-- ASCII 草图（直接嵌入 draft.md）
+- Mermaid 代码块（直接嵌入 draft.md / artifact.md）
+- Markdown 表格（直接嵌入 draft.md / artifact.md）
+- ASCII 草图（直接嵌入 draft.md / artifact.md）
 
 ## 完成标准
 
 - [ ] 图表类型已选择（遵守支持矩阵）
 - [ ] PlantUML 类型：brief 已创建
 - [ ] PlantUML 类型：skill 已调用
-- [ ] PlantUML 类型：`validation.json` 显示 success
+- [ ] PlantUML 类型：`diagram.puml` 已生成于 `openspec/changes/<change-id>/diagrams/`
+- [ ] PlantUML 类型：`draft.md` / `artifact.md` 中已嵌入完整代码块
 - [ ] Fallback 类型：渲染/预览验证通过
-- [ ] contract comment 已添加（PlantUML 类型）
 
 ## 异常处理
 
@@ -247,8 +250,8 @@ stateDiagram-v2
 ### 渲染失败
 
 **处理**：
-1. 检查 skill 的 `validation.json` 错误原因
-2. 根据 `blocked_reason` 修复
+1. 检查 skill 输出的错误原因
+2. 根据错误信息修复
 3. 重新执行 skill 完整流程
 
 ### 需要 unsupported type

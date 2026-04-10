@@ -39,28 +39,24 @@
 |--------|------|------|
 | 如使用 PlantUML，是否为 Architecture 或 Sequence 类型？ | | |
 | 如为 Architecture/Sequence，是否通过全局 skill 生成？ | | |
-| 是否有 diagram package 和 `validation.json`？ | | |
-| `validation.json` 是否显示 `final_status=success`？ | | |
-| `validation.json` 是否显示 `render_result=ok`？ | | |
+| `diagrams/<id>/diagram.puml` 文件是否存在？ | | |
 
 **违规处理**：
 - ❌ 使用 PlantUML 但类型为 State/Activity/Deployment → **Blocker**，必须降级为 Mermaid/表格/ASCII
-- ❌ 使用 PlantUML 但无 diagram package → **Blocker**，必须重新执行 skill
-- ❌ 使用 PlantUML 但 `validation.json` 显示失败 → **Blocker**，必须修复后重新执行
+- ❌ 使用 PlantUML 但 `diagram.puml` 不存在 → **Blocker**，必须重新执行 skill
 
 ### 检查项 2: Contract Comment 完整性（PlantUML 类型）
 
 | 检查项 | 是/否 | 备注 |
 |--------|------|------|
-| PlantUML block 前是否有 `<!-- verified-diagram: ... -->` comment？ | | |
+| PlantUML block 前是否有 `<!-- diagram: ... -->` comment？ | | |
 | comment 格式是否正确？ | | |
-| `package` 路径是否指向存在的 `validation.json`？ | | |
 | `puml` 路径是否指向存在的 `diagram.puml`？ | | |
-| `sha256` 是否与 block 内容一致？ | | |
 
 **验证命令**：
 ```bash
-python3 scripts/research/validate_draft_diagram_contract.py <change-dir>/draft.md
+# 检查 diagram.puml 文件是否存在
+ls ./diagrams/<diagram-id>/diagram.puml
 ```
 
 ### 检查项 3: Unsupported Type 硬塞检测
@@ -73,12 +69,12 @@ python3 scripts/research/validate_draft_diagram_contract.py <change-dir>/draft.m
 | 是否为部署图却使用 PlantUML？ | | |
 | 是否为活动图却使用 PlantUML？ | | |
 | 是否为比较总览图却使用 PlantUML？ | | |
-| 是否有手写的 `@startuml ... @enduml` 但无 diagram package？ | | |
+| 是否有手写的 `@startuml ... @enduml` 但无 diagram.puml？ | | |
 
 **检测技巧**：
-- 搜索 `@startuml` 但无 `<!-- verified-diagram:` → 可能为手写
+- 搜索 `@startuml` 但无 `<!-- diagram:` → 可能为手写
 - 搜索 `stateDiagram` / `activityDiagram` in PlantUML → unsupported type
-- 有 diagram 但无 `diagrams/<id>/validation.json` → 可能为手写
+- 有 diagram 但无 `diagrams/<id>/diagram.puml` → 可能为手写
 
 **违规处理**：
 - ❌ Unsupported type 使用 PlantUML → **Major**，建议降级为 Mermaid/表格/ASCII
@@ -298,7 +294,7 @@ python3 scripts/research/validate_draft_diagram_contract.py <change-dir>/draft.m
 作者自行检查：
 - [ ] 类型合规性（非 Architecture/Sequence 不得使用 PlantUML）
 - [ ] Contract comment 完整
-- [ ] validation.json 显示 success
+- [ ] diagram.puml 文件存在
 - [ ] 覆盖性检查
 - [ ] 规范性检查
 - [ ] 简化标注
@@ -336,9 +332,8 @@ python3 scripts/research/validate_draft_diagram_contract.py <change-dir>/draft.m
 **类型合规性**：
 - ✅ 所有 PlantUML 类型为 Architecture 或 Sequence
 - ✅ 所有 PlantUML 通过全局 skill 生成
-- ✅ 所有 PlantUML 有 diagram package 和 validation.json
-- ✅ `validation.json` 显示 `final_status=success` 且 `render_result=ok`
-- ✅ 所有 PlantUML blocks 有 contract comment 且 hash 一致
+- ✅ 所有 PlantUML 有 `diagram.puml` 文件（位于 `openspec/changes/<change-id>/diagrams/`）
+- ✅ `artifact.md` / `draft.md` 中嵌入完整 PlantUML 代码块
 
 **Brief 评审通过**：
 - ✅ 无 Blocker 问题
@@ -361,12 +356,9 @@ python3 scripts/research/validate_draft_diagram_contract.py <change-dir>/draft.m
 ## 附录：快速检查命令
 
 ```bash
-# 检查所有 PlantUML contract
-python3 scripts/research/validate_draft_diagram_contract.py <change-dir>/draft.md
+# 检查 diagram.puml 文件是否存在
+ls openspec/changes/<change-id>/diagrams/<diagram-id>/diagram.puml
 
-# 手动验证 validation.json
-cat <change-dir>/diagrams/<id>/validation.json | jq '{final_status, render_result}'
-
-# 搜索手写 PlantUML（无 contract）
-grep -B1 '@startuml' <change-dir>/draft.md | grep -v 'verified-diagram'
+# 搜索手写 PlantUML（无 skill 生成记录）
+# 注意：draft.md / artifact.md 中必须嵌入完整代码块
 ```

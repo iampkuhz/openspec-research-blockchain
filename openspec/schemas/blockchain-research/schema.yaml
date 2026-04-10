@@ -129,3 +129,5 @@ apply:
     - 把稳定的证据约束折叠进 artifact.md 或 verdict.md
     - 不要用上层总结覆盖下层研究本身
     - primitive artifact 应在文档开头标注研究深度（deep / focused / light）
+    - diagrams/ 是 skill 执行中间产物，保留在 openspec/changes/<change-id>/，不复制到 knowledge/
+    - artifact.md 必须嵌入完整 PlantUML 代码块，不得只引用外部文件

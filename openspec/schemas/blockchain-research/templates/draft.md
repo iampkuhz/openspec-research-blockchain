@@ -71,12 +71,11 @@
 
 详见：`openspec/specs/diagram-policy/spec.md`
 
-### PlantUML Diagram Contract Comment（正式交付必需）
+### PlantUML 代码嵌入要求
 
-**所有 PlantUML block 前必须有紧邻的 contract comment**：
+**所有 PlantUML 图必须嵌入完整代码块**：
 
 ```markdown
-<!-- verified-diagram: package=./diagrams/<diagram-id>/validation.json puml=./diagrams/<diagram-id>/diagram.puml sha256=<sha256> -->
 ```plantuml
 @startuml
 ...
@@ -84,12 +83,10 @@
 ```
 ```
 
-**校验命令**：
-```bash
-python3 scripts/research/validate_draft_diagram_contract.py <change-dir>/draft.md
-```
-
-**无 contract comment 的 PlantUML block 视为手写，draft 不得完成**。
+**注意**：
+- 不得只引用外部文件（如 `![](diagrams/x.puml)`）
+- 可添加 comment 标注来源或说明（如 `<!-- diagram: Fabric-X Architecture, 来源 L1-01 -->`）
+- PlantUML 代码必须通过全局 skill 生成和校验（位于 `openspec/changes/<change-id>/diagrams/`）
 
 ### primitive 类型
 
@@ -162,9 +159,9 @@ python3 scripts/research/validate_draft_diagram_contract.py <change-dir>/draft.m
 使用 `feipi-plantuml-generate-architecture-diagram` skill 生成。
 
 **交付要求**：
-- 必须产出 diagram package（`diagrams/<id>/validation.json` + `diagram.puml` + `diagram.svg`）
-- `validation.json` 必须显示 `final_status=success` 且 `render_result=ok`
-- PlantUML block 前必须有 contract comment
+- skill 会在 `openspec/changes/<change-id>/diagrams/<id>/` 生成 `diagram.puml`
+- `draft.md` / `artifact.md` 中必须嵌入完整 PlantUML 代码块
+- 不得只引用外部文件
 
 #### 2. 角色内部组件图（必须）
 

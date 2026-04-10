@@ -163,8 +163,8 @@ Deployment (1014) ─────┘
 
 **PlantUML 图（通过 skill 交付）**：
 - 必须通过 skill 的完整校验链
-- 必须产出 diagram package（包含 `validation.json`）
-- `validation.json` 必须显示 `final_status=success` 且 `render_result=ok`
+- skill 在执行期间必须确认 `final_status=success` 且 `render_result=ok` 才能完成
+- `validation.json` 是 skill 执行的**中间产物**，不作为长期交付物
 
 **Mermaid 图**：
 - 必须通过 GitHub/GitLab 预览验证
@@ -178,12 +178,30 @@ Deployment (1014) ─────┘
 - 必须在等宽字体下可读
 - 建议标注"ASCII 草图"
 
-### 5. 交付物要求
+### 5. 交付物要求（长期资产）
 
-- `draft.md` 中的 PlantUML 必须嵌入代码块（```plantuml）
-- 代码块前必须有 contract comment（详见 draft 模板）
-- 必须位于 diagram package 目录下（`diagrams/<id>/`）
-- 必须包含 `validation.json` 且显示 success
+**diagram 目录是 skill 执行的中间产物，位于 `openspec/changes/<change-id>/diagrams/`**：
+
+| 文件 | 必需性 | 用途 | 保留策略 |
+|------|--------|------|----------|
+| `diagram.puml` | **必需** | PlantUML 源码，用于 skill 校验和重新渲染 | 保留在 change 目录，作为审计线索 |
+| `diagram.svg` | 可选 | 预渲染结果，方便快速预览 | 保留在 change 目录，可清理 |
+| `brief.yaml` | 必需 | 原始需求输入 | 保留在 change 目录 |
+
+**不保留以下文件**（skill 执行中间产物）：
+- `validation.json` — skill 执行时的校验状态，完成后无保留价值
+- `brief.normalized.yaml` — skill 内部处理的中间格式
+- 其他临时产物
+
+**artifact.md 中的图表交付**：
+- **必须嵌入完整 PlantUML 代码块**（\`\`\`plantuml ... \`\`\`）
+- 不得只引用外部文件（如 `![](diagrams/x.puml)`）
+- 可添加简化 comment 标注来源（如 `<!-- diagram: Fabric-X Architecture -->`）
+
+**publish 行为**：
+- 只提炼 `artifact.md` 到 `knowledge/`
+- **不复制** `diagrams/` 目录到 `knowledge/`
+- `diagrams/` 保留在 `openspec/changes/<change-id>/` 作为审计线索（可选清理）
 
 ### 6. 流程集成
 
