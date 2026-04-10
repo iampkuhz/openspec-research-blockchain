@@ -56,7 +56,12 @@ OpenSpec 区块链研究协作的导航入口。
 | 4 | 识别任务类型 | 路由到对应 workflow |
 | 5 | Claude 场景下从 `.claude/agents/` 发现 agent 映射 | `.claude/agents/*.md` |
 | 6 | 按需加载规则 | `harness/rules/_index.yaml` |
-| 7 | 结合联网搜索 | 补充本地知识缺口 |
+| 7 | 结合联网搜索 | 补充本地知识缺口；如需联网搜索，优先使用 `fastmcp-gateway` 暴露的 `searxng_search_web` MCP 工具 |
+
+**联网搜索约束**：
+- 当任务明确要求“联网搜索 / 在线检索 / web search / search”时，默认使用 `fastmcp-gateway` 提供的 `searxng_search_web`。
+- `searxng_search_web` 为 SearXNG 元搜索工具，输入支持 `query`，可选 `category`、`max_results`、`language`、`time_range`。
+- 若该 MCP 在当前会话不可用，应先明确说明，再选择替代搜索方式；不要无提示地切换到其他搜索通道。
 
 **Source of Truth**：`openspec/config.yaml` + `openspec/schemas/blockchain-research/schema.yaml`
 
@@ -273,6 +278,7 @@ OpenSpec 区块链研究协作的导航入口。
 | 证据等级 L1/L2 用于核心技术主张 | `openspec/specs/evidence-policy/spec.md` |
 | 术语复用 glossary taxonomy | `terminology-policy.md` |
 | 每个 claim 必须绑定 source id | `traceability-policy.md` |
+| 联网搜索默认走 `fastmcp-gateway` 的 `searxng_search_web` | 本文件（启动行为 / 联网搜索约束） |
 
 ---
 
