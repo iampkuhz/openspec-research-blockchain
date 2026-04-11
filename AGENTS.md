@@ -57,11 +57,29 @@ OpenSpec 区块链研究协作的导航入口。
 | 5 | Claude 场景下从 `.claude/agents/` 发现 agent 映射 | `.claude/agents/*.md` |
 | 6 | 按需加载规则 | `harness/rules/_index.yaml` |
 | 7 | 结合联网搜索 | 补充本地知识缺口；如需联网搜索，优先使用 `fastmcp-gateway` 暴露的 `searxng_search_web` MCP 工具 |
+| 8 | 网页内容提取 | 需要提取网页详情时使用 `crawl4ai` MCP 的 `md` 工具 |
 
 **联网搜索约束**：
-- 当任务明确要求“联网搜索 / 在线检索 / web search / search”时，默认使用 `fastmcp-gateway` 提供的 `searxng_search_web`。
+- 当任务明确要求”联网搜索 / 在线检索 / web search / search”时，默认使用 `fastmcp-gateway` 提供的 `searxng_search_web`。
 - `searxng_search_web` 为 SearXNG 元搜索工具，输入支持 `query`，可选 `category`、`max_results`、`language`、`time_range`。
 - 若该 MCP 在当前会话不可用，应先明确说明，再选择替代搜索方式；不要无提示地切换到其他搜索通道。
+
+**网页内容提取约束**：
+- 当需要提取网页内容、获取网页详情、将网页转换为 Markdown 时，使用 `crawl4ai` MCP 服务器提供的工具。
+- `crawl4ai` 提供以下工具：
+  - `md`：将网页转换为 Markdown（默认使用 fit 模式，支持 raw/bm25/llm 过滤）
+  - `html`：获取并清理网页 HTML 结构
+  - `screenshot`：获取网页截图
+  - `pdf`：生成网页 PDF
+  - `execute_js`：在浏览器上下文中执行 JavaScript
+  - `crawl`：完整的网页爬取（支持 hooks 配置）
+  - `ask`：查询 Crawl4AI 库的使用文档
+- 提取网页内容时优先使用 `md` 工具，参数包括：
+  - `url`：目标网页 URL（必填）
+  - `f`：过滤模式，可选 `fit`（默认）、`raw`、`bm25`、`llm`
+  - `q`：查询字符串（用于 bm25/llm 模式）
+  - `provider`：LLM provider 覆盖（可选）
+  - `temperature`：LLM temperature（可选）
 
 **Source of Truth**：`openspec/config.yaml` + `openspec/schemas/blockchain-research/schema.yaml`
 

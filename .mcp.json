@@ -15,6 +15,11 @@
         "NPM_CONFIG_CACHE": "/tmp/npm-cache",
         "NO_PROXY": "localhost,127.0.0.1,::1"
       }
+    },
+    "crawl4ai": {
+      "type": "sse",
+      "url": "http://localhost:11235/mcp/sse",
+      "description": "Crawl4AI MCP server - provides md, html, screenshot, pdf, execute_js, crawl, ask tools for web extraction"
     }
   }
 }
