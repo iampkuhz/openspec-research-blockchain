@@ -1,18 +1,17 @@
 # TODO
 
-## bug： [未验证] 网络限制 类型的资料，修复后不会重试
+## claw4ai 反爬虫命中
 
-## tool： intellij preview 不展示 plantuml 代码
+如何降低反爬虫命中概率？
 
-## knowledge/ 子目录优化
+| 属性 | 值 |
+|------|------|
+| **URL** | https://www.w3.org/TR/did-core/ |
+| **验证状态** | ⚠️ 未验证 - Cloudflare 反爬虫拦截 |
+| **替代来源** | https://github.com/w3c/did (GitHub 仓库，已验证) |
 
-indexes/ 已删除 (2026-04-07)，不再维护独立索引文件。需要查找内容时直接 glob 或使用搜索工具。
 
-glossary/ 保留，用于术语元数据。
 
-看上去这2个子文件夹无意义
-
-## 重新跑历史的调研，确认新版本的分析质量
 
 ### Tendermint 共识算法
 

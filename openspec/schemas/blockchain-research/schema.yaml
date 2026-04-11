@@ -18,6 +18,11 @@ artifacts:
       - 写清预期输出是什么
       - 不提前写结论
 
+      **primitive 类型额外要求**：
+      - 核心问题必须包含定义层问题（是什么/管什么/不管什么）
+      - 核心问题必须包含范围/边界层问题（适用范围、与相邻协议的边界）
+      - 不得直接跳入机制细节问题
+
       风格要求：
       - 中文优先
       - 英文术语优先保留
@@ -25,7 +30,7 @@ artifacts:
 
       重要约束：
       - request.md 只负责定义问题，不要求提前回答完整机制
-      - 像“为什么 4337 不直接改传统 transaction 路径”“bundler / EntryPoint / paymaster 属于什么层”这类后续确认问题，应放进 plan.md
+      - 像”为什么 4337 不直接改传统 transaction 路径””bundler / EntryPoint / paymaster 属于什么层”这类后续确认问题，应放进 plan.md
       - 对于 synthesis 和 decision 类型，需要在 request 中初步列出依赖的 primitive 对象
     requires: []
 
