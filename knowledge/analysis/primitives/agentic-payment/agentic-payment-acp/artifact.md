@@ -34,6 +34,9 @@
 | Contract | 合约 | 谈判结果载体 |
 | SLA | Service Level Agreement | 谈判条款之一 |
 | RFQ | Request for Quotation | 谈判触发方式 |
+| [AP2](../agentic-payment-ap2/artifact.md) | Agent Payment Authorization Protocol，授权策略引擎接口架构 | ACP 谈判结果需要 AP2 授权策略引擎验证和执行 |
+| [MPP](../agentic-payment-mpp/artifact.md) | Multi-Party Payment，多方支付传输机制 | ACP 谈判达成后由 MPP 执行支付传输 |
+| [X402](../agentic-payment-x402/artifact.md) | HTTP 402 Payment Required，HTTP 支付协议 | ACP 可使用 X402 作为传输层协议 |
 
 ---
 

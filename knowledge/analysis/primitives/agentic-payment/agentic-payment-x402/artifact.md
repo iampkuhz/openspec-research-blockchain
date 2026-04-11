@@ -34,6 +34,9 @@ X402 概念基于 HTTP 402 Payment Required 状态码的重新关注，与 2025 
 | Payment Request | 支付请求格式 | X402 消息格式 |
 | Price Discovery | 价格发现 | 谈判前置条件 |
 | Payment Header | 支付信息 HTTP 头 | X402 传输载体 |
+| [ACP](../agentic-payment-acp/artifact.md) | Agent Commerce Protocol，商业谈判协议 | X402 是 ACP 的轻量级参考实现 |
+| [MPP](../agentic-payment-mpp/artifact.md) | Multi-Party Payment，多方支付传输机制 | X402 谈判达成后由 MPP 执行支付传输 |
+| [AP2](../agentic-payment-ap2/artifact.md) | Agent Payment Authorization Protocol，授权策略引擎接口架构 | X402 支付请求需要 AP2 授权验证 |
 
 ---
 

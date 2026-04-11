@@ -62,6 +62,88 @@
 - **辅助组件**：放在边缘，使用较淡的颜色
 - **外部依赖**：放在边界外，使用灰色
 
+### 3.1 图例（legend）使用规范
+
+**默认规则**：PlantUML 架构图和时序图**默认不包含图例**（legend）。
+
+**原因**：
+- 图例占用额外的排版空间，影响核心内容的视觉呈现
+- 现代 PlantUML 渲染器的组件样式已足够清晰（Actor/Component/Database 等形状已有明显区分）
+- 符号说明应在图外文字或正文中描述，而非依赖图例
+
+**例外情况**：
+- 仅当图中使用了非常规符号或自定义图标时，才可在 brief 中显式设置 `include_legend: true`
+- 需要在 brief.yaml 的 `layout` 字段中明确声明
+
+**brief.yaml 示例**：
+```yaml
+layout:
+  direction: top_to_bottom
+  include_legend: false  # 默认值，可省略
+```
+
+### 3.2 布局优化规范（黄金比例导向）
+
+**目标**：架构图应避免极端化的扁宽或瘦高，追求接近黄金比例（约 1.6:1）的视觉平衡。
+
+**组件排序规则**：
+
+1. **同层组件数量平衡**
+   - 当某层组件数量 ≥ 3 时，应考虑拆分子组或调整布局方向
+   - 三层架构的组件数量比例建议为 `3:3:2` 或 `2:3:2`，避免 `5:1:1` 等极端比例
+
+2. **Package ID 命名规范**
+   - **必须使用简短单词**（如 `user_as`、`protocol`、`ext_sys`）
+   - **禁止使用连字符长名**（如 `user-agent`、`ap2-protocol`）
+   - 原因：PlantUML 对连字符 ID 的解析可能导致布局异常
+
+3. **Package 描述格式**
+   - **推荐格式**：使用 `\n\n` 分隔标题和描述，形成多行结构
+   - **示例**：
+     ```
+     package "用户/Agent 控制域\n\n用户和 Agent 控制的组件\n授权决策的最终主体" as user_as
+     ```
+   - **禁止格式**：单行 `\n` 连接导致标题与描述混在一起
+
+4. **同域组件对齐控制**
+   - 当同 package 内有 ≥ 2 个组件时，**必须使用 `[hidden]` 虚线**强制对齐
+   - **垂直对齐示例**：
+     ```plantuml
+     package "外部系统域" as ext_sys {
+       cloud "Chain Verifier" as chain_verifier
+       cloud "External Signer" as external_signer
+       chain_verifier -down[hidden]- external_signer  ' 强制垂直排列
+     }
+     ```
+   - **水平对齐示例**：
+     ```plantuml
+     package "内部组件" as internal {
+       component "A" as a
+       component "B" as b
+       a -right[hidden]- b  ' 强制水平排列
+     }
+     ```
+
+5. **布局方向选择**
+   - **top_to_bottom**：适用于层间调用关系明确的架构图
+   - **left_to_right**：适用于流程导向或组件数量较多的架构图
+   - 选择原则：哪种方向更能平衡宽高比，就选哪种
+
+**实现方式**：
+
+上述布局优化规则已由 `feipi-plantuml-generate-architecture-diagram` skill 中的 `optimize_brief.py` 脚本自动实现。
+
+在调用 skill 后，脚本会自动执行：
+1. Layer ID 简短化
+2. Package 描述格式化
+3. 同域组件排序
+4. hidden_lines 生成
+5. include_legend 默认 false
+
+**校验规则**：
+- `lint_layout.sh` 会验证 package ID 是否为简短单词（无连字符）
+- `lint_layout.sh` 会检查同域组件是否有 `[hidden]` 对齐线（当组件数 ≥ 2 时，作为 soft check 提示）
+
 ### 4. primitive 的最低交付要求（架构视角）
 
 对于 `primitive` deep-dive，单靠一张"大而全"架构图通常不够，至少应满足以下约束：

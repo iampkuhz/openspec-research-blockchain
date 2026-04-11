@@ -74,6 +74,7 @@ scripts/
 | `check_plantuml.sh` | PlantUML 语法校验（**仅用于手工 troubleshooting**） | `bash scripts/diagrams/check_plantuml.sh diagrams/source/architecture.puml` |
 | `validate_diagram_model.py` | 验证 diagram model YAML 的字段完整性（diagram_id、title、components 等） | `python scripts/diagrams/validate_diagram_model.py diagrams/models/architecture-model.yaml` |
 | `check_diagram_references.py` | 检查 diagram 在 draft.md 或其他文件中是否被正确引用 | `python scripts/diagrams/check_diagram_references.py architecture --topic eip-4337` |
+| `optimize_brief.py` | **在生成 diagram 前优化 brief**（ID 简短化、描述格式化、组件排序、hidden_lines 生成） | `python scripts/diagrams/optimize_brief.py diagrams/xxx/brief.yaml --output diagrams/xxx/brief.optimized.yaml` |
 
 ### OpenSpec 脚本（openspec/）
 

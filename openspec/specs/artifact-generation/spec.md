@@ -56,6 +56,9 @@ artifact 阶段的基础结构服从 `openspec/specs/canonical-output-model/spec
 **必须保留的核心内容类型**：
 
 - 关键术语（表格：术语、定义、作用）
+  - **跨引用链接要求**：如果关键术语对应本仓库中已存在的 artifact（如 SIWE、DID Auth、EIP-4337 等），必须在术语名称上添加相对路径的 Markdown 链接，方便跳转查看
+  - 示例：`[SIWE](../../account-abstraction/eip-4361-siwe/artifact.md)`
+- **本质定义**（primitive/synthesis 必须保留"本质与表现形式"章节，包括结构化表格）
 - 分析正文（组件架构、核心流程、演进关系、问题簇划分等）
 - 设计取舍（为什么这样设计，而不是那样设计）
 - 能力边界（能解决什么、不能解决什么、失败条件）

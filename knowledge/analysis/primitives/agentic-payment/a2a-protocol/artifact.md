@@ -22,6 +22,9 @@ A2A (Agent-to-Agent) 是 agentic payment 栈中 **L6 层（Agent Discovery & Int
 | Task Delegation | 任务委托，一个 agent 将任务发送给另一个 agent 执行 | A2A 核心机制 |
 | Trust Boundary | 信任边界，区分不同控制方之间的信任假设 | 分析支付安全模型的关键概念 |
 | Agent Wallet | 代表 agent 持有和管理数字资产的组件 | agentic payment 的外部依赖组件 |
+| [AP2](../agentic-payment-ap2/artifact.md) | Agent Payment Authorization Protocol，授权策略引擎接口架构 | A2A 任务委托需要 AP2 授权验证 |
+| [ACP](../agentic-payment-acp/artifact.md) | Agent Commerce Protocol，商业谈判协议 | A2A 发现后进入 ACP 商务谈判 |
+| [MPP](../agentic-payment-mpp/artifact.md) | Multi-Party Payment，多方支付传输机制 | A2A 任务执行需要 MPP 支付传输 |
 
 ---
 

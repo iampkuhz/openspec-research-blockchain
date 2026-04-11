@@ -33,6 +33,9 @@
 | Settlement | 结算 | 传输最终状态 |
 | Channel Manager | 通道管理 | 通道生命周期管理 |
 | Payment Router | 支付路由器 | 路由计算和选择 |
+| [ACP](../agentic-payment-acp/artifact.md) | Agent Commerce Protocol，商业谈判协议 | MPP 传输 ACP 谈判达成的支付 |
+| [X402](../agentic-payment-x402/artifact.md) | HTTP 402 Payment Required，HTTP 支付协议 | MPP 可作为 X402 的传输层 |
+| [AP2](../agentic-payment-ap2/artifact.md) | Agent Payment Authorization Protocol，授权策略引擎接口架构 | MPP 传输前需要 AP2 授权验证 |
 
 ---
 

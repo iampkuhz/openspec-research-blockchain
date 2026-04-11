@@ -113,20 +113,45 @@ messages:
     description: <消息说明>
 ```
 
+### 步骤 2.5：优化 Brief（仅限 PlantUML 类型）
+
+**仅当图表类型为 Architecture Diagram 或 Sequence Diagram 时执行此步骤**。
+
+在生成 `brief.yaml` 后、调用 skill 前，**必须自动执行 `optimize_brief.py` 脚本**：
+
+```bash
+python scripts/diagrams/optimize_brief.py diagrams/<diagram-id>/brief.yaml \
+    --output diagrams/<diagram-id>/brief.optimized.yaml
+```
+
+优化脚本会自动执行：
+
+| 优化项 | 说明 | 示例 |
+|--------|------|------|
+| Layer ID 简短化 | 连字符长名 -> 简短单词 | `user-agent` -> `user_as` |
+| Component layer 引用同步 | 当 layer ID 改变时同步更新 | `layer: user-agent` -> `layer: user_as` |
+| Package 描述格式化 | 长描述按逗号分割为多行 | `"用户和 Agent 控制的组件，授权决策的最终主体"` -> 两行 |
+| 同域组件排序 | 按视觉权重排序 | `actor` > `component` > `database` > `cloud` |
+| hidden_lines 生成 | 同 layer 内组件数 >= 2 时自动生成 | 用于 PlantUML 对齐 |
+
+**优化后的 `brief.optimized.yaml` 是调用 skill 的唯一输入**。
+
 ### 步骤 3：调用 Skill 生成（仅限 PlantUML 类型）
 
 **仅当图表类型为 Architecture Diagram 或 Sequence Diagram 时执行此步骤**。
 
+**使用优化后的 brief 调用 skill**：
+
 **架构图**：
 ```
-# 直接调用 skill（Claude Code 会自动识别）
-使用 feipi-plantuml-generate-architecture-diagram skill，传入 brief
+# 使用 brief.optimized.yaml 调用 skill
+使用 feipi-plantuml-generate-architecture-diagram skill，传入 brief.optimized.yaml
 ```
 
 **时序图**：
 ```
-# 直接调用 skill（Claude Code 会自动识别）
-使用 feipi-plantuml-generate-sequence-diagram skill，传入 brief
+# 使用 brief.optimized.yaml 调用 skill
+使用 feipi-plantuml-generate-sequence-diagram skill，传入 brief.optimized.yaml
 ```
 
 **注意**：

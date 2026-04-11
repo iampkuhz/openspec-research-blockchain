@@ -1,5 +1,11 @@
 # TODO
 
+## 术语链接
+
+关于最终生成的 关键术语 ，你需要增加 markdown link。比如
+/Users/zhehan/Documents/tools/llm/openspec/openspec-research-blockchain/openspec/changes/ap2-protocol-deep-dive/draft.md 里面的
+关键术语中，
+
 ## claw4ai 反爬虫命中
 
 如何降低反爬虫命中概率？
