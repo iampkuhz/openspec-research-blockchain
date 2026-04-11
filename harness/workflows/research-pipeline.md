@@ -2,7 +2,7 @@
 
 ## 目标
 
-端到端完成一个 research change 的完整生命周期，同时把执行面升级为第一版 multi-agent 编排：
+端到端完成一个 research change 的完整生命周期，同时把执行面升级为第一版由主会话 authoring、specialist subagent 按需介入的编排：
 
 - `request.md`
 - `plan.md`
@@ -31,12 +31,12 @@
 
 ## 执行模式
 
-### 默认模式：主会话 orchestrator + 多 subagent
+### 默认模式：主会话 orchestrator + specialist subagent
 
 执行入口保持在**主会话**：
 
 - 主会话负责读取 workflow / spec / template
-- 主会话负责判断目标 change、阶段推进、质量门控与最终落盘
+- 主会话负责判断目标 change、阶段推进、`request / plan / draft` 主链写作、质量门控与最终落盘
 - 主会话按需**显式**拉起 specialist subagent
 - subagent 只负责各自专长，不负责跨阶段路由或嵌套继续拉起其他 subagent
 
@@ -51,7 +51,6 @@
 
 | 角色 | 模式 | 责任 |
 |------|------|------|
-| @research-author-agent | stage-scoped | `request / plan / draft` 主链写作 |
 | @source-evidence-agent | on-demand | 来源收集与证据缺口盘点 |
 | @review-critic-agent | review gate | 独立技术评审与 traceability audit |
 | @publish-agent | publish gate | artifact 提炼与 update impact scan |
@@ -98,7 +97,7 @@ diagrams ────────────┘
 
 **orchestrator**：主会话
 
-**primary specialist**：@research-author-agent
+**主链写作**：主会话
 
 **输入**：
 - 用户意图
@@ -116,7 +115,7 @@ diagrams ────────────┘
 
 **orchestrator**：主会话
 
-**primary specialist**：@research-author-agent
+**主链写作**：主会话
 
 **并行支持**：@source-evidence-agent
 
@@ -135,7 +134,7 @@ diagrams ────────────┘
 - 证据缺口和完成标准明确
 
 **并行窗口**：
-- @research-author-agent 可以先写问题拆解、交付范围、完成标准
+- 主会话可以先写问题拆解、交付范围、完成标准
 - @source-evidence-agent 并行收集来源并生成 `source-review.md`
 - `plan.md` 定稿前必须回收 `source-review.md`
 
@@ -143,7 +142,7 @@ diagrams ────────────┘
 
 **orchestrator**：主会话
 
-**primary specialist**：@research-author-agent
+**主链写作**：主会话
 
 **条件角色**：@diagram-agent
 
@@ -165,7 +164,7 @@ diagrams ────────────┘
 4. draft 完成后必须执行 diagram contract 校验
 
 **并行窗口**：
-- @research-author-agent 可并行推进概述、术语表、设计取舍、能力边界
+- 主会话可并行推进概述、术语表、设计取舍、能力边界
 - @diagram-agent 可并行准备实体分类、图表清单、diagram package
 - 如发现证据缺口，可短暂唤回 @source-evidence-agent 定向补证据
 
@@ -225,10 +224,9 @@ diagrams ────────────┘
 
 | From | To | Artifact |
 |------|----|----------|
-| 命令层 | @research-author-agent | 目标 change、对象类型、active agents |
-| @research-author-agent | @source-evidence-agent | 研究问题、来源优先级 |
-| @source-evidence-agent | @research-author-agent | `source-review.md`、核心 excerpts、evidence gaps |
-| @research-author-agent | @review-critic-agent | 待审 `draft.md`、未决问题 |
+| 命令层 / 主会话 | @source-evidence-agent | 研究问题、来源优先级、当前计划约束 |
+| @source-evidence-agent | 命令层 / 主会话 | `source-review.md`、核心 excerpts、evidence gaps |
+| 命令层 / 主会话 | @review-critic-agent | 待审 `draft.md`、未决问题 |
 | @review-critic-agent | @publish-agent | `approved` / `approved with minor fixes` / `needs revision` 结论、必须修复项 |
 
 ## 完成后的总结要求

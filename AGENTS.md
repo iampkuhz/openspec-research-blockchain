@@ -99,11 +99,12 @@ OpenSpec 区块链研究协作的导航入口。
 
 当 workflow 明确支持 multi-agent 执行时，从 `.claude/agents/` 读取角色合同。
 
+`request.md`、`plan.md`、`draft.md` 的主链写作默认由主会话 orchestrator 直接承担；只有具备独立专长、可形成稳定 handoff 的能力才拆为 subagent。
+
 **常驻角色**：
 
 | Agent | 职责 |
 |-------|------|
-| @research-author-agent | 负责 `request.md`、`plan.md`、`draft.md` 主链 |
 | @source-evidence-agent | 负责来源收集、摘录、source review |
 | @review-critic-agent | 负责独立技术评审、traceability audit |
 | @publish-agent | 负责 artifact 提炼与 update impact scan |

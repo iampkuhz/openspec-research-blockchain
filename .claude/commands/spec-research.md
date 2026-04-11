@@ -22,11 +22,11 @@ argument-hint: "[change-path | research-topic]"
 - 主会话负责：
   - 路由判断
   - 阶段推进
+  - `request.md`、`plan.md`、`draft.md` 主链写作与增量修订
   - subagent 选择
   - handoff 回收
   - 质量门控
 - 所有 specialist subagent 都由主会话显式调用：
-  - `research-author-agent`：负责 `request.md`、`plan.md`、`draft.md`
   - `source-evidence-agent`：负责 `sources/`、链接验证与 evidence gap 分析
   - `diagram-agent`：负责 diagram decision tree、brief、diagram package 与 contract 支持
   - `review-critic-agent`：负责独立 review
@@ -55,9 +55,9 @@ argument-hint: "[change-path | research-topic]"
 
 ### 2. 阶段编排
 
-- `request`：主会话显式调用 `research-author-agent`
-- `plan`：主会话显式调用 `research-author-agent`；需要来源支持时再显式调用 `source-evidence-agent`
-- `draft`：主会话显式调用 `research-author-agent`；需要图表时调用 `diagram-agent`；遇到定向 evidence gap 时调用 `source-evidence-agent`
+- `request`：主会话直接生成或修订 `request.md`
+- `plan`：主会话直接生成或修订 `plan.md`；需要来源支持时再显式调用 `source-evidence-agent`
+- `draft`：主会话直接生成或修订 `draft.md`；需要图表时调用 `diagram-agent`；遇到定向 evidence gap 时调用 `source-evidence-agent`
 - `review`：在 draft 冻结后，主会话显式调用 `review-critic-agent`
 - `artifact`：只有 review 通过后，主会话才显式调用 `publish-agent`
 

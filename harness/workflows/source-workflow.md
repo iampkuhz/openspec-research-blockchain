@@ -180,7 +180,7 @@ sources:
 
 ## handoff
 
-标准交接给 @research-author-agent 的内容：
+标准交接给主会话 orchestrator 的内容：
 
 - 关键来源清单
 - 核心 excerpts

@@ -12,7 +12,7 @@ argument-hint: "[change-path | change-name]"
 ## 执行模型
 
 - 保持在主会话执行。主会话负责路由判断、目标路径解析、质量门控与最终写入。
-- `request.md` 的主写作者由主会话显式调用 `research-author-agent` subagent。
+- `request.md` 的主链写作保留在主会话；不要再额外拆出 author subagent。
 - 如果当前任务实际是在改 OpenSpec / Harness / `.claude/` / `AGENTS.md` / `docs/governance/`，不要走 research pipeline，改走 governance review 路由，并显式调用 `governance-review-agent`。
 - 不要让一个 subagent 再去调用另一个 subagent。所有 delegation 都由主会话决定。
 
@@ -29,7 +29,7 @@ argument-hint: "[change-path | change-name]"
 1. 从 `$ARGUMENTS`、当前工作目录或上下文中解析目标 change 目录。
 2. 如果无法安全确定目标，询问用户 change 路径或 change 名称。
 3. 读取 schema、template、stage spec 与现有 `request.md`。
-4. 由主会话显式调用 `research-author-agent` subagent 生成或修订 `request.md`。
+4. 由主会话直接生成或修订 `request.md`，严格遵循 canonical template 与阶段边界。
 5. 完成前检查最终文件是否遵循 canonical template，且没有漂移到 plan / draft 职责。
 
 ## 完成总结

@@ -53,10 +53,11 @@ sources/ + diagrams/ -> plan.md / draft.md / review/
 
 ## 第一版 Multi-Agent 模式
 
-默认执行面采用 `4 + 2` 结构：
+默认执行面采用“主会话 authoring + specialist subagent”结构：
 
-- 常驻：@research-author-agent、@source-evidence-agent、@review-critic-agent、@publish-agent
-- 条件：@diagram-agent、@governance-review-agent
+- 主会话 orchestrator：负责 `request.md`、`plan.md`、`draft.md` 主链写作与阶段编排
+- 常驻 specialist：@source-evidence-agent、@review-critic-agent、@publish-agent
+- 条件 specialist：@diagram-agent、@governance-review-agent
 
 角色真源位于：
 
