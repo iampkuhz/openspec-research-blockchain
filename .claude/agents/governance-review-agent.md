@@ -65,3 +65,11 @@ effort: high
 - 不要调用其他 subagent
 - 不要把 governance 工作降级成普通 research review
 - 不要忽略全局路由后果
+
+## 完成信号
+
+向主会话返回：
+- 边界检查结果（哪些改动落在正确层，哪些越界）
+- duplicated policy / stale reference 列表
+- downstream impact 分析
+- 修复建议（如有）

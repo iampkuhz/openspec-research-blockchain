@@ -2,13 +2,7 @@
 
 ## 目标
 
-端到端完成一个 research change 的完整生命周期，同时把执行面升级为第一版由主会话 authoring、specialist subagent 按需介入的编排：
-
-- `request.md`
-- `plan.md`
-- `draft.md`
-- `review/`
-- `artifact.md` / `verdict.md`
+端到端完成一个 research change 的完整生命周期，由主会话 orchestrator 按 `research_type` 路由到对应 author agent，specialist subagent 按需介入。
 
 ## 适用范围
 
@@ -27,34 +21,54 @@
 - `sources/`
 - `draft.md`
 - `review/`
-- `knowledge/analysis/.../artifact.md` 或 `knowledge/decisions/.../artifact.md`
+- `artifact.md` / `verdict.md`
 
 ## 执行模式
 
-### 默认模式：主会话 orchestrator + specialist subagent
+### 默认模式：主会话 orchestrator + author agent + specialist subagent
 
 执行入口保持在**主会话**：
 
 - 主会话负责读取 workflow / spec / template
-- 主会话负责判断目标 change、阶段推进、`request / plan / draft` 主链写作、质量门控与最终落盘
-- 主会话按需**显式**拉起 specialist subagent
-- subagent 只负责各自专长，不负责跨阶段路由或嵌套继续拉起其他 subagent
+- 主会话负责判断目标 change、路由到对应 author agent、阶段推进、质量门控与最终落盘
+- author agent 负责 `request` / `plan` / `draft` 主链写作
+- 主会话按需要显式拉起 specialist subagent
 
-执行入口先读取：
+### Author Agent 路由
 
-1. `harness/workflows/_index.yaml`
-2. `.claude/agents/` 中的 agent 合同
-3. 当前 workflow
-4. 对应 OpenSpec spec
+| research_type | 路由到的 author agent | 执行模式 |
+|---------------|----------------------|----------|
+| `primitive` | `primitive-author` | 单个 primitive 全链路写作 |
+| `synthesis` | `synthesis-author` | 先并行执行依赖 primitive，再合成对比 |
+| `decision` | `decision-author` | 场景决策分析写作 |
 
 ### 默认 active agents
 
 | 角色 | 模式 | 责任 |
 |------|------|------|
-| @source-evidence-agent | on-demand | 来源收集与证据缺口盘点 |
-| @review-critic-agent | review gate | 独立技术评审与 traceability audit |
-| @publish-agent | publish gate | artifact 提炼与 update impact scan |
-| @diagram-agent | conditional | primitive / mechanism-heavy / 明确需要图表时启用 |
+| `source-evidence-agent` | author agent 按需调用 | 来源收集与证据缺口盘点 |
+| `diagram-agent` | author agent 按需调用 | 图表生成与验证 |
+| `review-critic-agent` | 主会话在 draft 后调用 | 独立技术评审与 traceability audit |
+| `publish-agent` | 主会话在 review 通过后调用 | artifact 提炼与 update impact scan |
+
+### Synthesis 三阶段执行
+
+当 `research_type` 为 `synthesis` 时：
+
+```
+阶段 1: 依赖发现
+  主会话读取 synthesis request.md 的依赖声明
+  对每个缺失的 primitive: 创建 change + 调用 primitive-author 执行全链路
+
+阶段 2: 并行 primitive 执行
+  所有 primitive-author 并行执行（每个调用自己的 source-evidence-agent）
+  等待所有 primitive draft 完成
+
+阶段 3: synthesis 合成
+  主会话调用 synthesis-author
+  synthesis-author 从各 primitive draft 中提取信息做横向对比
+  draft 冻结后 → review-critic-agent → publish-agent
+```
 
 ### fallback
 
@@ -95,9 +109,7 @@ diagrams ────────────┘
 
 ### 阶段 1：request
 
-**orchestrator**：主会话
-
-**主链写作**：主会话
+**执行者**：author agent（primitive-author / synthesis-author / decision-author）
 
 **输入**：
 - 用户意图
@@ -113,11 +125,9 @@ diagrams ────────────┘
 
 ### 阶段 2：plan
 
-**orchestrator**：主会话
+**执行者**：author agent
 
-**主链写作**：主会话
-
-**并行支持**：@source-evidence-agent
+**并行支持**：`source-evidence-agent`（由 author agent 调用）
 
 **输入**：
 - `request.md`
@@ -133,24 +143,18 @@ diagrams ────────────┘
 - 图表范围明确
 - 证据缺口和完成标准明确
 
-**并行窗口**：
-- 主会话可以先写问题拆解、交付范围、完成标准
-- @source-evidence-agent 并行收集来源并生成 `source-review.md`
-- `plan.md` 定稿前必须回收 `source-review.md`
-
 ### 阶段 3：draft
 
-**orchestrator**：主会话
+**执行者**：author agent
 
-**主链写作**：主会话
-
-**条件角色**：@diagram-agent
+**条件角色**：`diagram-agent`（由 author agent 按需调用）
 
 **输入**：
 - `request.md`
 - `plan.md`
 - `sources/`
 - 已有 `draft.md`（如有）
+- 依赖 primitive 的 `draft.md`（synthesis 模式）
 
 **输出**：
 - `draft.md`
@@ -163,16 +167,11 @@ diagrams ────────────┘
 3. 如需 PlantUML，只能通过用户级 skill 生成 diagram package
 4. draft 完成后必须执行 diagram contract 校验
 
-**并行窗口**：
-- 主会话可并行推进概述、术语表、设计取舍、能力边界
-- @diagram-agent 可并行准备实体分类、图表清单、diagram package
-- 如发现证据缺口，可短暂唤回 @source-evidence-agent 定向补证据
-
 ### 阶段 4：review gate
 
 **orchestrator**：主会话
 
-**primary specialist**：@review-critic-agent
+**primary specialist**：`review-critic-agent`
 
 **输入**：
 - `draft.md`
@@ -190,15 +189,11 @@ diagrams ────────────┘
 - 评审结论明确
 - 如存在图表，diagram contract 与内容质量均通过
 
-**并行窗口**：
-- @review-critic-agent 可在 author 收尾阶段预热 checklist 结构与审查重点
-- 但正式 severity 与结论必须基于冻结后的 `draft.md`
-
 ### 阶段 5：artifact / publish
 
 **orchestrator**：主会话
 
-**primary specialist**：@publish-agent
+**primary specialist**：`publish-agent`
 
 **输入**：
 - `request.md`
@@ -216,18 +211,17 @@ diagrams ────────────┘
 - 目标路径正确
 - update 场景已完成 impact scan
 
-**并行窗口**：
-- @publish-agent 可提前计算目标路径与 impact scan 范围
-- 但在 review 通过前不得写长期资产
-
 ## 关键 handoff artifact
 
 | From | To | Artifact |
 |------|----|----------|
-| 命令层 / 主会话 | @source-evidence-agent | 研究问题、来源优先级、当前计划约束 |
-| @source-evidence-agent | 命令层 / 主会话 | `source-review.md`、核心 excerpts、evidence gaps |
-| 命令层 / 主会话 | @review-critic-agent | 待审 `draft.md`、未决问题 |
-| @review-critic-agent | @publish-agent | `approved` / `approved with minor fixes` / `needs revision` 结论、必须修复项 |
+| 主会话 | author agent | 研究问题、change 路径、预算约束 |
+| author agent | source-evidence-agent | 研究问题、来源优先级、当前计划约束 |
+| source-evidence-agent | author agent | `source-review.md`、核心 excerpts、evidence gaps |
+| author agent | 主会话 | 完成的 `draft.md`、未决问题列表 |
+| 主会话 | review-critic-agent | 待审 `draft.md`、未决问题 |
+| review-critic-agent | 主会话 | `approved` / `approved with minor fixes` / `needs revision` 结论、必须修复项 |
+| 主会话 | publish-agent | 通过 review 的 change packet、目标路径 |
 
 ## 完成后的总结要求
 

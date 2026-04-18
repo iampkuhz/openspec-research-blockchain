@@ -65,3 +65,12 @@ effort: high
 - 不要在 high severity 问题未关闭时发布
 - 不要使用遗留 `knowledge/topics` 路径
 - 不要把 `request.md`、`plan.md`、`draft.md` 当成最终 artifact
+
+## 完成信号
+
+向主会话返回：
+- 写入的 artifact 文件列表及路径
+- 对象类型确认（primitive / synthesis / decision）
+- review gate 确认状态
+- update impact scan 结果（如有更新场景）
+- 如有歧义或 blocker，说明原因和建议

@@ -73,3 +73,12 @@ effort: high
 - 不要调用其他 subagent
 - 不要把 source collection 合并进 review
 - 不要在 high severity 问题未解时放行 publish
+
+## 完成信号
+
+向主会话返回：
+- 评审 verdict（`approved` / `approved with minor fixes` / `needs revision`）
+- severity 分布（high / medium / low 问题数量）
+- 必须修复项列表（high severity）
+- 建议修复项列表（medium severity）
+- traceability 审计结果（claim → source 映射完整性）

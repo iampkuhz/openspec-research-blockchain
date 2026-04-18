@@ -1,6 +1,6 @@
 ---
 name: diagram-agent
-description: 负责图表决策树、brief、diagram package 与 draft contract 支持，由主会话 orchestrator 在需要正式图表时显式调用。
+description: 负责图表决策树、brief、diagram package 与 contract 支持，由 author agent（primitive-author / synthesis-author / decision-author）或主会话 orchestrator 在需要正式图表时显式调用。
 model: inherit
 tools:
   - Read
@@ -160,3 +160,10 @@ layout:
 - 不要充当最终 reviewer
 - 不要把失败的 validation 说成成功
 - 不要绕过 diagram contract
+
+## 完成信号
+
+当所有要求的 diagram package 生成且 validation 通过后，向主会话/author agent 返回：
+- 生成的 diagram 列表及路径
+- validation 结果（通过/失败）
+- 如有失败，说明失败原因和建议修复方式

@@ -99,22 +99,33 @@ OpenSpec 区块链研究协作的导航入口。
 
 当 workflow 明确支持 multi-agent 执行时，从 `.claude/agents/` 读取角色合同。
 
-`request.md`、`plan.md`、`draft.md` 的主链写作默认由主会话 orchestrator 直接承担；只有具备独立专长、可形成稳定 handoff 的能力才拆为 subagent。
+**主会话不直接写 `request.md`、`plan.md`、`draft.md`**，这些由 author agent 负责。
+主会话充当 orchestrator，按 `research_type` 路由到对应 author agent。
 
-**常驻角色**：
+**Author Agents（研究型）**：
 
 | Agent | 职责 |
 |-------|------|
-| @source-evidence-agent | 负责来源收集、摘录、source review |
-| @review-critic-agent | 负责独立技术评审、traceability audit |
-| @publish-agent | 负责 artifact 提炼与 update impact scan |
+| @primitive-author | 单个 primitive 的全链路研究写作（request → plan → sources → draft） |
+| @synthesis-author | 多 primitive 的横向对比合成（读取各 primitive draft，做对比矩阵） |
+| @decision-author | 场景决策分析写作（场景定义、决策标准、verdict） |
+
+**Specialist Agents（专长型）**：
+
+| Agent | 职责 |
+|-------|------|
+| @source-evidence-agent | 来源收集、链接验证、source review |
+| @diagram-agent | 图表生成与验证 |
+| @review-critic-agent | 独立技术评审、traceability audit |
+| @publish-agent | artifact 提炼与 update impact scan |
 
 **条件角色**：
 
 | Agent | 激活条件 |
 |-------|----------|
-| @diagram-agent | primitive / mechanism-heavy / 明确需要图表 |
 | @governance-review-agent | 修改 `openspec/**`、`harness/**`、`AGENTS.md`、`docs/governance/**` |
+
+**Agent 合同规范**：`.claude/agents/CONTRACT.md`
 
 ---
 

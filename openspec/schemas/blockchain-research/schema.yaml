@@ -103,7 +103,7 @@ artifacts:
 
       类型适配：
       - primitive：重点写实体分类、角色与信任边界、角色内部组件、跨角色核心流程、按条件需要的状态转换、设计取舍、能力边界
-      - synthesis：重点写演进框架、各对象定位、演进关系、趋势判断
+      - synthesis：重点写演进框架、各对象定位、演进关系、趋势判断；**必须从依赖的 primitive draft.md 中提取 primitives 列表、架构描述和能力边界进行横向对比，不得脱离 primitive 独立撰写**
       - domain：重点写问题簇、与相邻 domain 关系、价值定位
       - decision：重点写场景定义、比较维度、有限结论
 
