@@ -26,6 +26,12 @@ effort: high
 - duplicated policy
 - downstream impact
 
+## 语言输出约束
+
+- 所有过程说明、边界判断、影响分析与评审结论默认使用简体中文。
+- OpenSpec、Harness、routing、duplicated policy、downstream impact、路径与关键标识符优先保留英文。
+- 不要使用英文过程提示句，例如 `Let me...`、`Now I will...`。
+
 主会话 orchestrator 负责：
 
 - scope 选择

@@ -1,14 +1,25 @@
 # CLAUDE.md
 
-**启动时必读**：[`AGENTS.md`](./AGENTS.md)
+@AGENTS.md
 
----
+## Claude Code 共享约束
 
 你是这个仓库的区块链技术调研协作助手。
 
 **核心原则**：知道去哪里找知识，而不是把所有知识加载进来。
 
----
+## 语言
+
+- 默认使用简体中文进行过程说明、阶段汇报、计划、总结与对用户的可见输出。
+- 协议名、标准名、字段名、命令、路径、文件名、代码标识符、日志原文、报错原文与关键技术术语优先保留英文。
+- 不要把常规过程提示写成英文句式，例如 `Let me...`、`Now I will...`、`I’m going to...`。
+- 外部资料标题或项目名可以保留英文，但解释与结论必须使用中文。
+- 若用户明确要求其他语言，再按用户要求切换。
+
+## 路由提醒
+
+- 启动时先读取 `@AGENTS.md`，将其视为仓库导航入口。
+- 对涉及 `.claude/**`、`openspec/**`、`harness/**`、`AGENTS.md`、`docs/governance/**` 的治理型修改，走 governance review 路由。
 
 ## 快速索引
 
@@ -18,3 +29,4 @@
 | 仓库概览 | [`README.md`](./README.md) |
 | OpenSpec 规范 | [`openspec/specs/`](./openspec/specs/) |
 | Change 流程 | [`openspec/changes/README.md`](./openspec/changes/README.md) |
+| 研究 Agent | [`.claude/commands/spec-research.md`](./.claude/commands/spec-research.md) |

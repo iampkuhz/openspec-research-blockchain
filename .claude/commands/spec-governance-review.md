@@ -9,6 +9,12 @@ governance 与 routing 类任务的主会话 orchestrator 入口。
 
 用户传入参数：`$ARGUMENTS`
 
+## 语言输出约束
+
+- 主会话所有过程说明、阶段汇报与完成总结默认使用简体中文。
+- 术语、命令、路径、文件名、schema key 与关键技术标识符优先保留英文。
+- 不要使用英文过程提示句，例如 `Let me...`、`Now I will...`。
+
 ## 何时使用
 
 当任务会对以下路径做 governance-significant 变更时，使用本 command：
