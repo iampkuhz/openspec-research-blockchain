@@ -17,8 +17,9 @@
    - `decisions/`：长期场景判断
 2. `primitive` 按 `domain` 分组，`domain` 通过目录结构直接体现。
 3. `synthesis` 在 `analysis/` 下扁平化存放，不再强制设置二级子目录。
-4. `decision` 保持独立，不塞回 `analysis/` 或 `domain` 目录树。
-5. 路径负责表达“分类和浏览入口”，frontmatter 负责表达“内容语义与校验信息”，registry 负责表达“枚举值定义”。
+4. `decision` 按 `domain_id` 分组，`decision_space` 与 `domain_id` 等价，不引入新术语。
+5. 路径负责表达"分类和浏览入口"，frontmatter 负责表达"内容语义与校验信息"，registry 负责表达"枚举值定义"。
+6. `domain` 不作为独立的 `object_type`，不提供独立的 `artifact.md`。
 
 ### 不再采用的做法
 
@@ -47,8 +48,18 @@
 它的职责是：
 
 - 作为 `primitive` 的主分组轴
+- 作为 `decision` 的分组轴（此时称为 `domain_id`，与 primitive 共用同一注册表）
 - 提供统一命名空间
 - 为 `related_domains` 提供候选值集合
+
+### `domain_id`
+
+`domain_id` 是 registry 中注册的 domain 唯一标识，等于 `knowledge/analysis/primitives/` 下的子目录名，也等于 `knowledge/decisions/` 下的子目录名。
+
+示例：
+
+- `knowledge/analysis/primitives/consensus/qbft/artifact.md` → `domain_id = consensus`
+- `knowledge/decisions/agentic-payment/chain-comparison/artifact.md` → `domain_id = agentic-payment`
 
 ### `topic_slug`
 
@@ -56,14 +67,10 @@
 
 示例：
 
-- `knowledge/analysis/primitives/consensus/qbft/artifact.md`
-  - `topic_slug = qbft`
-- `knowledge/analysis/primitives/account-abstraction/eip-4337/artifact.md`
-  - `topic_slug = eip-4337`
-- `knowledge/analysis/primitives/agentic-payment/ap2/artifact.md`
-  - `topic_slug = ap2`
-- `knowledge/analysis/synthesis/bft-comparison/artifact.md`
-  - `topic_slug = bft-comparison`
+- `knowledge/analysis/primitives/consensus/qbft/artifact.md` → `topic_slug = qbft`
+- `knowledge/analysis/primitives/account-abstraction/eip-4337/artifact.md` → `topic_slug = eip-4337`
+- `knowledge/analysis/synthesis/bft-comparison/artifact.md` → `topic_slug = bft-comparison`
+- `knowledge/decisions/agentic-payment/chain-comparison/artifact.md` → `topic_slug = chain-comparison`
 
 `topic_slug` 由路径推导，不要求在 frontmatter 中重复声明。
 
@@ -79,6 +86,16 @@
 
 它不决定文件名，不决定对象类型，也不决定目录位置。
 
+### `synthesis_kind`
+
+`synthesis_kind` 描述 synthesis 的分析方式，候选值：
+
+- `comparison`：横向比较多个对象的能力、边界、取舍或场景适配
+- `evolution`：追踪一个问题域中多个对象的历史演进与替代关系
+- `taxonomy`：形成层级、分类学或映射框架
+
+不再设独立 registry 文件，这三个值直接在本文档中定义，变更极少。
+
 ---
 
 ## 目录模型
@@ -93,11 +110,10 @@ knowledge/
     README.md
     _registry/
       domains.yaml
-      synthesis-kinds.yaml
 
     primitives/
       <domain_id>/
-        README.md
+        README.md                       # 可选，仅写边界与收录范围
         <topic_slug>/
           artifact.md
 
@@ -107,12 +123,11 @@ knowledge/
 
   decisions/
     README.md
-    <decision_space>/
-      README.md
+    <domain_id>/
+      README.md                         # 可选，仅写边界与收录范围
       <topic_slug>/
         artifact.md
         verdict.md
-        criteria.md              # 可选，仅复杂决策保留
 ```
 
 ### 路径语义
@@ -124,26 +139,26 @@ knowledge/
 路径中各段含义：
 
 - `primitives`：对象类型
-- `<domain_id>`：主分组 domain
+- `<domain_id>`：主分组 domain，必须在 `_registry/domains.yaml` 中注册
 - `<topic_slug>`：当前 primitive 的短名字
 
 #### `analysis/synthesis/<topic_slug>/artifact.md`
 
 用于存放演进、比较、分类、关系分析。
 
-`synthesis` 目录刻意扁平化，不再用目录层级硬编码 `comparison/`、`evolution/`、`taxonomy/`，这些通过 frontmatter 的 `synthesis_kind` 表达。
+`synthesis` 目录刻意扁平化，不再用目录层级硬编码子类型，这些通过 frontmatter 的 `synthesis_kind` 表达。
 
-#### `decisions/<decision_space>/<topic_slug>/artifact.md`
+#### `decisions/<domain_id>/<topic_slug>/artifact.md`
 
 用于存放场景判断型分析正文。
 
-#### `decisions/<decision_space>/<topic_slug>/verdict.md`
+`<domain_id>` 与 primitive 共用同一 registry，不引入独立的 `decision_space` 概念。
+
+#### `decisions/<domain_id>/<topic_slug>/verdict.md`
 
 用于存放条件性结论。`decision` 的长期结论单独存在，不与 `artifact.md` 混写。
 
-#### `criteria.md`
-
-仅当决策问题复杂且需要显式评审标准时保留。
+`verdict.md` 不保留完整 frontmatter，只保留 `updated_at`，其余语义从同目录的 `artifact.md` 和路径继承。
 
 ---
 
@@ -169,28 +184,30 @@ knowledge/
 需要新增：
 
 - `knowledge/analysis/_registry/domains.yaml`
-- `knowledge/analysis/_registry/synthesis-kinds.yaml`
 
 职责：
 
-- 为 `domain` 提供统一候选值
-- 为 `synthesis_kind` 提供统一候选值
+- 为 `domain_id` 提供统一候选值
 - 为校验脚本提供枚举来源
+- domain 的 `includes` 由目录结构自动推导，不手工维护
+- domain 的排除说明写在 `description` 或 domain README 中，不作为结构化字段
 
 ### 3. 分组 README
 
 建议维护：
 
 - `knowledge/analysis/primitives/<domain_id>/README.md`
-- `knowledge/decisions/<decision_space>/README.md`
+- `knowledge/decisions/<domain_id>/README.md`
 
 职责：
 
 - 说明该目录收什么、不收什么
-- 解释该 domain 或 decision space 的边界
-- 提供目录内对象列表的人工入口
+- 解释该 domain 的边界
 
-注意：这些 README 是目录说明，不是研究 artifact。
+注意：
+
+- 这些 README 是目录说明，不是研究 artifact
+- **不维护对象列表**，列表由目录结构自然体现，或由脚本自动生成
 
 ### 4. 长期 artifact 文件
 
@@ -200,10 +217,6 @@ knowledge/
 - `synthesis`：`artifact.md`
 - `decision`：`artifact.md` + `verdict.md`
 
-复杂决策可额外保留：
-
-- `criteria.md`
-
 ---
 
 ## Registry 模板
@@ -211,65 +224,56 @@ knowledge/
 ### `knowledge/analysis/_registry/domains.yaml`
 
 ```yaml
+# domain 注册表
+# domain_id 必须与 primitives/ 和 decisions/ 下的子目录名一致
+# includes 由目录结构自动推导，不手工维护
+
+version: 1
+
 domains:
+
   - id: consensus
     title: 共识
-    description: 共识协议、投票流程、视图切换、最终性等机制分析
+    description: 共识协议、投票流程、视图切换、最终性等机制分析。不包括钱包产品能力。
     aliases: []
-    includes:
-      - qbft
-      - tendermint
-      - simplex
-      - malachite
-    excludes:
-      - 钱包产品能力
+    created_at: 2026-04-19
 
   - id: account-abstraction
     title: 账户抽象
-    description: 账户模型、授权、执行入口、签名验证与 sponsor 相关机制
+    description: 账户模型、授权、执行入口、签名验证与 sponsor 相关机制。不包括纯支付路由协议。
     aliases:
       - aa
-    includes:
-      - eip-4337
-      - eip-7702
-      - eip-7560
-      - eip-4361-siwe
-    excludes:
-      - 纯支付路由协议
+    created_at: 2026-04-19
 
   - id: agentic-payment
     title: Agentic Payment
-    description: agent 支付所需的发现、授权、谈判、支付传输与执行相关原语
+    description: agent 支付所需的发现、授权、谈判、支付传输与执行相关原语。不包括泛用 AI 编码工作流。
     aliases: []
-    includes:
-      - a2a
-      - ap2
-      - acp
-      - x402
-      - mpp
-    excludes:
-      - 泛用 AI 编码工作流
-```
+    created_at: 2026-04-19
 
-### `knowledge/analysis/_registry/synthesis-kinds.yaml`
+  - id: decentralized-identity
+    title: 去中心化身份
+    description: DID、身份验证、签名凭证。
+    aliases: []
+    created_at: 2026-04-19
 
-```yaml
-kinds:
-  - id: comparison
-    title: 对比分析
-    description: 横向比较多个对象的能力、边界、取舍或场景适配
+  - id: enterprise-blockchain
+    title: 企业区块链
+    description: 联盟链、企业级权限与性能。
+    aliases: []
+    created_at: 2026-04-19
 
-  - id: evolution
-    title: 演进分析
-    description: 追踪一个问题域中多个对象的历史演进与替代关系
+  - id: dex-amm
+    title: 去中心化交易所
+    description: AMM 机制、流动性、价格发现。
+    aliases: []
+    created_at: 2026-04-19
 
-  - id: taxonomy
-    title: 分类分析
-    description: 形成层级、分类学或映射框架
-
-  - id: landscape
-    title: 全景分析
-    description: 面向一个较大主题的体系化梳理，但不输出场景 verdict
+  - id: storage-data
+    title: 存储与数据
+    description: 链上存储、数据可用性、状态管理。
+    aliases: []
+    created_at: 2026-04-19
 ```
 
 ---
@@ -284,7 +288,7 @@ kinds:
 
 ### 通用必填字段
 
-适用于所有长期 `artifact.md`，以及 `decision` 的 `verdict.md`：
+适用于所有长期 `artifact.md`：
 
 | 字段 | 类型 | 说明 |
 |------|------|------|
@@ -297,32 +301,42 @@ kinds:
 
 | 字段 | 类型 | 说明 |
 |------|------|------|
-| `related_domains` | string[] | 当前对象还关联哪些 domain |
+| `related_domains` | string[] | 当前对象还关联哪些 domain，值必须来自 `domains.yaml` |
 | `summary` | string | 一句话摘要，便于后续导航或索引 |
 
 ### `primitive` 额外字段
 
 无额外必填字段。
 
-`primary_domain` 由路径推导：
+`domain_id` 由路径推导：
 
 - `knowledge/analysis/primitives/account-abstraction/eip-4337/artifact.md`
-  - `primary_domain = account-abstraction`
+  - `domain_id = account-abstraction`
 
 ### `synthesis` 额外必填字段
 
 | 字段 | 类型 | 说明 |
 |------|------|------|
-| `synthesis_kind` | string | 必须来自 `synthesis-kinds.yaml` |
+| `synthesis_kind` | string | 必须为 `comparison`、`evolution` 或 `taxonomy` |
 
 ### `decision` 额外字段
 
 无额外必填字段。
 
-`decision_space` 由路径推导：
+`domain_id` 由路径推导：
 
 - `knowledge/decisions/agentic-payment/chain-comparison/artifact.md`
-  - `decision_space = agentic-payment`
+  - `domain_id = agentic-payment`
+
+### `verdict.md` 的 frontmatter
+
+`verdict.md` 只保留极轻量 frontmatter，其余从同目录 `artifact.md` 继承：
+
+```yaml
+---
+updated_at: 2026-04-19
+---
+```
 
 ### 不再保留的字段
 
@@ -336,7 +350,7 @@ kinds:
 
 说明：
 
-- `topic_slug`、`primary_domain`、`decision_space` 已由路径表达。
+- `topic_slug`、`domain_id`（原 `primary_domain` / `decision_space`）已由路径表达。
 - `status` 容易与研究深度、发布状态、审核状态混淆。
 - `source_change` 属于过程层信息；change 归档后不应成为长期资产 frontmatter 的强绑定字段。
 
@@ -372,7 +386,7 @@ kinds:
 
 - 允许聚焦某一机制切片
 - 允许省略与当前问题无关的全景部分
-- 必须明确写出“本稿没有覆盖什么”
+- 必须明确写出"本稿没有覆盖什么"
 
 #### `light`
 
@@ -399,7 +413,7 @@ kinds:
 原因：
 
 1. 同一研究对象应该只有一个长期 canonical 正文。
-2. 深度是“当前完成度”，不是“对象类型”。
+2. 深度是"当前完成度"，不是"对象类型"。
 3. 未来应支持同一路径内的深度升级：
    - `light -> focused -> deep`
 4. 如果用不同文件名承载深度，会造成长期资产分裂和引用不稳定。
@@ -412,7 +426,7 @@ kinds:
 
 | 深度 | 最低要求 |
 |------|----------|
-| `deep` | 必须包含：关键术语、研究范围、组件/角色结构、核心流程、设计取舍、能力边界、相关对象关系、证据缺口、参考资料 |
+| `deep` | 必须包含：关键术语、研究范围、组件/角色结构、核心流程、设计取舍或机制原理说明、能力边界、相关对象关系、证据缺口、参考资料 |
 | `focused` | 必须包含：关键术语、问题聚焦范围、相关结构或流程切片、边界、有限结论、证据缺口、参考资料 |
 | `light` | 必须包含：对象定义、与相邻对象边界、当前确认点、未覆盖范围、证据缺口、参考资料 |
 
@@ -475,9 +489,9 @@ updated_at: 2026-04-19
 
 说明最关键的执行流程或机制路径。
 
-## 设计取舍
+## 设计取舍或机制原理
 
-回答“为什么这样设计，而不是那样设计”。
+回答"为什么这样设计，而不是那样设计"，或阐述机制的内在原理。
 
 ## 能力边界
 
@@ -656,12 +670,6 @@ updated_at: 2026-04-19
 
 ```yaml
 ---
-object_type: decision
-title: "<标题> Verdict"
-research_depth: focused
-related_domains:
-  - <可选关联 domain>
-summary: "<一句话摘要>"
 updated_at: 2026-04-19
 ---
 ```
@@ -729,7 +737,7 @@ updated_at: 2026-04-19
 - 校验长期 Markdown 是否有合法 frontmatter
 - 按 `object_type` 校验必填字段
 - 校验 `research_depth` 枚举
-- 校验 `synthesis_kind` 是否出现在 registry 中
+- 校验 `synthesis_kind` 是否为 `comparison`、`evolution` 或 `taxonomy`
 - 校验 `related_domains` 是否都出现在 `domains.yaml` 中
 - 拒绝已废弃字段：
   - `status`
@@ -740,9 +748,9 @@ updated_at: 2026-04-19
 
 额外校验：
 
-- `primitive` 文件必须位于 `knowledge/analysis/primitives/<domain>/<topic>/artifact.md`
+- `primitive` 文件必须位于 `knowledge/analysis/primitives/<domain_id>/<topic>/artifact.md`，且 `<domain_id>` 必须在 registry 中
 - `synthesis` 文件必须位于 `knowledge/analysis/synthesis/<topic>/artifact.md`
-- `decision` 文件必须位于 `knowledge/decisions/<space>/<topic>/artifact.md` 或 `verdict.md`
+- `decision` 文件必须位于 `knowledge/decisions/<domain_id>/<topic>/artifact.md` 或 `verdict.md`，且 `<domain_id>` 必须在 registry 中
 
 #### 2. 新增 `scripts/general/validate_knowledge_tree.py`
 
@@ -753,7 +761,7 @@ updated_at: 2026-04-19
 - 校验每个 `primitive` topic 目录里必须有 `artifact.md`
 - 校验每个 `decision` topic 目录里必须有 `artifact.md` 和 `verdict.md`
 - 校验 registry 文件存在且格式正确
-- 校验不存在未注册 `domain_id`
+- 校验不存在未注册 `domain_id` 的目录
 - 校验不存在空 topic 目录
 
 建议用法：
@@ -773,10 +781,10 @@ python scripts/general/validate_knowledge_tree.py
 
 典型校验项：
 
-- `primitive/deep` 缺少“设计取舍”时报错
-- `primitive/focused` 缺少“研究范围”或“未覆盖范围”时报错
-- `synthesis` 缺少“依赖对象”时报错
-- `decision` 缺少“判断维度”或 `verdict.md` 缺少“结论范围”时报错
+- `primitive/deep` 缺少"设计取舍或机制原理"时报错
+- `primitive/focused` 缺少"研究范围"或"未覆盖范围"时报错
+- `synthesis` 缺少"依赖对象"时报错
+- `decision` 缺少"判断维度"或 `verdict.md` 缺少"结论范围"时报错
 
 建议用法：
 
@@ -813,9 +821,10 @@ python scripts/research/check_artifact_contract.py knowledge/
 建议按以下顺序推进：
 
 1. 先定本说明文档
-2. 再创建 registry 文件
-3. 再升级 frontmatter 校验
-4. 再加目录树校验
-5. 最后再把 apply 脚本切到新模型
+2. 再创建 registry 文件（`_registry/domains.yaml`）
+3. **再做现有文件迁移**（重命名、移动，使目录结构符合新模型）
+4. 再升级 frontmatter 校验
+5. 再加目录树校验
+6. 最后再把 apply 脚本切到新模型
 
-这样可以先统一规则，再动数据和发布路径。
+这样可以先统一规则，再动数据和发布路径。现有文件迁移在校验脚本上线前完成，避免大量 error 阻塞流程。
