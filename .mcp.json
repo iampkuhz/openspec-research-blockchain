@@ -18,11 +18,20 @@
     },
     "crawl4ai": {
       "type": "stdio",
-      "command": "python3",
+      "command": "npx",
       "args": [
-        "/Users/zhehan/Documents/tools/llm/skills/agent-skills/tools/crawl/crawl4ai/scripts/crawl4ai_mcp_stdio.py"
+        "-y",
+        "mcp-remote",
+        "http://127.0.0.1:11235/mcp/sse",
+        "--allow-http",
+        "--transport",
+        "sse-only"
       ],
-      "description": "Crawl4AI MCP server (stdio) - provides md, html, screenshot, pdf, execute_js, crawl, ask tools for web extraction"
+      "env": {
+        "NPM_CONFIG_CACHE": "/tmp/npm-cache",
+        "NO_PROXY": "127.0.0.1,localhost,::1"
+      },
+      "description": "Crawl4AI MCP via official SSE endpoint bridged to local stdio by mcp-remote"
     }
   }
 }
