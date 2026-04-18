@@ -39,9 +39,9 @@ effort: high
 - `request.md`
 - `plan.md`
 - `draft.md`
-- `openspec/specs/diagram-policy/spec.md`
-- `openspec/specs/architecture-diagram-quality/spec.md`
-- `openspec/specs/component-abstraction-level/spec.md`
+- `harness/rules/diagrams/diagram-policy.md`
+- `harness/rules/diagrams/architecture-quality-rules.md`
+- `harness/rules/diagrams/component-abstraction-rules.md`
 - `harness/workflows/diagram-workflow.md`
 - `harness/rules/diagrams/diagram-selection-matrix.md`
 - `harness/rules/diagrams/diagram-review-checklist.md`
@@ -108,7 +108,7 @@ layout:
 
 **例外**：仅当图中使用了非常规符号或自定义图标时，才可设置 `include_legend: true`。
 
-**规范来源**：`openspec/specs/architecture-diagram-quality/spec.md` - 图例（legend）使用规范
+**规范来源**：`harness/rules/diagrams/architecture-quality-rules.md` - 图例（legend）使用规范
 
 ## 布局优化规则（由 skill 中的 optimize_brief.py 自动应用）
 

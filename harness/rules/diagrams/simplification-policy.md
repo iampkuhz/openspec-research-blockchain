@@ -6,7 +6,7 @@
 
 **相关**：术语表见 `harness/rules/general/GLOBAL-GLOSSARY.md`。
 
-**详见**：`openspec/specs/diagram-policy/spec.md`（图表政策，定义图表生成、验证与交付标准）。
+**详见**：`harness/rules/diagrams/diagram-policy.md`（图表政策，定义图表生成、验证与交付标准）。
 
 ## 简化原则
 

@@ -195,17 +195,22 @@ OpenSpec 区块链研究协作的导航入口。
 | `note-comparison-rules.md` | 比较分析写作 |
 | `source-validation-rules.md` | 来源验证 |
 | `uncertainty-rules.md` | 不确定性处理 |
+| `component-quality-rules.md` | 组件分析与性能质量要求 |
+| `consensus-depth-rules.md` | 共识算法分析深度要求 |
 
 ### Diagram Rules (`harness/rules/diagrams/`)
 
 | 规则 | 用途 |
 |------|------|
+| `diagram-policy.md` | 图表总政策（正式规则来源） |
 | `diagram-selection-matrix.md` | 图类型选择 |
 | `brief-quality-rules.md` | Brief 质量评估 |
 | `relationship-rules.md` | 关系语义 |
 | `annotation-rules.md` | 注释规范 |
 | `simplification-policy.md` | 简化政策 |
 | `diagram-review-checklist.md` | 评审清单 |
+| `architecture-quality-rules.md` | 架构图质量规约 |
+| `component-abstraction-rules.md` | 组件抽象层级规约 |
 
 ### Writing Rules (`harness/rules/writing/`)
 
@@ -214,6 +219,7 @@ OpenSpec 区块链研究协作的导航入口。
 | `structure-rules.md` | 结构规范 |
 | `table-rules.md` | 表格规范 |
 | `summary-rules.md` | 摘要规范 |
+| `language-rules.md` | 语言与写作风格 |
 
 ---
 

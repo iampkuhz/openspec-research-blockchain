@@ -131,9 +131,9 @@ plan 阶段视为完成，当且仅当：
 | 上位规范 | 约束范围 |
 |----------|----------|
 | `openspec/schemas/blockchain-research/schema.yaml` | change 整体结构 |
-| `openspec/specs/language-style/spec.md` | 语言风格 |
+| `harness/rules/writing/language-rules.md` | 语言风格 |
 | `openspec/specs/evidence-policy/spec.md` | 证据政策 |
-| `openspec/specs/diagram-policy/spec.md` | 图表政策（plan 阶段的图表规划） |
+| `harness/rules/diagrams/diagram-policy.md` | 图表政策（plan 阶段的图表规划） |
 
 本规范不重复上位规范的正文，仅定义：
 - plan 阶段的入口条件
@@ -143,6 +143,6 @@ plan 阶段视为完成，当且仅当：
 ## 相关规范
 
 - `openspec/schemas/blockchain-research/templates/plan.md` —— plan 模板
-- `openspec/specs/language-style/spec.md` —— 语言风格
+- `harness/rules/writing/language-rules.md` —— 语言风格
 - `openspec/specs/evidence-policy/spec.md` —— 证据政策
-- `openspec/specs/diagram-policy/spec.md` —— 图表政策
+- `harness/rules/diagrams/diagram-policy.md` —— 图表政策

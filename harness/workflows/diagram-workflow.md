@@ -19,7 +19,7 @@
 ### 初始加载（workflow 开始时）
 
 - `harness/rules/diagrams/diagram-selection-matrix.md` — 图表类型选择
-- `openspec/specs/diagram-policy/spec.md` — 图表政策（**正式规则来源**）
+- `harness/rules/diagrams/diagram-policy.md` — 图表政策（**正式规则来源**）
 
 ### 按需加载（执行到对应步骤前）
 
@@ -47,7 +47,7 @@
 
 ### 步骤 1：确定图表类型
 
-根据内容选择图表类型，**严格遵守 `openspec/specs/diagram-policy/spec.md` 的支持矩阵**：
+根据内容选择图表类型，**严格遵守 `harness/rules/diagrams/diagram-policy.md` 的支持矩阵**：
 
 | 内容 | 推荐类型 | 生成方式 |
 |------|----------|----------|

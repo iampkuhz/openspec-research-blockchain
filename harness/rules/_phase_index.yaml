@@ -1,0 +1,86 @@
+# 阶段索引
+
+version: "1.0"
+description: |
+  按研究阶段声明依赖的 specs 与 rules。
+  阶段切换时，Agent 读取本索引中该阶段的 depends 声明，自动加载对应文件。
+  不再靠 hardcode 的 prompt 逐个读取。
+
+phases:
+  request:
+    description: "研究请求定义"
+    depends:
+      specs:
+        - evidence-policy
+        - language-style
+      rules:
+        - general/terminology-policy
+        - research/atom-definition-rules
+      workflows:
+        - request-phase
+
+  plan:
+    description: "研究计划生成"
+    depends:
+      specs:
+        - evidence-policy
+        - language-style
+        - research-object-model
+      rules:
+        - general/traceability-policy
+        - research/source-validation-rules
+      workflows:
+        - plan-phase
+
+  draft:
+    description: "集中研究写作"
+    depends:
+      specs:
+        - evidence-policy
+        - analysis-principles
+        - canonical-output-model
+        - research-object-model
+      rules:
+        - research/component-quality-rules
+        - research/consensus-depth-rules
+        - diagrams/diagram-policy
+        - diagrams/architecture-quality-rules
+        - diagrams/component-abstraction-rules
+        - diagrams/diagram-selection-matrix
+        - diagrams/brief-quality-rules
+        - diagrams/relationship-rules
+        - diagrams/annotation-rules
+        - diagrams/simplification-policy
+        - diagrams/diagram-review-checklist
+        - writing/language-rules
+        - writing/structure-rules
+        - writing/table-rules
+        - writing/summary-rules
+      workflows:
+        - draft-phase
+
+  artifact:
+    description: "长期资产提炼"
+    depends:
+      specs:
+        - canonical-output-model
+        - evidence-policy
+      rules:
+        - general/update-policy
+        - general/traceability-policy
+        - writing/language-rules
+      workflows:
+        - artifact-phase
+
+  review:
+    description: "研究评审"
+    depends:
+      specs:
+        - evidence-policy
+      rules:
+        - general/terminology-policy
+        - general/traceability-policy
+        - writing/structure-rules
+        - diagrams/diagram-review-checklist
+      workflows:
+        - review-workflow

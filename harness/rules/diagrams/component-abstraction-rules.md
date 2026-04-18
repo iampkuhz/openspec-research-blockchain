@@ -338,5 +338,5 @@ CC --> CA : Precommit
 
 ## 相关文件
 
-- `openspec/specs/architecture-diagram-quality/spec.md`：元素类型区分
-- `openspec/specs/diagram-policy/spec.md`：图表总政策
+- `harness/rules/diagrams/architecture-quality-rules.md`：元素类型区分
+- `harness/rules/diagrams/diagram-policy.md`：图表总政策

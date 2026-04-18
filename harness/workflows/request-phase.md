@@ -148,7 +148,7 @@ request 阶段视为完成，当且仅当：
 | 上位规范 | 约束范围 |
 |----------|----------|
 | `openspec/schemas/blockchain-research/schema.yaml` | change 整体结构 |
-| `openspec/specs/language-style/spec.md` | 语言风格 |
+| `harness/rules/writing/language-rules.md` | 语言风格 |
 
 本规范不重复上位规范的正文，仅定义：
 - request 阶段的入口条件
@@ -158,4 +158,4 @@ request 阶段视为完成，当且仅当：
 ## 相关规范
 
 - `openspec/schemas/blockchain-research/templates/request.md` —— request 模板
-- `openspec/specs/language-style/spec.md` —— 语言风格
+- `harness/rules/writing/language-rules.md` —— 语言风格

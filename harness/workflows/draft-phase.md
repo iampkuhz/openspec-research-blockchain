@@ -55,9 +55,9 @@
 
 draft 阶段必须遵守：
 
-- `openspec/specs/diagram-policy/spec.md`
-- `openspec/specs/architecture-diagram-quality/spec.md`
-- `openspec/specs/component-abstraction-level/spec.md`
+- `harness/rules/diagrams/diagram-policy.md`
+- `harness/rules/diagrams/architecture-quality-rules.md`
+- `harness/rules/diagrams/component-abstraction-rules.md`
 
 **draft 阶段落点**：
 - 图表必须承载主干信息（边界、架构关系、流程步骤、状态变化、对比结论）
@@ -164,7 +164,7 @@ primitive 类型的 `draft.md` 至少必须覆盖以下内容：
 
 draft 阶段必须遵守：
 
-- `openspec/specs/language-style/spec.md`
+- `harness/rules/writing/language-rules.md`
 - `openspec/specs/evidence-policy/spec.md`
 
 **draft 阶段落点**：
@@ -216,10 +216,10 @@ draft 阶段视为完成，当且仅当：
 | 上位规范 | 约束范围 |
 |----------|----------|
 | `openspec/schemas/blockchain-research/schema.yaml` | change 整体结构 |
-| `openspec/specs/diagram-policy/spec.md` | 图表政策 |
-| `openspec/specs/architecture-diagram-quality/spec.md` | 架构图质量 |
-| `openspec/specs/component-abstraction-level/spec.md` | 组件抽象层级 |
-| `openspec/specs/language-style/spec.md` | 语言风格 |
+| `harness/rules/diagrams/diagram-policy.md` | 图表政策 |
+| `harness/rules/diagrams/architecture-quality-rules.md` | 架构图质量 |
+| `harness/rules/diagrams/component-abstraction-rules.md` | 组件抽象层级 |
+| `harness/rules/writing/language-rules.md` | 语言风格 |
 | `openspec/specs/evidence-policy/spec.md` | 证据政策 |
 | `openspec/specs/canonical-output-model/spec.md` | 输出模型 |
 
@@ -261,9 +261,9 @@ draft 阶段视为完成，当且仅当：
 ## 相关规范
 
 - `openspec/schemas/blockchain-research/templates/draft.md` —— draft 模板
-- `openspec/specs/diagram-policy/spec.md` —— 图表政策
-- `openspec/specs/architecture-diagram-quality/spec.md` —— 架构图质量
-- `openspec/specs/component-abstraction-level/spec.md` —— 组件抽象层级
-- `openspec/specs/language-style/spec.md` —— 语言风格
+- `harness/rules/diagrams/diagram-policy.md` —— 图表政策
+- `harness/rules/diagrams/architecture-quality-rules.md` —— 架构图质量
+- `harness/rules/diagrams/component-abstraction-rules.md` —— 组件抽象层级
+- `harness/rules/writing/language-rules.md` —— 语言风格
 - `openspec/specs/evidence-policy/spec.md` —— 证据政策
 - `openspec/specs/canonical-output-model/spec.md` —— 输出模型

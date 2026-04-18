@@ -190,11 +190,11 @@ layout:
 
 ## 与 Diagram Policy 的关系
 
-本规约是 `openspec/specs/diagram-policy/spec.md` 在架构组件图领域的具体化。
+本规约是 `harness/rules/diagrams/diagram-policy.md` 在架构组件图领域的具体化。
 
 ## 相关文件
 
-- `openspec/specs/diagram-policy/spec.md`：图表总政策
+- `harness/rules/diagrams/diagram-policy.md`：图表总政策
 - `feipi-plantuml-generate-architecture-diagram/SKILL.md`：PlantUML 生成 skill（包含两段式架构说明、元素规范和样式库）
 - `feipi-plantuml-generate-architecture-diagram/assets/templates/architecture-brief.yaml`：架构组件图需求模板
 - `feipi-plantuml-generate-architecture-diagram/references/template-architecture-brief.md`：需求模板详细说明

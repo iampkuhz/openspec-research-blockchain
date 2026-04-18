@@ -35,7 +35,7 @@
 - `harness/workflows/principle-atom-workflow.md` - Atom 写作流程
 - `harness/rules/research/atom-mechanism-rules.md` - 机制分析规则
 - `harness/rules/diagrams/diagram-selection-matrix.md` - 图表选择矩阵
-- `openspec/specs/component-abstraction-level/spec.md` - 角色/组件/状态边界
+- `harness/rules/diagrams/component-abstraction-rules.md` - 角色/组件/状态边界
 - `openspec/changes/<change-id>/sources/` - 来源
 
 ## Files to Write

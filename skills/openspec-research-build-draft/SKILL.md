@@ -6,13 +6,13 @@
 
 - `openspec/schemas/blockchain-research/schema.yaml` —— change 整体结构
 - `openspec/schemas/blockchain-research/templates/draft.md` —— draft 模板
-- `openspec/specs/draft-generation/spec.md` —— draft 阶段规范（入口）
-- `openspec/specs/diagram-policy/spec.md` —— 图表政策
-- 相关上位规范（见 `draft-generation/spec.md` 中"与上位规范的关系"）
+- `harness/workflows/draft-phase.md` —— draft 阶段规范（入口）
+- `harness/rules/diagrams/diagram-policy.md` —— 图表政策
+- 相关上位规范（见 `draft-phase.md` 中"与上位规范的关系"）
 
 本 skill 不复制上位规范正文，仅负责 Qoder 的触发入口、使用时机与输入输出。
 
-若 `draft-generation/spec.md` 与其引用的上位规范存在差异，以相关上位规范为准。
+若 `draft-phase.md` 与其引用的上位规范存在差异，以相关上位规范为准。
 
 ## 何时使用（Qoder 特定）
 

@@ -27,7 +27,7 @@ argument-hint: "[change-path | change-name]"
 执行前读取并遵循：
 
 - `openspec/schemas/blockchain-research/schema.yaml`
-- `openspec/specs/artifact-generation/spec.md`
+- `harness/workflows/artifact-phase.md`
 - `openspec/specs/canonical-output-model/spec.md`
 - `harness/workflows/merge-workflow.md`
 

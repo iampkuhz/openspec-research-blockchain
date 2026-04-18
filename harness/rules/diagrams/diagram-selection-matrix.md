@@ -6,13 +6,13 @@
 
 **相关**：术语表见 `harness/rules/general/GLOBAL-GLOSSARY.md`。
 
-**详见**：`openspec/specs/diagram-policy/spec.md`（图表政策，定义图表生成、验证与交付标准）。
+**详见**：`harness/rules/diagrams/diagram-policy.md`（图表政策，定义图表生成、验证与交付标准）。
 
 ## 核心原则
 
 **本矩阵仅用于选择可视化方案，不定义正式交付规则。**
 
-**正式规则来源**：`openspec/specs/diagram-policy/spec.md`
+**正式规则来源**：`harness/rules/diagrams/diagram-policy.md`
 
 ## 图表类型矩阵
 
@@ -308,6 +308,6 @@ primitive / mechanism-heavy 正文默认从这 4 类视图里选：
 
 ## 相关规则
 
-- `openspec/specs/diagram-policy/spec.md` — 正式图表政策（规则来源）
+- `harness/rules/diagrams/diagram-policy.md` — 正式图表政策（规则来源）
 - `harness/workflows/diagram-workflow.md` — 图表创建流程
 - `harness/rules/diagrams/diagram-review-checklist.md` — 图表评审清单

@@ -63,4 +63,4 @@ description: |
 
 - `.qoder/skills/openspec-research-build-draft/SKILL.md`
 - `openspec/schemas/blockchain-research/templates/draft.md`
-- `openspec/specs/diagram-policy/spec.md`
+- `harness/rules/diagrams/diagram-policy.md`

@@ -126,8 +126,8 @@ artifact 阶段视为完成，当且仅当：
 |----------|----------|
 | `openspec/schemas/blockchain-research/schema.yaml` | change 整体结构 |
 | `openspec/specs/canonical-output-model/spec.md` | 长期资产结构本体 |
-| `openspec/specs/diagram-policy/spec.md` | 图表政策（artifact 阶段的图表保留） |
-| `openspec/specs/language-style/spec.md` | 语言风格 |
+| `harness/rules/diagrams/diagram-policy.md` | 图表政策（artifact 阶段的图表保留） |
+| `harness/rules/writing/language-rules.md` | 语言风格 |
 
 本规范不重复上位规范的正文，仅定义：
 - artifact 阶段的入口条件
@@ -138,5 +138,5 @@ artifact 阶段视为完成，当且仅当：
 ## 相关规范
 
 - `openspec/specs/canonical-output-model/spec.md` —— 长期产出模型（结构本体）
-- `openspec/specs/diagram-policy/spec.md` —— 图表政策
-- `openspec/specs/language-style/spec.md` —— 语言风格
+- `harness/rules/diagrams/diagram-policy.md` —— 图表政策
+- `harness/rules/writing/language-rules.md` —— 语言风格

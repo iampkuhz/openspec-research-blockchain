@@ -10,13 +10,13 @@ description: 用于把稳定的 draft.md 结果提炼进长期 artifact 目录�
 本 skill 执行 artifact 阶段规则，正式规则来自：
 
 - `openspec/schemas/blockchain-research/schema.yaml` —— change 整体结构
-- `openspec/specs/artifact-generation/spec.md` —— artifact 阶段规范（入口）
+- `harness/workflows/artifact-phase.md` —— artifact 阶段规范（入口）
 - `openspec/specs/canonical-output-model/spec.md` —— 长期资产结构
-- 相关上位规范（见 `artifact-generation/spec.md` 中"与上位规范的关系"）
+- 相关上位规范（见 `artifact-phase.md` 中"与上位规范的关系"）
 
 本 skill 不复制上位规范正文，仅负责 Qoder 的触发入口、使用时机与输入输出。
 
-若 `artifact-generation/spec.md` 与其引用的上位规范存在差异，以相关上位规范为准。
+若 `artifact-phase.md` 与其引用的上位规范存在差异，以相关上位规范为准。
 
 ## 何时使用（Qoder 特定）
 

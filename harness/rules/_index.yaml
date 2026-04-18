@@ -77,9 +77,19 @@ domains:
       - file: writing/summary-rules.md
         description: "摘要规范"
 
+  component-quality:
+    description: "组件分析与性能质量"
+    rules:
+      - file: research/component-quality-rules.md
+        description: "组件分析与性能质量要求"
+      - file: research/consensus-depth-rules.md
+        description: "共识算法分析深度要求"
+
   diagram:
     description: "图表建模与渲染"
     rules:
+      - file: diagrams/diagram-policy.md
+        description: "图表总政策"
       - file: diagrams/diagram-selection-matrix.md
         description: "图类型选择"
       - file: diagrams/brief-quality-rules.md
@@ -92,6 +102,22 @@ domains:
         description: "简化政策"
       - file: diagrams/diagram-review-checklist.md
         description: "评审清单"
+      - file: diagrams/architecture-quality-rules.md
+        description: "架构图质量规约"
+      - file: diagrams/component-abstraction-rules.md
+        description: "组件抽象层级规约"
+
+  writing:
+    description: "写作风格与语言"
+    rules:
+      - file: writing/structure-rules.md
+        description: "结构规范"
+      - file: writing/table-rules.md
+        description: "表格规范"
+      - file: writing/summary-rules.md
+        description: "摘要规范"
+      - file: writing/language-rules.md
+        description: "语言与写作风格"
 
   review:
     description: "知识评审"

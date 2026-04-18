@@ -29,7 +29,7 @@ argument-hint: "[change-path | change-name]"
 
 - `openspec/schemas/blockchain-research/schema.yaml`
 - `openspec/schemas/blockchain-research/templates/plan.md`
-- `openspec/specs/plan-generation/spec.md`
+- `harness/workflows/plan-phase.md`
 - 需要来源支持时读取 `harness/workflows/source-workflow.md`
 
 ## 执行步骤

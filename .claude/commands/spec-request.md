@@ -28,7 +28,7 @@ argument-hint: "[change-path | change-name]"
 
 - `openspec/schemas/blockchain-research/schema.yaml`
 - `openspec/schemas/blockchain-research/templates/request.md`
-- `openspec/specs/request-generation/spec.md`
+- `harness/workflows/request-phase.md`
 
 ## 执行步骤
 

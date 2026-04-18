@@ -7,7 +7,7 @@
 2. **Brief 评审** - 评估输入需求的质量（仅限 PlantUML 类型）
 3. **图表评审** - 评估输出图的质量
 
-**重要**：本清单用于执行层评审，正式规则来源为 `openspec/specs/diagram-policy/spec.md`。
+**重要**：本清单用于执行层评审，正式规则来源为 `harness/rules/diagrams/diagram-policy.md`。
 
 ---
 

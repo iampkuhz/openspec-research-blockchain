@@ -104,7 +104,7 @@
 | 比较总览图 | Markdown 表格 / ASCII 草图 |
 | 时间线 | Mermaid timeline / Markdown 表格 |
 
-详见：`openspec/specs/diagram-policy/spec.md`
+详见：`harness/rules/diagrams/diagram-policy.md`
 
 ### PlantUML 代码嵌入要求
 

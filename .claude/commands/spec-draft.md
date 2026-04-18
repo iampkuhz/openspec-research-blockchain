@@ -30,9 +30,9 @@ argument-hint: "[change-path | change-name]"
 
 - `openspec/schemas/blockchain-research/schema.yaml`
 - `openspec/schemas/blockchain-research/templates/draft.md`
-- `openspec/specs/draft-generation/spec.md`
-- `openspec/specs/diagram-policy/spec.md`
-- `openspec/specs/architecture-diagram-quality/spec.md`
+- `harness/workflows/draft-phase.md`
+- `harness/rules/diagrams/diagram-policy.md`
+- `harness/rules/diagrams/architecture-quality-rules.md`
 - 需要图表时读取 `harness/workflows/diagram-workflow.md`
 
 ## 执行步骤

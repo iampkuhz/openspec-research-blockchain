@@ -12,6 +12,27 @@ workflows:
     trigger: "需要完整执行一个 research change"
     output: "request.md, plan.md, sources/, draft.md, review/, knowledge/.../artifact.md"
 
+  # 阶段规范（phase files）
+  - name: request-phase.md
+    description: "request 阶段规范：入口条件、形式要求、完成标准"
+    trigger: "生成或修订 request.md"
+    output: "openspec/changes/<change-id>/request.md"
+
+  - name: plan-phase.md
+    description: "plan 阶段规范：入口条件、形式要求、完成标准"
+    trigger: "生成或修订 plan.md"
+    output: "openspec/changes/<change-id>/plan.md"
+
+  - name: draft-phase.md
+    description: "draft 阶段规范：入口条件、形式要求、图表矩阵、完成标准"
+    trigger: "生成或修订 draft.md"
+    output: "openspec/changes/<change-id>/draft.md"
+
+  - name: artifact-phase.md
+    description: "artifact 阶段规范：提炼规则、移除规则、完成标准"
+    trigger: "从 draft.md 生成长期 artifact"
+    output: "knowledge/analysis/.../artifact.md 或 knowledge/decisions/.../artifact.md"
+
   - name: intake-workflow.md
     description: "研究请求接入与分类"
     trigger: "用户提出研究需求"
