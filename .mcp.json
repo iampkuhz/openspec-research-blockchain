@@ -17,9 +17,12 @@
       }
     },
     "crawl4ai": {
-      "type": "sse",
-      "url": "http://localhost:11235/mcp/sse",
-      "description": "Crawl4AI MCP server - provides md, html, screenshot, pdf, execute_js, crawl, ask tools for web extraction"
+      "type": "stdio",
+      "command": "python3",
+      "args": [
+        "/Users/zhehan/Documents/tools/llm/skills/agent-skills/tools/crawl/crawl4ai/scripts/crawl4ai_mcp_stdio.py"
+      ],
+      "description": "Crawl4AI MCP server (stdio) - provides md, html, screenshot, pdf, execute_js, crawl, ask tools for web extraction"
     }
   }
 }
