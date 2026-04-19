@@ -40,7 +40,7 @@ effort: high
 - 本 synthesis change 的 `request.md`
 - 本 synthesis change 的 `plan.md`（如存在）
 - 各依赖 primitive 的 `draft.md`（**必须全部就绪**）
-- 各依赖 primitive 的 `sources/source-review.md`
+- 各依赖 primitive 的 `sources/source-review.md`（由主会话通过 source-evidence-agent 创建）
 - `openspec/schemas/blockchain-research/schema.yaml`
 - `openspec/schemas/blockchain-research/templates/draft.md`
 - `harness/rules/research/note-comparison-rules.md`
@@ -51,6 +51,7 @@ effort: high
 - 本 synthesis change 的 `draft.md`
 
 **不得修改依赖 primitive change 的任何文件。**
+**不得直接创建 `sources/` 或 `diagrams/` 下的文件**（分别是 `source-evidence-agent` 和 `diagram-agent` 的职责）。
 
 ## 工作合同
 
@@ -96,6 +97,7 @@ effort: high
 6. 不要做具体的选型结论（这是 decision-author 的职责，除非 request.md 明确定位为 scenario 类 synthesis）。
 7. 不要在 high severity review 问题未解时声称 draft 完成。
 8. 不要自行创建 `knowledge/` 下的文件。
+9. 不要自行创建 `sources/` 或 `diagrams/` 下的文件（如 inbox.yaml、source-review.md、diagram package），这是 specialist agent 的职责。
 
 ## 完成信号
 

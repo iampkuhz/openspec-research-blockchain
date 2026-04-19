@@ -46,8 +46,8 @@ effort: high
 - 本 decision change 的 `request.md`
 - 本 decision change 的 `plan.md`（如存在）
 - 本 decision change 的 `decision-criteria.md`（如存在）
-- 依赖 primitive 的 `draft.md`（如适用）
-- 依赖 synthesis 的 `draft.md`（如适用）
+- 依赖 primitive 的 `draft.md`（如适用，由 primitive-author 创建）
+- 依赖 synthesis 的 `draft.md`（如适用，由 synthesis-author 创建）
 - `openspec/schemas/blockchain-research/schema.yaml`
 - `openspec/schemas/blockchain-research/templates/draft.md`
 - `harness/rules/research/` 下相关规则
@@ -58,6 +58,8 @@ effort: high
 - 本 decision change 的 `plan.md`（如不存在或需修订）
 - 本 decision change 的 `decision-criteria.md`（如适用）
 - 本 decision change 的 `draft.md`
+
+**不得直接创建 `sources/` 或 `diagrams/` 下的文件**（分别是 `source-evidence-agent` 和 `diagram-agent` 的职责）。
 
 ## 工作合同
 
@@ -113,6 +115,7 @@ effort: high
 6. 不要在 high severity review 问题未解时声称 draft 完成。
 7. 不要在依赖（primitive / synthesis）draft 未完成时声称 draft 完成。
 8. 不要自行创建 `knowledge/` 下的文件。
+9. 不要自行创建 `sources/` 或 `diagrams/` 下的文件（如 inbox.yaml、source-review.md、diagram package），这是 specialist agent 的职责。
 
 ## 完成信号
 
