@@ -40,7 +40,7 @@
 |---------------|----------------------|----------|
 | `primitive` | `primitive-author` | 单个 primitive 全链路写作 |
 | `synthesis` | `synthesis-author` | 先并行执行依赖 primitive，再合成对比 |
-| `decision` | `decision-author` | 场景决策分析写作 |
+| `decision` | `decision-author` | 先并行执行依赖 primitive，再场景决策分析
 
 ### 默认 active agents
 
@@ -70,6 +70,36 @@
   synthesis-author 从各 primitive draft 中提取信息做横向对比
   draft 冻结后 → review-critic-agent → publish-agent
 ```
+
+### Decision 三阶段执行
+
+当 `research_type` 为 `decision` 时：
+
+```
+阶段 1: 依赖发现
+  主会话读取 decision request.md 的依赖声明
+  对每个缺失的 primitive: 创建 change + 调用 primitive-author 执行全链路
+  对每个缺失的 synthesis: 创建 change + 调用 synthesis-author 执行全链路
+  对已有的 primitive/synthesis: 校验深度是否满足所需深度，不足时同样补齐
+
+阶段 2: 并行依赖执行
+  所有 primitive-author 和 synthesis-author 并行执行
+  主会话汇总各依赖的来源 / 图表 handoff
+  等待所有依赖 draft 完成
+
+阶段 3: decision 合成
+  主会话调用 decision-author
+  decision-author 从各 primitive/synthesis draft 中提取候选方案的能力评估和边界
+  draft 冻结后 → review-critic-agent → publish-agent
+```
+
+**依赖层级**：
+- `primitive`：单个协议、机制、产品的底层研究
+- `synthesis`：多个 primitive 的横向对比、演进分析（如需要）
+- `decision` 从这两层提取证据，不得脱离依赖 draft 独立撰写候选方案评估
+
+**约束**：阶段 3 禁止在阶段 2 所有依赖（primitive + synthesis）的 draft 完成前开始。
+decision-author 不得脱离 primitive draft / synthesis draft 独立撰写候选方案评估。
 
 ### fallback
 

@@ -1,21 +1,5 @@
 # TODO
 
-## ~~openspec/specs 里面有一些应该放到 harness/~~ [已完成]
-
-已完成迁移。`openspec/specs/` 现在只保留仓库级物理定律（5 个）：
-- `repository-asset-model/` — 仓库拓扑
-- `canonical-output-model/` — 产出模型
-- `evidence-policy/` — 证据标准
-- `analysis-principles/` — 分析哲学
-- `research-object-model/` — 对象分类学
-
-已迁移到 `harness/`：
-- 流程阶段 → `harness/workflows/{request,plan,draft,artifact}-phase.md`
-- 领域质量 → `harness/rules/research/{component-quality,consensus-depth}-rules.md`
-- 图表质量 → `harness/rules/diagrams/{diagram-policy,architecture-quality,component-abstraction}-*.md`
-- 语言风格 → `harness/rules/writing/language-rules.md`
-
-
 ## claw4ai 反爬虫命中
 
 如何降低反爬虫命中概率？
