@@ -38,3 +38,4 @@
 | 研究 Command 入口 | [`.claude/commands/spec-research.md`](./.claude/commands/spec-research.md) |
 | 规约体系审计入口 | [`.claude/commands/spec-system-audit.md`](./.claude/commands/spec-system-audit.md) |
 | Claude 输出语言规则 | [`.claude/rules/language-output.md`](./.claude/rules/language-output.md) |
+| MCP 工具指南 | [`.claude/tools/mcp-tools.md`](./.claude/tools/mcp-tools.md) |

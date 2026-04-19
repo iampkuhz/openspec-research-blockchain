@@ -60,30 +60,8 @@ OpenSpec 区块链研究协作的导航入口。
 | 5 | 按阶段加载依赖 | `harness/rules/_phase_index.yaml` |
 | 6 | 按规则域补充叶子规则 | `harness/rules/_index.yaml` |
 | 7 | Claude 场景下读取命令/agent 索引 | `CLAUDE.md` + `.claude/README.md` |
-| 8 | 结合联网搜索 | 补充本地知识缺口；如需联网搜索，优先使用 `fastmcp-gateway` 暴露的 `searxng_search_web` MCP 工具 |
-| 9 | 网页内容提取 | 需要提取网页详情时使用 `crawl4ai` MCP 的 `md` 工具 |
-
-**联网搜索约束**：
-- 当任务明确要求”联网搜索 / 在线检索 / web search / search”时，默认使用 `fastmcp-gateway` 提供的 `searxng_search_web`。
-- `searxng_search_web` 为 SearXNG 元搜索工具，输入支持 `query`，可选 `category`、`max_results`、`language`、`time_range`。
-- 若该 MCP 在当前会话不可用，应先明确说明，再选择替代搜索方式；不要无提示地切换到其他搜索通道。
-
-**网页内容提取约束**：
-- 当需要提取网页内容、获取网页详情、将网页转换为 Markdown 时，使用 `crawl4ai` MCP 服务器提供的工具。
-- `crawl4ai` 提供以下工具：
-  - `md`：将网页转换为 Markdown（默认使用 fit 模式，支持 raw/bm25/llm 过滤）
-  - `html`：获取并清理网页 HTML 结构
-  - `screenshot`：获取网页截图
-  - `pdf`：生成网页 PDF
-  - `execute_js`：在浏览器上下文中执行 JavaScript
-  - `crawl`：完整的网页爬取（支持 hooks 配置）
-  - `ask`：查询 Crawl4AI 库的使用文档
-- 提取网页内容时优先使用 `md` 工具，参数包括：
-  - `url`：目标网页 URL（必填）
-  - `f`：过滤模式，可选 `fit`（默认）、`raw`、`bm25`、`llm`
-  - `q`：查询字符串（用于 bm25/llm 模式）
-  - `provider`：LLM provider 覆盖（可选）
-  - `temperature`：LLM temperature（可选）
+| 8 | 结合联网搜索 | 补充本地知识缺口；详见 `.claude/tools/mcp-tools.md` |
+| 9 | 网页内容提取 | 提取网页详情；详见 `.claude/tools/mcp-tools.md` |
 
 **Source of Truth**：`openspec/config.yaml` + `openspec/schemas/blockchain-research/schema.yaml`
 
@@ -91,15 +69,17 @@ OpenSpec 区块链研究协作的导航入口。
 
 ## 三、任务与路由
 
-| 任务类型 | 触发条件 | Workflow | 产出位置 |
-|----------|----------|----------|----------|
-| `new-research` | 创建新研究 | `harness/workflows/intake-workflow.md` | `openspec/changes/` |
-| `source` | 来源收集与验证 | `harness/workflows/source-workflow.md` | `openspec/changes/<id>/sources/` |
-| `update-research` | 更新现有研究 | `harness/workflows/update-existing-knowledge.md` | `openspec/changes/` |
-| `review` | 评审研究产出 | `harness/workflows/review-workflow.md` | `openspec/changes/<id>/review/` |
-| `apply` | 应用到 knowledge | `openspec/config.yaml` apply 段 | `knowledge/analysis/` 或 `knowledge/decisions/` |
-| `governance-review` | 修改 OpenSpec / Harness / AGENTS 路由 | `harness/workflows/governance-review-workflow.md` | `openspec/changes/<id>/review/` |
-| `spec-system-audit` | 定期审查规约体系触发链、索引链与死引用 | `harness/workflows/spec-system-audit-workflow.md` | 会话总结 / `harness/reports/`（可选） |
+| 任务类型 | 触发条件 | Workflow |
+|----------|----------|----------|
+| `new-research` | 创建新研究 | `harness/workflows/intake-workflow.md` |
+| `source` | 来源收集与验证 | `harness/workflows/source-workflow.md` |
+| `update-research` | 更新现有研究 | `harness/workflows/update-existing-knowledge.md` |
+| `review` | 评审研究产出 | `harness/workflows/review-workflow.md` |
+| `apply` | 应用到 knowledge | `openspec/config.yaml` apply 段 |
+| `governance-review` | 修改 OpenSpec / Harness / AGENTS 路由 | `harness/workflows/governance-review-workflow.md` |
+| `spec-system-audit` | 定期审查规约体系触发链、索引链与死引用 | `harness/workflows/spec-system-audit-workflow.md` |
+
+> 各任务产出位置见「四、资产模型」。
 
 ### v1 Multi-Agent 执行（条件加载）
 
@@ -168,11 +148,13 @@ OpenSpec 区块链研究协作的导航入口。
 
 ## 五、研究对象模型
 
-| 类型 | 描述 | 示例 | 产出位置 |
-|------|------|------|----------|
-| **primitive** | 单个协议/EIP/机制 | eip-4337, consensus-qbft | `knowledge/analysis/primitives/<domain_id>/<topic>/artifact.md` |
-| **synthesis** | 关系/演进/分类分析 | aa-eip-evolution, bft-comparison | `knowledge/analysis/synthesis/<topic>/artifact.md` |
-| **decision** | 场景决策 | agentic-payment | `knowledge/decisions/<domain_id>/<topic>/artifact.md` + `verdict.md` |
+| 类型 | 描述 | 示例 |
+|------|------|------|
+| **primitive** | 单个协议/EIP/机制 | eip-4337, consensus-qbft |
+| **synthesis** | 关系/演进/分类分析 | aa-eip-evolution, bft-comparison |
+| **decision** | 场景决策 | agentic-payment |
+
+> 各类型产出位置见「四、资产模型」。
 
 **研究路径**：
 
@@ -188,96 +170,27 @@ OpenSpec 区块链研究协作的导航入口。
 
 ## 六、规则索引
 
-**总索引**：`harness/rules/_index.yaml`
+规则按域分为四类，各域包含的具体规则文件、适用阶段与加载时机见：
+- **总索引**：`harness/rules/_index.yaml`
+- **阶段依赖索引**：`harness/rules/_phase_index.yaml`
 
-**阶段依赖索引**：`harness/rules/_phase_index.yaml`
-
-### General Rules (`harness/rules/general/`)
-
-| 规则 | 用途 |
-|------|------|
-| `repo-governance.md` | 仓库治理（变更必须走 OpenSpec） |
-| `terminology-policy.md` | 术语治理（复用 glossary taxonomy） |
-| `traceability-policy.md` | 可追溯性（claim→source 映射） |
-| `update-policy.md` | 更新政策（向后兼容处理） |
-
-### Research Rules (`harness/rules/research/`)
-
-| 规则 | 用途 |
-|------|------|
-| `atom-definition-rules.md` | 定义原子写作 |
-| `atom-mechanism-rules.md` | 机制分析写作 |
-| `atom-evolution-rules.md` | 演进分析写作 |
-| `note-comparison-rules.md` | 比较分析写作 |
-| `source-validation-rules.md` | 来源验证 |
-| `uncertainty-rules.md` | 不确定性处理 |
-| `component-quality-rules.md` | 组件分析与性能质量要求 |
-| `consensus-depth-rules.md` | 共识算法分析深度要求 |
-
-### Diagram Rules (`harness/rules/diagrams/`)
-
-| 规则 | 用途 |
-|------|------|
-| `diagram-policy.md` | 图表总政策（正式规则来源） |
-| `diagram-selection-matrix.md` | 图类型选择 |
-| `brief-quality-rules.md` | Brief 质量评估 |
-| `relationship-rules.md` | 关系语义 |
-| `annotation-rules.md` | 注释规范 |
-| `simplification-policy.md` | 简化政策 |
-| `diagram-review-checklist.md` | 评审清单 |
-| `architecture-quality-rules.md` | 架构图质量规约 |
-| `component-abstraction-rules.md` | 组件抽象层级规约 |
-
-### Writing Rules (`harness/rules/writing/`)
-
-| 规则 | 用途 |
-|------|------|
-| `structure-rules.md` | 结构规范 |
-| `table-rules.md` | 表格规范 |
-| `summary-rules.md` | 摘要规范 |
-| `language-rules.md` | 语言与写作风格 |
+| 规则域 | 用途摘要 |
+|--------|----------|
+| **General** (`harness/rules/general/`) | 仓库治理、术语治理、可追溯性、更新政策 |
+| **Research** (`harness/rules/research/`) | 原子写作（定义/机制/演进）、比较分析、来源验证、不确定性处理、组件分析与共识深度 |
+| **Diagram** (`harness/rules/diagrams/`) | 图表政策、类型选择、brief 质量、关系语义、注释规范、架构图与时序图质量 |
+| **Writing** (`harness/rules/writing/`) | 结构、表格、摘要规范与语言风格 |
 
 ---
 
 ## 七、Skills 索引
 
-### Research Skills (`skills/research/`)
-
-| Skill | 用途 |
-|-------|------|
-| `create-research-item/` | 初始化研究项目结构 |
-| `extract-source-pack/` | 从 URL 提取来源包 |
-| `write-definition-atom/` | 编写定义类型笔记 |
-| `write-mechanism-atom/` | 编写机制类型笔记 |
-| `write-evolution-atom/` | 编写演进类型笔记 |
-| `write-comparison-note/` | 编写比较分析笔记 |
-| `review-knowledge-item/` | 评审知识产出物 |
-
-### Maintenance Skills (`skills/maintenance/`)
-
-| Skill | 用途 |
-|-------|------|
-| `refresh-existing-topic/` | 刷新现有主题 |
-| `merge-change-into-knowledge/` | 合并 change 到 knowledge |
-
-### OpenSpec Research Skills (`skills/openspec-research-*/`)
-
-| Skill | 用途 |
-|-------|------|
-| `openspec-research-build-plan/` | 辅助生成 plan.md |
-| `openspec-research-build-draft/` | 辅助生成 draft.md |
-| `openspec-research-build-artifact/` | 辅助提升到 canonical 资产 |
-| `openspec-research-build-request/` | 辅助生成 request.md |
-| `openspec-research-build-research/` | 辅助执行端到端 research |
-
-### 用户级 Skills（全局）
-
-以下 skills 配置在 `~/.claude/skills/`，优先使用：
-
-| Skill | 用途 | 输入 |
-|-------|------|------|
-| `feipi-plantuml-generate-architecture-diagram` | 生成 PlantUML 架构图 | `architecture-brief.yaml` |
-| `feipi-plantuml-generate-sequence-diagram` | 生成 PlantUML 时序图 | `sequence-brief.yaml` |
+| 分类 | 路径 | 用途摘要 |
+|------|------|----------|
+| **Research** | `skills/research/` | 创建研究项目、提取来源、编写原子笔记（定义/机制/演进/比较）、评审知识产出 |
+| **Maintenance** | `skills/maintenance/` | 刷新现有主题、合并 change 到 knowledge |
+| **OpenSpec Research** | `skills/openspec-research-*/` | 辅助生成 request/plan/draft/artifact、端到端 research 执行 |
+| **用户级（全局）** | `~/.claude/skills/` | PlantUML 架构图与时序图生成（`feipi-plantuml-*`） |
 
 **详情**：`skills/README.md`
 
@@ -285,41 +198,12 @@ OpenSpec 区块链研究协作的导航入口。
 
 ## 八、Scripts 索引
 
-### General Scripts (`scripts/general/`)
-
-| 脚本 | 用途 | 用法 |
-|------|------|------|
-| `init_research_item.py` | 初始化研究项目 | `--topic <topic> --type <type>` |
-| `check_frontmatter.py` | 检查 `knowledge/` 长期资产 frontmatter | `[knowledge/\|artifact.md\|verdict.md]` |
-| `check_traceability.py` | 检查可追溯性 | `--topic <topic>` |
-| `validate_knowledge_tree.py` | 检查长期资产目录树 | `[directory]` |
-
-### Research Scripts (`scripts/research/`)
-
-| 脚本 | 用途 | 用法 |
-|------|------|------|
-| `normalize_claims.py` | 标准化 claims | `--topic <topic>` |
-| `build_comparison_matrix.py` | 构建比较矩阵 | `--topics <list> --output <path>` |
-| `validate_sources.py` | 验证来源 | `--topic <topic>` |
-| `find_term_drift.py` | 查找术语漂移 | `--term <term>` |
-| `check_artifact_contract.py` | 校验 artifact 最小章节合同 | `[knowledge-dir]` |
-| `validate_draft_diagram_contract.py` | 校验 draft 中的 diagram contract | `--draft <path>` |
-
-### Publish Scripts (`scripts/publish/`)
-
-| 脚本 | 用途 | 用法 |
-|------|------|------|
-| `move_change_outputs.py` | 手动 apply 时移动 change 到 knowledge（备选，主路径是 publish-agent） | `--change <id> --topic <slug> --type <type> --domain <domain_id>` |
-
-### Diagram Scripts（备选）
-
-**注意**：架构图和时序图优先使用用户级 skills。以下脚本仅在手动创建图表时使用：
-
-| 脚本 | 用途 | 用法 |
-|------|------|------|
-| `check_plantuml.sh` | 校验 PlantUML 语法 | `<file.puml> [--svg-output <output>]` |
-| `maintenance/render.sh` | 渲染 PlantUML / SVG 对比 | `<file.puml>` |
-| `diagrams/validate_diagram_model.py` | 验证 diagram model | `<model.yaml>` |
+| 分类 | 路径 | 用途摘要 |
+|------|------|----------|
+| **General** | `scripts/general/` | 初始化研究项目、检查 frontmatter、可追溯性校验、知识树验证 |
+| **Research** | `scripts/research/` | claims 标准化、比较矩阵构建、来源验证、术语漂移检测、artifact/diagram contract 校验 |
+| **Publish** | `scripts/publish/` | 手动 apply 时移动 change 到 knowledge（备选，主路径是 publish-agent） |
+| **Diagram（备选）** | `scripts/diagrams/`、`scripts/maintenance/` | PlantUML 语法校验与渲染；优先使用用户级 skills |
 
 **详情**：`scripts/README.md`
 
@@ -335,7 +219,7 @@ OpenSpec 区块链研究协作的导航入口。
 | 证据等级 L1/L2 用于核心技术主张 | `openspec/specs/evidence-policy/spec.md` |
 | 术语复用 glossary taxonomy | `terminology-policy.md` |
 | 每个 claim 必须绑定 source id | `traceability-policy.md` |
-| 联网搜索默认走 `fastmcp-gateway` 的 `searxng_search_web` | 本文件（启动行为 / 联网搜索约束） |
+| 联网搜索默认走 `fastmcp-gateway` 的 `searxng_search_web` | 本文件（启动行为）、`.claude/tools/mcp-tools.md` |
 
 ---
 
@@ -365,13 +249,13 @@ OpenSpec 区块链研究协作的导航入口。
 
 ## 十一、遇到问题时
 
-| 问题类型 | 查看位置 |
-|----------|----------|
+按问题类型对照 `CLAUDE.md` 中的「快速索引」表查找对应入口。常见路径：
+
+| 问题类型 | 入口 |
+|----------|------|
 | 系统约束（artifact 模型、工作流） | `openspec/config.yaml` + `openspec/schemas/blockchain-research/schema.yaml` |
-| 流程问题（下一步做什么） | `harness/workflows/_index.yaml` → 对应 workflow |
-| 阶段加载问题（当前该读哪些规范） | `harness/rules/_phase_index.yaml` |
-| 执行角色问题（谁来做、怎么分工） | `.claude/README.md` → `.claude/agents/` |
-| 规约体系体检（孤岛、死引用、触发链） | `.claude/commands/spec-system-audit.md` → `harness/workflows/spec-system-audit-workflow.md` |
-| 规范问题（如何写/约束） | `harness/rules/_index.yaml` → 对应规则域 |
-| 操作问题（具体执行） | `skills/` |
-| 自动化需求（脚本） | `scripts/` |
+| 流程问题（下一步做什么） | `harness/workflows/_index.yaml` |
+| 阶段加载问题 | `harness/rules/_phase_index.yaml` |
+| 执行角色问题 | `.claude/README.md` → `.claude/agents/` |
+| 规约体系体检 | `.claude/commands/spec-system-audit.md` |
+| 操作与自动化 | `skills/` + `scripts/` |
