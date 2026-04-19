@@ -3,7 +3,7 @@
 # 比较两个 SVG 图表的差异
 #
 # 用法:
-#   scripts/diagrams/compare_svg.sh <old.svg> <new.svg>
+#   scripts/maintenance/compare_svg.sh <old.svg> <new.svg>
 #
 
 set -e

@@ -153,13 +153,13 @@ messages:
 
 用户级 skills 会自动执行：
 
-1. **brief 校验** - `scripts/validate_brief.py`
-2. **覆盖校验** - `scripts/check_coverage.py`（所有组件/参与者落图）
-3. **布局校验** - `scripts/lint_layout.sh`
-4. **渲染校验** - `scripts/check_render.sh`
+1. **brief 校验** - 检查 brief 结构、字段和覆盖范围
+2. **覆盖校验** - 检查所有组件 / 参与者是否落图
+3. **布局校验** - 检查布局方向、对齐线与简化策略
+4. **渲染校验** - 检查 PlantUML 是否可成功渲染
 
 **注意**：
-- 这些脚本由用户级 skill 管理，不在本仓库 `scripts/` 目录
+- 这些校验属于用户级 skill 内部实现，不在本仓库 `scripts/` 目录
 - 用户级 skills 会自动执行校验流程
 - `validation.json` 与 `brief.normalized.yaml` 虽是中间产物，但应保留在 change 目录，作为 diagram contract 审计线索
 

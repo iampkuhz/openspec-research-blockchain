@@ -28,7 +28,7 @@
 ## Files to Read
 
 - `harness/workflows/comparison-workflow.md` - 比较分析流程
-- `harness/rules/research/comparison-rules.md` - 比较分析规则
+- `harness/rules/research/note-comparison-rules.md` - 比较分析规则
 - `harness/rules/writing/table-rules.md` - 表格规则
 - 各比较对象的 atoms
 

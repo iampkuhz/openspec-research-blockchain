@@ -131,9 +131,9 @@ layout:
 
 **实现方式**：
 
-上述布局优化规则已由 `feipi-plantuml-generate-architecture-diagram` skill 中的 `optimize_brief.py` 脚本自动实现。
+上述布局优化规则应由 `feipi-plantuml-generate-architecture-diagram` skill 在 brief 规范化与布局优化阶段自动落实。
 
-在调用 skill 后，脚本会自动执行：
+在调用 skill 后，应至少看到以下效果：
 1. Layer ID 简短化
 2. Package 描述格式化
 3. 同域组件排序
@@ -141,8 +141,9 @@ layout:
 5. include_legend 默认 false
 
 **校验规则**：
-- `lint_layout.sh` 会验证 package ID 是否为简短单词（无连字符）
-- `lint_layout.sh` 会检查同域组件是否有 `[hidden]` 对齐线（当组件数 ≥ 2 时，作为 soft check 提示）
+- `validation.json` 应显示生成与渲染成功
+- `brief.normalized.yaml`（如产出）应能反映上述布局优化结果
+- 人工 spot check 时，应确认 package ID、同域组件对齐与 legend 默认关闭三项是否符合要求
 
 ### 4. primitive 的最低交付要求（架构视角）
 

@@ -113,8 +113,8 @@ Relevance:
 
 ```yaml
 change_trace:
-  change_id: primitive-eip-4337-deep-dive-pass-1
-  change_path: openspec/changes/primitive-eip-4337-deep-dive-pass-1/
+  change_id: <change-id>
+  change_path: openspec/changes/<change-id>/
   merged_at: 2026-04-08T10:30:00Z
   merge_commit: abc123
   outputs:

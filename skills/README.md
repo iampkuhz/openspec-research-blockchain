@@ -1,83 +1,106 @@
 # 仓库内置 Skills
 
-这些 skill 用于配合本仓库的 workflow 使用。
+这些 skill 是 workflow 的叶子执行单元。
+
+使用顺序应保持渐进式加载：
+
+1. 先从 `AGENTS.md`、`CLAUDE.md`、`harness/workflows/_index.yaml` 判断任务类型
+2. 再读取对应 workflow 与 `harness/rules/_phase_index.yaml`
+3. 只有在阶段需要具体动作时，才展开到这里对应的 `SKILL.md`
+
+本 README 只回答两类问题：
+- 什么场景会启用这个 skill
+- 应该打开哪个 `SKILL.md` 查看具体执行约束
 
 ---
 
-## Skill  Registry
+## Skill Registry
 
 ### Research Skills (`skills/research/`)
 
-| Skill | 用途 | 触发时机 |
-|-------|------|----------|
-| `create-research-item/` | 初始化研究项目结构 | 创建新研究 |
-| `extract-source-pack/` | 从 URL 提取来源包 | 来源收集 |
-| `write-definition-atom/` | 编写定义类型笔记 | 定义写作 |
-| `write-mechanism-atom/` | 编写机制类型笔记 | 机制写作 |
-| `write-evolution-atom/` | 编写演进类型笔记 | 演进写作 |
-| `write-comparison-note/` | 编写比较分析笔记 | 比较分析 |
-| `review-knowledge-item/` | 评审知识产出物 | 评审阶段 |
+| Skill | 用途 | 常见触发点 |
+|-------|------|------------|
+| `create-research-item/` | 初始化研究项目结构 | `intake-workflow.md` / `new_change.sh` 前后 |
+| `extract-source-pack/` | 从 URL 提取来源包 | `source-workflow.md` |
+| `write-definition-atom/` | 编写定义型 primitive 笔记 | 专项 research workflow |
+| `write-mechanism-atom/` | 编写机制型 primitive 笔记 | 专项 research workflow |
+| `write-evolution-atom/` | 编写演进型 primitive 笔记 | 专项 research workflow |
+| `write-comparison-note/` | 编写横向比较笔记 | synthesis / comparison workflow |
+| `review-knowledge-item/` | 评审知识产出物 | `review-workflow.md` |
 
 ### Maintenance Skills (`skills/maintenance/`)
 
-| Skill | 用途 | 触发时机 |
-|-------|------|----------|
-| `refresh-existing-topic/` | 刷新现有主题 | 更新检查 |
-| `merge-change-into-knowledge/` | 合并 change 到 knowledge | apply 阶段 |
+| Skill | 用途 | 常见触发点 |
+|-------|------|------------|
+| `refresh-existing-topic/` | 刷新现有主题 | update / maintenance 场景 |
+| `merge-change-into-knowledge/` | 合并 change 到 knowledge | apply / publish 场景 |
 
 ### OpenSpec Research Skills (`skills/openspec-research-*/`)
 
-| Skill | 用途 | 触发时机 |
-|-------|------|----------|
-| `openspec-research-build-plan/` | 辅助生成 plan.md | 计划阶段 |
-| `openspec-research-build-draft/` | 辅助生成 draft.md | 写作阶段 |
-| `openspec-research-build-artifact/` | 辅助提升到 canonical 资产 | apply 阶段 |
+| Skill | 用途 | 常见触发点 |
+|-------|------|------------|
+| `openspec-research-build-request/` | 生成或修订 `request.md` | request 阶段 |
+| `openspec-research-build-plan/` | 生成或修订 `plan.md` | plan 阶段 |
+| `openspec-research-build-draft/` | 生成或修订 `draft.md` | draft 阶段 |
+| `openspec-research-build-artifact/` | 提炼长期 `artifact.md` / `verdict.md` | artifact 阶段 |
+| `openspec-research-build-research/` | 端到端串联 request → artifact | `research-pipeline.md` |
 
 ---
 
 ## 用户级 Skills（全局）
 
-以下 skills 配置在 `~/.claude/skills/`，优先使用：
+以下 global skills 不在本仓库内维护，但 workflow 会显式依赖它们：
 
-| Skill | 用途 |
-|-------|------|
-| `feipi-plantuml-generate-architecture-diagram` | 生成 PlantUML 架构图 |
-| `feipi-plantuml-generate-sequence-diagram` | 生成 PlantUML 时序图 |
-
----
-
-## Skill 使用方式
-
-### 1. 通过 Workflow 触发
-
-大部分 skills 会在 workflow 执行时自动调用。
-
-示例：
-- `intake-workflow.md` → `create-research-item/`
-- `source-workflow.md` → `extract-source-pack/`
-- `principle-atom-workflow.md` → `write-*-atom/`
-
-### 2. 直接调用
-
-用户可以直接请求使用特定 skill。
-
-示例：
-- "使用 `review-knowledge-item` 评审这个 draft"
-- "运行 `create-research-item` 创建新研究"
-
-### 3. 通过 OpenSpec 命令
-
-部分技能通过 OpenSpec 命令触发：
-```bash
-openspec instructions plan --change <name>    # 使用 openspec-research-build-plan
-openspec instructions draft --change <name>   # 使用 openspec-research-build-draft
-```
+| Skill | 用途 | 常见触发点 |
+|-------|------|------------|
+| `feipi-plantuml-generate-architecture-diagram` | 生成 PlantUML 架构图 | diagram / draft 阶段 |
+| `feipi-plantuml-generate-sequence-diagram` | 生成 PlantUML 时序图 | diagram / draft 阶段 |
 
 ---
 
-## 添加新 Skill
+## 使用原则
 
-1. 在对应类别目录创建 skill 目录
-2. 创建 `SKILL.md` 定义触发、输入输出、调用关系
-3. 更新本 README.md
-4. 测试 skill 功能
+### 1. 先 workflow，后 skill
+
+不要从 skill 反推流程。
+应先确定当前处于哪个 workflow / phase，再打开对应 `SKILL.md`。
+
+### 2. skill 只负责叶子动作
+
+`SKILL.md` 负责：
+- 输入输出
+- 调用时机
+- 叶子动作约束
+
+`SKILL.md` 不应复制上位 workflow / spec 的完整正文。
+
+### 3. 以阶段入口为真源
+
+若 `SKILL.md` 与以下文件冲突，以这些入口为准：
+- `harness/workflows/*.md`
+- `harness/rules/_phase_index.yaml`
+- `openspec/schemas/blockchain-research/schema.yaml`
+- `openspec/specs/*.md`
+
+---
+
+## 直接入口
+
+如需查看具体执行说明，直接打开对应文件：
+
+- `skills/openspec-research-build-request/SKILL.md`
+- `skills/openspec-research-build-plan/SKILL.md`
+- `skills/openspec-research-build-draft/SKILL.md`
+- `skills/openspec-research-build-artifact/SKILL.md`
+- `skills/openspec-research-build-research/SKILL.md`
+
+---
+
+## 维护要求
+
+新增或调整 skill 时，至少同步更新：
+
+1. 本 README 的索引
+2. 对应 `SKILL.md` 的输入输出
+3. 触发它的 workflow / command / agent 文档
+4. 如有脚本 gate，补充脚本路径与验收方式

@@ -11,9 +11,6 @@
   "permissions": {
     "allow": [
       "Bash(git mv:*)",
-      "Bash(mv .claude/commands/build-plan.md .claude/commands/spec-plan.md)",
-      "Bash(mv .claude/commands/build-draft.md .claude/commands/spec-draft.md)",
-      "Bash(mv .claude/commands/promote-artifact.md .claude/commands/spec-promote.md)",
       "WebSearch",
       "WebFetch(domain:github.com)",
       "WebFetch(domain:arxiv.org)",

@@ -49,10 +49,15 @@
 
 - **标准位置**：`openspec/changes/<change-id>/diagrams/<diagram-id>/`
 - **必须包含**：
+  - `brief.yaml` - 原始 brief
   - `brief.normalized.yaml` - 规范化后的 brief
   - `diagram.puml` - PlantUML 源码
   - `diagram.svg` - 渲染后的 SVG（render_result=ok 时）
   - `validation.json` - 验证结果合同
+
+说明：
+- `brief.normalized.yaml` 为推荐保留项；若 skill 未产出，不能伪造
+- `validation.json` 是必须保留的 audit 文件
 
 ### 3. 必须通过 validation.json 验证
 
@@ -92,7 +97,7 @@
 
 - 发现 hand-written PlantUML：视为 draft 未完成，必须删除后重新调用 skill
 - 发现手改后 hash 不匹配：视为内容被篡改，必须重新执行 skill 或恢复原始内容
-- 发现 validation.json 缺失或失败：必须重新执行完整的 validate_package.sh
+- 发现 validation.json 缺失或失败：必须重新执行对应全局 skill 的完整生成与校验流程
 
 ## Diagram Package 标准位置约定
 
@@ -103,6 +108,7 @@ openspec/changes/<change-id>/
 ├── draft.md                    # 包含 PlantUML blocks 和 contract comments
 └── diagrams/
     └── <diagram-id>/           # diagram package 目录
+        ├── brief.yaml
         ├── brief.normalized.yaml
         ├── diagram.puml        # PlantUML 源码
         ├── diagram.svg         # 渲染后的 SVG
@@ -164,7 +170,7 @@ openspec/changes/<change-id>/
 5. **参考资料链接自动验证（重复执行时必需）**
    - 提取 `draft.md`【参考资料】章节中所有链接
    - 对每个链接检查验证状态标记：
-     - 如为 `[未验证]` 或标注"网络限制"、"需手动确认"等，使用 `WebFetch` 重新尝试获取
+     - 如为 `[未验证]` 或标注"网络限制"、"需手动确认"等，优先按 `source-workflow.md` 使用 `searxng_search_web` 与 `crawl4ai md` 重新验证
      - 如为 `[已验证]`，跳过
    - 根据获取结果更新验证状态：
      - 成功获取并确认内容相关：更新为 `[已验证]`

@@ -167,8 +167,11 @@ end note
 ### 定期审查
 
 ```bash
-# 审查所有未决不确定性
-scripts/research/review_uncertainties.py --topic <topic>
+# 复查来源是否已有新增证据
+python scripts/research/validate_sources.py --topic <topic>
+
+# 复查 claim→source 追溯是否仍完整
+python scripts/general/check_traceability.py --topic <topic>
 ```
 
 ### 审查要点
@@ -189,5 +192,5 @@ scripts/research/review_uncertainties.py --topic <topic>
 
 - `openspec/specs/evidence-policy/spec.md`：证据等级政策（L1/L2/L3/L4 定义）
 - `harness/rules/research/source-validation-rules.md`：来源验证规则
-- `harness/rules/research/traceability-policy.md`：可追溯性要求（claim→source 映射）
+- `harness/rules/general/traceability-policy.md`：可追溯性要求（claim→source 映射）
 - `openspec/specs/analysis-principles/spec.md`：分析原则总政策

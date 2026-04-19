@@ -3,7 +3,7 @@
 # 渲染 PlantUML 图表
 #
 # 用法:
-#   scripts/diagrams/render.sh <diagram-file.puml> [--output-dir <dir>]
+#   scripts/maintenance/render.sh <diagram-file.puml> [--output-dir <dir>]
 #
 
 set -e

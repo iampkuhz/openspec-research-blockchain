@@ -282,7 +282,7 @@ python3 scripts/research/validate_draft_diagram_contract.py <change-dir>/draft.m
 ### Step 1: Brief 评审（PlantUML 类型，生成前）
 
 ```
-1. 执行 python3 scripts/validate_brief.py（skill 自动执行）
+1. 确认 global skill 已完成 brief 校验（skill 自动执行）
 2. 检查完整性、一致性、清晰度、可渲染性
 3. 输出 brief-evaluation.yaml
 4. 状态为 blocked 时，先修复 brief

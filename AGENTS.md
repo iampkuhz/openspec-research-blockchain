@@ -287,7 +287,7 @@ OpenSpec 区块链研究协作的导航入口。
 | 脚本 | 用途 | 用法 |
 |------|------|------|
 | `init_research_item.py` | 初始化研究项目 | `--topic <topic> --type <type>` |
-| `check_frontmatter.py` | 检查 frontmatter | `[file\|directory]` |
+| `check_frontmatter.py` | 检查 `knowledge/` 长期资产 frontmatter | `[knowledge/\|artifact.md\|verdict.md]` |
 | `check_traceability.py` | 检查可追溯性 | `--topic <topic>` |
 | `validate_knowledge_tree.py` | 检查长期资产目录树 | `[directory]` |
 

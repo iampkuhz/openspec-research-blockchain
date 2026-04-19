@@ -30,12 +30,11 @@ description: 用于把稳定的 draft.md 结果提炼进长期 artifact 目录�
 - 目标 change 目录路径
 
 **输出：**
-- `knowledge/analysis/.../artifact.md`（primitive / synthesis / domain 类型）
+- `knowledge/analysis/.../artifact.md`（primitive / synthesis 类型）
 - `knowledge/decisions/.../artifact.md` + `verdict.md`（decision 类型）
 
 ## 适用的长期目录范围
 
 - `knowledge/analysis/primitives/` —— primitive 类型
 - `knowledge/analysis/synthesis/` —— synthesis 类型
-- `knowledge/analysis/domains/` —— domain 类型
 - `knowledge/decisions/` —— decision 类型

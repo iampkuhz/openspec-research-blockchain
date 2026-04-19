@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # PlantUML 语法校验脚本
-# 用法：bash scripts/check_plantuml.sh <input.puml> [--svg-output <output.svg>]
+# 用法：bash scripts/diagrams/check_plantuml.sh <input.puml> [--svg-output <output.svg>]
 # 使用本地 PlantUML server (端口 8199) 进行语法校验和 SVG 生成
 
 set -e

@@ -69,7 +69,7 @@
 ## 校验流程
 
 ```
-1. Schema 校验 → python3 scripts/validate_brief.py
+1. Schema 校验 → 由 diagram global skill 内部执行
 2. 完整性检查 → 必检项清单
 3. 一致性检查 → 引用有效性
 4. 清晰度检查 → 人工/语义判断

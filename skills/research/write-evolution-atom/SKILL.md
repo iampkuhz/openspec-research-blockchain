@@ -27,7 +27,7 @@
 ## Files to Read
 
 - `harness/workflows/principle-atom-workflow.md` - Atom 写作流程
-- `harness/rules/research/evolution-rules.md` - 演进分析规则
+- `harness/rules/research/atom-evolution-rules.md` - 演进分析规则
 - `openspec/changes/<change-id>/sources/` - 来源
 
 ## Files to Write
