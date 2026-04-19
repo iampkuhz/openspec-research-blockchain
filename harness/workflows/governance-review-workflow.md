@@ -23,6 +23,7 @@
 - 来源收集与验证、图表生成
 - 一般性的 research workflow 微调
 - 与仓库分层无关的 skills 优化
+- 周期性 repo-wide 规约卫生审计、孤岛文件扫描、死引用清理（改用 `spec-system-audit-workflow.md`）
 
 ## 必需输入
 

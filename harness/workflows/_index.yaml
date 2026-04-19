@@ -78,6 +78,11 @@ workflows:
     trigger: "修改 openspec/**、harness/**、.claude/**、AGENTS.md、docs/governance/"
     output: "openspec/changes/<change-id>/review/governance-review.md"
 
+  - name: spec-system-audit-workflow.md
+    description: "规约体系周期性审计与清理：触发链、索引链、孤岛文件、死引用"
+    trigger: "需要对仓库规约体系做 repo-wide hygiene audit 或手工清理"
+    output: "会话总结；如需落盘则为 harness/reports/spec-system-audit-YYYY-MM-DD.md 或 review/spec-system-audit.md"
+
 categories:
   research:
     - research-pipeline.md
@@ -93,3 +98,4 @@ categories:
     - update-existing-knowledge.md
   governance:
     - governance-review-workflow.md
+    - spec-system-audit-workflow.md

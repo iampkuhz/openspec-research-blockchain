@@ -21,6 +21,7 @@
 - 启动时先读取 `@AGENTS.md`，将其视为仓库导航入口。
 - Claude 侧再读取 [`.claude/README.md`](./.claude/README.md)，按 command / agent / rule / settings 索引渐进下钻。
 - 对涉及 `.claude/**`、`openspec/**`、`harness/**`、`AGENTS.md`、`docs/governance/**` 的治理型修改，走 governance review 路由。
+- 对周期性规约体系体检、孤岛扫描、死引用清理，走 `spec-system-audit` 路由。
 
 ## 快速索引
 
@@ -35,4 +36,5 @@
 | Change 流程 | [`openspec/changes/README.md`](./openspec/changes/README.md) |
 | 治理文档索引 | [`docs/governance/README.md`](./docs/governance/README.md) |
 | 研究 Command 入口 | [`.claude/commands/spec-research.md`](./.claude/commands/spec-research.md) |
+| 规约体系审计入口 | [`.claude/commands/spec-system-audit.md`](./.claude/commands/spec-system-audit.md) |
 | Claude 输出语言规则 | [`.claude/rules/language-output.md`](./.claude/rules/language-output.md) |

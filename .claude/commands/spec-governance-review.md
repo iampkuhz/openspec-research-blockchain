@@ -36,6 +36,8 @@ governance 与 routing 类任务的主会话 orchestrator 入口。
 - command routing
 - repository architecture
 
+如果目标是 **周期性 repo-wide 规约体系体检**，例如排查孤岛文件、死引用、失效脚本 gate、索引链缺口，而不是评审某次具体治理改动，则不要使用本 command，改用 `spec-system-audit.md`。
+
 ## 执行模型
 
 - 本 command 是 governance / routing / repository architecture 变更的评审入口，保持在主会话执行。

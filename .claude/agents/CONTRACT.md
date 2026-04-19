@@ -98,6 +98,7 @@ Author agents 的特点：
 | `review-critic-agent` | 独立技术评审 | 主会话 orchestrator |
 | `publish-agent` | 长期 artifact 提炼 | 主会话 orchestrator |
 | `governance-review-agent` | 治理边界评审 | 主会话 orchestrator |
+| `spec-system-audit-agent` | 仓库规约体系审计与清理 | 主会话 orchestrator |
 
 Specialist agents 的特点：
 - 不负责 `request.md` / `plan.md` / `draft.md` 的写作

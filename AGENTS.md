@@ -99,6 +99,7 @@ OpenSpec 区块链研究协作的导航入口。
 | `review` | 评审研究产出 | `harness/workflows/review-workflow.md` | `openspec/changes/<id>/review/` |
 | `apply` | 应用到 knowledge | `openspec/config.yaml` apply 段 | `knowledge/analysis/` 或 `knowledge/decisions/` |
 | `governance-review` | 修改 OpenSpec / Harness / AGENTS 路由 | `harness/workflows/governance-review-workflow.md` | `openspec/changes/<id>/review/` |
+| `spec-system-audit` | 定期审查规约体系触发链、索引链与死引用 | `harness/workflows/spec-system-audit-workflow.md` | 会话总结 / `harness/reports/`（可选） |
 
 ### v1 Multi-Agent 执行（条件加载）
 
@@ -123,6 +124,7 @@ OpenSpec 区块链研究协作的导航入口。
 | @diagram-agent | 图表生成与验证 |
 | @review-critic-agent | 独立技术评审、traceability audit |
 | @publish-agent | artifact 提炼与 update impact scan |
+| @spec-system-audit-agent | 仓库规约体系审计、孤岛文件与死引用清理 |
 
 **多 agent 边界**：
 - 只允许主会话 orchestrator 调用 specialist agent；author agent 不再嵌套拉起其他 subagent。
@@ -134,6 +136,7 @@ OpenSpec 区块链研究协作的导航入口。
 | Agent | 激活条件 |
 |-------|----------|
 | @governance-review-agent | 修改 `openspec/**`、`harness/**`、`AGENTS.md`、`docs/governance/**` |
+| @spec-system-audit-agent | 需要做 repo-wide 规约体系周期性清理或卫生审计 |
 
 **Agent 合同规范**：`.claude/agents/CONTRACT.md`
 
@@ -368,6 +371,7 @@ OpenSpec 区块链研究协作的导航入口。
 | 流程问题（下一步做什么） | `harness/workflows/_index.yaml` → 对应 workflow |
 | 阶段加载问题（当前该读哪些规范） | `harness/rules/_phase_index.yaml` |
 | 执行角色问题（谁来做、怎么分工） | `.claude/README.md` → `.claude/agents/` |
+| 规约体系体检（孤岛、死引用、触发链） | `.claude/commands/spec-system-audit.md` → `harness/workflows/spec-system-audit-workflow.md` |
 | 规范问题（如何写/约束） | `harness/rules/_index.yaml` → 对应规则域 |
 | 操作问题（具体执行） | `skills/` |
 | 自动化需求（脚本） | `scripts/` |

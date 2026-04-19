@@ -9,6 +9,7 @@
 | 文件 | 类型 | 用途 |
 |------|------|------|
 | `ai-native-progress-2026-W15.md` | 进展周报 | 记录当周架构推进情况与里程碑 |
+| `spec-system-audit-YYYY-MM-DD.md` | 规约体系审计报告（可选） | 按需固化一次 repo-wide hygiene audit 的发现与 cleanup queue |
 
 ---
 

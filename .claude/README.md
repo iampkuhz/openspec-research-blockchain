@@ -22,6 +22,7 @@ Claude 侧的入口索引。先看这里，再下钻到具体 command、agent、
 | `spec-draft.md` | 只做 draft 阶段 | `harness/rules/_phase_index.yaml` 的 `draft` |
 | `spec-artifact.md` | 只做 artifact / publish 阶段 | `harness/rules/_phase_index.yaml` 的 `artifact` |
 | `spec-governance-review.md` | 规约、路由、仓库架构治理任务 | `harness/workflows/governance-review-workflow.md` |
+| `spec-system-audit.md` | 仓库规约体系周期性审计与清理 | `harness/workflows/spec-system-audit-workflow.md` |
 
 **读取顺序**：
 - 先用 command 判断场景
@@ -43,6 +44,7 @@ Claude 侧的入口索引。先看这里，再下钻到具体 command、agent、
 | `agents/review-critic-agent.md` | 独立评审 | draft 冻结后 |
 | `agents/publish-agent.md` | artifact 提炼与 apply 前检查 | review 通过后 |
 | `agents/governance-review-agent.md` | 边界与一致性评审 | governance 任务 |
+| `agents/spec-system-audit-agent.md` | 规约体系体检、孤岛/死引用清理 | repo hygiene audit |
 
 **调度原则**：
 - 主会话 orchestrator 统一调度 specialist agent。
