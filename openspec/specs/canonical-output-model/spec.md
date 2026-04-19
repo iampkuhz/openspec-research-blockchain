@@ -17,3 +17,9 @@
 - glossary 层默认折叠进 `artifact.md` 的“关键术语”区，不单独长期保留 `glossary.md`。
 - 过程性纠偏记录必须留在 `openspec/changes/`，不得进入长期目录。
 - 从 change packet 提升到长期资产时，必须做提炼，而不是整包照搬。
+
+## 格式要求
+
+- `artifact.md` 必须以目录（TOC）开头，方便导航。TOC 应覆盖所有一级和二级标题。
+- `verdict.md` 如超过 20 行，也应以目录开头。
+- TOC 使用标准 Markdown 列表格式，标题链接使用小写连字符形式。

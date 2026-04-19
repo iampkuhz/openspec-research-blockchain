@@ -31,3 +31,11 @@
 
 - 这个 spec 约束的是仓库布局，而不是某一个具体 case 的正文内容。
 - `artifact.md` 是唯一长期正式正文文件名；`reference.md` 和 `criteria.md` 都不是当前 canonical 长期文件名。
+
+## Change 归档
+
+- `openspec/changes/<change-id>/` 中的研究过程文件在 publish/apply 完成后，必须移动到 `openspec/changes/archive/<change-id>/`。
+- 归档由主会话 orchestrator 在 publish gate 完成后执行。
+- 未归档的 change 目录视为"进行中"状态；已归档的视为"已完成"状态。
+- 归档时保持目录结构不变，仅移动整个 change 目录到 `archive/` 子目录。
+- `sources/`、`diagrams/`、`review/` 等审计线索文件随 change 一起归档，不得丢弃。

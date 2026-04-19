@@ -57,6 +57,8 @@ effort: high
 3. 严格使用 OpenSpec canonical 路径，包括 `domain_id` 分组层级。
 4. update 场景下要识别兼容性与下游影响。
 5. 如目标路径、对象类型或 review gate 存在歧义，必须回报主会话。
+6. **TOC 强制**：写入的 `artifact.md` 必须以目录（TOC）开头，覆盖所有一级和二级标题。
+7. **增量更新检查**：如目标路径已有旧 artifact，必须比对新旧内容。旧内容保留率 < 50% 时必须标记 `needs-justification` 并回报主会话。禁止以"不相关"为由删除仍有效的旧内容。
 
 ## 禁止事项
 

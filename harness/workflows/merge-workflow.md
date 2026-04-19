@@ -101,9 +101,24 @@ Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>
 "
 ```
 
+### 步骤 5：归档 Change
+
+Apply 完成后，必须将 change 目录移动到归档位置：
+
+```bash
+mv openspec/changes/<change-id>/ openspec/changes/archive/<change-id>/
+git add openspec/changes/
+git commit -m "Archive <change-id>: <summary>"
+```
+
+- 归档时保持目录结构不变
+- `sources/`、`diagrams/`、`review/` 等审计线索随 change 一起归档
+- 未归档的 change 目录视为"进行中"状态
+
 ## 输出
 
 - `knowledge/analysis/` 或 `knowledge/decisions/` 更新
+- `openspec/changes/archive/<change-id>/` 归档完成
 - Git commit
 
 ## 完成标准
