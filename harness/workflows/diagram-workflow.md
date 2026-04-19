@@ -35,7 +35,7 @@
 
 ## 主要技能（优先使用）
 
-由主会话显式调用 @diagram-agent 执行本 workflow。
+由主会话显式调用 `diagram-agent` 执行本 workflow。
 
 | 图表类型 | Skill | 说明 |
 |----------|-------|------|

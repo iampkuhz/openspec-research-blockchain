@@ -33,7 +33,7 @@
 
 ## 默认执行角色
 
-- @governance-review-agent
+- `governance-review-agent`
 
 ## 规则加载策略
 

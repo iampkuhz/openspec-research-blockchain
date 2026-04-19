@@ -56,8 +56,8 @@ sources/ + diagrams/ -> plan.md / draft.md / review/
 默认执行面采用“主会话 authoring + specialist subagent”结构：
 
 - 主会话 orchestrator：负责 `request.md`、`plan.md`、`draft.md` 主链写作与阶段编排
-- 常驻 specialist：@source-evidence-agent、@review-critic-agent、@publish-agent
-- 条件 specialist：@diagram-agent、@governance-review-agent
+- 常驻 specialist：`source-evidence-agent`、`review-critic-agent`、`publish-agent`
+- 条件 specialist：`diagram-agent`、`governance-review-agent`
 
 角色真源位于：
 

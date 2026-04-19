@@ -39,11 +39,11 @@
 
 ## 默认执行角色
 
-- `@spec-system-audit-agent`
+- `spec-system-audit-agent`
 
 ## 可选升级角色
 
-- `@governance-review-agent`
+- `governance-review-agent`
 
 仅当审计发现 OpenSpec / Harness / `.claude` 的职责边界争议、需要架构级重构时，由主会话决定是否升级调用。
 

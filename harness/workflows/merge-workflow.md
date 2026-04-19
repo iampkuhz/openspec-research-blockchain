@@ -20,9 +20,9 @@
 
 ## 默认执行角色
 
-- @publish-agent
+- `publish-agent`
 
-@publish-agent 除 artifact 提炼外，还负责在 update 场景下执行 impact scan 与兼容性检查。
+`publish-agent` 除 artifact 提炼外，还负责在 update 场景下执行 impact scan 与兼容性检查。
 
 ## 规则加载策略
 
