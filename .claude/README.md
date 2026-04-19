@@ -56,7 +56,7 @@ Claude 侧的入口索引。先看这里，再下钻到具体 command、agent、
 
 | 文件 | 用途 | 何时读取 |
 |------|------|----------|
-| `rules/language-output.md` | Claude 过程输出语言约束 | 任何 Claude 可见输出前 |
+| `rules/language-output.md` | 过程输出 + Thinking 中文强制指令（最高优先级） | 每次请求加载 |
 
 ---
 
