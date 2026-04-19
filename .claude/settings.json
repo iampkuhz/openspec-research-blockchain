@@ -1,4 +1,19 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
-  "language": "chinese"
+  "language": "chinese",
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "FILE=$(jq -r '.tool_response.filePath // .tool_input.file_path' 2>/dev/null); echo \"$FILE\" | grep -qE '^knowledge/.*\\.(artifact|verdict)\\.md$' && echo \"=== PostToolUse hook: Validating knowledge artifact ===\" && python3 scripts/general/check_knowledge_artifacts.py \"$FILE\" || true",
+            "timeout": 30,
+            "statusMessage": "Validating knowledge artifact..."
+          }
+        ]
+      }
+    ]
+  }
 }

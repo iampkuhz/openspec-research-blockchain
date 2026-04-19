@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+# pre-commit hook: validate knowledge/ artifact files before commit
+#
+# Installed via scripts/setup-hooks.sh (symlink to .git/hooks/pre-commit)
+# Only runs when staged changes include knowledge/**/artifact.md or knowledge/**/verdict.md.
+
+set -e
+
+REPO_ROOT=$(git rev-parse --show-toplevel)
+
+# 获取所有 staged 的文件（包括新增、修改、删除）
+STAGED_FILES=$(git diff --cached --name-only --diff-filter=ACM 2>/dev/null || true)
+
+if [ -z "$STAGED_FILES" ]; then
+    exit 0
+fi
+
+# 筛选 knowledge/ 下的 artifact.md 和 verdict.md
+KNOWLEDGE_FILES=""
+for f in $STAGED_FILES; do
+    case "$f" in
+        knowledge/*/artifact.md|knowledge/*/verdict.md|knowledge/*/*/artifact.md|knowledge/*/*/verdict.md|knowledge/*/*/*/artifact.md|knowledge/*/*/*/verdict.md)
+            KNOWLEDGE_FILES="$KNOWLEDGE_FILES $f"
+            ;;
+    esac
+done
+
+if [ -z "$KNOWLEDGE_FILES" ]; then
+    # 没有涉及 knowledge/ 的变更，跳过校验
+    exit 0
+fi
+
+echo "=== Pre-commit: Validating knowledge artifacts ==="
+
+# 运行统一校验脚本
+cd "$REPO_ROOT"
+python3 scripts/general/check_knowledge_artifacts.py $KNOWLEDGE_FILES
