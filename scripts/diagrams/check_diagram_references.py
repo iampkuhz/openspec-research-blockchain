@@ -16,7 +16,7 @@ def parse_args():
     parser = argparse.ArgumentParser(description='检查 Diagram 引用')
     parser.add_argument('diagram_id', help='Diagram ID')
     parser.add_argument('--topic', required=True, help='Topic 名称')
-    parser.add_argument('--knowledge-dir', default='knowledge/topics', help='knowledge 目录')
+    parser.add_argument('--knowledge-dir', default='knowledge', help='knowledge 目录')
     return parser.parse_args()
 
 

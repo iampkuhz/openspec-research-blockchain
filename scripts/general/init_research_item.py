@@ -20,7 +20,7 @@ def parse_args():
                        choices=['primitive', 'synthesis', 'domain', 'decision'],
                        help='研究对象类型')
     parser.add_argument('--domain', help='所属域（可选）')
-    parser.add_argument('--output', default='knowledge/topics', help='输出目录')
+    parser.add_argument('--output', default='knowledge', help='输出目录')
     return parser.parse_args()
 
 

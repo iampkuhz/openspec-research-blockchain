@@ -10,6 +10,7 @@
 |------|------|----------|
 | `openspec-harness-boundary.md` | OpenSpec / Harness 边界规范 | 修改 schema/specs/templates/workflows/rules/.claude/AGENTS 路由时 |
 | `knowledge-directory-model-redesign.md` | `knowledge/` 目录模型的历史设计说明 | 需要理解当前目录模型为何演化成现在这样，或评估进一步目录迁移时 |
+| `../../CONTRIBUTING.md` | 协作维护指南（新增研究流程、命名规范、内容规范、提交前检查） | 新用户入门或审查研究产出格式时 |
 
 ---
 

@@ -15,7 +15,7 @@ from datetime import datetime
 def parse_args():
     parser = argparse.ArgumentParser(description='标准化 claims 格式')
     parser.add_argument('--topic', required=True, help='主题名称')
-    parser.add_argument('--knowledge-dir', default='knowledge/topics', help='knowledge 目录')
+    parser.add_argument('--knowledge-dir', default='knowledge', help='knowledge 目录')
     parser.add_argument('--dry-run', action='store_true', help='仅显示变更，不实际写入')
     return parser.parse_args()
 

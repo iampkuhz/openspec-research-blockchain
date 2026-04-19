@@ -13,9 +13,7 @@
    - `request.md`
    - `plan.md`
    - `draft.md`
-5. 如为上层研究，补充：
-   - `dependencies.md`
-   - `evidence-matrix.md`
+5. 如为上层研究（domain / synthesis），在 `plan.md` 中声明依赖对象与依赖原因。
 6. 如为场景型对比，额外补充：
    - `decision-criteria.md`
 7. 本轮研究稳定后，把 durable 结果提炼进 `knowledge/analysis/` 或 `knowledge/decisions/`，而不是把 `request.md`、`plan.md` 直接留在长期目录里。
@@ -24,7 +22,7 @@
 
 - 目录名使用稳定、可预测的 kebab-case。
 - `primitive` 和 `synthesis` 不应默认按某个 `domain` 作为父路径分组。
-- `domain` 关联应通过 `plan.md`、`dependencies.md` 或正文链接声明，而不是通过硬编码目录层级声明。
+- `domain` 关联应通过路径和 `plan.md` 声明，而不是通过硬编码目录层级声明。
 - `synthesis` 和 `decision` 目录名应直接体现研究问题，而不是使用模糊代号。
 
 ## 内容规范

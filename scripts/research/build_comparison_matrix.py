@@ -15,7 +15,7 @@ from datetime import datetime
 def parse_args():
     parser = argparse.ArgumentParser(description='构建比较矩阵')
     parser.add_argument('--topics', required=True, help='逗号分隔的 topic 列表')
-    parser.add_argument('--knowledge-dir', default='knowledge/topics', help='knowledge 目录')
+    parser.add_argument('--knowledge-dir', default='knowledge', help='knowledge 目录')
     parser.add_argument('--output', required=True, help='输出文件')
     parser.add_argument('--dimensions', nargs='+', default=['mechanism', 'performance', 'maturity'],
                        help='比较维度')
