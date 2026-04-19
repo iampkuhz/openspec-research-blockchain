@@ -32,6 +32,18 @@
 2. **研究目标已达成**
    - `plan.md` 中定义的完成标准已满足
 
+## apply 前校验 gate
+
+在将内容写入 `knowledge/` 前，必须执行三层校验：
+
+| 校验脚本 | 职责 | 失败处理 |
+|----------|------|----------|
+| `scripts/general/check_frontmatter.py` | 校验 frontmatter 字段、枚举值、deprecated field 拒绝 | 阻止 apply |
+| `scripts/general/validate_knowledge_tree.py` | 校验目录结构、registry 一致性 | 阻止 apply |
+| `scripts/research/check_artifact_contract.py` | 校验最小章节集合 | 阻止 apply |
+
+执行顺序：先跑 `check_frontmatter.py`，再跑 `validate_knowledge_tree.py`，最后跑 `check_artifact_contract.py`。任一脚本返回 error 级别问题，不得写入 `knowledge/`。
+
 ## artifact 阶段的正式要求
 
 ### 长期资产结构要求

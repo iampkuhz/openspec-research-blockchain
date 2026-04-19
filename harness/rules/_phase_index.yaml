@@ -1,6 +1,6 @@
 # 阶段索引
 
-version: "1.0"
+version: "1.1"
 description: |
   按研究阶段声明依赖的 specs 与 rules。
   阶段切换时，Agent 读取本索引中该阶段的 depends 声明，自动加载对应文件。
@@ -12,7 +12,6 @@ phases:
     depends:
       specs:
         - evidence-policy
-        - language-style
       rules:
         - general/terminology-policy
         - research/atom-definition-rules
@@ -24,7 +23,6 @@ phases:
     depends:
       specs:
         - evidence-policy
-        - language-style
         - research-object-model
       rules:
         - general/traceability-policy

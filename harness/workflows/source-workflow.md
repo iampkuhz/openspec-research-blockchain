@@ -196,8 +196,7 @@ sources:
 
 ## 下一步
 
-→ 使用 `skills/openspec-research-build-plan/` 辅助生成 `plan.md`
-→ 或手动编写 `plan.md`，整合来源规划
+→ 由主会话 orchestrator 推进到 plan 阶段
 
 ## 异常处理
 

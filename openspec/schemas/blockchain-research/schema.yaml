@@ -14,7 +14,7 @@ artifacts:
       - 写清当前到底在问什么问题
       - 写清为什么现在需要研究这个问题
       - 明确范围与非目标
-      - 标注研究对象属于 domain、primitive、synthesis、decision 中的哪一类
+      - 标注研究对象属于 primitive、synthesis、decision 中的哪一类
       - 写清预期输出是什么
       - 不提前写结论
 
@@ -127,7 +127,7 @@ apply:
     - 将稳定的事实分析提升到 knowledge/analysis/
     - 将稳定的场景判断提升到 knowledge/decisions/
     - request.md、plan.md 仍保留在 openspec/changes/ 中，不进入长期目录
-    - primitive、synthesis、domain 的稳定内容提升为 knowledge 下的 artifact.md
+    - primitive、synthesis 的稳定内容提升为 knowledge 下的 artifact.md
     - decision 的 verdict.md 可以保留在长期目录
     - 依赖声明已合并入 plan.md，不单独提升为长期 dependencies.md
     - glossary 层默认折叠进 artifact.md 或 decision 的 artifact.md / verdict.md，不单独提升为长期 glossary.md
@@ -136,3 +136,9 @@ apply:
     - primitive artifact 应在文档开头标注研究深度（deep / focused / light）
     - diagrams/ 是 skill 执行中间产物，保留在 openspec/changes/<change-id>/，不复制到 knowledge/
     - artifact.md 必须嵌入完整 PlantUML 代码块，不得只引用外部文件
+
+    目录模型：
+    - primitive → knowledge/analysis/primitives/<domain_id>/<topic_slug>/artifact.md
+    - synthesis → knowledge/analysis/synthesis/<topic_slug>/artifact.md（扁平化）
+    - decision → knowledge/decisions/<domain_id>/<topic_slug>/artifact.md + verdict.md
+    - domain 是分组概念，不作为独立的 object_type

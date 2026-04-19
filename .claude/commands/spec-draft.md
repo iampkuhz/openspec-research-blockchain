@@ -17,7 +17,10 @@ argument-hint: "[change-path | change-name]"
 
 ## 执行模型
 
-- 保持在主会话执行。主会话负责路由、artifact 组装与 draft 完成状态判定。
+- 本 command 是**渐进式执行**模式下的 draft 阶段入口，保持在主会话执行。
+- 适用于用户只想完成 draft 阶段、暂不推进完整 pipeline 的场景。
+- 如果需要端到端执行（request → plan → draft → review → artifact），应使用 `/spec-research` 而非本 command。
+- 主会话负责路由、artifact 组装与 draft 完成状态判定。
 - `draft.md` 的主链写作保留在主会话；不要再额外拆出 author subagent。
 - **所有 PlantUML 图必须调用 `diagram-agent`**：当 plan.md 或图表清单中包含 PlantUML Architecture 或 PlantUML Sequence 图时，必须显式调用 `diagram-agent` subagent 进行生成和验证。
 - 遇到 evidence gap 或需要链接重验证时，由主会话显式调用 `source-evidence-agent` subagent。

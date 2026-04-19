@@ -17,7 +17,10 @@ argument-hint: "[change-path | change-name]"
 
 ## 执行模型
 
-- 保持在主会话执行。主会话负责路由判断、目标路径解析、质量门控与最终写入。
+- 本 command 是**渐进式执行**模式下的 request 阶段入口，保持在主会话执行。
+- 适用于用户只想先完成 request 阶段、暂不推进完整 pipeline 的场景。
+- 如果需要端到端执行（request → plan → draft → review → artifact），应使用 `/spec-research` 而非本 command。
+- 主会话负责路由判断、目标路径解析、质量门控与最终写入。
 - `request.md` 的主链写作保留在主会话；不要再额外拆出 author subagent。
 - 如果当前任务实际是在改 OpenSpec / Harness / `.claude/` / `AGENTS.md` / `docs/governance/`，不要走 research pipeline，改走 governance review 路由，并显式调用 `governance-review-agent`。
 - 不要让一个 subagent 再去调用另一个 subagent。所有 delegation 都由主会话决定。

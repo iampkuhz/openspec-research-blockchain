@@ -17,7 +17,10 @@ argument-hint: "[change-path | change-name]"
 
 ## 执行模型
 
-- 保持在主会话执行。主会话负责路由、handoff 回收与最终质量门控。
+- 本 command 是**渐进式执行**模式下的 plan 阶段入口，保持在主会话执行。
+- 适用于用户只想先完成 plan 阶段、暂不推进完整 pipeline 的场景。
+- 如果需要端到端执行（request → plan → draft → review → artifact），应使用 `/spec-research` 而非本 command。
+- 主会话负责路由、handoff 回收与最终质量门控。
 - `plan.md` 的主链写作保留在主会话；不要再额外拆出 author subagent。
 - 需要来源收集、链接验证或 evidence gap 分析时，由主会话显式调用 `source-evidence-agent` subagent。
 - 如果当前任务实际属于 governance / routing / repository architecture 变更，切换到 governance review 路由，并显式调用 `governance-review-agent`。

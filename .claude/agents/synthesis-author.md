@@ -43,7 +43,7 @@ effort: high
 - 各依赖 primitive 的 `sources/source-review.md`
 - `openspec/schemas/blockchain-research/schema.yaml`
 - `openspec/schemas/blockchain-research/templates/draft.md`
-- `harness/rules/research/atom-comparison-rules.md`
+- `harness/rules/research/note-comparison-rules.md`
 
 ## 写入范围
 

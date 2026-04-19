@@ -214,8 +214,7 @@ UserOperation 是基本单位 [L1: EIP-4337]。
 
 ## 下一步
 
-→ 使用 `skills/openspec-research-build-draft/` 辅助生成 `draft.md`
-→ 或手动整合笔记到 `draft.md`
+→ 由主会话 orchestrator 整合笔记到 `draft.md`
 
 ## 异常处理
 
@@ -236,6 +235,6 @@ UserOperation 是基本单位 [L1: EIP-4337]。
 ### 术语不一致
 
 **处理**：
-1. 检查 `knowledge/glossary/meta/`
+1. 检查 `harness/rules/general/terminology-policy.md` 与 `GLOBAL-GLOSSARY.md`
 2. 统一定义
 3. 记录术语决策

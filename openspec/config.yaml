@@ -17,16 +17,16 @@ context: |
   仓库类型：基于 OpenSpec 的区块链技术调研工作台。
 
   长期正式资产统一挂在 knowledge/ 下，分为两类：
-  - knowledge/analysis/primitives/：底层机制研究（按领域分组）
-  - knowledge/analysis/synthesis/：演进/综合分析
-  - knowledge/analysis/domains/：主题域定义
-  - knowledge/decisions/：场景决策分析
+  - knowledge/analysis/primitives/<domain_id>/<topic_slug>/artifact.md：底层机制研究（按 domain 分组）
+  - knowledge/analysis/synthesis/<topic_slug>/artifact.md：演进/综合分析（扁平化）
+  - knowledge/decisions/<domain_id>/<topic_slug>/artifact.md + verdict.md：场景决策分析
 
   研究对象模型：
   - primitive：单个协议、EIP、机制
   - synthesis：多个对象之间的关系、演进、分类
-  - domain：长期主题域与知识组织层
   - decision：面向场景的比较、选型与判断
+
+  domain 是 taxonomy / 浏览分组概念，不是独立的 object_type。
 
   研究路径：
   - deep-dive：单个对象深度分析
@@ -130,10 +130,11 @@ apply:
     将通过评审的 draft 提升到 knowledge/ 长期资产：
 
     目标位置：
-    - primitive → knowledge/analysis/primitives/<domain>/<topic>/artifact.md
-    - synthesis → knowledge/analysis/synthesis/<topic>/artifact.md
-    - domain → knowledge/analysis/domains/<domain>/artifact.md
-    - decision → knowledge/decisions/<domain>/<topic>/artifact.md + verdict.md
+    - primitive → knowledge/analysis/primitives/<domain_id>/<topic_slug>/artifact.md
+    - synthesis → knowledge/analysis/synthesis/<topic_slug>/artifact.md
+    - decision → knowledge/decisions/<domain_id>/<topic_slug>/artifact.md + verdict.md
+
+    domain 是 taxonomy / 浏览分组概念，不作为独立的 object_type，不提供独立的 artifact.md。
 
     过程文件（request.md, plan.md）保留在 openspec/changes/，不进入 knowledge/。
     术语区默认折叠进 artifact.md 或 verdict.md。

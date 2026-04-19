@@ -30,10 +30,9 @@
 
 | 类型 | 描述 | 示例 | 产出位置 |
 |------|------|------|----------|
-| **primitive** | 单个协议/EIP/机制 | eip-4337, consensus-qbft | `knowledge/analysis/primitives/` |
-| **synthesis** | 关系/演进/分类分析 | aa-eip-evolution, bft-comparison | `knowledge/analysis/synthesis/` |
-| **domain** | 主题域定义 | account-abstraction | `knowledge/analysis/domains/` |
-| **decision** | 场景决策 | agentic-payment | `knowledge/decisions/` |
+| **primitive** | 单个协议/EIP/机制 | eip-4337, consensus-qbft | `knowledge/analysis/primitives/<domain_id>/<topic>/artifact.md` |
+| **synthesis** | 关系/演进/分类分析 | aa-eip-evolution, bft-comparison | `knowledge/analysis/synthesis/<topic>/artifact.md` |
+| **decision** | 场景决策 | agentic-payment | `knowledge/decisions/<domain_id>/<topic>/artifact.md` + `verdict.md` |
 
 ### 步骤 2：判断研究路径
 

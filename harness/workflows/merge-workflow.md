@@ -51,10 +51,23 @@
 
 | 类型 | 目标位置 | 产物 |
 |------|----------|------|
-| **primitive** | `knowledge/analysis/primitives/<domain>/<topic>/` | `artifact.md` |
-| **synthesis** | `knowledge/analysis/synthesis/<topic>/` | `artifact.md` |
-| **domain** | `knowledge/analysis/domains/<domain>/` | `artifact.md` |
-| **decision** | `knowledge/decisions/<domain>/<topic>/` | `artifact.md` + `verdict.md` |
+| **primitive** | `knowledge/analysis/primitives/<domain_id>/<topic_slug>/` | `artifact.md` |
+| **synthesis** | `knowledge/analysis/synthesis/<topic_slug>/` | `artifact.md` |
+| **decision** | `knowledge/decisions/<domain_id>/<topic_slug>/` | `artifact.md` + `verdict.md` |
+
+domain 是分组概念，不作为独立的 object_type，不提供独立的 artifact.md。
+
+### 步骤 2.5：执行 Apply 前校验
+
+在写入 `knowledge/` 前，必须执行三层校验：
+
+| 校验脚本 | 职责 | 失败处理 |
+|----------|------|----------|
+| `scripts/general/check_frontmatter.py` | 校验 frontmatter 字段、枚举值、deprecated field 拒绝 | 阻止 apply |
+| `scripts/general/validate_knowledge_tree.py` | 校验目录结构、registry 一致性 | 阻止 apply |
+| `scripts/research/check_artifact_contract.py` | 校验最小章节集合 | 阻止 apply |
+
+任一脚本返回 error 级别问题，不得写入 `knowledge/`。
 
 ### 步骤 3：执行 Apply
 

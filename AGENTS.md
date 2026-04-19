@@ -135,8 +135,10 @@ OpenSpec 区块链研究协作的导航入口。
 
 | 资产类型 | 路径 | 产出物 | 用途 |
 |----------|------|--------|------|
-| **事实分析** | `knowledge/analysis/` | `artifact.md` | 技术机制、演进关系、域定义 |
-| **场景决策** | `knowledge/decisions/` | `artifact.md` + `verdict.md` | 场景比较、选型判断 |
+| **事实分析** | `knowledge/analysis/` | `artifact.md` | 技术机制、演进关系（primitives 按 domain_id 分组，synthesis 扁平化） |
+| **场景决策** | `knowledge/decisions/` | `artifact.md` + `verdict.md` | 场景比较、选型判断（按 domain_id 分组） |
+
+**domain 是分组概念**，不作为独立的 `object_type`，不提供独立的 `artifact.md`。
 
 **过程产物（不进入长期目录）**：
 
@@ -155,10 +157,9 @@ OpenSpec 区块链研究协作的导航入口。
 
 | 类型 | 描述 | 示例 | 产出位置 |
 |------|------|------|----------|
-| **primitive** | 单个协议/EIP/机制 | eip-4337, consensus-qbft | `knowledge/analysis/primitives/` |
-| **synthesis** | 关系/演进/分类分析 | aa-eip-evolution, bft-comparison | `knowledge/analysis/synthesis/` |
-| **domain** | 主题域定义 | account-abstraction | `knowledge/analysis/domains/` |
-| **decision** | 场景决策 | agentic-payment | `knowledge/decisions/` |
+| **primitive** | 单个协议/EIP/机制 | eip-4337, consensus-qbft | `knowledge/analysis/primitives/<domain_id>/<topic>/artifact.md` |
+| **synthesis** | 关系/演进/分类分析 | aa-eip-evolution, bft-comparison | `knowledge/analysis/synthesis/<topic>/artifact.md` |
+| **decision** | 场景决策 | agentic-payment | `knowledge/decisions/<domain_id>/<topic>/artifact.md` + `verdict.md` |
 
 **研究路径**：
 
@@ -288,7 +289,7 @@ OpenSpec 区块链研究协作的导航入口。
 
 | 脚本 | 用途 | 用法 |
 |------|------|------|
-| `move_change_outputs.py` | 移动 change 到 knowledge | `--change <id> --topic <topic> --domain <domain>` |
+| `move_change_outputs.py` | 手动 apply 时移动 change 到 knowledge（备选，主路径是 publish-agent） | `--change <id> --topic <slug> --type <type> --domain <domain_id>` |
 
 ### Diagram Scripts（备选）
 

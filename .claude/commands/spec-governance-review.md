@@ -38,7 +38,8 @@ governance 与 routing 类任务的主会话 orchestrator 入口。
 
 ## 执行模型
 
-- 保持在主会话执行。主会话负责 scope 判断、影响范围分析、实际改动与最终集成。
+- 本 command 是 governance / routing / repository architecture 变更的评审入口，保持在主会话执行。
+- 主会话负责 scope 判断、影响范围分析、实际改动与最终集成。
 - 由主会话显式调用 `governance-review-agent` subagent 做边界评审与一致性检查。
 - 如果任务既包含 governance review，也包含具体实现修改，治理评审先做，实际文件改动仍由主会话负责整合。
 - 不要让一个 subagent 再去调用另一个 subagent。

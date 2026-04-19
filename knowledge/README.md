@@ -1,68 +1,45 @@
-# Knowledge Directory
+# Knowledge 长期资产
 
-`knowledge/` 目录包含仓库的长期知识资产。
+本目录存放本仓库的长期研究资产，分为两类：
 
----
+- **`analysis/`**：长期事实分析（primitive、synthesis）
+- **`decisions/`**：长期场景判断（decision）
 
-## 资产模型
+## 对象类型
 
-**两套长期资产目录**：
-
-| 目录 | 用途 | 产出物 |
+| 类型 | 路径 | 交付物 |
 |------|------|--------|
-| `knowledge/analysis/` | 事实分析资产 | `artifact.md` |
-| `knowledge/decisions/` | 场景决策资产 | `artifact.md` + `verdict.md` |
+| `primitive` | `analysis/primitives/<domain_id>/<topic_slug>/artifact.md` | 单一协议/机制的长期分析 |
+| `synthesis` | `analysis/synthesis/<topic_slug>/artifact.md` | 演进/比较/分类分析 |
+| `decision` | `decisions/<domain_id>/<topic_slug>/artifact.md` + `verdict.md` | 场景判断与条件性结论 |
 
-**过程产物不进入 knowledge/**：
-- `request.md`、`plan.md`、`draft.md` 等保留在 `openspec/changes/<change-id>/`
-- 只有稳定的分析结果提升到 knowledge/
-
-**详情**：`openspec/schemas/blockchain-research/schema.yaml`
-
----
-
-## 目录结构
+## 目录模型
 
 ```
 knowledge/
-├── analysis/               # 事实分析资产
-│   ├── primitives/         # 底层机制（按领域分组）
-│   │   ├── account-abstraction/
-│   │   │   ├── eip-4337/
-│   │   │   └── eip-7702/
-│   │   └── scaling/
-│   ├── synthesis/          # 演进/综合分析
-│   │   └── aa-eip-evolution/
-│   └── domains/            # 主题域定义
-│       └── account-abstraction/
-├── decisions/              # 场景决策资产
-│   └── agentic-payment/
-└── glossary/meta/          # 术语元数据
-    ├── concept-categories.yaml
-    ├── layer-taxonomy.yaml
-    └── relation-types.yaml
+  analysis/
+    _registry/
+      domains.yaml          # domain 注册表
+    primitives/
+      <domain_id>/
+        <topic_slug>/
+          artifact.md
+    synthesis/
+      <topic_slug>/
+        artifact.md
+  decisions/
+    <domain_id>/
+      <topic_slug>/
+        artifact.md
+        verdict.md
 ```
 
----
+## 规则
 
-## 研究层级
-
-```
-primitive（底层机制） → synthesis（演进关系） → domain（问题域）
-                                                    ↓
-                                               decision（场景应用）
-```
-
-### 各层职责
-
-| 层级 | 职责 | 组织方式 | 文件 |
-|------|------|----------|------|
-| **primitives** | 单一对象的技术实现细节 | 按技术领域分组 | `artifact.md` |
-| **synthesis** | 多个对象之间的关系和发展脉络 | 按研究主题组织 | `artifact.md` |
-| **domains** | 问题空间的划分和边界 | 按问题空间组织 | `artifact.md` |
-| **decisions** | 场景驱动的比较和选型 | 按应用场景组织 | `artifact.md` + `verdict.md` |
-
----
+- 所有长期资产必须通过 OpenSpec change 流程产生（`openspec/changes/` → apply → `knowledge/`）
+- 禁止直接修改 `knowledge/` 主线
+- 每个 artifact 必须包含符合规范的 frontmatter
+- `domain` 是分组概念，不作为独立的 `object_type`
 
 ## 证据政策
 
@@ -74,25 +51,3 @@ primitive（底层机制） → synthesis（演进关系） → domain（问题�
 | L4 | 第三方分析/社区讨论 | 社区观点参考 |
 
 **详情**：`openspec/specs/evidence-policy/spec.md`
-
----
-
-## 更新流程
-
-**禁止**直接修改 `knowledge/` 下的主线知识。
-
-**必须**通过 OpenSpec change 流程：
-
-1. 在 `openspec/changes/` 创建 change
-2. 完成研究并产出 draft
-3. 通过 review 后 apply 到 knowledge
-
-**详情**：`openspec/changes/README.md`
-
----
-
-## 术语
-
-术语元数据位于 [glossary/meta/](./glossary/meta/)。
-
-具体术语定义在各 case 的 `artifact.md` 术语区。
