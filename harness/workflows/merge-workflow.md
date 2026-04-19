@@ -106,8 +106,8 @@ Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>
 Apply 完成后，必须将 change 目录移动到归档位置：
 
 ```bash
-mv openspec/changes/<change-id>/ openspec/changes/archive/<change-id>/
-git add openspec/changes/
+mv openspec/changes/<change-id>/ openspec/archive/<change-id>/
+git add openspec/changes/ openspec/archive/
 git commit -m "Archive <change-id>: <summary>"
 ```
 
@@ -118,7 +118,7 @@ git commit -m "Archive <change-id>: <summary>"
 ## 输出
 
 - `knowledge/analysis/` 或 `knowledge/decisions/` 更新
-- `openspec/changes/archive/<change-id>/` 归档完成
+- `openspec/archive/<change-id>/` 归档完成
 - Git commit
 
 ## 完成标准

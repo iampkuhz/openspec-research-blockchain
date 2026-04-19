@@ -34,7 +34,7 @@
 
 ## Change 归档
 
-- `openspec/changes/<change-id>/` 中的研究过程文件在 publish/apply 完成后，必须移动到 `openspec/changes/archive/<change-id>/`。
+- `openspec/changes/<change-id>/` 中的研究过程文件在 publish/apply 完成后，必须移动到 `openspec/archive/<change-id>/`。
 - 归档由主会话 orchestrator 在 publish gate 完成后执行。
 - 未归档的 change 目录视为"进行中"状态；已归档的视为"已完成"状态。
 - 归档时保持目录结构不变，仅移动整个 change 目录到 `archive/` 子目录。
