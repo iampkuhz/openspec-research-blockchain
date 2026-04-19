@@ -191,7 +191,7 @@ diagrams ────────────┘
 
 **输出**：
 - `draft.md`
-- `diagrams/`（如适用）
+- `diagrams/` 子目录（如适用，位于 `openspec/changes/<change-id>/diagrams/`）
 
 **强制要求**：
 
@@ -210,7 +210,7 @@ diagrams ────────────┘
 - `draft.md`
 - `plan.md`
 - `sources/`
-- `diagrams/`（如有）
+- `diagrams/` 子目录（如有，位于 `openspec/changes/<change-id>/diagrams/`）
 
 **输出**：
 - `review/checklist.yaml`
@@ -254,7 +254,7 @@ diagrams ────────────┘
 | source-evidence-agent | 主会话 | `source-review.md`、核心 excerpts、evidence gaps |
 | 主会话 | diagram-agent | 图表需求单、正文上下文、diagram type |
 | diagram-agent | 主会话 | diagram package、validation 结果、contract issue |
-| 主会话 | author agent | 已完成的 `sources/` / `diagrams/` handoff |
+| 主会话 | author agent | 已完成的 `sources/` / `diagrams/` handoff（位于 change 子目录） |
 | author agent | 主会话 | 完成的 `draft.md`、未决问题列表 |
 | 主会话 | review-critic-agent | 待审 `draft.md`、未决问题 |
 | review-critic-agent | 主会话 | `approved` / `approved with minor fixes` / `needs revision` 结论、必须修复项 |

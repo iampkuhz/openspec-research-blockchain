@@ -49,13 +49,17 @@ effort: high
 
 ## 写入范围
 
-- `diagrams/<diagram-id>/brief.yaml`
-- `diagrams/<diagram-id>/brief.normalized.yaml`
-- `diagrams/<diagram-id>/diagram.puml`
-- `diagrams/<diagram-id>/diagram.svg`
-- `diagrams/<diagram-id>/validation.json`
-- `diagrams/<diagram-id>/contract-issues.md`（如需要）
+**所有图表产物必须写入当前 change 的 diagrams 子目录**，路径格式为 `openspec/changes/<change-id>/diagrams/<diagram-id>/`：
+
+- `openspec/changes/<change-id>/diagrams/<diagram-id>/brief.yaml`
+- `openspec/changes/<change-id>/diagrams/<diagram-id>/brief.normalized.yaml`
+- `openspec/changes/<change-id>/diagrams/<diagram-id>/diagram.puml`
+- `openspec/changes/<change-id>/diagrams/<diagram-id>/diagram.svg`
+- `openspec/changes/<change-id>/diagrams/<diagram-id>/validation.json`
+- `openspec/changes/<change-id>/diagrams/<diagram-id>/contract-issues.md`（如需要）
 - 主会话明确指派时，对 `draft.md` 的图表相关更新
+
+**重要**：上述路径中的 `<change-id>` 是当前正在执行的 change 目录名称，不要省略。禁止在仓库顶层 `diagrams/` 目录创建图表。
 
 ## 工作合同
 

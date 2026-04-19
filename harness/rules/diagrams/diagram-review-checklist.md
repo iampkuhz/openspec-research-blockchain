@@ -39,7 +39,7 @@
 |--------|------|------|
 | 如使用 PlantUML，是否为 Architecture 或 Sequence 类型？ | | |
 | 如为 Architecture/Sequence，是否通过全局 skill 生成？ | | |
-| `diagrams/<id>/diagram.puml` 文件是否存在？ | | |
+| `openspec/changes/<change-id>/diagrams/<id>/diagram.puml` 文件是否存在？ | | |
 
 **违规处理**：
 - ❌ 使用 PlantUML 但类型为 State/Activity/Deployment → **Blocker**，必须降级为 Mermaid/表格/ASCII
@@ -56,7 +56,7 @@
 **验证命令**：
 ```bash
 # 检查 diagram.puml 文件是否存在
-ls ./diagrams/<diagram-id>/diagram.puml
+ls openspec/changes/<change-id>/diagrams/<diagram-id>/diagram.puml
 ```
 
 ### 检查项 3: Unsupported Type 硬塞检测
@@ -74,7 +74,7 @@ ls ./diagrams/<diagram-id>/diagram.puml
 **检测技巧**：
 - 搜索 `@startuml` 但无 `<!-- diagram:` → 可能为手写
 - 搜索 `stateDiagram` / `activityDiagram` in PlantUML → unsupported type
-- 有 diagram 但无 `diagrams/<id>/diagram.puml` → 可能为手写
+- 有 diagram 但无 `openspec/changes/<change-id>/diagrams/<id>/diagram.puml` → 可能为手写
 
 **违规处理**：
 - ❌ Unsupported type 使用 PlantUML → **Major**，建议降级为 Mermaid/表格/ASCII
@@ -124,7 +124,7 @@ ls ./diagrams/<diagram-id>/diagram.puml
 ### Brief 评审输出
 
 ```yaml
-# diagrams/reviews/<diagram-id>-brief-review.yaml
+# openspec/changes/<change-id>/diagrams/reviews/<diagram-id>-brief-review.yaml
 brief_path: assets/briefs/xxx.yaml
 reviewed_at: 2024-01-15
 
@@ -201,9 +201,9 @@ issues:
 ### PlantUML 评审输出
 
 ```yaml
-# diagrams/reviews/<diagram-id>-puml-review.yaml
+# openspec/changes/<change-id>/diagrams/reviews/<diagram-id>-puml-review.yaml
 diagram_id: erc4337-architecture-l2
-diagram_path: diagrams/source/erc4337-architecture.puml
+diagram_path: openspec/changes/<change-id>/diagrams/source/erc4337-architecture.puml
 reviewed_at: 2024-01-15
 
 dimensions:

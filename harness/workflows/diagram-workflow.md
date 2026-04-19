@@ -122,7 +122,7 @@ messages:
 **约束**：
 - brief 的 normalize / optimize 属于 skill 内部实现，不依赖本仓库脚本
 - workflow 只约束最终保留的 audit 产物，不约束 skill 内部是否生成 `brief.optimized.yaml`
-- 如 skill 产出 `brief.normalized.yaml`，应保留在 `diagrams/<diagram-id>/` 目录，供 contract 校验和人工复查
+- 如 skill 产出 `brief.normalized.yaml`，应保留在 `openspec/changes/<change-id>/diagrams/<diagram-id>/` 目录，供 contract 校验和人工复查
 
 ### 步骤 3：调用 Skill 生成（仅限 PlantUML 类型）
 

@@ -68,6 +68,53 @@ if [ -n "$PROCESS_FILES" ]; then
 fi
 
 # ==========================================================================
+# 检查 3: openspec/changes/ 下的 draft.md（diagram contract 校验）
+# ==========================================================================
+DRAFT_FILES=""
+for f in $STAGED_FILES; do
+    case "$f" in
+        openspec/changes/*/draft.md)
+            DRAFT_FILES="$DRAFT_FILES $f"
+            ;;
+    esac
+done
+
+if [ -n "$DRAFT_FILES" ]; then
+    echo "=== Pre-commit: Validating draft diagram contracts ==="
+
+    DRAFT_HAS_ERROR=0
+    for f in $DRAFT_FILES; do
+        if ! python3 scripts/research/validate_draft_diagram_contract.py "$f"; then
+            DRAFT_HAS_ERROR=1
+        fi
+    done
+
+    if [ "$DRAFT_HAS_ERROR" -eq 1 ]; then
+        HAS_ERROR=1
+    fi
+fi
+
+# ==========================================================================
+# 检查 4: knowledge/ 和 openspec/changes/ 下的 .md 文件（文档结构校验）
+# ==========================================================================
+STRUCTURE_FILES=""
+for f in $STAGED_FILES; do
+    case "$f" in
+        knowledge/**/*.md|openspec/changes/**/*.md)
+            STRUCTURE_FILES="$STRUCTURE_FILES $f"
+            ;;
+    esac
+done
+
+if [ -n "$STRUCTURE_FILES" ]; then
+    echo "=== Pre-commit: Validating document structure ==="
+
+    if ! python3 scripts/general/check_document_structure.py $STRUCTURE_FILES; then
+        HAS_ERROR=1
+    fi
+fi
+
+# ==========================================================================
 # 最终结果
 # ==========================================================================
 if [ "$HAS_ERROR" -eq 1 ]; then

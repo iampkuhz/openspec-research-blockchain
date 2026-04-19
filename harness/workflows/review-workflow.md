@@ -178,7 +178,7 @@ diagram_review:
 
 ### ISSUE-003: 图表可改进
 
-**位置**：diagrams/build/architecture.svg
+**位置**：openspec/changes/<change-id>/diagrams/<diagram-id>/diagram.svg
 
 **问题**：布局可优化
 
