@@ -56,9 +56,17 @@ argument-hint: "[change-path | research-topic]"
 | draft 评审 | `review-critic-agent` | 主会话/author agent 自我评审或跳过评审 |
 | artifact 提炼 | `publish-agent` | 主会话自行写入 knowledge/ |
 
-**例外**：如果 subagent 确实不可用（报错/超时），主会话可以按相同 contract 串行执行，但必须在完成总结中说明哪个 subagent 被 fallback 了。
+**Fallback 约束**：禁止直接 fallback。必须先尝试调用 subagent，确认失败后向用户请求二次确认，用户明确同意后才可按相同 contract 串行执行。详见第 3 节 Fallback。
 
 ## Research Flow
+
+### 0. request.md 约束（二次研究来源保护）
+
+在创建或校验 request.md 时，必须检查"范围与非目标"段：
+
+- **二次研究禁止切断来源验证**：request.md 的"非目标"中**不得**包含"不扩展研究新来源"、"不引入新外部来源"、"基于既有分析已确认的事实"等切断来源搜索的表述。
+- **既有 artifact 是起点，不是天花板**：二次研究的 request 必须明确既有 artifact 仅作为参考基线，仍需回源到原始项目仓库、文档、commit 历史等验证和补充信息。
+- 如发现 request.md 已包含此类自我设限表述，**必须先修正 request.md 再继续**。
 
 ### 1. Change 初始化
 
@@ -159,7 +167,12 @@ argument-hint: "[change-path | research-topic]"
 
 ### 3. Fallback
 
-- 如果某个适合的 subagent 当前不可用，主会话可以按相同 contract 串行继续，但必须在总结中说明。
+**禁止直接 fallback**。必须按以下三步执行：
+
+1. **先尝试调用 subagent**：不得跳过 subagent 直接由主会话代写
+2. **确认失败后上报**：subagent 调用失败（报错/超时/无响应）时，向主会话返回失败详情（agent 名称、失败原因、已完成的产物），并向用户请求二次确认是否 fallback
+3. **用户确认后执行**：只有用户明确同意 fallback 后，主会话才可按相同 contract 串行继续，必须在完成总结中说明哪个 subagent 被 fallback 了、fallback 原因、用户确认时间
+
 - 如果网络限制阻塞来源收集，记录 evidence gap，不要伪造确定性。
 - 如果 required PlantUML package 未通过 validation，不要声称 draft 已完成。
 

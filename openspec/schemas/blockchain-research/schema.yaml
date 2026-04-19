@@ -90,6 +90,8 @@ artifacts:
     instruction: |
       创建集中 review 用的研究草稿。
 
+      **来源前置门控**：在写入 draft.md 之前，必须确认 `sources/` 目录已存在。如果 sources/ 不存在，必须先向主会话返回来源需求 handoff，等待 `source-evidence-agent` 创建 sources/ 后再继续写 draft。二次研究（基于既有 artifact 的重新分析）同样必须创建 sources/，至少包含对既有 artifact 的证据审查记录和需要重新回源的来源清单。禁止在没有 sources/ 的情况下直接写 draft.md。
+
       必须完成：
       - 先补关键术语区，再进入分析正文
       - 先讲机制，再讨论价值
@@ -103,8 +105,18 @@ artifacts:
 
       类型适配：
       - primitive：重点写实体分类、角色与信任边界、角色内部组件、跨角色核心流程、按条件需要的状态转换、设计取舍、能力边界
+      - primitive（evolution 路径）：必须回答项目经历了几个阶段、每个阶段新增什么、抛弃什么、代表什么样的技术思考；演进分析应以阶段叙事为主线，版本号和发布日期仅作为辅助标注，不得作为主结构
       - synthesis：重点写演进框架、各对象定位、演进关系、趋势判断；**必须从依赖的 primitive draft.md 中提取 primitives 列表、架构描述和能力边界进行横向对比，不得脱离 primitive 独立撰写**
       - decision：重点写场景定义、比较维度、有限结论；**每个候选方案必须对应一个 primitive change，如需要横向综合还应依赖 synthesis change；候选方案评估必须从依赖的 primitive draft.md / synthesis draft.md 中提取，不得脱离依赖 draft 独立撰写**
+
+      写作约束：
+      - 禁止罗列无意义的精确数字（如 "initial commit 有 39 个文件"、"约 200 行代码"、"544+ commits"、"24 个 release"），除非该数字本身代表关键架构决策（如"将并发连接数从 1 改为 6"）
+      - 列表中同一层级的条目必须处于同一维度，禁止混用"新增某文件"和"某种设计模式"等不同维度的描述；同一列表中不得混排"新增"与"抛弃"条目
+      - 每个分析章节必须采用总-分结构：先用一段话概括该阶段/模块的核心特征与技术思考，再展开具体条目
+      - 演进类 artifact 必须包含至少一张演进路线图（ASCII 或 PlantUML timeline），不得仅用文字罗列版本
+      - 阶段叙事必须以"新增什么、抛弃什么、代表什么技术思考"为主线，版本号和发布日期仅作为辅助标注，不得作为主结构
+      - **阶段划分原则**：阶段必须按"架构模式变化"划分，而非按版本号或时间窗口划分。每个阶段应代表一次架构跃迁（如"从 X 模式变为 Y 模式"），同一阶段内的变化应属于同一主题
+      - **演进图表要求**：除架构图外，演进类 artifact 至少包含一张演进路线图，展示各阶段之间的架构跃迁关系；如有多个正交演进维度（如 agent 生态扩展、协议标准化），可分别用图表展示
 
       风格要求：
       - 中文优先
@@ -135,6 +147,7 @@ apply:
     - primitive artifact 应在文档开头标注研究深度（deep / focused / light）
     - diagrams/ 是 skill 执行中间产物，保留在 openspec/changes/<change-id>/，不复制到 knowledge/
     - artifact.md 必须嵌入完整 PlantUML 代码块，不得只引用外部文件
+    - 演进类 primitive artifact 必须包含至少一张演进路线图（ASCII 或 PlantUML timeline），阶段分析必须回答：经历了几个阶段、每阶段新增/抛弃了什么、代表了什么技术思考；阶段叙事以技术思考为主线，版本号和发布日期仅作为辅助标注
 
     目录模型：
     - primitive → knowledge/analysis/primitives/<domain_id>/<topic_slug>/artifact.md
