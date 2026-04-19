@@ -39,7 +39,6 @@
 |----------|----------|------|
 | primitive | `atom-definition-rules.md` 或 `atom-mechanism-rules.md` | `harness/rules/research/` |
 | synthesis | `atom-evolution-rules.md` 或 `note-comparison-rules.md` | `harness/rules/research/` |
-| domain | `atom-definition-rules.md` | `harness/rules/research/` |
 | decision | `note-comparison-rules.md` | `harness/rules/research/` |
 
 ### 按需加载（执行到对应步骤前）

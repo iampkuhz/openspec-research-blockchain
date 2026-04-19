@@ -42,8 +42,8 @@
 ### 研究对象要求
 
 必须明确声明：
-- **对象类型**：domain / primitive / synthesis / decision
-- **研究路径**：deep-dive / evolution / scenario / domain overview
+- **对象类型**：primitive / synthesis / decision
+- **研究路径**：deep-dive / evolution / scenario
 - **相关 domains**：可多个
 
 ### 待确认问题要求

@@ -162,3 +162,11 @@ end note
 - [ ] 所有 flows 都落图
 - [ ] 箭头方向与 `from`/`to` 一致
 - [ ] 隐式依赖在图中标注（如适用）
+
+## 相关文件
+
+- `harness/rules/diagrams/diagram-policy.md`：图表总政策
+- `harness/rules/diagrams/annotation-rules.md`：注释规范
+- `harness/rules/diagrams/brief-quality-rules.md`：Brief 质量评估
+- `feipi-plantuml-generate-architecture-diagram/SKILL.md`：架构图生成 skill
+- `feipi-plantuml-generate-sequence-diagram/SKILL.md`：时序图生成 skill

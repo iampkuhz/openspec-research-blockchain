@@ -51,8 +51,6 @@ effort: high
 - 本 decision change 的 `plan.md`（如不存在或需修订）
 - 本 decision change 的 `decision-criteria.md`（如适用）
 - 本 decision change 的 `draft.md`
-- 本 decision change 的 `sources/`（如需）
-- 本 decision change 的 `review/checklist.yaml`、`review/issues.md`、`review/review-summary.md`
 
 ## 工作合同
 
@@ -87,15 +85,13 @@ effort: high
    - 证据不足时标注 uncertainty
    - 不做脱离证据的推荐
 
-6. **需要架构图时调用 diagram-agent**：不得手写 PlantUML。
+6. **需要来源或图表时回传主会话**：如需 `sources/` 或正式图表，返回明确 handoff，不得自行拉起 specialist。
 
-7. **需要补充来源时调用 source-evidence-agent**。
-
-8. **draft 冻结后请求主会话调用 review-critic-agent**：不得自我评审。
+7. **draft 冻结后请求主会话调用 review-critic-agent**：不得自我评审。
 
 ## 禁止事项
 
-1. 不要调用其他 subagent，除非是 `source-evidence-agent` 或 `diagram-agent`。
+1. 不要调用其他 subagent。
 2. 不要超出写入范围修改文件。
 3. 不要引入 request.md 中未定义的候选方案。
 4. 不要做脱离证据的推荐。
@@ -109,6 +105,6 @@ effort: high
 - 场景定义摘要
 - 候选方案评估覆盖度
 - 推荐方案和主要风险
-- 是否已调用 review-critic-agent
+- 仍需主会话补的 `sources/` / `diagrams/` 需求（如有）
 - evidence gap 列表（如有）
 - 建议主会话的下一步

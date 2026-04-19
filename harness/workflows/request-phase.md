@@ -41,7 +41,6 @@
 |------|------|----------|
 | primitive | 底层机制/协议 | 组件架构、核心流程、设计取舍、能力边界 |
 | synthesis | 演进/综合分析 | 演进框架、各对象定位、演进关系、趋势判断 |
-| domain | 主题域 | 问题簇、与相邻 domain 关系、价值定位 |
 | decision | 场景决策 | 场景定义、比较维度、有限结论 |
 
 ### 研究路径要求
@@ -51,7 +50,6 @@
 - `deep-dive`：深度机制分析
 - `evolution`：演进脉络梳理
 - `scenario`：场景化分析
-- `domain overview`：领域概览
 
 ### 核心问题要求
 
@@ -70,7 +68,6 @@
 
 **其他类型的问题要求**：
 - synthesis：演进脉络、对象关系定位、未来趋势
-- domain：问题簇划分、与相邻 domain 边界
 - decision：选型标准、选项优劣、适用场景
 
 **注意**：primitive 类型的核心问题**必须包含定义层和范围/边界层**的问题，不得直接跳入机制细节。
@@ -98,7 +95,7 @@
 - 已有的资料、经验判断或直接背景
 - synthesis/decision 类型建议列出：
   - 已有的 primitive 研究
-  - 已有的 domain/synthesis 研究
+  - 已有的 synthesis/decision 研究
   - 外部参考资料
 
 ### 预期输出要求
@@ -109,8 +106,7 @@
 |----------|----------|
 | primitive | `artifact.md`（机制分析） |
 | synthesis | `artifact.md`（演进分析）+ 演进图 |
-| domain | `artifact.md`（域定义） |
-| decision | `verdict.md`（条件性结论） |
+| decision | `artifact.md` + `verdict.md`（条件性结论） |
 
 ### 触发原因要求
 
@@ -125,7 +121,7 @@
 request 阶段视为完成，当且仅当：
 
 1. **对象类型明确**
-   - 已声明对象类型（primitive / synthesis / domain / decision）
+   - 已声明对象类型（primitive / synthesis / decision）
    - 已声明研究路径
 
 2. **核心问题清晰**

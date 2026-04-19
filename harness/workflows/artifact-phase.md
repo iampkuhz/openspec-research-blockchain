@@ -56,7 +56,7 @@ artifact 阶段的基础结构服从 `openspec/specs/canonical-output-model/spec
 
 | 对象类型 | 长期路径 |
 |----------|----------|
-| primitive / synthesis / domain | `knowledge/analysis/.../artifact.md` |
+| primitive / synthesis | `knowledge/analysis/.../artifact.md` |
 | decision | `knowledge/decisions/.../artifact.md` |
 
 **decision 类型的 verdict.md**：

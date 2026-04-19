@@ -19,6 +19,7 @@
 ## 路由提醒
 
 - 启动时先读取 `@AGENTS.md`，将其视为仓库导航入口。
+- Claude 侧再读取 [`.claude/README.md`](./.claude/README.md)，按 command / agent / rule / settings 索引渐进下钻。
 - 对涉及 `.claude/**`、`openspec/**`、`harness/**`、`AGENTS.md`、`docs/governance/**` 的治理型修改，走 governance review 路由。
 
 ## 快速索引
@@ -26,7 +27,12 @@
 | 用途 | 文件 |
 |------|------|
 | 完整协作指南 | [`AGENTS.md`](./AGENTS.md) |
+| Claude 路由索引 | [`.claude/README.md`](./.claude/README.md) |
 | 仓库概览 | [`README.md`](./README.md) |
 | OpenSpec 规范 | [`openspec/specs/`](./openspec/specs/) |
+| Workflow 索引 | [`harness/workflows/_index.yaml`](./harness/workflows/_index.yaml) |
+| 阶段依赖索引 | [`harness/rules/_phase_index.yaml`](./harness/rules/_phase_index.yaml) |
 | Change 流程 | [`openspec/changes/README.md`](./openspec/changes/README.md) |
-| 研究 Agent | [`.claude/commands/spec-research.md`](./.claude/commands/spec-research.md) |
+| 治理文档索引 | [`docs/governance/README.md`](./docs/governance/README.md) |
+| 研究 Command 入口 | [`.claude/commands/spec-research.md`](./.claude/commands/spec-research.md) |
+| Claude 输出语言规则 | [`.claude/rules/language-output.md`](./.claude/rules/language-output.md) |

@@ -76,7 +76,7 @@ openspec new change <name> --schema blockchain-research
 
 在 `openspec/changes/<change-id>/request.md` 中填写：
 
-- 研究对象类型（primitive/synthesis/domain/decision）
+- 研究对象类型（primitive/synthesis/decision）
 - 研究路径（deep-dive/evolution/scenario）
 - 研究背景和目的
 - 范围与非目标

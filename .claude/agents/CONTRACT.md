@@ -86,15 +86,15 @@
 
 Author agents 的特点：
 - 负责 `request.md` → `plan.md` → `draft.md` 的主链写作
-- 可以调用 specialist agents（source-evidence-agent、diagram-agent）
+- 不直接调用 specialist agent；如需 `sources/` 或 `diagrams/`，向主会话返回明确 handoff 需求
 - 完成后将 draft 交回主会话，由主会话决定是否调用 review-critic-agent
 
 ### Specialist agents（专长型）
 
 | Agent | 职责 | 调用方 |
 |-------|------|--------|
-| `source-evidence-agent` | sources/ 创建、链接验证、evidence gap | author agents 或主会话 |
-| `diagram-agent` | 图表生成与验证 | author agents 或主会话 |
+| `source-evidence-agent` | sources/ 创建、链接验证、evidence gap | 主会话 orchestrator |
+| `diagram-agent` | 图表生成与验证 | 主会话 orchestrator |
 | `review-critic-agent` | 独立技术评审 | 主会话 orchestrator |
 | `publish-agent` | 长期 artifact 提炼 | 主会话 orchestrator |
 | `governance-review-agent` | 治理边界评审 | 主会话 orchestrator |

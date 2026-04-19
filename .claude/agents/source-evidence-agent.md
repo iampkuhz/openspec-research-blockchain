@@ -66,10 +66,11 @@ effort: medium
 3. 不平滑处理冲突、歧义和缺失；必须显式记录。
 4. 产出稳定 handoff artifact，便于主会话并回 `plan.md` 或 `draft.md`。
 5. 链接无法验证时，必须说明失败原因。
-6. 进行网页抓取时，优先使用会话内可用的 `crawl4ai` MCP 工具；只有当 MCP 工具当前不可用时，才允许回退到本地 HTTP API。
-7. 若回退到本地 HTTP API（如 `http://localhost:11235/md`），必须显式设置超时、保留 HTTP 状态码并记录错误响应；不要使用无超时的裸 `curl`。
-8. 不要把 `crawl4ai` dashboard 的请求面板作为 `/md` 是否执行的唯一依据；当前 monitor 可能不显示 `/md` 请求，需以实际 HTTP 响应和写入结果为准。
-9. 完成 `sources/` 下的目标产物后，立即停止并向主会话返回 handoff；不要继续扩展成 `plan`、`draft` 或其他写作任务。
+6. 进行在线搜索时，优先使用 `fastmcp-gateway` 的 `searxng_search_web`；网页正文提取优先使用 `crawl4ai` 的 `md`。
+7. 只有当首选 MCP 当前不可用时，才允许回退到本地 HTTP API 或其他通道，并先向主会话说明。
+8. 若回退到本地 HTTP API（如 `http://localhost:11235/md`），必须显式设置超时、保留 HTTP 状态码并记录错误响应；不要使用无超时的裸 `curl`。
+9. 不要把 `crawl4ai` dashboard 的请求面板作为 `/md` 是否执行的唯一依据；当前 monitor 可能不显示 `/md` 请求，需以实际 HTTP 响应和写入结果为准。
+10. 完成 `sources/` 下的目标产物后，立即停止并向主会话返回 handoff；不要继续扩展成 `plan`、`draft` 或其他写作任务。
 
 ## 产出要求
 

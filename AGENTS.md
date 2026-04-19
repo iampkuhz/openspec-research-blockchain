@@ -12,7 +12,8 @@ OpenSpec 区块链研究协作的导航入口。
 ┌─────────────────────────────────────────────────────────┐
 │  入口层 (Entry Point)                                   │
 │  → AGENTS.md (本文件)                                    │
-│  → .claude/agents/         - Claude 侧 agent 映射层       │
+│  → CLAUDE.md              - Claude 侧轻量入口             │
+│  → .claude/README.md      - Claude 路由与命令索引         │
 └─────────────────────────────────────────────────────────┘
                           ↓
 ┌─────────────────────────────────────────────────────────┐
@@ -24,9 +25,11 @@ OpenSpec 区块链研究协作的导航入口。
                           ↓
 ┌─────────────────────────────────────────────────────────┐
 │  路由层 (Routing / Harness)                              │
+│  → harness/workflows/_index.yaml - workflow 索引         │
+│  → harness/rules/_phase_index.yaml - 阶段依赖索引        │
 │  → harness/rules/_index.yaml  - 规则域索引               │
-│  → harness/workflows/...     - 工作流程                 │
 │  → .claude/agents/...        - Agent 角色合同            │
+│  → harness/workflows/...     - 工作流程                 │
 │  → harness/rules/...         - 规则详情                 │
 └─────────────────────────────────────────────────────────┘
                           ↓
@@ -53,11 +56,12 @@ OpenSpec 区块链研究协作的导航入口。
 | 1 | 读取本文件 (AGENTS.md) | 获取系统架构概览 |
 | 2 | 读取 OpenSpec 配置 | `openspec/config.yaml` - 工作流定义 |
 | 3 | 读取对象模型 | `openspec/schemas/blockchain-research/schema.yaml` |
-| 4 | 识别任务类型 | 路由到对应 workflow |
-| 5 | Claude 场景下从 `.claude/agents/` 发现 agent 映射 | `.claude/agents/*.md` |
-| 6 | 按需加载规则 | `harness/rules/_index.yaml` |
-| 7 | 结合联网搜索 | 补充本地知识缺口；如需联网搜索，优先使用 `fastmcp-gateway` 暴露的 `searxng_search_web` MCP 工具 |
-| 8 | 网页内容提取 | 需要提取网页详情时使用 `crawl4ai` MCP 的 `md` 工具 |
+| 4 | 读取 workflow 索引并识别任务类型 | `harness/workflows/_index.yaml` |
+| 5 | 按阶段加载依赖 | `harness/rules/_phase_index.yaml` |
+| 6 | 按规则域补充叶子规则 | `harness/rules/_index.yaml` |
+| 7 | Claude 场景下读取命令/agent 索引 | `CLAUDE.md` + `.claude/README.md` |
+| 8 | 结合联网搜索 | 补充本地知识缺口；如需联网搜索，优先使用 `fastmcp-gateway` 暴露的 `searxng_search_web` MCP 工具 |
+| 9 | 网页内容提取 | 需要提取网页详情时使用 `crawl4ai` MCP 的 `md` 工具 |
 
 **联网搜索约束**：
 - 当任务明确要求”联网搜索 / 在线检索 / web search / search”时，默认使用 `fastmcp-gateway` 提供的 `searxng_search_web`。
@@ -90,6 +94,7 @@ OpenSpec 区块链研究协作的导航入口。
 | 任务类型 | 触发条件 | Workflow | 产出位置 |
 |----------|----------|----------|----------|
 | `new-research` | 创建新研究 | `harness/workflows/intake-workflow.md` | `openspec/changes/` |
+| `source` | 来源收集与验证 | `harness/workflows/source-workflow.md` | `openspec/changes/<id>/sources/` |
 | `update-research` | 更新现有研究 | `harness/workflows/update-existing-knowledge.md` | `openspec/changes/` |
 | `review` | 评审研究产出 | `harness/workflows/review-workflow.md` | `openspec/changes/<id>/review/` |
 | `apply` | 应用到 knowledge | `openspec/config.yaml` apply 段 | `knowledge/analysis/` 或 `knowledge/decisions/` |
@@ -100,13 +105,13 @@ OpenSpec 区块链研究协作的导航入口。
 当 workflow 明确支持 multi-agent 执行时，从 `.claude/agents/` 读取角色合同。
 
 **主会话不直接写 `request.md`、`plan.md`、`draft.md`**，这些由 author agent 负责。
-主会话充当 orchestrator，按 `research_type` 路由到对应 author agent。
+主会话充当 orchestrator，按 `research_type` 路由到对应 author agent，并统一调度 specialist agent。
 
 **Author Agents（研究型）**：
 
 | Agent | 职责 |
 |-------|------|
-| @primitive-author | 单个 primitive 的全链路研究写作（request → plan → sources → draft） |
+| @primitive-author | 单个 primitive 的主链写作（request → plan → draft） |
 | @synthesis-author | 多 primitive 的横向对比合成（读取各 primitive draft，做对比矩阵） |
 | @decision-author | 场景决策分析写作（场景定义、决策标准、verdict） |
 
@@ -114,10 +119,15 @@ OpenSpec 区块链研究协作的导航入口。
 
 | Agent | 职责 |
 |-------|------|
-| @source-evidence-agent | 来源收集、链接验证、source review |
+| @source-evidence-agent | `sources/` 收集、链接验证、source review |
 | @diagram-agent | 图表生成与验证 |
 | @review-critic-agent | 独立技术评审、traceability audit |
 | @publish-agent | artifact 提炼与 update impact scan |
+
+**多 agent 边界**：
+- 只允许主会话 orchestrator 调用 specialist agent；author agent 不再嵌套拉起其他 subagent。
+- `sources/`、`diagrams/`、`review/`、`knowledge/` 分属不同上下文，避免主链写作与辅助产物互相污染。
+- 每次阶段切换优先回到索引：先查 `harness/workflows/_index.yaml`，再按 `harness/rules/_phase_index.yaml` 加载叶子规则。
 
 **条件角色**：
 
@@ -176,6 +186,8 @@ OpenSpec 区块链研究协作的导航入口。
 ## 六、规则索引
 
 **总索引**：`harness/rules/_index.yaml`
+
+**阶段依赖索引**：`harness/rules/_phase_index.yaml`
 
 ### General Rules (`harness/rules/general/`)
 
@@ -252,6 +264,8 @@ OpenSpec 区块链研究协作的导航入口。
 | `openspec-research-build-plan/` | 辅助生成 plan.md |
 | `openspec-research-build-draft/` | 辅助生成 draft.md |
 | `openspec-research-build-artifact/` | 辅助提升到 canonical 资产 |
+| `openspec-research-build-request/` | 辅助生成 request.md |
+| `openspec-research-build-research/` | 辅助执行端到端 research |
 
 ### 用户级 Skills（全局）
 
@@ -275,6 +289,7 @@ OpenSpec 区块链研究协作的导航入口。
 | `init_research_item.py` | 初始化研究项目 | `--topic <topic> --type <type>` |
 | `check_frontmatter.py` | 检查 frontmatter | `[file\|directory]` |
 | `check_traceability.py` | 检查可追溯性 | `--topic <topic>` |
+| `validate_knowledge_tree.py` | 检查长期资产目录树 | `[directory]` |
 
 ### Research Scripts (`scripts/research/`)
 
@@ -284,6 +299,8 @@ OpenSpec 区块链研究协作的导航入口。
 | `build_comparison_matrix.py` | 构建比较矩阵 | `--topics <list> --output <path>` |
 | `validate_sources.py` | 验证来源 | `--topic <topic>` |
 | `find_term_drift.py` | 查找术语漂移 | `--term <term>` |
+| `check_artifact_contract.py` | 校验 artifact 最小章节合同 | `[knowledge-dir]` |
+| `validate_draft_diagram_contract.py` | 校验 draft 中的 diagram contract | `--draft <path>` |
 
 ### Publish Scripts (`scripts/publish/`)
 
@@ -298,7 +315,7 @@ OpenSpec 区块链研究协作的导航入口。
 | 脚本 | 用途 | 用法 |
 |------|------|------|
 | `check_plantuml.sh` | 校验 PlantUML 语法 | `<file.puml> [--svg-output <output>]` |
-| `diagrams/render.sh` | 渲染 PlantUML | `<file.puml>` |
+| `maintenance/render.sh` | 渲染 PlantUML / SVG 对比 | `<file.puml>` |
 | `diagrams/validate_diagram_model.py` | 验证 diagram model | `<model.yaml>` |
 
 **详情**：`scripts/README.md`
@@ -339,6 +356,8 @@ OpenSpec 区块链研究协作的导航入口。
 
 **详情**：`docs/governance/openspec-harness-boundary.md`
 
+**治理索引**：`docs/governance/README.md`
+
 ---
 
 ## 十一、遇到问题时
@@ -346,8 +365,9 @@ OpenSpec 区块链研究协作的导航入口。
 | 问题类型 | 查看位置 |
 |----------|----------|
 | 系统约束（artifact 模型、工作流） | `openspec/config.yaml` + `openspec/schemas/blockchain-research/schema.yaml` |
-| 流程问题（下一步做什么） | `harness/workflows/` |
-| 执行角色问题（谁来做、怎么分工） | `.claude/agents/`（`@agent-name`） |
-| 规范问题（如何写/约束） | `harness/rules/` |
+| 流程问题（下一步做什么） | `harness/workflows/_index.yaml` → 对应 workflow |
+| 阶段加载问题（当前该读哪些规范） | `harness/rules/_phase_index.yaml` |
+| 执行角色问题（谁来做、怎么分工） | `.claude/README.md` → `.claude/agents/` |
+| 规范问题（如何写/约束） | `harness/rules/_index.yaml` → 对应规则域 |
 | 操作问题（具体执行） | `skills/` |
 | 自动化需求（脚本） | `scripts/` |

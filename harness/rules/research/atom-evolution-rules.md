@@ -88,3 +88,11 @@
 - [ ] 是否列出关键分歧点
 - [ ] 是否说明不变原则
 - [ ] 当前状态是否更新
+
+## 相关文件
+
+- `openspec/specs/research-object-model/spec.md`：研究对象模型（synthesis 类型定义）
+- `harness/rules/research/atom-definition-rules.md`：定义分析写作规则
+- `harness/rules/research/atom-mechanism-rules.md`：机制分析写作规则
+- `harness/rules/research/note-comparison-rules.md`：比较分析写作规则
+- `openspec/specs/evidence-policy/spec.md`：证据等级政策

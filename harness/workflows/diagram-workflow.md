@@ -113,45 +113,33 @@ messages:
     description: <消息说明>
 ```
 
-### 步骤 2.5：优化 Brief（仅限 PlantUML 类型）
+### 步骤 2.5：Skill 内部预处理（仅限 PlantUML 类型）
 
 **仅当图表类型为 Architecture Diagram 或 Sequence Diagram 时执行此步骤**。
 
-在生成 `brief.yaml` 后、调用 skill 前，**必须自动执行 `optimize_brief.py` 脚本**：
+在生成 `brief.yaml` 后，直接调用全局 skill。
 
-```bash
-python scripts/diagrams/optimize_brief.py diagrams/<diagram-id>/brief.yaml \
-    --output diagrams/<diagram-id>/brief.optimized.yaml
-```
-
-优化脚本会自动执行：
-
-| 优化项 | 说明 | 示例 |
-|--------|------|------|
-| Layer ID 简短化 | 连字符长名 -> 简短单词 | `user-agent` -> `user_as` |
-| Component layer 引用同步 | 当 layer ID 改变时同步更新 | `layer: user-agent` -> `layer: user_as` |
-| Package 描述格式化 | 长描述按逗号分割为多行 | `"用户和 Agent 控制的组件，授权决策的最终主体"` -> 两行 |
-| 同域组件排序 | 按视觉权重排序 | `actor` > `component` > `database` > `cloud` |
-| hidden_lines 生成 | 同 layer 内组件数 >= 2 时自动生成 | 用于 PlantUML 对齐 |
-
-**优化后的 `brief.optimized.yaml` 是调用 skill 的唯一输入**。
+**约束**：
+- brief 的 normalize / optimize 属于 skill 内部实现，不依赖本仓库脚本
+- workflow 只约束最终保留的 audit 产物，不约束 skill 内部是否生成 `brief.optimized.yaml`
+- 如 skill 产出 `brief.normalized.yaml`，应保留在 `diagrams/<diagram-id>/` 目录，供 contract 校验和人工复查
 
 ### 步骤 3：调用 Skill 生成（仅限 PlantUML 类型）
 
 **仅当图表类型为 Architecture Diagram 或 Sequence Diagram 时执行此步骤**。
 
-**使用优化后的 brief 调用 skill**：
+**使用生成后的 brief 调用 skill**：
 
 **架构图**：
 ```
-# 使用 brief.optimized.yaml 调用 skill
-使用 feipi-plantuml-generate-architecture-diagram skill，传入 brief.optimized.yaml
+# 调用全局架构图 skill
+使用 feipi-plantuml-generate-architecture-diagram skill，传入 `brief.yaml`
 ```
 
 **时序图**：
 ```
-# 使用 brief.optimized.yaml 调用 skill
-使用 feipi-plantuml-generate-sequence-diagram skill，传入 brief.optimized.yaml
+# 调用全局时序图 skill
+使用 feipi-plantuml-generate-sequence-diagram skill，传入 `brief.yaml`
 ```
 
 **注意**：
@@ -173,8 +161,7 @@ python scripts/diagrams/optimize_brief.py diagrams/<diagram-id>/brief.yaml \
 **注意**：
 - 这些脚本由用户级 skill 管理，不在本仓库 `scripts/` 目录
 - 用户级 skills 会自动执行校验流程
-- skill 执行完成后只保留 `diagram.puml`（必需）和 `diagram.svg`（可选）
-- `validation.json` 和 `brief.normalized.yaml` 是 skill 执行中间产物，不保留
+- `validation.json` 与 `brief.normalized.yaml` 虽是中间产物，但应保留在 change 目录，作为 diagram contract 审计线索
 
 ### 步骤 5：创建 fallback 图表（Unsupported Types）
 
@@ -245,8 +232,11 @@ stateDiagram-v2
 ## 输出
 
 **PlantUML 类型**：
+- `openspec/changes/<change-id>/diagrams/<diagram-id>/brief.yaml`（必需）— 原始需求输入
+- `openspec/changes/<change-id>/diagrams/<diagram-id>/brief.normalized.yaml`（推荐）— skill 归一化后的 brief
 - `openspec/changes/<change-id>/diagrams/<diagram-id>/diagram.puml`（必需）— PlantUML 源码，skill 执行中间产物
 - `openspec/changes/<change-id>/diagrams/<diagram-id>/diagram.svg`（可选）— 预渲染结果，方便预览
+- `openspec/changes/<change-id>/diagrams/<diagram-id>/validation.json`（必需）— validation 合同，供 `validate_draft_diagram_contract.py` 使用
 - `draft.md` / `artifact.md` 中嵌入的完整 PlantUML 代码块（正式交付）
 
 **Fallback 类型**：

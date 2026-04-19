@@ -39,6 +39,10 @@ phases:
         - canonical-output-model
         - research-object-model
       rules:
+        - research/atom-mechanism-rules
+        - research/atom-evolution-rules
+        - research/note-comparison-rules
+        - research/uncertainty-rules
         - research/component-quality-rules
         - research/consensus-depth-rules
         - diagrams/diagram-policy

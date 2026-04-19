@@ -145,7 +145,7 @@ primitive 类型的 `draft.md` 至少必须覆盖以下内容：
 7. **能力归属表**（必须）
    - 区分协议原生能力、角色职责、外部依赖和非目标
 
-#### synthesis / domain / decision draft
+#### synthesis / decision draft
 
 其他类型按各自上位规范要求交付图表；本规范重点收紧 primitive 的必要图表集合。
 

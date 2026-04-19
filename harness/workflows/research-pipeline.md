@@ -46,8 +46,8 @@
 
 | 角色 | 模式 | 责任 |
 |------|------|------|
-| `source-evidence-agent` | author agent 按需调用 | 来源收集与证据缺口盘点 |
-| `diagram-agent` | author agent 按需调用 | 图表生成与验证 |
+| `source-evidence-agent` | 主会话按 handoff 调用 | 来源收集与证据缺口盘点 |
+| `diagram-agent` | 主会话按 handoff 调用 | 图表生成与验证 |
 | `review-critic-agent` | 主会话在 draft 后调用 | 独立技术评审与 traceability audit |
 | `publish-agent` | 主会话在 review 通过后调用 | artifact 提炼与 update impact scan |
 
@@ -61,7 +61,8 @@
   对每个缺失的 primitive: 创建 change + 调用 primitive-author 执行全链路
 
 阶段 2: 并行 primitive 执行
-  所有 primitive-author 并行执行（每个调用自己的 source-evidence-agent）
+  所有 primitive-author 并行执行
+  主会话汇总各 primitive 的来源 / 图表 handoff
   等待所有 primitive draft 完成
 
 阶段 3: synthesis 合成
@@ -127,7 +128,7 @@ diagrams ────────────┘
 
 **执行者**：author agent
 
-**并行支持**：`source-evidence-agent`（由 author agent 调用）
+**并行支持**：`source-evidence-agent`（由主会话根据 author handoff 调用）
 
 **输入**：
 - `request.md`
@@ -147,7 +148,7 @@ diagrams ────────────┘
 
 **执行者**：author agent
 
-**条件角色**：`diagram-agent`（由 author agent 按需调用）
+**条件角色**：`diagram-agent`（由主会话根据 author handoff 调用）
 
 **输入**：
 - `request.md`
@@ -216,8 +217,12 @@ diagrams ────────────┘
 | From | To | Artifact |
 |------|----|----------|
 | 主会话 | author agent | 研究问题、change 路径、预算约束 |
-| author agent | source-evidence-agent | 研究问题、来源优先级、当前计划约束 |
-| source-evidence-agent | author agent | `source-review.md`、核心 excerpts、evidence gaps |
+| author agent | 主会话 | 来源 / 图表 handoff、未决问题、正文主链草稿 |
+| 主会话 | source-evidence-agent | 研究问题、来源优先级、当前计划约束 |
+| source-evidence-agent | 主会话 | `source-review.md`、核心 excerpts、evidence gaps |
+| 主会话 | diagram-agent | 图表需求单、正文上下文、diagram type |
+| diagram-agent | 主会话 | diagram package、validation 结果、contract issue |
+| 主会话 | author agent | 已完成的 `sources/` / `diagrams/` handoff |
 | author agent | 主会话 | 完成的 `draft.md`、未决问题列表 |
 | 主会话 | review-critic-agent | 待审 `draft.md`、未决问题 |
 | review-critic-agent | 主会话 | `approved` / `approved with minor fixes` / `needs revision` 结论、必须修复项 |

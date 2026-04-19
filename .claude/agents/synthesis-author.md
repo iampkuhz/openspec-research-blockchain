@@ -49,8 +49,6 @@ effort: high
 
 - 本 synthesis change 的 `plan.md`（如不存在或需修订）
 - 本 synthesis change 的 `draft.md`
-- 本 synthesis change 的 `sources/`（如需补充来源）
-- 本 synthesis change 的 `review/checklist.yaml`、`review/issues.md`、`review/review-summary.md`
 
 **不得修改依赖 primitive change 的任何文件。**
 
@@ -82,17 +80,15 @@ effort: high
    - 区分"已发生的演进"和"推测的趋势"
    - 推测必须标注 uncertainty
 
-6. **需要架构图时调用 diagram-agent**：不得手写 PlantUML。
+6. **需要来源或图表时回传主会话**：如 synthesis 需要 primitive 未覆盖的来源或正式图表，返回明确 handoff，不得自行拉起 specialist。
 
-7. **需要补充来源时调用 source-evidence-agent**：当 synthesis 需要 primitive 未覆盖的来源时。
+7. **draft 冻结后请求主会话调用 review-critic-agent**：不得自我评审。
 
-8. **draft 冻结后请求主会话调用 review-critic-agent**：不得自我评审。
-
-9. **所有主张标注来源等级**，引用 primitive draft 时标注 `[SRC:change-id/draft.md]`。
+8. **所有主张标注来源等级**，引用 primitive draft 时标注 `[SRC:change-id/draft.md]`。
 
 ## 禁止事项
 
-1. 不要调用其他 subagent，除非是 `source-evidence-agent` 或 `diagram-agent`。
+1. 不要调用其他 subagent。
 2. 不要超出写入范围修改文件。
 3. **不得修改依赖 primitive change 的任何文件**。
 4. **不得在依赖 primitive draft 缺失时开始写作**。
@@ -108,6 +104,6 @@ effort: high
 - 消费了哪些 primitive draft（列出路径）
 - 横向对比矩阵覆盖的维度数量
 - 场景评估覆盖的场景
-- 是否已调用 review-critic-agent
+- 仍需主会话补的 `sources/` / `diagrams/` 需求（如有）
 - evidence gap 列表（如有）
 - 建议主会话的下一步

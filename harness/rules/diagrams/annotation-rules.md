@@ -209,3 +209,10 @@ end note
 - [ ] 注释内容是否准确
 - [ ] 注释密度是否过高
 - [ ] 格式是否一致
+
+## 相关文件
+
+- `harness/rules/diagrams/diagram-policy.md`：图表总政策
+- `harness/rules/diagrams/relationship-rules.md`：关系语义规范
+- `harness/rules/diagrams/simplification-policy.md`：简化政策
+- `harness/rules/diagrams/architecture-quality-rules.md`：架构图质量规约

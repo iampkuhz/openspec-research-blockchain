@@ -17,7 +17,6 @@
 类型适配：
 - primitive：说明机制背景和研究范围
 - synthesis：说明演进背景和框架目标
-- domain：说明主题域的范围和问题簇
 - decision：说明决策场景和比较目标
 -->
 
@@ -367,20 +366,6 @@ timeline
 - 各路径的适用场景
 - 演进规律总结
 
-### domain 类型
-
-#### 问题簇划分
-
-| 问题簇 | 核心问题 | 相关对象 |
-|--------|----------|----------|
-| | | |
-
-#### 与相邻 domain 关系
-
-- 上游 domain
-- 下游 domain
-- 平行 domain
-
 ### decision 类型
 
 #### 场景定义
@@ -441,7 +426,6 @@ synthesis 类型建议包含：
 
 primitive 类型：与相邻协议的关系定位
 synthesis 类型：演进关系分析
-domain 类型：与相邻 domain 的边界
 decision 类型：各选项的对比关系
 -->
 

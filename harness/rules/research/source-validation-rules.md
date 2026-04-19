@@ -6,19 +6,25 @@
 
 ## 来源获取流程
 
-### 步骤 0: WebFetch 安全策略检查
+### 步骤 0: 联网通道选择与安全检查
 
-**重要**：在使用 WebFetch 工具前，必须确认目标域名是否被安全策略拦截。
+**优先顺序**：
+1. 搜索：优先 `fastmcp-gateway` 的 `searxng_search_web`
+2. 正文提取：优先 `crawl4ai` 的 `md`
+3. 仅当首选 MCP 当前不可用时，才回退到 `WebFetch` / `WebSearch` 或其他本地通道
+
+**重要**：在使用回退通道（如 `WebFetch`）前，必须确认目标域名是否被安全策略拦截。
 
 **拦截场景**：
 - `claude.ai` 域名被企业安全策略 blocking
 - 特定域名被标记为 "Unable to verify if domain is safe to fetch"
 
 **处理方式**：
-1. **立即停止** WebFetch 尝试，不要重复触发
+1. **立即停止**当前回退通道的重复尝试，不要重复触发
 2. **记录拦截**：在 `request.md` 和 `plan.md` 的验证状态中标注 `[未验证] 安全策略拦截`
 3. **替代方案**：
-   - 使用 WebSearch 获取第三方来源（如 Mirror、Medium、GitHub）
+   - 如 `searxng_search_web` 可用，优先回到 SearXNG 搜索第三方来源
+   - 否则使用 WebSearch 获取第三方来源（如 Mirror、Medium、GitHub）
    - 依赖已有的 L1/L2 来源知识
    - 在 `draft.md` 的"证据缺口"中明确记录
 

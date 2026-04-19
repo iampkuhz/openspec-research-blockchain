@@ -1,6 +1,6 @@
 name: blockchain-research
-version: 2
-description: 面向分层区块链技术调研的研究驱动 OpenSpec 工作流
+version: 3
+description: 面向区块链技术调研的研究驱动 OpenSpec 工作流
 
 artifacts:
   - id: request
@@ -42,7 +42,7 @@ artifacts:
       为当前研究题目创建集中 review 用的研究计划文件，把 request 收紧成可执行计划。
 
       必须完成：
-      - 写清研究路径：deep-dive、evolution、scenario 或 domain overview
+      - 写清研究路径：deep-dive、evolution、scenario
       - 写清核心问题与后续确认问题
       - 写清当前研究预算：deep、focused 或 light
       - 写清本轮交付边界与完成标准
@@ -104,7 +104,6 @@ artifacts:
       类型适配：
       - primitive：重点写实体分类、角色与信任边界、角色内部组件、跨角色核心流程、按条件需要的状态转换、设计取舍、能力边界
       - synthesis：重点写演进框架、各对象定位、演进关系、趋势判断；**必须从依赖的 primitive draft.md 中提取 primitives 列表、架构描述和能力边界进行横向对比，不得脱离 primitive 独立撰写**
-      - domain：重点写问题簇、与相邻 domain 关系、价值定位
       - decision：重点写场景定义、比较维度、有限结论
 
       风格要求：

@@ -184,3 +184,10 @@ scripts/research/review_uncertainties.py --topic <topic>
 2. 更新不确定性状态
 3. 如已解决，更新相关 `claim`s
 4. 记录在 changelog
+
+## 相关文件
+
+- `openspec/specs/evidence-policy/spec.md`：证据等级政策（L1/L2/L3/L4 定义）
+- `harness/rules/research/source-validation-rules.md`：来源验证规则
+- `harness/rules/research/traceability-policy.md`：可追溯性要求（claim→source 映射）
+- `openspec/specs/analysis-principles/spec.md`：分析原则总政策

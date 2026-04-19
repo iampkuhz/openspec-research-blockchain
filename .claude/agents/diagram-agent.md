@@ -1,6 +1,6 @@
 ---
 name: diagram-agent
-description: 负责图表决策树、brief、diagram package 与 contract 支持，由 author agent（primitive-author / synthesis-author / decision-author）或主会话 orchestrator 在需要正式图表时显式调用。
+description: 负责图表决策树、brief、diagram package 与 contract 支持，由主会话 orchestrator 在需要正式图表时显式调用。
 model: inherit
 tools:
   - Read
@@ -49,6 +49,7 @@ effort: high
 
 ## 写入范围
 
+- `diagrams/<diagram-id>/brief.yaml`
 - `diagrams/<diagram-id>/brief.normalized.yaml`
 - `diagrams/<diagram-id>/diagram.puml`
 - `diagrams/<diagram-id>/diagram.svg`
@@ -64,37 +65,16 @@ effort: high
 4. 对 unsupported PlantUML types，必须使用文档规定的 fallback 格式。
 5. 如 contract 数据与 `draft.md` 不一致，必须显式报告并阻塞完成。
 
-## Brief 优化流程（由 skill 自动执行）
+## Skill 执行约束
 
-**优化逻辑已集成到 PlantUML skill 中**，在 `validate_package.sh`  Step 0 自动执行。
-
-优化脚本位置：
-`skills/feipi-plantuml-generate-architecture-diagram/scripts/optimize_brief.py`
-
-**工作流程**：
-```
-1. 生成 brief.yaml (diagram-agent)
-   ↓
-2. 调用 skill (feipi-plantuml-generate-architecture-diagram)
-   ↓
-3. Skill 自动执行 optimize_brief.py → brief.optimized.yaml
-   ↓
-4. Skill 使用优化后的 brief 生成 diagram.puml
-   ↓
-5. Skill 执行 validation
-```
-
-优化脚本会自动执行：
-
-| 优化项 | 说明 | 示例 |
-|--------|------|------|
-| Layer ID 简短化 | 连字符长名 -> 简短单词 | `user-agent` -> `user_as` |
-| Component layer 引用同步 | 当 layer ID 改变时同步更新 | `layer: user-agent` -> `layer: user_as` |
-| Package 描述格式化 | 长描述按逗号分割为多行 | "用户和 Agent 控制的组件，授权决策的最终主体" -> 两行 |
-| 同域组件排序 | 按视觉权重排序 | `actor` > `component` > `database` > `cloud` |
-| hidden_lines 生成 | 同 layer 内组件数 >= 2 时自动生成 | 用于 PlantUML 对齐 |
-
-**输出**：`diagrams/<diagram-id>/brief.optimized.yaml` 是调用 skill 后的标准产物，原始 `brief.yaml` 保留供人工查阅。
+- PlantUML 的 normalize / optimize 逻辑属于全局 skill 内部实现，diagram-agent 不依赖 repo-local `optimize_brief.py`
+- 只把以下文件视为稳定合同：
+  - `brief.yaml`
+  - `brief.normalized.yaml`（若 skill 产出）
+  - `diagram.puml`
+  - `diagram.svg`（可选）
+  - `validation.json`
+- 不要假设 `brief.optimized.yaml` 一定存在；是否产出由 skill 内部决定
 
 ## Brief 生成规范
 
@@ -110,10 +90,7 @@ layout:
 
 **规范来源**：`harness/rules/diagrams/architecture-quality-rules.md` - 图例（legend）使用规范
 
-## 布局优化规则（由 skill 中的 optimize_brief.py 自动应用）
-
-优化脚本位于：
-`skills/feipi-plantuml-generate-architecture-diagram/scripts/optimize_brief.py`
+## 布局与 legend 约束
 
 ### 1. Package ID 生成规则
 
@@ -124,8 +101,6 @@ layout:
 | 用户/Agent 控制域 | `user-agent` | `user_as` |
 | AP2 协议域 | `ap2-protocol` | `protocol` |
 | 外部系统域 | `external-system` | `ext_sys` |
-
-映射表维护在 skill 的 `optimize_brief.py` 的 `LAYER_ID_MAPPING` 常量中。
 
 ### 2. Package 描述格式化规则
 
@@ -145,14 +120,11 @@ layout:
 
 ## 输出前校验清单
 
-**优化步骤已由 skill 自动应用**，在 skill 执行后会产出：
-
-- [ ] `brief.optimized.yaml` - 优化后的 brief（skill 自动产出）
-- [ ] `diagram.puml` - PlantUML 源码（已应用优化规则）
-- [ ] `diagram.svg` - 渲染后的图片
-- [ ] `validation.json` - 验证结果合同
-
-**注意**：描述格式化、layer ID 转换、hidden_lines 生成等已由 skill 中的脚本自动完成，无需手工校验。
+- [ ] `brief.yaml` 已落盘
+- [ ] `diagram.puml` 已生成
+- [ ] `validation.json` 显示 `final_status=success`
+- [ ] `validation.json` 显示 `render_result=ok`
+- [ ] 如 skill 产出 `brief.normalized.yaml`，已保留到 diagram package
 
 ## 禁止事项
 
@@ -163,7 +135,7 @@ layout:
 
 ## 完成信号
 
-当所有要求的 diagram package 生成且 validation 通过后，向主会话/author agent 返回：
+当所有要求的 diagram package 生成且 validation 通过后，向主会话返回：
 - 生成的 diagram 列表及路径
 - validation 结果（通过/失败）
 - 如有失败，说明失败原因和建议修复方式

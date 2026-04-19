@@ -1,3 +1,7 @@
+> **状态**：历史设计文档。本方案已 fully implemented（schema.yaml、config.yaml、校验脚本均已落地）。保留作为设计决策追溯参考。
+
+---
+
 # Knowledge 目录模型改造说明
 
 ## 目的

@@ -138,11 +138,6 @@ Deployment (1014) ─────┘
 - 关键步骤如何在角色之间流转？
 - 哪些状态转换决定安全性/活性/资金行为？
 
-**domain 类型必须包含的图表**：
-
-- **问题簇划分图**（必须）：优先使用 Markdown 表格或 Mermaid graph
-- **与相邻 domain 关系图**（必须）：优先使用 Mermaid 关系图或 PlantUML Architecture skill
-
 **状态机/状态转换图**（如需要）：
 
 - **不得使用 PlantUML**（无 dedicated skill 支持）
@@ -164,7 +159,7 @@ Deployment (1014) ─────┘
 **PlantUML 图（通过 skill 交付）**：
 - 必须通过 skill 的完整校验链
 - skill 在执行期间必须确认 `final_status=success` 且 `render_result=ok` 才能完成
-- `validation.json` 是 skill 执行的**中间产物**，不作为长期交付物
+- `validation.json` 是 skill 执行的**中间产物**，不进入长期 `knowledge/`，但应保留在 change 目录作为 contract 审计线索
 
 **Mermaid 图**：
 - 必须通过 GitHub/GitLab 预览验证
@@ -184,14 +179,15 @@ Deployment (1014) ─────┘
 
 | 文件 | 必需性 | 用途 | 保留策略 |
 |------|--------|------|----------|
+| `brief.yaml` | 必需 | 原始需求输入 | 保留在 change 目录 |
+| `brief.normalized.yaml` | 推荐 | skill 归一化后的 brief，便于复查 | 保留在 change 目录 |
 | `diagram.puml` | **必需** | PlantUML 源码，用于 skill 校验和重新渲染 | 保留在 change 目录，作为审计线索 |
 | `diagram.svg` | 可选 | 预渲染结果，方便快速预览 | 保留在 change 目录，可清理 |
-| `brief.yaml` | 必需 | 原始需求输入 | 保留在 change 目录 |
+| `validation.json` | 必需 | skill 校验结果合同，供 draft / review / script 验证 | 保留在 change 目录 |
 
-**不保留以下文件**（skill 执行中间产物）：
-- `validation.json` — skill 执行时的校验状态，完成后无保留价值
-- `brief.normalized.yaml` — skill 内部处理的中间格式
-- 其他临时产物
+**其他临时产物**：
+- 非合同型临时文件可清理
+- 但不得删除 `validation.json`、`brief.normalized.yaml`、`diagram.puml`
 
 **artifact.md 中的图表交付**：
 - **必须嵌入完整 PlantUML 代码块**（\`\`\`plantuml ... \`\`\`）
@@ -249,7 +245,7 @@ Deployment (1014) ─────┘
 1. **元素类型区分**：组件（蓝色矩形）、数据（黄色 note）、角色（灰色人形）、存储（绿色圆柱体）
 2. **分层着色**：通过 package 背景和边框区分层次
 3. **箭头语义**：所有箭头必须标注语义和流程序号（S1→Sn）
-4. **图例说明**：必须包含图例说明各元素含义
+4. **图例说明**：默认不包含 legend；仅当使用非常规符号或自定义图标时显式开启
 5. **抽象层级**：遵守 `harness/rules/diagrams/component-abstraction-rules.md`，不得混用不同层级的组件
 6. **纵向布局**：使用 `top to bottom direction`
 

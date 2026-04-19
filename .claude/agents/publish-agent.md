@@ -44,18 +44,17 @@ effort: high
 
 ## 写入范围
 
-- `knowledge/analysis/primitives/<domain>/<topic>/artifact.md`
+- `knowledge/analysis/primitives/<domain_id>/<topic_slug>/artifact.md`
 - `knowledge/analysis/synthesis/<topic>/artifact.md`
-- `knowledge/analysis/domains/<domain>/artifact.md`
-- `knowledge/decisions/<domain>/<topic>/artifact.md`
-- `knowledge/decisions/<domain>/<topic>/verdict.md`
+- `knowledge/decisions/<domain_id>/<topic_slug>/artifact.md`
+- `knowledge/decisions/<domain_id>/<topic_slug>/verdict.md`
 - 主会话明确要求时的 update impact note
 
 ## 工作合同
 
 1. 只有当 review 结论为 `approved` 或 `approved with minor fixes` 时才能继续。
 2. 只提炼 durable conclusions，不把过程文件整包复制到长期目录。
-3. 严格使用 OpenSpec canonical 路径，包括需要 domain 的目录层级。
+3. 严格使用 OpenSpec canonical 路径，包括 `domain_id` 分组层级。
 4. update 场景下要识别兼容性与下游影响。
 5. 如目标路径、对象类型或 review gate 存在歧义，必须回报主会话。
 

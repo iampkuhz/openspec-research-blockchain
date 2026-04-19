@@ -2,7 +2,6 @@
 
 <!--
 说明当前研究对象属于哪一类：
-- domain：主题域，如 account-abstraction
 - primitive：底层机制，如 eip-4337
 - synthesis：演进/综合分析，如 aa-eip-evolution
 - decision：场景决策，如 wallet-selection
@@ -10,12 +9,11 @@
 不同类型有不同的交付重点：
 - primitive：组件架构、核心流程、设计取舍、能力边界
 - synthesis：演进框架、各对象定位、演进关系、趋势判断
-- domain：问题簇、与相邻 domain 关系、价值定位
 - decision：场景定义、比较维度、有限结论
 -->
 
 - 对象类型：
-- 研究路径：deep-dive / evolution / scenario / domain overview
+- 研究路径：deep-dive / evolution / scenario
 - 相关 domains：
 
 ## 当前要回答的问题
@@ -34,7 +32,6 @@
 
 其他类型的问题示例：
 - synthesis：演进脉络是什么？各对象的关系定位？未来趋势？
-- domain：问题簇如何划分？与相邻 domain 的边界？
 - decision：选型标准是什么？各选项的优劣？适用场景？
 -->
 
@@ -86,7 +83,7 @@
 
 对于 synthesis/decision，建议列出：
 - 已有的 primitive 研究
-- 已有的 domain/synthesis 研究
+- 已有的 synthesis/decision 研究
 - 外部参考资料
 -->
 
@@ -98,6 +95,5 @@
 不同类型示例：
 - primitive：artifact.md（机制分析）
 - synthesis：artifact.md（演进分析）+ 演进图
-- domain：artifact.md（域定义）
-- decision：verdict.md（条件性结论）
+- decision：artifact.md + verdict.md（条件性结论）
 -->

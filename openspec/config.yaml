@@ -50,7 +50,7 @@ artifacts:
     template: request.md
     instruction: |
       创建研究入口文件，定义：
-      - 研究对象类型（primitive/synthesis/domain/decision）
+      - 研究对象类型（primitive/synthesis/decision）
       - 研究路径（deep-dive/evolution/scenario）
       - 研究背景与目的
       - 范围与非目标
@@ -97,7 +97,6 @@ artifacts:
       类型适配：
       - primitive：实体分类、角色与信任边界、角色内部组件、跨角色核心流程、按条件需要的状态转换、能力边界
       - synthesis：演进框架、关系定位、趋势判断
-      - domain：问题簇、边界划分、价值定位
       - decision：场景定义、比较维度、有限结论
     requires:
       - plan

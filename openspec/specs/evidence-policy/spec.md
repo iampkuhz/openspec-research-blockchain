@@ -33,11 +33,11 @@
 
 ## 安全策略拦截处理
 
-当 WebFetch 工具返回 "Unable to verify if domain is safe to fetch" 时：
+当首选 MCP 不可用、且回退到 `WebFetch` 后返回 "Unable to verify if domain is safe to fetch" 时：
 
 1. **不得**重复尝试相同域名
 2. **必须**在来源规划中标注 `[未验证] 安全策略拦截`
-3. **优先**使用 WebSearch 获取第三方来源（Mirror、Medium、GitHub 等）
+3. **优先**回到 `fastmcp-gateway` 的 `searxng_search_web`；若不可用，再使用 WebSearch 获取第三方来源（Mirror、Medium、GitHub 等）
 4. **记录**证据缺口在 `draft.md` 的"证据缺口"章节
 5. **标注**相关结论的置信度为"基于已有知识，待 L1 验证"
 

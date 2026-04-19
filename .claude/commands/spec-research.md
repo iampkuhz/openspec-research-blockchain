@@ -38,6 +38,7 @@ argument-hint: "[change-path | research-topic]"
 执行前读取并遵循：
 
 - `harness/workflows/research-pipeline.md`
+- `harness/rules/_phase_index.yaml`
 - 各阶段对应的 OpenSpec spec 与 template
 - `.claude/agents/` 中相关 agent contract
 - `.claude/agents/CONTRACT.md`（agent 合同校验规范）
@@ -49,9 +50,9 @@ argument-hint: "[change-path | research-topic]"
 | 研究写作（primitive） | `primitive-author` | 主会话自行写 request/plan/draft |
 | 研究写作（synthesis） | `synthesis-author` | 主会话自行写 request/plan/draft |
 | 研究写作（decision） | `decision-author` | 主会话自行写 request/plan/draft |
-| sources/ 创建 | `source-evidence-agent` | 主会话/author agent 自行创建 inbox.yaml |
-| sources/ 补证据 | `source-evidence-agent` | 主会话自行抓取网页写入 excerpts |
-| 架构图 | `diagram-agent` | 主会话/author agent 手写 PlantUML/Mermaid |
+| sources/ 创建 | `source-evidence-agent` | author agent 自行创建 inbox.yaml / source-review.md |
+| sources/ 补证据 | `source-evidence-agent` | 主会话绕过 `sources/` handoff 直接写正文 |
+| 架构图 | `diagram-agent` | author agent 手写 PlantUML 或直接改 diagram package |
 | draft 评审 | `review-critic-agent` | 主会话/author agent 自我评审或跳过评审 |
 | artifact 提炼 | `publish-agent` | 主会话自行写入 knowledge/ |
 
@@ -75,18 +76,20 @@ argument-hint: "[change-path | research-topic]"
 路由到 `primitive-author`：
 
 ```
-主会话 → primitive-author →（并行调用 source-evidence-agent）
-                         → draft 完成
-                         → 主会话调用 review-critic-agent
-                         → 主会话调用 publish-agent
+主会话 → primitive-author（request / plan / draft 主链）
+主会话 → source-evidence-agent（sources/ 支撑轨）
+主会话 → diagram-agent（如需正式图表）
+主会话 → review-critic-agent
+主会话 → publish-agent
 ```
 
 1. 主会话调用 `primitive-author`，传入 change 路径
-2. primitive-author 自行完成 request → plan → draft
-3. primitive-author 在 plan 阶段调用 `source-evidence-agent` 创建 sources/
-4. primitive-author 在需要时调用 `diagram-agent`
-5. primitive-author 完成后，主会话调用 `review-critic-agent` 评审
-6. review 通过后，主会话调用 `publish-agent` 提炼 artifact
+2. primitive-author 负责 `request.md` / `plan.md` / `draft.md` 主链写作
+3. 如作者返回来源需求单，主会话调用 `source-evidence-agent` 创建或补充 `sources/`
+4. 如作者返回图表需求单，主会话调用 `diagram-agent` 生成和验证 `diagrams/`
+5. primitive-author 消费 `sources/` 与 `diagrams/` 后完成 `draft.md`
+6. draft 冻结后，主会话调用 `review-critic-agent` 评审
+7. review 通过后，主会话调用 `publish-agent` 提炼 artifact
 
 ### 2b. synthesis 模式（三阶段）
 
@@ -103,9 +106,10 @@ argument-hint: "[change-path | research-topic]"
 
 1. 主会话调用 `synthesis-author`，传入 synthesis change 路径
 2. synthesis-author 从各 primitive `draft.md` 中提取信息进行横向对比
-3. synthesis-author 在需要时调用 `diagram-agent` 或 `source-evidence-agent`
-4. synthesis-author 完成后，主会话调用 `review-critic-agent` 评审
-5. review 通过后，主会话调用 `publish-agent` 提炼 artifact
+3. 如 synthesis-author 返回来源或图表需求单，主会话调用 `source-evidence-agent` / `diagram-agent`
+4. synthesis-author 消费补充产物后完成 `draft.md`
+5. 主会话调用 `review-critic-agent` 评审
+6. review 通过后，主会话调用 `publish-agent` 提炼 artifact
 
 **约束**：阶段 2 禁止在阶段 1 所有 primitive 的 draft 完成前开始。
 
@@ -114,10 +118,11 @@ argument-hint: "[change-path | research-topic]"
 路由到 `decision-author`：
 
 ```
-主会话 → decision-author →（并行调用 source-evidence-agent）
-                        → draft 完成
-                        → 主会话调用 review-critic-agent
-                        → 主会话调用 publish-agent
+主会话 → decision-author（request / plan / decision-criteria / draft）
+主会话 → source-evidence-agent（sources/ 支撑轨）
+主会话 → diagram-agent（如需正式图表）
+主会话 → review-critic-agent
+主会话 → publish-agent
 ```
 
 流程同 2a，但 decision-author 输出带 verdict 的决策建议。

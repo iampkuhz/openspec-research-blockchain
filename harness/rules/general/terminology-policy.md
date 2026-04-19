@@ -193,7 +193,7 @@ scripts/research/find_term_drift.py --term <term>
 |------|------|
 | 跨 topic 通用 | `knowledge/glossary/terms/<term>.md` |
 | case / topic 特有 | 对应 `artifact.md` 或 `draft.md` 的“关键术语”区 |
-| domain 特有 | `knowledge/analysis/domains/<domain>/artifact.md` 的“关键术语”区 |
+| decision / 分组上下文特有 | 对应 `artifact.md` / `verdict.md` 或分组 `README.md` 的“关键术语”区 |
 
 ## 术语条目模板
 

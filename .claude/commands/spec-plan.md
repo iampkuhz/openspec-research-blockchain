@@ -30,6 +30,7 @@ argument-hint: "[change-path | change-name]"
 
 执行前读取并遵循：
 
+- `harness/rules/_phase_index.yaml`（读取 `plan` 阶段依赖）
 - `openspec/schemas/blockchain-research/schema.yaml`
 - `openspec/schemas/blockchain-research/templates/plan.md`
 - `harness/workflows/plan-phase.md`

@@ -29,6 +29,7 @@ argument-hint: "[change-path | change-name]"
 
 执行前读取并遵循：
 
+- `harness/rules/_phase_index.yaml`（读取 `artifact` 阶段依赖）
 - `openspec/schemas/blockchain-research/schema.yaml`
 - `harness/workflows/artifact-phase.md`
 - `openspec/specs/canonical-output-model/spec.md`

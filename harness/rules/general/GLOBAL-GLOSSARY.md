@@ -101,12 +101,12 @@
 **类型**：
 - `primitive`：底层机制（如 `eip-4337` 的 `core-mechanism`）
 - `synthesis`：演进/综合分析（如 `aa-eip-evolution`）
-- `domain`：主题域定义（如 `account-abstraction`）
+- `decision`：场景判断（如 `agentic-payment`）
 
 **位置**：
 - `knowledge/analysis/primitives/`
 - `knowledge/analysis/synthesis/`
-- `knowledge/analysis/domains/`
+- `knowledge/decisions/`
 
 **来源**：`AGENTS.md` (资产层定义)
 
