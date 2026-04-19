@@ -8,7 +8,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "FILE=$(jq -r '.tool_response.filePath // .tool_input.file_path' 2>/dev/null); echo \"$FILE\" | grep -qE '^knowledge/.*\\.(artifact|verdict)\\.md$' && echo \"=== PostToolUse hook: Validating knowledge artifact ===\" && python3 scripts/general/check_knowledge_artifacts.py \"$FILE\" || true",
+            "command": "FILE=$(jq -r '.tool_response.filePath // .tool_input.file_path' 2>/dev/null); echo \"$FILE\" | grep -qE '^knowledge/.*\\.(artifact|verdict)\\.md$' && { echo \"=== PostToolUse hook: Validating knowledge artifact ===\" && python3 scripts/general/check_knowledge_artifacts.py \"$FILE\" && python3 scripts/general/check_artifact_toc.py \"$FILE\"; } || true",
             "timeout": 30,
             "statusMessage": "Validating knowledge artifact..."
           }

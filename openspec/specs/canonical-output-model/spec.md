@@ -20,6 +20,22 @@
 
 ## 格式要求
 
-- `artifact.md` 必须以目录（TOC）开头，方便导航。TOC 应覆盖所有一级和二级标题。
-- `verdict.md` 如超过 20 行，也应以目录开头。
+### Frontmatter 强制
+
+- `artifact.md` **必须**以 YAML frontmatter 开头（即文件第一行是 `---`）。
+- Frontmatter **必须**包含 `object_type`、`title`、`research_depth`、`updated_at` 字段。
+- Frontmatter 字段值**必须**符合 `check_frontmatter.py` 中定义的枚举约束。
+- **禁止**使用已废弃字段：`status`、`source_change`、`topic_slug`、`primary_domain`、`decision_space`。
+
+### 目录（TOC）强制
+
+- `artifact.md` **必须**以目录（TOC）开头（frontmatter 之后），方便导航。
+- TOC **必须**覆盖所有一级（`##`）和二级（`###`）标题。
+- `verdict.md` 如超过 20 行，也**必须**以目录开头。
 - TOC 使用标准 Markdown 列表格式，标题链接使用小写连字符形式。
+
+### 增量更新约束
+
+- 更新现有 artifact 时，新内容**必须**以旧 artifact 为基础进行扩充，**禁止**全量替换。
+- 旧 artifact 中仍然有效的章节**必须**保留，可以重写表述、补充细节、调整结构，但不能以"不相关"为由直接删除。
+- 如确实需要删除旧章节，**必须**在 draft 中明确说明删除理由和替代内容的位置。
