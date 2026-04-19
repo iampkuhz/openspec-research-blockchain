@@ -88,8 +88,8 @@ argument-hint: "[change-path | research-topic]"
 3. 如作者返回来源需求单，主会话调用 `source-evidence-agent` 创建或补充 `sources/`
 4. 如作者返回图表需求单，主会话调用 `diagram-agent` 生成和验证 `diagrams/`
 5. primitive-author 消费 `sources/` 与 `diagrams/` 后完成 `draft.md`
-6. draft 冻结后，主会话调用 `review-critic-agent` 评审
-7. review 通过后，主会话调用 `publish-agent` 提炼 artifact
+6. **review gate**：draft 冻结后，主会话**必须**调用 `review-critic-agent` 评审，**不得跳过**
+7. **publish gate**：review 通过后，主会话**必须**调用 `publish-agent` 提炼 artifact 到 `knowledge/`，**不得跳过**
 
 ### 2b. synthesis 模式（三阶段）
 
@@ -102,16 +102,23 @@ argument-hint: "[change-path | research-topic]"
    - 调用 `primitive-author` 为该 primitive 执行全链路写作
 4. 等待所有 primitive-author 完成（并行执行）
 
+**阶段 1.5 — primitive quality gate（不可跳过）**：
+
+1. 对阶段 1 产生的**每个** primitive change，主会话必须依次执行：
+   - 调用 `review-critic-agent` 评审该 primitive 的 `draft.md`
+   - review 通过后，调用 `publish-agent` 提炼该 primitive 的 artifact 到 `knowledge/`
+2. **只有当所有 primitive 均通过 review + publish 后**，才允许进入阶段 2
+
 **阶段 2 — synthesis 合成**：
 
 1. 主会话调用 `synthesis-author`，传入 synthesis change 路径
-2. synthesis-author 从各 primitive `draft.md` 中提取信息进行横向对比
+2. synthesis-author 从各 primitive `draft.md`（以及已 publish 的 `knowledge/` artifact）中提取信息进行横向对比
 3. 如 synthesis-author 返回来源或图表需求单，主会话调用 `source-evidence-agent` / `diagram-agent`
 4. synthesis-author 消费补充产物后完成 `draft.md`
-5. 主会话调用 `review-critic-agent` 评审
-6. review 通过后，主会话调用 `publish-agent` 提炼 artifact
+5. **review gate**：主会话**必须**调用 `review-critic-agent` 评审，**不得跳过**
+6. **publish gate**：review 通过后，主会话**必须**调用 `publish-agent` 提炼 artifact 到 `knowledge/`，**不得跳过**
 
-**约束**：阶段 2 禁止在阶段 1 所有 primitive 的 draft 完成前开始。
+**约束**：阶段 2 禁止在阶段 1.5 所有 primitive 的 review + publish 完成前开始。
 
 ### 2c. decision 模式
 
@@ -125,7 +132,30 @@ argument-hint: "[change-path | research-topic]"
 主会话 → publish-agent
 ```
 
-流程同 2a，但 decision-author 输出带 verdict 的决策建议。
+**阶段 1 — 依赖发现**：
+
+1. 读取 decision `request.md` 中的 `依赖声明` 段
+2. 列出所有依赖的 primitive 和 synthesis
+3. 对每个缺失的 primitive/synthesis：创建 change 目录 + 调用对应 author agent 执行全链路写作
+4. 等待所有 author agent 完成（并行执行）
+
+**阶段 1.5 — 依赖 quality gate（不可跳过）**：
+
+1. 对阶段 1 产生的**每个** primitive 和 synthesis change，主会话必须依次执行：
+   - 调用 `review-critic-agent` 评审该 change 的 `draft.md`
+   - review 通过后，调用 `publish-agent` 提炼该 change 的 artifact 到 `knowledge/`
+2. **只有当所有依赖 change 均通过 review + publish 后**，才允许进入阶段 2
+
+**阶段 2 — decision 合成**：
+
+1. 主会话调用 `decision-author`，传入 decision change 路径
+2. decision-author 从各 primitive/synthesis `draft.md`（以及已 publish 的 `knowledge/` artifact）中提取信息进行场景决策分析
+3. 如 decision-author 返回来源或图表需求单，主会话调用 `source-evidence-agent` / `diagram-agent`
+4. decision-author 消费补充产物后完成 `draft.md`
+5. **review gate**：主会话**必须**调用 `review-critic-agent` 评审，**不得跳过**
+6. **publish gate**：review 通过后，主会话**必须**调用 `publish-agent` 提炼 artifact + verdict 到 `knowledge/`，**不得跳过**
+
+**约束**：阶段 2 禁止在阶段 1.5 所有依赖 change 的 review + publish 完成前开始。
 
 ### 3. Fallback
 
@@ -142,5 +172,9 @@ argument-hint: "[change-path | research-topic]"
 - 使用了哪些 specialist subagent
 - 各阶段状态
 - 最终使用的 change 路径（如有 synthesis，列出所有 primitive change 路径）
+- **每个 change 的 review 状态**：是否调用了 review-critic-agent、评审结论（approved / needs revision）
+- **每个 change 的 publish 状态**：是否调用了 publish-agent、artifact 提升路径（knowledge/ 下的具体路径）
 - 是否生成了 `sources/`、`diagrams/`、`review/` 与 artifact 文件
 - 是否还有 fridge items / evidence gap 未关闭
+
+**强制检查**：在输出完成总结前，必须确认每个 change 均已通过 review gate + publish gate。如有 change 未完成 review/publish，必须在总结中明确列出，不得隐去。

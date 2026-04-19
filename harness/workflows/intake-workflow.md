@@ -66,11 +66,20 @@ find knowledge/ -name "*<topic>*"
 openspec new change <name> --schema blockchain-research
 ```
 
-命名规范：`<type>-<topic>-<path>-pass-1`
+命名规范：`<research-tag>__<object-type>__<topic>[-<path>][-pass-N]`
 
-示例：
-- `primitive-eip-4337-deep-dive-pass-1`
-- `decision-agentic-payment-scenario-pass-1`
+- `research-tag`：同一研究的短标识，同批次所有 changes 共享此前缀
+- `object-type`：primitive / synthesis / decision
+- `topic`：具体研究对象或路径
+- `<path>` / `<pass-N>`：可选后缀
+
+示例（ai-coding-review 研究）：
+- `ai-coding-review__primitive__coderabbit`
+- `ai-coding-review__primitive__sonarqube`
+- `ai-coding-review__synthesis__comparison`
+- `ai-coding-review__decision__roadmap`
+
+同研究的多个 changes 共享 `research-tag` 前缀，通过 `ls` 即可快速识别关联关系。
 
 ### 步骤 5：初始化 request.md
 

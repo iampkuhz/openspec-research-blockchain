@@ -60,14 +60,15 @@
   主会话读取 synthesis request.md 的依赖声明
   对每个缺失的 primitive: 创建 change + 调用 primitive-author 执行全链路
 
-阶段 2: 并行 primitive 执行
-  所有 primitive-author 并行执行
-  主会话汇总各 primitive 的来源 / 图表 handoff
-  等待所有 primitive draft 完成
+阶段 1.5: primitive quality gate（不可跳过）
+  对阶段 1 产生的每个 primitive change:
+    → review-critic-agent 评审 draft.md
+    → publish-agent 提炼 artifact 到 knowledge/
+  只有当所有 primitive 均通过 review + publish 后，才允许进入阶段 2
 
-阶段 3: synthesis 合成
+阶段 2: synthesis 合成
   主会话调用 synthesis-author
-  synthesis-author 从各 primitive draft 中提取信息做横向对比
+  synthesis-author 从各 primitive draft.md（以及已 publish 的 knowledge/ artifact）中提取信息做横向对比
   draft 冻结后 → review-critic-agent → publish-agent
 ```
 
@@ -82,14 +83,15 @@
   对每个缺失的 synthesis: 创建 change + 调用 synthesis-author 执行全链路
   对已有的 primitive/synthesis: 校验深度是否满足所需深度，不足时同样补齐
 
-阶段 2: 并行依赖执行
-  所有 primitive-author 和 synthesis-author 并行执行
-  主会话汇总各依赖的来源 / 图表 handoff
-  等待所有依赖 draft 完成
+阶段 1.5: 依赖 quality gate（不可跳过）
+  对阶段 1 产生的每个 primitive 和 synthesis change:
+    → review-critic-agent 评审 draft.md
+    → publish-agent 提炼 artifact 到 knowledge/
+  只有当所有依赖 change 均通过 review + publish 后，才允许进入阶段 2
 
-阶段 3: decision 合成
+阶段 2: decision 合成
   主会话调用 decision-author
-  decision-author 从各 primitive/synthesis draft 中提取候选方案的能力评估和边界
+  decision-author 从各 primitive/synthesis draft.md（以及已 publish 的 knowledge/ artifact）中提取候选方案的能力评估和边界
   draft 冻结后 → review-critic-agent → publish-agent
 ```
 
@@ -268,4 +270,16 @@ diagrams ────────────┘
 - 使用的 change 路径
 - 研究对象类型和路径
 - 是否生成 diagram package
+- **每个 change 的 review 状态**：review-critic-agent 结论
+- **每个 change 的 publish 状态**：publish-agent 是否执行、artifact 提升路径
 - 是否完成 publish / apply
+
+**阶段间 quality gate（必须执行）**：
+
+- 在 synthesis 模式中，阶段 1.5（primitive quality gate）必须对所有依赖 primitive 执行 review + publish 后，才允许进入阶段 2
+- 在 decision 模式中，阶段 1.5（依赖 quality gate）必须对所有依赖 primitive/synthesis 执行 review + publish 后，才允许进入阶段 2
+- **不得以"后续 change 还需要这个 draft 做依赖"为由跳过 review/publish**——synthesis 消费的是 openspec/changes/ 下的 draft.md，publish 提升的是 knowledge/ 下的 artifact.md，两者不冲突
+
+**任务状态清理（必须执行）**：
+- 所有通过 `TaskCreate` 创建的任务，在对应阶段完成后必须调用 `TaskUpdate` 标记为 `completed`
+- 总结输出前确保 TaskList 状态与实际进度一致，不得遗留 `in_progress` 的脏任务
