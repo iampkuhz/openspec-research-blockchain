@@ -1,7 +1,7 @@
 ---
 object_type: primitive
 research_path: deep-dive
-domain: ai-code-review
+domain: static-analysis-cr
 topic_slug: sonarqube-ai-framework
 change_id: sonarqube-ai-framework
 created: 2026-04-19

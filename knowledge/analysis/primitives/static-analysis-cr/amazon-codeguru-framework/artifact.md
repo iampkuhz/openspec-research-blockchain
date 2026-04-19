@@ -3,7 +3,7 @@
 - 研究深度：deep
 - 对象类型：primitive
 - 研究路径：deep-dive
-- 相关 domains：ai-code-review, ml-driven, aws-ecosystem, java-ecosystem
+- 相关 domains：static-analysis-cr, ml-driven, aws-ecosystem, java-ecosystem
 - 创建时间：2026-04-19
 - 来源 change：amazon-codeguru-framework
 - 状态：stable
