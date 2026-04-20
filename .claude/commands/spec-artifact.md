@@ -22,7 +22,7 @@ argument-hint: "[change-path | change-name]"
 - 如果需要端到端执行（request → plan → draft → review → artifact），应使用 `/spec-research` 而非本 command。
 - 主会话负责 review gate 检查、目标路径确认与最终写入。
 - durable 内容提炼由主会话显式调用 `publish-agent` subagent 负责。
-- 如果当前任务实际属于 governance / routing / repository architecture 变更，切换到 governance review 路由，并显式调用 `governance-review-agent`。
+- 如果当前任务实际属于 governance / routing / repository architecture 变更，切换到 governance review 路由，并显式调用 `governance-review-agent`。治理路由判断以 `docs/governance/openspec-harness-boundary.md` 为准。
 - 不要让一个 subagent 继续调用其他 subagent。所有 specialist 都由主会话协调。
 
 ## 规则来源

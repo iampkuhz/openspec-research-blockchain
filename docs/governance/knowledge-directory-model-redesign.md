@@ -1,4 +1,4 @@
-> **状态**：历史设计文档。本方案已 fully implemented（schema.yaml、config.yaml、校验脚本均已落地）。保留作为设计决策追溯参考。
+> **状态**：Archived rationale。本方案已 fully implemented（`openspec/specs/canonical-output-model/spec.md`、`openspec/specs/research-object-model/spec.md`、`openspec/schemas/blockchain-research/schema.yaml`、`openspec/config.yaml` 均已落地）。保留作为设计决策追溯参考，不作为活跃规则来源。
 
 ---
 

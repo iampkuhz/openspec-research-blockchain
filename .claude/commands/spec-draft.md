@@ -24,7 +24,7 @@ argument-hint: "[change-path | change-name]"
 - `draft.md` 的主链写作保留在主会话；不要再额外拆出 author subagent。
 - **所有 PlantUML 图必须调用 `diagram-agent`**：当 plan.md 或图表清单中包含 PlantUML Architecture 或 PlantUML Sequence 图时，必须显式调用 `diagram-agent` subagent 进行生成和验证。
 - 遇到 evidence gap 或需要链接重验证时，由主会话显式调用 `source-evidence-agent` subagent。
-- 如果当前任务实际属于 governance / routing / repository architecture 工作，切换到 governance review 路由，并显式调用 `governance-review-agent`。
+- 如果当前任务实际属于 governance / routing / repository architecture 工作，切换到 governance review 路由，并显式调用 `governance-review-agent`。治理路由判断以 `docs/governance/openspec-harness-boundary.md` 为准。
 - 不要让一个 subagent 再去调用另一个 subagent。所有 delegation 都留在主会话。
 
 ## 规则来源

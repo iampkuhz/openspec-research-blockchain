@@ -76,34 +76,7 @@
 
 ## 三、Agent 分类
 
-### Author Agents（研究型）
-
-| Agent | 职责 | 调用方 |
-|-------|------|--------|
-| `primitive-author` | 单个 primitive 的全链路研究写作 | 主会话 orchestrator |
-| `synthesis-author` | 多 primitive 的横向对比合成 | 主会话 orchestrator |
-| `decision-author` | 场景决策分析写作 | 主会话 orchestrator |
-
-Author agents 的特点：
-- 负责 `request.md` → `plan.md` → `draft.md` 的主链写作
-- 不直接调用 specialist agent；如需 `sources/` 或 `diagrams/`，向主会话返回明确 handoff 需求
-- 完成后将 draft 交回主会话，由主会话决定是否调用 review-critic-agent
-
-### Specialist agents（专长型）
-
-| Agent | 职责 | 调用方 |
-|-------|------|--------|
-| `source-evidence-agent` | sources/ 创建、链接验证、evidence gap | 主会话 orchestrator |
-| `diagram-agent` | 图表生成与验证 | 主会话 orchestrator |
-| `review-critic-agent` | 独立技术评审 | 主会话 orchestrator |
-| `publish-agent` | 长期 artifact 提炼 | 主会话 orchestrator |
-| `governance-review-agent` | 治理边界评审 | 主会话 orchestrator |
-| `spec-system-audit-agent` | 仓库规约体系审计与清理 | 主会话 orchestrator |
-
-Specialist agents 的特点：
-- 不负责 `request.md` / `plan.md` / `draft.md` 的写作
-- 输出结构化产物（inbox.yaml、diagram package、review checklist 等）
-- **不得调用其他 subagent**
+Author agents 与 specialist agents 的分类、职责边界与调度原则以 `harness/governance/agent-boundaries.md` 为准。本文件不再重复定义。
 
 ---
 

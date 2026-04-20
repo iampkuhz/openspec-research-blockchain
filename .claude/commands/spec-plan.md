@@ -23,7 +23,7 @@ argument-hint: "[change-path | change-name]"
 - 主会话负责路由、handoff 回收与最终质量门控。
 - `plan.md` 的主链写作保留在主会话；不要再额外拆出 author subagent。
 - 需要来源收集、链接验证或 evidence gap 分析时，由主会话显式调用 `source-evidence-agent` subagent。
-- 如果当前任务实际属于 governance / routing / repository architecture 变更，切换到 governance review 路由，并显式调用 `governance-review-agent`。
+- 如果当前任务实际属于 governance / routing / repository architecture 变更，切换到 governance review 路由，并显式调用 `governance-review-agent`。治理路由判断以 `docs/governance/openspec-harness-boundary.md` 为准。
 - 不要让一个 subagent 去继续调用另一个 subagent。所有 specialist 都由主会话调度。
 
 ## 规则来源

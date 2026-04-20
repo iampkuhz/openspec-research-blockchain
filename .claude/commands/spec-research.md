@@ -22,6 +22,8 @@ argument-hint: "[change-path | research-topic]"
 - 如果是普通 research change，按下方 research pipeline 执行。
 - 如果任务会修改 `openspec/**`、`harness/**`、`.claude/**`、`AGENTS.md`、`docs/governance/**`，且影响 routing、governance、schema、spec、template、workflow、rule 或 repository architecture，则**不要**走 research pipeline，改走 governance review 路由，并显式调用 `governance-review-agent`。
 
+治理路由判断以 `docs/governance/openspec-harness-boundary.md` 和 `harness/workflows/governance-review-workflow.md` 为准。
+
 ## 执行模型
 
 - 保持在主会话执行；这个 command 本身就是 **orchestrator**。
