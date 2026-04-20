@@ -3,6 +3,7 @@ object_type: primitive
 title: BNB Chain PoSA 共识机制演进分析
 research_depth: deep
 updated_at: 2026-04-20
+updated_note: "新增阶段五（Osaka/Mendel）及后续演进分析"
 related_domains:
   - consensus
 ---
@@ -20,6 +21,7 @@ related_domains:
   - [阶段二：最终性引入期（Luban → Bohr）](#阶段二最终性引入期luban--bohr)
   - [阶段三：亚秒出块期（Lorentz → Maxwell → Fermi）](#阶段三亚秒出块期lorentz--maxwell--fermi)
   - [阶段四：治理与融合期（BC Fusion 后）](#阶段四治理与融合期bc-fusion-后)
+  - [阶段五：执行成熟期（Osaka/Mendel 后）](#阶段五执行成熟期osakamendel-后)
   - [核心流程](#核心流程)
 - [设计取舍](#设计取舍)
 - [边界与前提](#边界与前提)
@@ -83,7 +85,7 @@ BNB Smart Chain（BSC）是 BNB Chain 生态中的 EVM 兼容智能链，其共�
 | Parlia 引擎组件图 | Parlia 内部核心组件分层 | 必须 | Mermaid 架构图 | 理解共识引擎的模块划分 |
 | 出块流程图 | 一个区块从提议到最终化的完整流程 | 必须 | Mermaid 时序图 | 共识机制的核心 happy path |
 | 状态转换表 | Epoch、Snapshot、最终性状态如何转换 | 必须 | Markdown 表格 | 存在显式的 epoch/snapshot/finality 状态机 |
-| 演进路线图 | 四个阶段的架构跃迁路径 | 必须 | ASCII 路线图 | 演进类 artifact 强制要求 |
+| 演进路线图 | 五个阶段的架构跃迁路径 | 必须 | ASCII 路线图 | 演进类 artifact 强制要求 |
 
 ### 角色与信任边界
 
@@ -101,47 +103,46 @@ BNB Chain 的共识系统涉及以下信任边界：
 
 ### 演进路线图
 
+<!-- diagram: 共识机制演进路线图 - ASCII 路线图 -->
 ```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                    BNB Chain 共识机制演进路线图                                │
-├──────────────┬──────────────┬──────────────┬─────────────────────────────────┤
-│  阶段一       │  阶段二       │  阶段三       │  阶段四                         │
-│  权威出块     │  最终性引入   │  亚秒出块     │  治理与融合                     │
-│  奠基期       │  期           │  期           │  期                             │
-├──────────────┼──────────────┼──────────────┼─────────────────────────────────┤
-│              │              │              │                                  │
-│  PoSA 基础   │  +BLS 投票   │  出块间隔    │  Native Staking                  │
-│  3s 出块     │  快速最终性  │  逐步缩短    │  +On-chain Governance            │
-│  21 验证者   │  +EIP 兼容   │  3s→1.5s→   │  +Validator Agent                │
-│  概率最终性  │  +Candidate  │  0.75s→0.45s│  BC 融合                          │
-│              │  验证者      │  +TurnLength │                                  │
-│              │              │  亚秒出块    │                                  │
-│              │              │              │                                  │
-│  ~2020-2022  │  ~2022-2024  │  2025-2026   │  2025- 持续                      │
-│              │              │              │                                  │
-│  代表分叉：   │  代表分叉：   │  代表分叉：   │  代表分叉：                       │
-│  Niels       │  Luban       │  Lorentz     │  Feynman                        │
-│  MirrorSync  │  Plato       │  Maxwell     │  BC Fusion                      │
-│  Bruno       │  Berlin      │  Fermi       │  Governance                     │
-│  Euler       │  London      │  Bohr        │                                  │
-│  Nano        │  Hertz       │              │                                  │
-│  Moran       │  Hertzfix    │              │                                  │
-│  Gibbs       │              │              │                                  │
-│  Planck      │              │              │                                  │
-│  **Luban**   │              │              │                                  │
-└──────────────┴──────────────┴──────────────┴─────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────────────────────────────────┐
+│                         BNB Chain 共识机制演进路线图                                      │
+├──────────────┬──────────────┬──────────────┬──────────────────┬──────────────────────────┤
+│  阶段一       │  阶段二       │  阶段三       │  阶段四           │  阶段五                 │
+│  权威出块     │  最终性引入   │  亚秒出块     │  治理与融合       │  执行成熟               │
+│  奠基期       │  期           │  期           │  期              │  期                     │
+├──────────────┼──────────────┼──────────────┼──────────────────┼──────────────────────────┤
+│              │              │              │                  │                          │
+│  PoSA 基础   │  +BLS 投票   │  出块间隔    │  Native Staking  │  Gas/执行边界收紧        │
+│  3s 出块     │  快速最终性  │  逐步缩短    │  +On-chain Gov   │  +Fast Finality 优化     │
+│  21 验证者   │  +EIP 兼容   │  3s→1.5s→   │  +Validator Agent│  +Block Size Cap        │
+│  概率最终性  │  +Candidate  │  0.75s→0.45s│  BC 融合          │  +Blob Tx 限制           │
+│              │  验证者      │  +TurnLength │                  │  +CLZ/Secp256r1          │
+│              │              │  亚秒出块    │                  │  Reth 客户端             │
+│              │              │              │                  │                          │
+│  ~2020-2022  │  ~2022-2024  │  2025-2026   │  2025-           │  2026-                   │
+│              │              │              │                  │                          │
+│  代表分叉：   │  代表分叉：   │  代表分叉：   │  代表分叉：       │  代表分叉：              │
+│  Niels       │  Luban       │  Lorentz     │  Feynman         │  Osaka/Mendel           │
+│  MirrorSync  │  Plato       │  Maxwell     │  BC Fusion       │  (2026-04-28)           │
+│  Bruno       │  Berlin      │  Fermi       │  Governance      │                         │
+│  Euler       │  London      │  Bohr        │                  │                          │
+│  Nano/Moran  │  Hertz       │              │                  │                          │
+│  Gibbs       │  Hertzfix    │              │                  │                          │
+│  Planck      │              │              │                  │                          │
+└──────────────┴──────────────┴──────────────┴──────────────────┴──────────────────────────┘
 ```
 
 正交维度：出块间隔的演进
 
 ```
-3000ms ──────→ 1500ms ──────→ 750ms ──────→ 450ms
-(Genesis)     (Lorentz)     (Maxwell)     (Fermi)
-   │              │              │              │
-   ▼              ▼              ▼              ▼
- 基础 PoSA     Epoch→500    Epoch→1000     亚秒出块达成
- 轮转出块      TurnLength  TurnLength↑     网络传播压力
-               引入准备                      最大化
+3000ms ──────→ 1500ms ──────→ 750ms ──────→ 450ms ───→ 不再缩短（稳定）
+(Genesis)     (Lorentz)     (Maxwell)     (Fermi)     (Osaka/Mendel)
+   │              │              │              │              │
+   ▼              ▼              ▼              ▼              ▼
+ 基础 PoSA     Epoch→500    Epoch→1000     亚秒出块达成   执行层收敛
+ 轮转出块      TurnLength  TurnLength↑     网络传播压力   Gas/区块限制
+               引入准备                      最大化        Finality 优化
 ```
 
 ### 阶段一：权威出块奠基期（Genesis → Luban 前）
@@ -288,6 +289,54 @@ BNB Chain 的共识系统涉及以下信任边界：
 - 不再依赖 Beacon Chain 的跨链通信来管理验证者 [L2]
 - BSC 成为完全自洽的共识 + 治理 + 经济系统 [L3]
 
+**被抛弃的模式**：双链（Beacon Chain + BSC）验证者管理模式被单链原生模式替代；跨链 IAVL 同步机制被链上合约直接管理替代。
+
+### 阶段五：执行成熟期（Osaka/Mendel 后）
+
+该阶段的核心技术思考是从"追求极致速度"转向"确保速度下的稳定性和一致性"。Osaka/Mendel 分叉（2026-04-28）没有继续缩短出块间隔，而是围绕执行层收敛、Gas 可预测性、最终性可靠性进行系统性加固。这代表了"性能突破"向"工业级可靠性"的架构跃迁。
+
+**能力层：执行边界收紧 + Fast Finality 优化**
+
+- **BEP-652（EIP-7825）交易 Gas 上限**：引入协议级单交易 Gas 上限 16,777,216 gas，在验证阶段即拒绝超限交易 [L2]
+  - 防止单个重计算交易扭曲区块处理节奏
+  - 减少 gas 操纵对区块构造可预测性的影响
+  - 在亚秒出块场景下，异常重计算的破坏力被放大，该限制是执行收敛的关键防线
+- **BEP-648 Fast Finality 内存投票池优化**：通过 in-memory voting pool 机制改进快速最终性，使 attestation 投票聚合更高效 [L2]
+  - 此前 attestation 需要等待下一个验证者出块时携带，内存池优化减少了投票聚合延迟
+  - 在 0.45s 出块间隔下，最终性确认的可靠性得到提升
+  - 注意：最终性仍需要约 2 个区块（~0.9s），但确认的可靠性增强，而非延迟缩短
+- **BEP-657 Blob 交易限制**：按区块号限制 blob 交易包含数量，防止大数据量交易冲击块处理性能 [L2]
+  - 在亚秒出块下，区块处理窗口极短，blob 数据量过大会导致节点处理跟不上出块节奏
+
+**架构层：EIP 对齐 + 执行层优化**
+
+- **EIP-7823/EIP-7883 MODEXP 边界**：对模幂运算设置上限和 Gas 成本调整，防止重计算操作造成执行不确定性 [L2]
+- **EIP-7918 Blob Base Fee 限制**：按执行成本限定 blob base fee 波动范围 [L2]
+- **EIP-7934 执行区块大小限制**：明确的区块大小上限，防止区块过重导致节点处理延迟 [L2]
+- **EIP-7939 CLZ 操作码**：引入前导零计数操作码，在字节码层提升特定计算效率 [L2]
+- **EIP-7951 secp256r1 支持**：更新非以太坊标准曲线的 Gas 成本，便于与传统硬件安全模块集成 [L2]
+
+**生态层：Reth 客户端 + 双客户端策略**
+
+- **Reth 基础全节点/归档节点**：同步速度提升约 30%，TrieDB 优化带来额外约 40% 性能改进 [L2]
+- **Reth 验证者节点 alpha**：首个基于 Reth 的验证者节点 alpha 版本已发布，生产版本计划 2026 年推出 [L2]
+- **双客户端策略**：Geth 作为稳定性锚点，Reth 作为高性能引擎，降低单一客户端风险 [L2]
+- **节点版本强制升级**：v1.7.2 为 Osaka/Mendel 必需版本，`JournalFileEnabled` 配置字段已移除 [L2]
+
+**战略信号：从速度竞赛到工业级可靠性**
+
+Osaka/Mendel 标志着 BNB Chain 演进策略的明确转向：
+
+| 维度 | 前 Osaka/Mendel | Osaka/Mendel 后 |
+|------|-----------------|-----------------|
+| 首要目标 | 降低出块间隔（3s → 0.45s） | 执行一致性和 Gas 可预测性 |
+| 性能优化 | 协议参数调整（Epoch/TurnLength） | 执行层边界收紧（Gas/区块/blob 限制） |
+| 用户体验 | "更快" | "更可靠 + 更可预测" |
+| 目标用户 | 零售用户 + DeFi 交易者 | 机构级应用 + 高频场景 |
+| 客户端 | 单一 Geth 分叉 | Geth + Reth 双客户端 |
+
+**被抛弃的模式**：单纯追求出块间隔缩短的策略被抛弃，后续优化转向执行质量而非速度指标。
+
 ### 核心流程
 
 **出块流程（Happy Path）**：
@@ -348,9 +397,9 @@ BNB Chain 的共识系统涉及以下信任边界：
 - BNB 代币价格和经济激励不在共识协议范围内 [L2]
 
 ### Live / Planned / Promotional
-- **已上线**：PoSA 基础、快速最终性（BEP-126）、候选验证者（BEP-131）、出块间隔缩短（Lorentz/Maxwell/Fermi）、BC Fusion 相关合约 [L1]
-- **规划中**：BEP-341（连续出块）代码中已有 TurnLength 逻辑和 `IsBohr` 判断，但 BEP 文档状态需进一步确认 [L1]
-- **宣传性**：官方文档称 0.45 秒出块，但实际网络表现取决于节点分布和网络条件 [L1]
+- **已上线**：PoSA 基础、快速最终性（BEP-126）、候选验证者（BEP-131）、出块间隔缩短（Lorentz/Maxwell/Fermi）、BC Fusion 相关合约、Osaka/Mendel（Gas 限制/Fast Finality 内存池/区块大小/blob 限制/CLZ/secp256r1）[L1-L2]
+- **规划中**：20,000 TPS 目标（Reth 生产验证者节点 + 并行执行）、下一代交易链（1M TPS 目标，2026-2028）、Parallel EVM 全链路 [L2]
+- **Lab Benchmark**：官方 roadmap 提及 150ms 最佳确认目标（下一代交易链），当前仍为规划阶段 [L2]
 
 ### 能力边界
 - BSC 的共识保证区块顺序和最终性，**不保证**交易执行速度（取决于 Gas Limit 和交易复杂度）
@@ -371,9 +420,10 @@ BNB Chain 的共识系统涉及以下信任边界：
 
 - **【L1 证据】BNB Chain 使用 PoSA 共识**，通过自研 Parlia 引擎在 go-ethereum 分叉上实现，结合 PoS 的经济安全和 PoA 的高效出块。
 - **【L1 证据】出块间隔经历了三次主要缩短**：3s（Genesis）→ 1.5s（Lorentz, 2025-04）→ 0.75s（Maxwell, 2025-06）→ 0.45s（Fermi, 2026-01）。每次缩短都配套调整了 Epoch 长度和 TurnLength 以维持共识稳定性。
-- **【L1 证据】快速最终性通过 BEP-126 实现**，利用 BLS 签名投票和 attestation 机制，在约 2 个区块内达成最终性，而非等待概率最终性。
-- **【L1 证据】BNB Chain 经历了四个架构阶段**：权威出块奠基 → 最终性引入 → 亚秒出块 → 治理与融合，每个阶段代表了不同的架构模式变化。
-- **【L2 证据，需确认】BEP-341（连续出块）的 TurnLength 机制**：代码中可见 `IsBohr` 判断和 TurnLength 解析逻辑，但 BEP 文档状态仍需进一步确认。
+- **【L1 证据】快速最终性通过 BEP-126 实现**，利用 BLS 签名投票和 attestation 机制，在约 2 个区块内达成最终性。
+- **【L1 证据】BNB Chain 经历了五个架构阶段**：权威出块奠基 → 最终性引入 → 亚秒出块 → 治理与融合 → 执行成熟，每个阶段代表了不同的架构模式变化。
+- **【L2 证据】Osaka/Mendel 分叉（2026-04-28）标志着策略转向**：从追求极致速度转向执行一致性和工业级可靠性，引入 9 个 BEP（6 个以太坊 EIP 对齐 + 2 个 BNB Chain 专属优化）。
+- **【L2 证据】2026-2028 路线图**：20,000 TPS 目标（Reth 生产验证者 + 并行执行），下一代交易链 1M TPS 目标（150ms 最佳确认），双客户端策略（Geth + Reth）。
 - **【L3 推断】亚秒出块的网络传播压力是主要瓶颈**：出块间隔缩短到 450ms 后，网络传播时间占比显著增大，需要网络层配套优化。
 
 ## 参考资料
@@ -390,3 +440,5 @@ BNB Chain 的共识系统涉及以下信任边界：
 | https://github.com/bnb-chain/BEPs/blob/master/BEPs/BEP131.md | BEP-131: 候选验证者 | `[已验证]` |
 | https://github.com/bnb-chain/BEPs/blob/master/BEPs/BEP153.md | BEP-153: BSC 原生质押 | `[已验证]` |
 | https://docs.bnbchain.org/bnb-smart-chain/overview/ | BSC 官方概览文档 | `[已验证]` |
+| https://www.bnbchain.org/en/blog/osaka-mendel-hard-fork-strengthening-bnb-chain-after-sub-second-speed-gains | Osaka/Mendel 官方解读 | `[已验证]` |
+| https://www.bnbchain.org/en/blog/tech-roadmap-2026 | BNB Chain Tech Roadmap 2026 | `[已验证]` |

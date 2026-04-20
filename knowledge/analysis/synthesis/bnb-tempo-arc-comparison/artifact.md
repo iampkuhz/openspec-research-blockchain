@@ -5,6 +5,7 @@ title: "BNB Chain PoSA / Tempo Simplex BFT / Arc Tendermint BFT 共识机制对�
 research_depth: focused
 research_path: evolution
 updated_at: 2026-04-20
+updated_note: "同步 BNB Chain Osaka/Mendel 分叉信息"
 depends_on:
   - knowledge/analysis/primitives/consensus/bnb-consensus-evolution/artifact.md
   - knowledge/analysis/primitives/consensus/tempo-consensus/artifact.md
@@ -117,14 +118,14 @@ depends_on:
 
 | 属性 | BNB Chain（PoSA） | Tempo（Simplex BFT） | Arc（Malachite BFT） |
 |------|-------------------|---------------------|---------------------|
-| Block Time | **0.45s（固定）**，Fermi 分叉后 | **数百毫秒级别**（推断），毫秒级时间戳 | **乐观响应性**（无固定 slot，以网络允许最快速度推进） |
+| Block Time | **0.45s（固定）**，Fermi 分叉后；Osaka/Mendel 后不再继续缩短 | **数百毫秒级别**（推断），毫秒级时间戳 | **乐观响应性**（无固定 slot，以网络允许最快速度推进） |
 | 时间戳精度 | 毫秒级（Lorentz 分叉后） | 毫秒级（ALLOWED_FUTURE_BLOCK_TIME_MILLIS = 0） | 秒级（Tendermint 标准） |
 | 机制 | 链上参数控制，通过分叉升级调整 | 协议原生，零时间漂移容忍 | 协议原生，乐观推进 |
-| 演进路径 | 3s → 1.5s → 0.75s → 0.45s（四次渐进分叉） | 协议即支持亚秒级 | 验证者数量影响实际延迟 |
+| 演进路径 | 3s → 1.5s → 0.75s → 0.45s（四次渐进分叉）→ Osaka/Mendel 后转向执行收敛 | 协议即支持亚秒级 | 验证者数量影响实际延迟 |
 | 来源等级 | [SRC:BNB artifact, L1] | [SRC:Tempo artifact, L3 推断] | [SRC:Arc artifact, L1] |
 
 **分析**：
-- BNB Chain 的 0.45s 是固定出块间隔，通过四次渐进分叉逐步达成，每次缩短都配套调整 Epoch 和 TurnLength。[SRC:BNB artifact, L1]
+- BNB Chain 的 0.45s 是固定出块间隔，通过四次渐进分叉逐步达成，每次缩短都配套调整 Epoch 和 TurnLength。Osaka/Mendel 分叉后，BNB Chain 的演进策略从追求极致速度转向执行一致性和工业级可靠性，不再继续缩短出块间隔。[SRC:BNB artifact, L1-L2]
 - Tempo 的毫秒级时间戳和零时间漂移容忍表明其目标出块间隔在数百毫秒级别，但具体数值未公开确认，证据等级为 L3 推断。[SRC:Tempo artifact, L3 推断]
 - Arc 不依赖固定出块间隔，而是以网络允许的最快速度推进，实际延迟取决于验证者数量和地理分布。[SRC:Arc artifact, L1]
 
@@ -369,7 +370,7 @@ depends_on:
 
 ### 已确认
 
-- **【L1 证据】BNB Chain 出块间隔 0.45s**：经过四次渐进分叉达成，配套调整 Epoch 和 TurnLength。确认延迟约 0.9s（2 区块 BLS attestation）。[SRC:BNB artifact]
+- **【L1 证据】BNB Chain 出块间隔 0.45s**：经过四次渐进分叉达成，配套调整 Epoch 和 TurnLength。确认延迟约 0.9s（2 区块 BLS attestation）。Osaka/Mendel 分叉后，BNB Chain 不再继续缩短出块间隔，转向执行一致性和工业级可靠性。[SRC:BNB artifact]
 - **【L1 证据】Tempo 采用 Simplex BFT**：2-hop notarization 提供乐观终局，3-hop finalization 提供完全终局。毫秒级时间戳，零时间漂移容忍。[SRC:Tempo artifact]
 - **【L1 证据】Arc 采用 Tendermint BFT（Malachite）**：确定性终局，20 验证者基准下 <350ms 终局延迟，3,000+ TPS（实验室数据）。[SRC:Arc artifact]
 - **【L1 证据】三者安全模型不同**：BNB 有经济罚没（PoSA），Tempo 和 Arc 无内置 slashing。三者的拜占庭容错阈值一致（f < N/3）。
@@ -383,7 +384,8 @@ depends_on:
 
 ### 基于推断
 
-- **【L3 推断，uncertainty: medium】权威类共识的性能瓶颈正在从共识层转移到网络层**：BNB Chain 0.45s 出块下，网络传播时间占比显著增大。
+- **【L3 推断，uncertainty: medium】权威类共识的性能瓶颈正在从共识层转移到网络层**：BNB Chain 0.45s 出块下，网络传播时间占比显著增大。Osaka/Mendel 不再缩短出块间隔而是转向执行收敛，说明网络层和执行层已成为亚秒出块的主要瓶颈。
+- **【L2 推断，uncertainty: low】权威类共识正在从"速度竞赛"转向"执行成熟"**：BNB Chain Osaka/Mendel 标志着一个策略转折点，当出块间隔达到亚秒级后，Gas 可预测性、执行边界收紧、客户端多样性成为比速度更重要的竞争维度。Osaka/Mendel 不再缩短出块间隔而是转向执行收敛，说明网络层和执行层已成为亚秒出块的主要瓶颈。
 - **【L3 推断，uncertainty: medium】BFT 共识向更少投票轮次演进**：Simplex 的 2-hop 和 Arc 的两轮协议优化规划表明这一趋势。
 - **【L3 推断，uncertainty: high】共识协议将更强调形式化验证**：Malachite 的 Quint 规约和 Simplex 的 IACR 论文支撑表明这一方向。
 
@@ -407,6 +409,8 @@ depends_on:
 | https://github.com/bnb-chain/bsc | BSC 主代码仓库 | `[已验证]`（来自 BNB primitive） |
 | https://github.com/bnb-chain/BEPs/blob/master/BEPs/BEP126.md | BEP-126: 快速最终性机制 | `[已验证]`（来自 BNB primitive） |
 | https://github.com/bnb-chain/BEPs/blob/master/BEPs/BEP-341.md | BEP-341: 验证者连续出块 | `[已验证]`（来自 BNB primitive） |
+| https://www.bnbchain.org/en/blog/osaka-mendel-hard-fork-strengthening-bnb-chain-after-sub-second-speed-gains | Osaka/Mendel 官方解读 | `[已验证]` |
+| https://www.bnbchain.org/en/blog/tech-roadmap-2026 | BNB Chain Tech Roadmap 2026 | `[已验证]` |
 | https://eprint.iacr.org/2023/463 | Simplex Consensus 论文 | `[已验证]`（来自 Tempo primitive） |
 | https://github.com/tempoxyz/tempo | Tempo 主仓库 | `[已验证]`（来自 Tempo primitive） |
 | https://github.com/commonwarexyz/monorepo | Commonware 共识库 | `[已验证]`（来自 Tempo primitive） |
