@@ -9,19 +9,19 @@
         "hooks": [
           {
             "type": "command",
-            "command": "FILE=$(jq -r '.tool_response.filePath // .tool_input.file_path' 2>/dev/null); echo \"$FILE\" | grep -qE '^knowledge/.*\\.(artifact|verdict)\\.md$' && { echo \"=== PostToolUse hook: Validating knowledge artifact ===\" && python3 scripts/general/check_knowledge_artifacts.py \"$FILE\" && python3 scripts/general/check_artifact_toc.py \"$FILE\"; } || true",
+            "command": "FILE=$(jq -r '.tool_response.filePath // .tool_input.file_path' 2>/dev/null); echo \"$FILE\" | grep -qE '^knowledge/.*\\.(artifact|verdict)\\.md$' && { echo \"=== PostToolUse hook: Validating knowledge artifact ===\" && python3 scripts/general/check_knowledge_artifacts.py \"$FILE\" && python3 scripts/general/check_artifact_toc.py \"$FILE\"; }",
             "timeout": 30,
             "statusMessage": "Validating knowledge artifact..."
           },
           {
             "type": "command",
-            "command": "FILE=$(jq -r '.tool_response.filePath // .tool_input.file_path' 2>/dev/null); echo \"$FILE\" | grep -qE '^openspec/changes/.*/draft\\.md$' && { echo \"=== PostToolUse hook: Validating draft diagram contracts ===\" && python3 scripts/research/validate_draft_diagram_contract.py \"$FILE\"; } || true",
+            "command": "FILE=$(jq -r '.tool_response.filePath // .tool_input.file_path' 2>/dev/null); echo \"$FILE\" | grep -qE '^openspec/changes/.*/draft\\.md$' && { echo \"=== PostToolUse hook: Validating draft diagram contracts ===\" && python3 scripts/research/validate_draft_diagram_contract.py \"$FILE\"; }",
             "timeout": 30,
             "statusMessage": "Validating draft diagram contracts..."
           },
           {
             "type": "command",
-            "command": "FILE=$(jq -r '.tool_response.filePath // .tool_input.file_path' 2>/dev/null); echo \"$FILE\" | grep -qE '^(knowledge/|openspec/changes/).*\\.md$' && { echo \"=== PostToolUse hook: Validating document structure ===\" && python3 scripts/general/check_document_structure.py \"$FILE\"; } || true",
+            "command": "FILE=$(jq -r '.tool_response.filePath // .tool_input.file_path' 2>/dev/null); echo \"$FILE\" | grep -qE '^(knowledge/|openspec/changes/).*\\.md$' && { echo \"=== PostToolUse hook: Validating document structure ===\" && python3 scripts/general/check_document_structure.py \"$FILE\"; }",
             "timeout": 30,
             "statusMessage": "Validating document structure..."
           }
