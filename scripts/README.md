@@ -18,6 +18,9 @@
 ```text
 scripts/
 ├── README.md
+├── hooks/                      ← 统一 hook 调度系统
+│   ├── dispatch.py             ← Dispatcher 入口
+│   └── validators/             ← Validator adapter 层
 ├── general/
 │   ├── init_research_item.py
 │   ├── check_frontmatter.py
@@ -138,6 +141,31 @@ pip install pyyaml
 | `diagrams/` | 图表校验 | 专门用于图表语法校验和引用检查 |
 | `openspec/` | OpenSpec 工具 | 与 OpenSpec change 创建相关 |
 | `maintenance/` | 维护工具 | 仓库运维、本地环境配置、临时操作 |
+
+---
+
+## Hook 调度系统
+
+从 v1.0 起，所有校验器通过统一 dispatcher 调度，不再在 `.claude/settings.json` 或 `.githooks/pre-commit` 中硬编码规则。
+
+| 组件 | 路径 | 说明 |
+|------|------|------|
+| Dispatcher | `scripts/hooks/dispatch.py` | 统一调度器，按 event + path 匹配并执行 |
+| Registry | `harness/hooks/registry.yaml` | 声明式校验注册表 |
+| Adapters | `scripts/hooks/validators/` | 薄包装层，调用原始脚本 |
+| 文档 | `harness/hooks/README.md` | 如何扩展 event / phase / validator |
+
+**用法示例**：
+```bash
+# 列出 post_tool_use 事件下的校验器
+python3 scripts/hooks/dispatch.py --list --event post_tool_use
+
+# 对特定文件运行 dry-run
+python3 scripts/hooks/dispatch.py --dry-run --event post_tool_use --files openspec/changes/my-change/draft.md
+
+# 运行 staged 文件的 pre_commit 校验
+python3 scripts/hooks/dispatch.py --run --event pre_commit --staged
+```
 
 ---
 

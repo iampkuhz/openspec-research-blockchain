@@ -43,6 +43,7 @@ OpenSpec 区块链研究协作的导航入口。
 | 需要联网搜索或网页提取 | `.claude/tools/mcp-tools.md` |
 | 需要查看 change 目录结构或现有样例 | `openspec/changes/` |
 | 需要技能或脚本支持 | `skills/README.md`、`scripts/README.md` |
+| Hook / 校验 / 调度 | `harness/hooks/README.md`、`harness/hooks/registry.yaml` |
 | Multi-Agent 执行 | `.claude/agents/CONTRACT.md` → 按 `research_type` 加载对应 author agent |
 
 **加载原则**：
@@ -167,6 +168,7 @@ Specialist agent 按需加载：`source-evidence-agent`、`diagram-agent`、`rev
 | Governance 索引 | `docs/governance/README.md` |
 | Skills 索引 | `skills/README.md` |
 | Scripts 索引 | `scripts/README.md` |
+| Hook 系统索引 | `harness/hooks/README.md` |
 | Claude 侧路由 | `CLAUDE.md`、`.claude/README.md` |
 | MCP 工具指南 | `.claude/tools/mcp-tools.md` |
 
