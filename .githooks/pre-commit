@@ -43,8 +43,10 @@ if [ -n "$KNOWLEDGE_FILES" ]; then
         HAS_ERROR=1
     fi
 
-    # 1c. 未归档 change 检查（advisory，不阻止 commit）
-    python3 scripts/general/check_unarchived_changes.py || true
+    # 1c. 未归档 change 检查（blocking）
+    if ! python3 scripts/general/check_unarchived_changes.py; then
+        HAS_ERROR=1
+    fi
 fi
 
 # ==========================================================================

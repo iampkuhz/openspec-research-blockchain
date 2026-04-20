@@ -238,11 +238,14 @@ diagrams ────────────┘
 - `knowledge/analysis/.../artifact.md`
 - `knowledge/decisions/.../artifact.md`
 - `knowledge/decisions/.../verdict.md`（如适用）
+- `openspec/archive/<change-id>/`（归档，如适用）
 
 **完成标准**：
 - 长期内容已提炼，而非整包复制
 - 目标路径正确
 - update 场景已完成 impact scan
+- change 已归档到 `openspec/archive/<change-id>/`，或因作为其他 change 依赖而标记延迟归档
+- 归档前已由 publish-agent 智能判断是否需要沉淀为 openspec/specs 或合并到 knowledge/ 的其他 artifact
 
 ## 关键 handoff artifact
 

@@ -212,8 +212,9 @@ argument-hint: "[change-path | research-topic]"
 - 最终使用的 change 路径（如有 synthesis，列出所有 primitive change 路径）
 - **每个 change 的 review 状态**：是否调用了 review-critic-agent、评审结论（approved / needs revision）
 - **每个 change 的 publish 状态**：是否调用了 publish-agent、artifact 提升路径（knowledge/ 下的具体路径）
+- **每个 change 的 archive 状态**：是否已归档到 openspec/archive/ / 延迟归档（原因）/ 归档前智能决策内容（哪些沉淀为 openspec/specs、哪些合并到 knowledge/）
 - **并发调度情况**：分了几批、每批并发数、是否有 agent 等待
 - 是否生成了 `sources/`、`diagrams/`、`review/` 与 artifact 文件
 - 是否还有 fridge items / evidence gap 未关闭
 
-**强制检查**：在输出完成总结前，必须确认每个 change 均已通过 review gate + publish gate。如有 change 未完成 review/publish，必须在总结中明确列出，不得隐去。
+**强制检查**：在输出完成总结前，必须确认每个 change 均已通过 review gate + publish gate + archive gate。如有 change 未完成 review/publish/archive，必须在总结中明确列出，不得隐去。

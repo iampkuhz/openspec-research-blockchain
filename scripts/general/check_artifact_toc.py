@@ -72,8 +72,11 @@ def check_toc(file_path: Path) -> list:
         errors.append("Missing TOC: artifact.md must start with a table of contents after frontmatter")
         return errors
 
-    # 提取实际标题
-    headings = extract_headings(content)
+    # 提取实际标题（跳过 frontmatter，跳过 "目录"——TOC 自身不需要覆盖自己）
+    headings = []
+    for h in extract_headings(content):
+        if h != "目录":
+            headings.append(h)
     if not headings:
         return errors  # 没有标题，不需要 TOC
 

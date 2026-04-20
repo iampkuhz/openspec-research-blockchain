@@ -67,13 +67,35 @@ def check_list_nesting(content: str) -> list[str]:
     return errors
 
 
+def _is_ascii_art(block_content: str) -> bool:
+    """判断代码块内容是否为 ASCII 框线图/架构图。"""
+    # 如果语言标签本身表明是 ASCII art
+    # （这个函数只接收 block_content，不含标签，标签判断在调用方做）
+    # 通过特征字符判断：包含框线字符或 ASCII 艺术典型模式
+    box_chars = set("│┌┐└┘├┤┬┴┼─│┏┓┗┛┣┫┳┻╋━┃")
+    lines = block_content.split("\n")
+    if not lines:
+        return False
+    # 如果超过一半的行包含框线字符，认为是 ASCII 框线图
+    box_line_count = sum(1 for line in lines if any(c in box_chars for c in line))
+    if box_line_count > len(lines) * 0.5:
+        return True
+    # 如果包含典型的 ASCII 艺术框图模式（+--+ 边框 + 内部文字）
+    ascii_art_pattern = re.compile(r"^\s*[+|].*[+|]\s*$")
+    art_lines = sum(1 for line in lines if ascii_art_pattern.match(line))
+    if art_lines > len(lines) * 0.4:
+        return True
+    return False
+
+
 def check_code_block_length(content: str, max_lines: int = 50) -> list[str]:
-    """检查代码块不超过指定行数。PlantUML/Mermaid 图表不做长度限制。"""
+    """检查代码块不超过指定行数。PlantUML/Mermaid/ASCII 图表不做长度限制。"""
     errors = []
     in_code_block = False
     block_start = 0
     block_lines = 0
     block_lang = ""
+    block_content = ""
 
     for line_no, line in enumerate(content.splitlines(), start=1):
         stripped = line.strip()
@@ -84,17 +106,22 @@ def check_code_block_length(content: str, max_lines: int = 50) -> list[str]:
                 block_lines = 0
                 # 提取语言标识符
                 block_lang = stripped.lstrip("`").strip().lower()
+                block_content = ""
             else:
                 in_code_block = False
-                # PlantUML 和 Mermaid 图表不做长度限制
-                if block_lang not in ("plantuml", "mermaid") and block_lines > max_lines:
+                # PlantUML、Mermaid、ASCII 框线图不做长度限制
+                lang_exempt = block_lang in ("plantuml", "mermaid", "ascii", "text", "txt")
+                content_exempt = _is_ascii_art(block_content)
+                if not lang_exempt and not content_exempt and block_lines > max_lines:
                     errors.append(
                         f"第 {block_start}-{line_no} 行: 代码块超过 {max_lines} 行（实际 {block_lines} 行）。"
                     )
                 block_lines = 0
                 block_lang = ""
+                block_content = ""
         elif in_code_block:
             block_lines += 1
+            block_content += line + "\n"
 
     if in_code_block:
         errors.append(f"第 {block_start} 行: 代码块未闭合。")

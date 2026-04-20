@@ -1,57 +1,49 @@
-# Verdict: AI Coding Review 工程框架分阶段建设方案
-
-**Change ID**: ai-coding-review-decision
-**研究类型**: decision / scenario
-**评审状态**: approved with minor fixes（无 high severity 问题）
-**决策日期**: 2026-04-19
+---
+object_type: decision
+domain_id: ai-code-review
+title: "AI Code Review 分阶段落地决策 - 最终推荐"
+research_type: scenario
+updated_at: 2026-04-20
+change_id: cr-decision-ai-coding-review-decision-refresh
+baseline_change_id: ai-coding-review-decision
+---
 
 ## 最终推荐
 
-采用**分阶段渐进式建设方案**：Phase 1 Static+AI → Phase 2 CI/CD Gate → Phase 3 Self-hosted。
+采用 **"Qodo Merge 起步 → CodeRabbit 增强 → RoboRev 补层 → Self-hosted 收敛"** 的四阶段方案。
 
-## 各阶段推进与转向条件
+| 阶段 | 时间 | 核心动作 | 主力工具 |
+|------|------|----------|----------|
+| Phase 1 | 1-2 个月 | LLM-Enabled PR Review 基础部署，建立 review 质量基线 | Qodo Merge 开源版 + cloud LLM API |
+| Phase 2 | 3-6 个月 | Context-Aware + Learning 增强，集成 SAST 确定性基线 | CodeRabbit Pro（默认）/ Qodo Merge Pro（备选） |
+| Phase 3 | 6-9 个月 | Multi-Layer Review 覆盖，引入 commit 级审查 + fix/refine 闭环 | RoboRev + 可选 Open Code Review discourse |
+| Phase 4 | 9-12 个月+ | Self-hosted LLM 部署，data isolation 终极收敛 | Self-hosted LLM（Ollama/vLLM） |
 
-### Phase 1 → Phase 2 推进条件
+## 核心决策理由
 
-- Static+AI 方案经验证满足 80% 以上 review 需求
-- 三聚焦主题（区块链/后端/Java）的静态分析规则包已配置并产生有效 review findings
-- review 质量度量 baseline 已建立
+1. **Phase 1 选 Qodo Merge**：5 种部署方式 + 6 大 Git 平台 + 多模型路由 = 最大部署灵活性，适合快速验证
+2. **Phase 2 默认选 CodeRabbit Pro**：Living Memory learnings 系统 + 5-agent 并行 = 最强 Context Engineering 能力，符合"低维护成本"soft preference
+3. **Phase 3 引入 RoboRev**：commit 级审查与 PR 级工具正交互补，fix/refine 闭环覆盖 AI agent 产出物场景
+4. **Phase 4 Self-hosted**：解决 data isolation hard constraint 的终极合规路径
 
-### Phase 1 → Phase 2 转向条件（转向方案 5）
+## 关键前提条件
 
-- data isolation 被确认为不可妥协的 hard constraint，且 cloud LLM API 验证无法满足合规要求
-- 此时 Phase 2 应以 Self-hosted LLM 为方向，而非 CI/CD Gate
+- **UQ-1（最高优先级）**：Phase 1 即确认 data isolation 合规边界——代码经 cloud LLM API 传输但声称不存储是否可接受。若不可接受，直接切换至 Phase 4 路线
+- **Phase 1 触发 Phase 2**：pilot ≥ 20 个 PR，review 接受率 ≥ 50%，平均反馈时间 ≤ 5 分钟
+- **Phase 4 前提**：GPU 基础设施就绪，≥ 500 个 PR review 数据积累，1-2 名 dedicated engineering 资源
 
-### Phase 2 → Phase 3 推进条件
+## 核心风险（High Severity）
 
-- 足够的 engineering 资源（1-2 人 dedicated）
-- GPU infra 已就绪或可通过 cloud GPU rental 解决
-- Phase 2 已积累足够的 review 数据用于 fine-tuning
-- local LLM 准确率与 cloud API 差距在可接受范围内
+| 风险 | 缓解措施 |
+|------|----------|
+| Data isolation 合规解释冲突 | Phase 1 即确认；如不可接受，直接切换 self-hosted 路线 |
+| Solidity 深度安全审查覆盖不足 | Phase 1 集成 Slither；Phase 2 对核心合约引入 Certora/Manticore |
+| LLM review 准确率不达预期 | "建议模式"起步；review quality metric 持续跟踪 |
 
-### Phase 2 → Phase 3 替代条件（不引入 Self-hosted）
+## 与 Baseline 决策的关系
 
-- GPU 成本或人力投入不可承受
-- 继续使用 CI/CD Gate + cloud LLM API，通过 prompt 优化和 caching 降低成本
+本 decision 为 `knowledge/decisions/ai-coding-review-decision`（change ID: `ai-coding-review-decision`）的刷新版本。保持一致：Static+AI 基线思想、渐进式建设节奏、Self-hosted 长期目标。新增：具体产品选型、commit 级审查层、阶段触发/退出标准。
 
-## 核心风险与缓解
+## 证据等级
 
-| 风险 | 严重程度 | 缓解措施 |
-|------|----------|----------|
-| Solidity 规则覆盖不足 | High | 优先集成 slither 和社区 Solidity 规则包；自建规则时参考 Known Attack Patterns |
-| LLM review 准确率不达预期 | High | Phase 1 快速验证；建立 review quality metric；设置 human-in-the-loop |
-| Data isolation 要求高于预期 | High | Phase 1 即确认 compliance 要求；Phase 2 提前规划 local LLM |
-| GPU infra 成本超预算 | Medium | cloud GPU rental 作为折中；按项目敏感度分批迁移 |
-| 自定义规则维护成本过高 | Medium | 优先覆盖高频规则；建立规则 lifecycle 管理 |
-
-## 证据等级汇总
-
-| 结论类别 | 证据等级 | 说明 |
-|----------|----------|------|
-| 方案 2/4 在聚焦主题的适配度 | L1/L2 | 基于静态分析工具的官方文档和社区实践 |
-| 方案 1/3 的 data isolation 限制 | L1 | SaaS 方案需将代码发送至 vendor 服务器 |
-| 演进规律总结 | L2/L3 | 基于公开产品时间线和社区分析 |
-| 分阶段推荐的 ROI 判断 | L2/L4 | 基于业界演进经验和团队约束推理 |
-| Open-weight model 在 Solidity 上的准确率 | L4 | 缺乏统一 benchmark，需团队 PoC 验证 |
-
-**注意**：本文在 request 阶段排除了来源收集，具体产品能力断言（语言覆盖数、演进时间线、定价等）缺乏 source_id 精确追溯。建议在 apply 阶段前补充来源验证。
+全证据链为 L4（基线推断），无 L1/L2 直接验证。建议后续安排 source-evidence-agent 回源关键 L1/L2 来源。
