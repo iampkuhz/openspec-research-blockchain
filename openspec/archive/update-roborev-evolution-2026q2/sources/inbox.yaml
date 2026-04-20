@@ -1,0 +1,191 @@
+version: "1.0"
+change_id: update-roborev-evolution-2026q2
+created_at: 2026-04-20
+
+sources:
+  - source_id: GH-README
+    title: RoboRev GitHub Repository README
+    url: https://github.com/roborev-dev/roborev
+    type: implementation
+    tier: L2
+    status: verified
+    priority: high
+    relevant_sections:
+      - Project description and positioning
+      - Quick start and commands
+      - Supported agents list
+      - beads integration mention
+      - Configuration example
+    notes: Core evidence for project definition, features, agent list
+
+  - source_id: GH-RELEASES
+    title: RoboRev GitHub Releases (v0.5.0 - v0.52.0)
+    url: https://github.com/roborev-dev/roborev/releases
+    type: implementation
+    tier: L2
+    status: verified
+    priority: high
+    relevant_sections:
+      - All release notes from v0.5.0 to v0.52.0
+      - ACP introduction (v0.40.0)
+      - fix/refine (v0.45.0)
+      - sandbox (v0.48.0)
+      - systemd (v0.50.0)
+      - OpenAPI (v0.51.0)
+    notes: Direct evidence for evolution stage boundaries
+
+  - source_id: GH-GOMOD
+    title: go.mod - dependency manifest
+    url: https://raw.githubusercontent.com/roborev-dev/roborev/main/go.mod
+    type: implementation
+    tier: L2
+    status: verified
+    priority: high
+    relevant_sections:
+      - github.com/coder/acp-go-sdk v0.6.3
+      - github.com/charmbracelet/bubbletea
+      - modernc.org/sqlite
+      - github.com/jackc/pgx/v5
+      - github.com/danielgtaylor/huma/v2
+      - github.com/coreos/go-systemd/v22
+    notes: Confirms ACP is from Coder (external), PostgreSQL support added, Huma for OpenAPI
+
+  - source_id: GH-INTERNAL-AGENT
+    title: internal/agent/ directory structure and source files
+    url: https://github.com/roborev-dev/roborev/tree/main/internal/agent
+    type: implementation
+    tier: L2
+    status: verified
+    priority: high
+    relevant_sections:
+      - agent.go (Agent interface)
+      - acp_agent.go (ACPAgent using coder/acp-go-sdk)
+      - codex.go, claude.go, etc. (CLI agents)
+    notes: Confirms dual-path architecture: CLI agents + ACP agents coexist
+
+  - source_id: GH-INTERNAL-DAEMON
+    title: internal/daemon/ directory structure
+    url: https://github.com/roborev-dev/roborev/tree/main/internal/daemon
+    type: implementation
+    tier: L2
+    status: verified
+    priority: high
+    relevant_sections:
+      - server.go (HTTP API + systemd socket activation)
+      - worker.go (WorkerPool)
+      - endpoint.go (Unix domain socket + TCP)
+      - hooks.go (HookRunner including beads)
+    notes: Confirms daemon architecture, systemd integration, hook system
+
+  - source_id: GH-INTERNAL-STORAGE
+    title: internal/storage/ directory structure
+    url: https://github.com/roborev-dev/roborev/tree/main/internal/storage
+    type: implementation
+    tier: L2
+    status: verified
+    priority: high
+    relevant_sections:
+      - db.go (SQLite schema)
+      - postgres.go (PostgreSQL support)
+      - models.go (JobStatus, JobType, ReviewJob)
+      - schemas/postgres_v*.sql (migration history)
+    notes: Confirms SQLite + PostgreSQL dual support, evolved job model
+
+  - source_id: GH-INTERNAL-WORKTREE
+    title: internal/worktree/worktree.go - sandbox implementation
+    url: https://raw.githubusercontent.com/roborev-dev/roborev/main/internal/worktree/worktree.go
+    type: implementation
+    tier: L2
+    status: verified
+    priority: high
+    relevant_sections:
+      - Worktree struct and Create function
+      - git worktree add --detach
+      - core.hooksPath=os.DevNull
+    notes: Confirms sandbox is git worktree-based isolation, not containerization
+
+  - source_id: GH-CMD-REFINE
+    title: cmd/roborev/refine.go - refine command
+    url: https://raw.githubusercontent.com/roborev-dev/roborev/main/cmd/roborev/refine.go
+    type: implementation
+    tier: L2
+    status: verified
+    priority: high
+    relevant_sections:
+      - --max-iterations default value (10)
+      - refine loop logic
+    notes: Confirms refine termination condition
+
+  - source_id: GH-CONFIG
+    title: internal/config/config.go + .roborev.toml
+    url: https://raw.githubusercontent.com/roborev-dev/roborev/main/internal/config/config.go
+    type: implementation
+    tier: L2
+    status: verified
+    priority: high
+    relevant_sections:
+      - HookConfig (beads/webhook types)
+      - ACPAgentConfig
+      - Config struct (agents, models, workflows)
+    notes: Confirms beads is a hook type, not deep integration; config model
+
+  - source_id: GH-COMMITS-EARLY
+    title: Early commit history (2026-01-09)
+    url: https://github.com/roborev-dev/roborev/commits/main
+    type: implementation
+    tier: L2
+    status: verified
+    priority: high
+    relevant_sections:
+      - First 10+ commits all on 2026-01-09
+      - Complete initial architecture in first batch
+    notes: Confirms "big bang" launch pattern
+
+  - source_id: GH-PACKAGING-SYSTEMD
+    title: packaging/systemd/ - systemd unit files
+    url: https://github.com/roborev-dev/roborev/tree/main/packaging/systemd
+    type: implementation
+    tier: L2
+    status: verified
+    priority: medium
+    relevant_sections:
+      - roborev.service
+      - roborev.socket
+    notes: Confirms systemd integration details
+
+  - source_id: GH-REPO-META
+    title: GitHub repository metadata
+    url: https://api.github.com/repos/roborev-dev/roborev
+    type: implementation
+    tier: L2
+    status: verified
+    priority: medium
+    relevant_sections:
+      - created_at: 2026-01-05
+      - language: Go
+      - license: MIT
+      - description
+    notes: Confirms repo creation date, language, license
+
+  - source_id: CODER-ACP-SDK
+    title: Coder acp-go-sdk repository
+    url: https://github.com/coder/acp-go-sdk
+    type: implementation
+    tier: L2
+    status: verified
+    priority: high
+    relevant_sections:
+      - SDK description
+      - created_at: 2025-09-26
+    notes: Confirms ACP is an external standard by Coder, not RoboRev internal
+
+  - source_id: BASELINE-ARTIFACT
+    title: Existing RoboRev evolution artifact
+    url: knowledge/analysis/primitives/ai-code-review/roborev-evolution/artifact.md
+    type: analysis
+    tier: L4
+    status: verified
+    priority: medium
+    relevant_sections:
+      - Full artifact for comparison
+    notes: Reference baseline, several claims corrected by L2 evidence

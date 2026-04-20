@@ -1,0 +1,80 @@
+@startuml
+!theme plain
+skinparam defaultFontSize 12
+skinparam defaultFontName "sans-serif"
+
+title RoboRev 架构组件与外部系统集成
+
+package "用户交互层" {
+  [CLI\nroborev command] as cli
+  [TUI\nBubble Tea] as tui
+  [External CI/Webhook\nGitHub Actions] as external
+}
+
+package "服务层（HTTP Daemon）" {
+  [API Layer\nOpenAPI / Huma] as api
+  [Job Queue] as queue
+  [ACP Router\nCoder acp-go-sdk] as acp
+  [Agent Registry\nCLI + ACP 双路径] as registry
+
+  package "Worker Pool" {
+    [Worker 1] as w1
+    [Worker 2] as w2
+    [Worker 3] as w3
+    [Worker 4] as w4
+  }
+
+  [Hook Runner\nbeads / webhook] as hooks
+}
+
+package "执行层（沙箱隔离）" {
+  [Worktree Sandbox\ngit worktree --detach] as sandbox
+  package "Agent 后端" {
+    [CLI Agents\nCodex/Claude/Gemini/etc] as cli_agents
+    [ACP Agent\nacp-agent default] as acp_agent
+  }
+}
+
+package "存储层" {
+  database "SQLite\nmodernc.org/sqlite" as sqlite
+  database "PostgreSQL\npgx/v5" as postgres
+}
+
+note bottom of acp
+  ACP 是 Coder 外部 SDK
+  非 RoboRev 内部协议
+end note
+
+note bottom of sandbox
+  git worktree 隔离
+  非容器化
+end note
+
+note bottom of hooks
+  beads 是 hook type
+  非深度集成
+end note
+
+cli -down-> api : Unix Domain Socket / TCP
+tui -down-> api : event stream 订阅
+external -down-> queue : webhook
+api -down-> queue
+queue -down-> w1
+queue -down-> w2
+queue -down-> w3
+queue -down-> w4
+registry -down-> cli_agents : 直接 CLI 调用
+registry -down-> acp_agent : JSON-RPC via Coder SDK
+acp -down-> acp_agent
+w1 -down-> sandbox
+w2 -down-> sandbox
+w3 -down-> sandbox
+w4 -down-> sandbox
+sandbox -down-> cli_agents
+sandbox -down-> acp_agent
+hooks -down-> [beads] : review 失败时创建 issue
+hooks -down-> [Webhook URL] : 自定义通知
+api -down-> sqlite : 持久化
+api -down-> postgres : 持久化（可选）
+
+@enduml

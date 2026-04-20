@@ -1,0 +1,78 @@
+@startuml
+!theme plain
+skinparam defaultFontSize 12
+skinparam defaultFontName "sans-serif"
+
+title RoboRev 核心流程：post-commit 审查 + fix/refine 闭环
+
+actor User
+participant "Git" as git
+participant "roborev CLI" as cli
+participant "HTTP Daemon" as daemon
+participant "Job Queue" as queue
+participant "Worker" as worker
+participant "Worktree Sandbox" as sandbox
+participant "Agent Backend" as agent
+participant "Storage" as db
+participant "TUI" as tui
+
+== Happy Path（审查一次通过）==
+
+User -> git : git commit
+git -> cli : post-commit hook 触发
+cli -> daemon : POST /jobs (入队)
+daemon -> queue : 入队
+daemon -> db : 持久化 job (pending)
+queue -> worker : worker 拾取 job
+worker -> sandbox : 创建 worktree (--detach)
+sandbox -> agent : 调用 Review(ctx, worktree, commitSHA, prompt)
+agent --> worker : 返回审查结果 (Pass)
+worker -> db : 更新 job (completed, Pass)
+worker -> sandbox : 清理 worktree
+daemon -> tui : 事件流推送
+tui --> User : TUI 更新
+
+== 异常 Path（审查不通过 → fix → refine 循环）==
+
+group 审查不通过
+  agent --> worker : 返回审查结果 (Fail + comments)
+  worker -> db : 更新 job (completed, Fail)
+  worker -> sandbox : 清理 worktree
+  daemon -> tui : 事件流推送
+  tui --> User : 显示审查失败
+end
+
+group fix（单次修复）
+  User -> cli : roborev fix
+  cli -> daemon : POST /jobs (fix type)
+  daemon -> queue : 入队
+  queue -> worker : worker 拾取
+  worker -> sandbox : 创建 worktree
+  sandbox -> agent : 调用 Fix(ctx, worktree, comments)
+  agent --> worker : 返回修复补丁
+  worker -> db : 更新 job (completed)
+  worker -> sandbox : 清理 worktree
+end
+
+group refine（自动循环，--max-iterations 默认 10）
+  User -> cli : roborev refine
+  loop 最多 max_iterations 次
+    cli -> daemon : POST /jobs (fix type)
+    daemon -> queue -> worker -> sandbox -> agent : fix
+    agent --> worker : 返回修复补丁
+    worker -> db : 存储修复结果
+    cli -> daemon : POST /jobs (review type)
+    daemon -> queue -> worker -> sandbox -> agent : 重审
+    agent --> worker : 返回审查结果
+    alt 审查通过
+      worker -> db : 更新 job (completed, Pass)
+      note right: 循环终止
+    else 仍不通过
+      worker -> db : 更新 job (completed, Fail)
+      note right: 继续下一轮
+    end
+  end
+  note right: 达到 max_iterations 后强制终止
+end
+
+@enduml
