@@ -58,6 +58,31 @@ argument-hint: "[change-path | research-topic]"
 
 **Fallback 约束**：禁止直接 fallback。必须先尝试调用 subagent，确认失败后向用户请求二次确认，用户明确同意后才可按相同 contract 串行执行。详见第 3 节 Fallback。
 
+## Concurrency 控制
+
+当阶段 1（依赖发现）需要启动多个 author agent 时，主会话必须控制并发量，防止超过 LLM server 的 TPS 限制：
+
+| 参数 | 值 | 说明 |
+|------|-----|------|
+| `MAX_CONCURRENT` | 3 | 任何时刻正在运行的 agent 总数不得超过 3 |
+
+**调度规则**：
+
+1. **分批启动**：使用 `Agent(run_in_background=true)` 启动 author agent 时，每批不超过 `MAX_CONCURRENT`（3）个；等整批全部完成后，再启动下一批
+2. **绝对上限**：任何时刻正在运行的 agent 总数不得超过 `MAX_CONCURRENT`（3）
+3. **阶段 1.5 quality gate**（review + publish）：串行执行，不按并发规则处理
+4. **汇报**：完成总结中必须列出各批次的调度顺序与并发数，例如：
+   ```
+   并发调度：第1批 [primitive-a, primitive-b, primitive-c] → 第2批 [primitive-d, primitive-e]
+   ```
+
+**示例**（5 个 primitive 依赖）：
+```
+批 1: primitive-author(A), primitive-author(B), primitive-author(C)  ← 3 个并发
+等待批 1 全部完成
+批 2: primitive-author(D), primitive-author(E)                      ← 2 个
+```
+
 ## Research Flow
 
 ### 0. request.md 约束（二次研究来源保护）
@@ -108,7 +133,7 @@ argument-hint: "[change-path | research-topic]"
 3. 对每个 primitive：
    - 如果 change 不存在：创建 change 目录
    - 调用 `primitive-author` 为该 primitive 执行全链路写作
-4. 等待所有 primitive-author 完成（并行执行）
+4. 等待所有 primitive-author 完成（按 Concurrency 控制分批执行）
 
 **阶段 1.5 — primitive quality gate（不可跳过）**：
 
@@ -145,7 +170,7 @@ argument-hint: "[change-path | research-topic]"
 1. 读取 decision `request.md` 中的 `依赖声明` 段
 2. 列出所有依赖的 primitive 和 synthesis
 3. 对每个缺失的 primitive/synthesis：创建 change 目录 + 调用对应 author agent 执行全链路写作
-4. 等待所有 author agent 完成（并行执行）
+4. 等待所有 author agent 完成（按 Concurrency 控制分批执行）
 
 **阶段 1.5 — 依赖 quality gate（不可跳过）**：
 
@@ -187,6 +212,7 @@ argument-hint: "[change-path | research-topic]"
 - 最终使用的 change 路径（如有 synthesis，列出所有 primitive change 路径）
 - **每个 change 的 review 状态**：是否调用了 review-critic-agent、评审结论（approved / needs revision）
 - **每个 change 的 publish 状态**：是否调用了 publish-agent、artifact 提升路径（knowledge/ 下的具体路径）
+- **并发调度情况**：分了几批、每批并发数、是否有 agent 等待
 - 是否生成了 `sources/`、`diagrams/`、`review/` 与 artifact 文件
 - 是否还有 fridge items / evidence gap 未关闭
 
