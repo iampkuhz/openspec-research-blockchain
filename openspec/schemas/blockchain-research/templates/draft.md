@@ -470,9 +470,20 @@ plan 阶段标记的未决问题，draft 阶段尝试回答但仍不确定的
 
 ## 参考资料
 
-| 来源 | 说明 | 验证状态 |
-|------|------|----------|
-| | | |
+<!--
+参考资料表采用统一链接格式：`[[source-type] description](url-or-path)`
+
+source-type 示例：官网、官方文档、官方架构页、官方 FAQ、官方博客、媒体专访、github、github-raw、npm、standard、discussion、本地 artifact 等。
+
+表格采用 3 列：链接、证据等级、验证状态。
+-->
+
+| 链接 | 证据等级 | 验证状态 |
+|------|----------|----------|
+| [[官方文档]CodeRabbit Pro 官方文档主入口](https://docs.coderabbit.ai/) | L2 | [未验证] 网络限制 |
+| [[github]v1 开源版源码（coderabbitai/ai-pr-reviewer）](https://github.com/coderabbitai/ai-pr-reviewer) | L2 | [已验证] |
+| [[github-raw]bot.ts - LLM 交互层源码](https://raw.githubusercontent.com/coderabbitai/ai-pr-reviewer/main/src/bot.ts) | L2 | [已验证] |
+| [[本地 artifact]Baseline Artifact - CodeRabbit Framework Analysis](knowledge/analysis/primitives/ai-code-review/coderabbit-framework/artifact.md) | L4 | [已读取] |
 
 **验证状态标记说明：**
 - `[已验证]` - 链接可通过工具访问且内容匹配
@@ -480,5 +491,6 @@ plan 阶段标记的未决问题，draft 阶段尝试回答但仍不确定的
 - `[未验证] URL 失效` - 链接返回 404 或重定向到无关页面
 - `[未验证] 需要认证` - 需要登录或特殊权限才能访问
 - `[未验证] 内容不匹配` - 链接可访问但内容与描述不符
+- `[已读取]` - 本地文件已直接读取
 
 **重复执行 `/spec-draft` 时**：会对所有标记为 `[未验证]` 的链接重新尝试验证。

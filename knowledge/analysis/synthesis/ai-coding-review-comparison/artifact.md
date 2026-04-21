@@ -132,6 +132,26 @@ LLM 直连期        →    结构化工程期            →    上下文感知
 | **协作审查** | ★★☆ [[local-artifact]Asyncreview-evolution](knowledge/analysis/primitives/ai-code-review/asyncreview-evolution/artifact.md) 单 RLM 循环 | ★☆☆ [[local-artifact]Chatgpt-codereview-framework](knowledge/analysis/primitives/ai-code-review/chatgpt-codereview-framework/artifact.md) 单次 LLM 调用 | ★★★★★ [[local-artifact]Coderabbit-framework](knowledge/analysis/primitives/ai-code-review/coderabbit-framework/artifact.md) 5 专业化 agent 并行 | ★★★★★ [[local-artifact]Open-code-review-framework](knowledge/analysis/primitives/ai-code-review/open-code-review-framework/artifact.md) 28 persona + discourse 辩论 | ★★☆ [[local-artifact]Qodo-merge-evolution](knowledge/analysis/primitives/ai-code-review/qodo-merge-evolution/artifact.md) 工具链并行（/review + /describe + /improve） | ★★★☆☆ [[local-artifact]Roborev-evolution](knowledge/analysis/primitives/ai-code-review/roborev-evolution/artifact.md) 多 agent 后端 | ★★★☆☆ [[local-artifact]Supplementary-frameworks](knowledge/analysis/primitives/ai-code-review/supplementary-frameworks/artifact.md) 多 Agent 到单 Agent，跨度大 |
 | **部署灵活性** | ★★★☆☆ [[local-artifact]Asyncreview-evolution](knowledge/analysis/primitives/ai-code-review/asyncreview-evolution/artifact.md) npx CLI + pip + AI assistant Skill | ★★★☆☆ [[local-artifact]Chatgpt-codereview-framework](knowledge/analysis/primitives/ai-code-review/chatgpt-codereview-framework/artifact.md) Action + App | ★★★☆☆ [[local-artifact]Coderabbit-framework](knowledge/analysis/primitives/ai-code-review/coderabbit-framework/artifact.md) SaaS Pro + 开源版 Action + CLI + VS Code Extension | ★★★★★ [[local-artifact]Open-code-review-framework](knowledge/analysis/primitives/ai-code-review/open-code-review-framework/artifact.md) 14 种 AI assistant + CLI + Dashboard | ★★★★★ [[local-artifact]Qodo-merge-evolution](knowledge/analysis/primitives/ai-code-review/qodo-merge-evolution/artifact.md) CLI / GitHub Action / GitHub App / Webhook / Docker | ★★★☆☆ [[local-artifact]Roborev-evolution](knowledge/analysis/primitives/ai-code-review/roborev-evolution/artifact.md) CLI + daemon + TUI + CI | ★★★☆☆ [[local-artifact]Supplementary-frameworks](knowledge/analysis/primitives/ai-code-review/supplementary-frameworks/artifact.md) Chrome 扩展到自托管服务端 |
 
+### 候选方案维度对比
+
+下表从架构设计和演进路径两个视角横向对比三个候选方案，补充上方星级能力矩阵的结构化维度分析：
+
+| 维度 | Qodo Merge | CodeRabbit | Open Code Review |
+|------|-----------|------------|-----------------|
+| **核心定位** | 开源 PR review 工具链 | Hybrid AI SaaS review 平台 | AI assistant 内多角色编排层 |
+| **一句话价值** | 用多平台、多模型和 PR 压缩，把 AI review 嵌进现有 PR 流程。 | 用上下文工程、静态分析和持续学习，做更接近团队 reviewer 的自动审查。 | 用多 persona 独立审查和 discourse 交叉验证，降低单一 LLM 视角盲区。 |
+| **workflow（处理流程）** | PR 触发或命令触发 → Git Provider 拉取 diff → PR Compression / Dynamic Context Expansion → 执行 `/review`、`/describe`、`/improve` → 发布评论/摘要。 | webhook/App 触发 → 收集 diff、索引、静态分析、历史 learnings → pipeline 主流程 + agentic loop → Review/Verification/Chat/Pre-Merge/Living Memory 协作 → PR 评论、聊天、合并前检查。 | AI assistant 中触发 → Context Discovery → Change Analysis → Tech Lead 选择 reviewers → 并行 review → 聚合 → discourse 辩论 → synthesis → 输出报告或发布到 PR。 |
+| **规则管理方式（粒度）** | TOML 配置为主；粒度覆盖全局、仓库、工具、路径/文件指令。 | `.coderabbit.yaml`、Code Guidelines、learnings；粒度覆盖组织、仓库、目录、规则/偏好。 | `SKILL.md` + references 定义流程；persona 定义审查视角；`.ocr/config.yaml` 和项目标准文件注入上下文。粒度覆盖 workflow phase、reviewer persona、项目规范。 |
+| **反馈机制（规则保鲜）** | 主要靠人工更新配置/提示词；未确认有自主学习闭环。 | Living Memory / learnings 从 PR 对话、issue、code guidelines 中持续学习；效果量化数据缺失。 | discourse 会调整发现置信度，支持多轮/反馈处理；但未确认有自动沉淀规则的 self-learning 机制。 |
+| **早期架构** | Git Provider 抽象层 + 工具化 PR review：审查逻辑与 Git 平台 API 解耦，提供 `/review`、`/describe` 等工具，并用增量审查缓解 context window 压力。 | Single-pipeline GitHub Action：开源版 `ai-pr-reviewer` 以 GitHub Action 运行，OpenAI API 直连，基本流程是 diff → summarize/triage/review → 行级评论。 | CLI-only 多阶段编排引擎：从 v1.0 就不是单次 LLM 调用，而是 8 阶段 workflow + 默认 reviewer 团队 + discourse + 文件系统 session。 |
+| **当前架构** | 开源 PR-Agent + 商业 Qodo Merge 分化：开源版保留多平台、多模型、PR Compression、Dynamic Context Expansion；RAG 已从默认依赖转为可选/Pro 方向，项目进入社区化治理。 | Hybrid AI SaaS 平台：确定性 pipeline 为主干，嵌入 agentic loop，结合 sandbox、静态分析、context curation、5 个 specialized agents、Living Memory。 | 可定制团队平台：CLI + Dashboard + SQLite 状态层；28 个 reviewer persona、自定义/临时 reviewer、Code Review Maps、JSONL history、drift detection。 |
+| **关键点整理** | 演进主线是跨平台抽象 → 上下文增强 → 治理/商业分化。最值得借鉴的是 GitProvider 抽象、PR Compression、Dynamic Context；最大变化是 RAG 从默认能力退场，说明仓库历史检索维护成本可能高于收益。 | 演进主线是 stateless Action → stateful SaaS → context-engineered Hybrid AI。最关键判断是 workflow first, model second：先有确定性骨架，再在关键点放 agent；Living Memory 让规则/偏好能持续保鲜。 | 演进主线是固定多 agent workflow → CLI/Dashboard 平台 → reviewer 团队可配置。最值得借鉴的是 discourse 交叉验证、persona 粒度的规则管理、文件系统为事实源 + SQLite 为进度索引。 |
+
+**关键观察**：
+- **三条路线代表三种产品取舍**。Qodo 偏开源核心和平台抽象，CodeRabbit 偏有状态 SaaS 和持续学习，OCR 偏 AI assistant 内的多角色编排。
+- **workflow 已经成为事实标准核心**。三者都不是简单 prompt wrapper，而是先定义触发、上下文、规则、审查、验证/合成、发布等阶段，再把 LLM 嵌入其中。
+- **反馈机制是规则保鲜的分水岭**。CodeRabbit 的 Living Memory 最接近自动学习闭环；Qodo 和 OCR 仍更依赖人工维护配置、persona 或 workflow 定义。
+
 ### 模式分类
 
 7 个项目可归入五种架构模式：

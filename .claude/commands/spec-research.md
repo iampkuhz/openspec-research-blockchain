@@ -66,12 +66,12 @@ argument-hint: "[change-path | research-topic]"
 
 | 参数 | 值 | 说明 |
 |------|-----|------|
-| `MAX_CONCURRENT` | 3 | 任何时刻正在运行的 agent 总数不得超过 3 |
+| `MAX_CONCURRENT` | 2 | 任何时刻正在运行的 agent 总数不得超过 2 |
 
 **调度规则**：
 
-1. **分批启动**：使用 `Agent(run_in_background=true)` 启动 author agent 时，每批不超过 `MAX_CONCURRENT`（3）个；等整批全部完成后，再启动下一批
-2. **绝对上限**：任何时刻正在运行的 agent 总数不得超过 `MAX_CONCURRENT`（3）
+1. **分批启动**：使用 `Agent(run_in_background=true)` 启动 author agent 时，每批不超过 `MAX_CONCURRENT`（2）个；等整批全部完成后，再启动下一批
+2. **绝对上限**：任何时刻正在运行的 agent 总数不得超过 `MAX_CONCURRENT`（2）
 3. **阶段 1.5 quality gate**（review + publish）：串行执行，不按并发规则处理
 4. **汇报**：完成总结中必须列出各批次的调度顺序与并发数，例如：
    ```
@@ -80,9 +80,11 @@ argument-hint: "[change-path | research-topic]"
 
 **示例**（5 个 primitive 依赖）：
 ```
-批 1: primitive-author(A), primitive-author(B), primitive-author(C)  ← 3 个并发
+批 1: primitive-author(A), primitive-author(B)                      ← 2 个并发
 等待批 1 全部完成
-批 2: primitive-author(D), primitive-author(E)                      ← 2 个
+批 2: primitive-author(C), primitive-author(D)                      ← 2 个并发
+等待批 2 全部完成
+批 3: primitive-author(E)                                           ← 1 个
 ```
 
 ## Research Flow
@@ -220,3 +222,9 @@ argument-hint: "[change-path | research-topic]"
 - 是否还有 fridge items / evidence gap 未关闭
 
 **强制检查**：在输出完成总结前，必须确认每个 change 均已通过 review gate + publish gate + archive gate。如有 change 未完成 review/publish/archive，必须在总结中明确列出，不得隐去。
+
+**任务状态校验**：输出完成总结前，调用 `TaskList` 读取任务列表，逐项核对：
+- 每个 change 对应的 task 是否已标记为 `completed`
+- 是否有 `pending` 或 `in_progress` 的 task 实际已完成（说明漏标记）
+- 如有不匹配，先调用 `TaskUpdate` 修正后再输出总结
+- 禁止在 task 状态不正确的情况下口头声称"全部完成"
