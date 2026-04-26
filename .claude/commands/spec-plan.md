@@ -31,18 +31,48 @@ argument-hint: "[change-path | change-name]"
 执行前读取并遵循：
 
 - `harness/rules/_phase_index.yaml`（读取 `plan` 阶段依赖）
+- `openspec/config.yaml`
 - `openspec/schemas/blockchain-research/schema.yaml`
+- 当前 change 的 `change.yaml`
 - `openspec/schemas/blockchain-research/templates/plan.md`
-- `harness/workflows/plan-phase.md`
+- 根据 `change.yaml` 的 `task_type` 读取对应 profile：`openspec/schemas/blockchain-research/profiles/<task_type>.schema.yaml`
+- 根据 `change.yaml` 的 `change_operation` 读取对应 operation：`openspec/schemas/blockchain-research/operations/<change_operation>.schema.yaml`
 - 需要来源支持时读取 `harness/workflows/source-workflow.md`
+
+## OpenSpec Research Flow Contract
+
+本命令必须遵守当前仓库的 blockchain-research schema：
+
+```text
+request.md -> plan.md -> sources/source-pack.md -> sources/evidence-map.md -> [notes/<source-slug>.md]* -> [claims/<claim-slug>.md]* -> draft.md -> review.md -> publish.md -> knowledge/**
+```
+
+约束：
+
+- `draft.md` 是本 change 的唯一主候选产物。
+- 不得生成 `work-products/*.md`。
+- 不得直接写 `knowledge/**`。
+- 复杂任务必须拆成 child changes。
+- 必须遵守 `schema.yaml` 的 `x_artifact_flow`。
 
 ## 执行步骤
 
 1. 从 `$ARGUMENTS`、当前工作目录或上下文中解析目标 change 目录。
-2. 先读取 `request.md`、plan template 与 stage spec。
+2. 先读取 `change.yaml`、`request.md`、plan template 与 stage spec。
 3. 由主会话直接生成或修订 `plan.md`，先完成问题拆解、范围、来源规划与完成标准。
 4. 如需补来源、验证链接或补 evidence gap，由主会话显式调用 `source-evidence-agent`，再把结果并回 `plan.md`。
 5. 只有当 `plan.md` 满足 canonical section、来源规划、evidence gap 与 completion criteria 要求时，才能声称该阶段完成。
+
+plan.md 必须说明：
+
+1. 当前 `task_type` / `change_operation` / `execution_scope`
+2. 本 change 是否只对应一个最终 Knowledge artifact
+3. source strategy（来源分级策略）
+4. 哪些 source 可能升级为 `notes/*.md`
+5. 哪些 claims 可能需要提炼
+6. `draft.md` 的目标 Knowledge path 草案
+7. 需要先完成哪些 child changes
+8. validation plan
 
 ## 完成总结
 

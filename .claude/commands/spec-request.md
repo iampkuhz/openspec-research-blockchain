@@ -30,17 +30,45 @@ argument-hint: "[change-path | change-name]"
 执行前读取并遵循：
 
 - `harness/rules/_phase_index.yaml`（读取 `request` 阶段依赖）
+- `openspec/config.yaml`
 - `openspec/schemas/blockchain-research/schema.yaml`
+- 当前 change 的 `change.yaml`（如已存在）
 - `openspec/schemas/blockchain-research/templates/request.md`
-- `harness/workflows/request-phase.md`
+- 按需读取对应 profile：`openspec/schemas/blockchain-research/profiles/<task_type>.schema.yaml`
+- 按需读取对应 operation：`openspec/schemas/blockchain-research/operations/<change_operation>.schema.yaml`
+
+## OpenSpec Research Flow Contract
+
+本命令必须遵守当前仓库的 blockchain-research schema：
+
+```text
+request.md -> plan.md -> sources/source-pack.md -> sources/evidence-map.md -> [notes/<source-slug>.md]* -> [claims/<claim-slug>.md]* -> draft.md -> review.md -> publish.md -> knowledge/**
+```
+
+约束：
+
+- `draft.md` 是本 change 的唯一主候选产物。
+- 不得生成 `work-products/*.md`。
+- 不得直接写 `knowledge/**`。
+- 复杂任务必须拆成 child changes。
+- 必须遵守 `schema.yaml` 的 `x_artifact_flow`。
 
 ## 执行步骤
 
 1. 从 `$ARGUMENTS`、当前工作目录或上下文中解析目标 change 目录。
 2. 如果无法安全确定目标，询问用户 change 路径或 change 名称。
-3. 读取 schema、template、stage spec 与现有 `request.md`。
+3. 读取 `openspec/config.yaml`、schema、`change.yaml`（如已存在）、template 与现有 `request.md`。
 4. 由主会话直接生成或修订 `request.md`，严格遵循 canonical template 与阶段边界。
-5. 完成前检查最终文件是否遵循 canonical template，且没有漂移到 plan / draft 职责。
+5. 如 `change.yaml` 不存在，初始化 `change.yaml` 并声明 `task_type` 与 `change_operation`。
+6. 完成前检查最终文件是否遵循 canonical template，且没有漂移到 plan / draft 职责。
+
+request.md 必须说明：
+
+1. 研究目标与 scope / out of scope
+2. `task_type` 候选值：`source_reading` | `primitive` | `synthesis` | `decision`
+3. `change_operation` 候选值：`create` | `update` | `extend` | `supersede` | `merge`
+4. 目标 Knowledge path 草案
+5. 如果任务复杂，是否需要拆 child changes
 
 ## 完成总结
 
