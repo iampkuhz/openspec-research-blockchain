@@ -1,7 +1,5 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
-  "effortLevel": "high",
-  "language": "chinese",
   "env": {
     "HTTPS_PROXY": "http://127.0.0.1:7890",
     "HTTP_PROXY": "http://127.0.0.1:7890",
@@ -11,20 +9,36 @@
   "permissions": {
     "allow": [
       "Edit(.claude/skills/**)",
+      "Write(.claude/skills/**)",
+      "MultiEdit(.claude/skills/**)",
       "Edit(.claude/agents/**)",
+      "Write(.claude/agents/**)",
+      "MultiEdit(.claude/agents/**)",
       "Edit(.claude/commands/**)",
+      "Write(.claude/commands/**)",
+      "MultiEdit(.claude/commands/**)",
       "Edit(.claude/hooks/**)",
+      "Write(.claude/hooks/**)",
+      "MultiEdit(.claude/hooks/**)",
+      "Bash(rm .claude/skills/*)",
       "Bash(git mv:*)",
       "Bash(find /Users/zhehan/Documents/tools/llm/openspec/openspec-research-blockchain -name *plantuml* -o -name *feipi*)",
       "Bash(ln -s ../../skills/openspec-research-build-artifact /Users/zhehan/Documents/tools/llm/openspec/openspec-research-blockchain/.qoder/skills/openspec-research-build-artifact)",
       "Bash(ln:*)",
       "Bash(find /Users/zhehan/Documents/tools/llm/openspec/openspec-research-blockchain -name *build-request* -o -name *request*)",
-      "Bash(curl:*)"
+      "Bash(curl:*)",
+      "Bash(rm .claude/skills/openspec-flow/build-request)",
+      "Bash(rm .claude/skills/openspec-flow/build-plan)",
+      "Bash(rm .claude/skills/research-authoring/extract-source-pack)",
+      "Bash(rm .claude/skills/research-authoring/build-evidence-map)",
+      "Bash(rm .claude/skills/research-authoring/extract-claims)"
     ],
     "deny": [
       "WebFetch",
       "WebSearch"
     ],
     "defaultMode": "bypassPermissions"
-  }
+  },
+  "language": "chinese",
+  "effortLevel": "high"
 }

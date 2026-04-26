@@ -27,6 +27,13 @@ description: 刷新现有知识主题，更新过时内容与补充新证据。
 - 不要跳过影响范围评估
 - 不要假定所有 update 都只是局部修补
 
+## 术语漂移检测（整合自 detect-term-drift）
+
+刷新过程中如发现术语用法与既有 glossary/taxonomy 不一致，应记录为术语漂移报告，包含：
+- 不一致的术语位置
+- 冲突描述
+- 建议的标准化用法
+
 ## Files to Read
 
 - `harness/workflows/update-existing-knowledge.md`

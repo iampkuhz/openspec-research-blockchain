@@ -33,7 +33,6 @@ description: 初始化一个新的研究项目，创建完整的目录结构和�
 
 - `harness/workflows/intake-workflow.md` - 接入流程
 - `harness/rules/general/repo-governance.md` - 仓库治理规则
-- `knowledge/templates/topic-template/` - 知识模板
 
 ## Files to Write
 

@@ -1,98 +1,63 @@
 ---
 name: write-synthesis-draft
-description: 编写横向比较笔记，对比多个 primitive/synthesis 的差异与演进。
+description: 编写横向比较笔记，对比多个 primitive 的差异、演进与能力边界。
 ---
 
-# Skill: Write Comparison Note
+# 编写 Synthesis 型草稿
 
-## Purpose
+## 适用场景
 
-编写比较分析 note，对比多个对象在固定维度上的差异。
+- 研究内容为 `synthesis`，需要横向对比多个对象在同一维度上的差异。
+- 适用 `synthesis` profile。
 
-## Triggers
+## 输入
 
-用户请求：
-- "比较 A 和 B"
-- "写对比分析"
-- "完成 comparison note"
+- 比较对象列表与比较维度。
+- `sources/claims/*.md` 提取的 claims。
+- `sources/evidence-map.md`。
+- `request.md` / `plan.md`。
+- 各比较对象的 atoms 或已有分析。
 
-## Required Inputs
+## 输出
 
-- **objects**: 比较对象列表
-- **dimensions**: 比较维度
-- **purpose**: 比较目的
-- **sources**: 各方来源
+- `draft.md`（写入当前 change 目录下），包含比较分析正文。
 
-## Forbidden Inputs / Anti-patterns
+## 读取文件
 
-- 不要随意切换维度
-- 不要主观判断无证据支持
-- 不要混用不同抽象层的对象
-- 不要缺少适用场景分析
+- `request.md`、`plan.md`。
+- `sources/claims/*.md`、`sources/evidence-map.md`。
+- `openspec/schemas/blockchain-research/templates/draft.md`。
+- 各比较对象的 atoms 或已有分析。
 
-## Files to Read
+## 写入文件
 
-- `harness/workflows/comparison-workflow.md` - 比较分析流程
-- `harness/rules/research/note-comparison-rules.md` - 比较分析规则
-- `harness/rules/writing/table-rules.md` - 表格规则
-- 各比较对象的 atoms
+- `openspec/changes/<change-id>/draft.md`
 
-## Files to Write
+## 执行要点
 
-### 1. Comparison Note
+1. 比较维度必须固定且相关，不得随意切换
+2. 每个主张必须有证据支撑，不得主观判断无证据支持
+3. 不得混用不同抽象层的对象
+4. 必须包含适用场景分析
+5. 必须包含不适用场景分析
+6. 标注证据等级
 
-`openspec/changes/<change-id>/comparison-note.md`
+## 失败模式处理
 
-### 2. Comparison Matrix
+- 对象不可比：说明不可比原因，或重新定义比较范围
+- 某对象数据不足：标注证据缺口，降低相关结论置信度
+- 维度选择不当：重新选择与比较目的相关的维度
 
-`openspec/changes/<change-id>/comparisons/matrix.yaml`
+## 禁止事项
 
-### 3. Claims
+- 不得生成 `work-products/*.md`。
+- 不得跳过 claims 直接写结论。
+- 不得直接写 `knowledge/**`。
 
-`openspec/changes/<change-id>/claims/facts.yaml` (比较相关 claims)
+## 自检
 
-## Local Validation Steps
-
-1. 检查维度是否固定
-2. 检查每个主张都有证据
-3. 检查适用场景分析
-4. 检查不适用场景分析
-
-## Output Contract
-
-```yaml
-note_path: openspec/changes/<change-id>/comparison-note.md
-matrix_path: openspec/changes/<change-id>/comparisons/matrix.yaml
-dimensions: <维度列表>
-objects: <对象列表>
-status: draft|review-ready
-```
-
-## Quality Gate
-
-- [ ] 比较目的明确
-- [ ] 维度固定且相关
-- [ ] 数据有证据支撑
-- [ ] 适用场景清晰
-- [ ] 不适用场景列出
-- [ ] 证据等级标注
-
-## Failure Modes
-
-### 对象不可比
-
-**处理**：说明不可比原因，或重新定义比较范围。
-
-### 某对象数据不足
-
-**处理**：标注证据缺口，降低相关结论置信度。
-
-### 维度选择不当
-
-**处理**：重新选择与比较目的相关的维度。
-
-## When to Stop and Ask for Manual Triage
-
-- 比较对象完全不属于同一范畴
-- 关键比较维度数据全部缺失
-- 比较目的不清晰
+- 比较目的是否明确？
+- 维度是否固定且相关？
+- 每个比较主张是否有证据支撑？
+- 适用/不适用场景是否清晰？
+- 证据等级是否标注？
