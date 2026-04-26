@@ -11,6 +11,9 @@
   "permissions": {
     "allow": [
       "Edit(.claude/skills/**)",
+      "Edit(.claude/agents/**)",
+      "Edit(.claude/commands/**)",
+      "Edit(.claude/hooks/**)",
       "Bash(git mv:*)",
       "Bash(find /Users/zhehan/Documents/tools/llm/openspec/openspec-research-blockchain -name *plantuml* -o -name *feipi*)",
       "Bash(ln -s ../../skills/openspec-research-build-artifact /Users/zhehan/Documents/tools/llm/openspec/openspec-research-blockchain/.qoder/skills/openspec-research-build-artifact)",
