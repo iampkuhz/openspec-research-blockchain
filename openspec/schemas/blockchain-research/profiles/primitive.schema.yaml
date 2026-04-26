@@ -1,27 +1,26 @@
-id: blockchain-research.profile.primitive
+name: blockchain-research.profile.primitive
+description: "用于主要目标是生成或更新 primitive Knowledge artifact 的 research change。"
 
-applies_when:
+x_applies_when:
   task_type: primitive
 
-instruction: "用于主要目标是生成或更新 primitive Knowledge artifact 的 research change。"
-
-required_artifacts:
+x_required_artifacts:
   - request
   - plan
   - source_pack
   - draft
 
-optional_artifacts:
+x_optional_artifacts:
   - evidence_map
   - note
   - claim
   - review
   - publish
 
-allowed_publish_targets:
+x_allowed_publish_targets:
   - knowledge/analysis/primitives/**/artifact.md
 
-artifact_constraints:
+x_artifact_constraints:
   draft:
     publish_target_type: knowledge_primitive
     validators:

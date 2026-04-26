@@ -1,12 +1,11 @@
-id: blockchain-research.operation.create
+name: blockchain-research.operation.create
+description: "用于创建新的 Knowledge artifact。"
 
-applies_when:
+x_applies_when:
   change_operation: create
 
-instruction: "用于创建新的 Knowledge artifact。"
-
-requires:
+x_requires:
   publish_target_status: new
 
-validators:
+x_validators:
   - publish_targets

@@ -1,27 +1,26 @@
-id: blockchain-research.profile.synthesis
+name: blockchain-research.profile.synthesis
+description: "用于主要目标是生成或更新 synthesis、comparison、taxonomy 或 cross-source analysis 的 research change。"
 
-applies_when:
+x_applies_when:
   task_type: synthesis
 
-instruction: "用于主要目标是生成或更新 synthesis、comparison、taxonomy 或 cross-source analysis 的 research change。"
-
-required_artifacts:
+x_required_artifacts:
   - request
   - plan
   - source_pack
   - draft
 
-optional_artifacts:
+x_optional_artifacts:
   - evidence_map
   - note
   - claim
   - review
   - publish
 
-allowed_publish_targets:
+x_allowed_publish_targets:
   - knowledge/analysis/synthesis/**/artifact.md
 
-artifact_constraints:
+x_artifact_constraints:
   draft:
     publish_target_type: knowledge_synthesis
     validators:

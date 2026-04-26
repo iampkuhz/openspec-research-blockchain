@@ -1,38 +1,37 @@
-id: blockchain-research.profile.decision
+name: blockchain-research.profile.decision
+description: "用于主要目标是生成或更新 decision artifact 或 verdict 的 research change。"
 
-applies_when:
+x_applies_when:
   task_type: decision
 
-instruction: "用于主要目标是生成或更新 decision artifact 或 verdict 的 research change。"
-
-required_artifacts:
+x_required_artifacts:
   - request
   - plan
   - source_pack
   - draft
 
-optional_artifacts:
+x_optional_artifacts:
   - evidence_map
   - note
   - claim
   - review
   - publish
 
-support_templates:
+x_support_templates:
   - decision_criteria
 
-allowed_publish_targets:
+x_allowed_publish_targets:
   - knowledge/decisions/**/artifact.md
   - knowledge/decisions/**/verdict.md
 
-artifact_constraints:
+x_artifact_constraints:
   draft:
     publish_target_type: knowledge_decision
     validators:
       - markdown_sections
       - traceability
 
-final_outputs:
+x_final_outputs:
   artifact:
     template: knowledge_artifact
     target: knowledge/decisions/**/artifact.md

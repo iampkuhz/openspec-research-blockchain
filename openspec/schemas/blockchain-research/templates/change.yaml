@@ -3,14 +3,14 @@
 #
 # 必填字段：
 #   id — change 唯一标识
-#   schema — 引用的 schema package id
+#   schema — 引用的 schema package name
 #   task_type — source_reading | primitive | synthesis | decision
 #   change_operation — create | update
 #   execution_scope — single_artifact | multi_artifact
 #   artifacts — 声明当前 change 涉及的文件与 glob pattern
 #   validators — 声明需要运行的校验器 id
 #
-# profile.task 和 profile.operation 分别对应 profiles/*.schema.yaml 和 operations/*.schema.yaml
+# x_profile.task 和 x_profile.operation 分别对应 x_profiles/*.schema.yaml 和 x_operations/*.schema.yaml
 
 id: <change-id>
 schema: blockchain-research
@@ -19,9 +19,9 @@ task_type: primitive
 change_operation: create
 execution_scope: single_artifact
 
-instruction: "当前 change 使用 blockchain-research schema，并叠加 task profile 与 operation profile。"
+instruction: "当前 change 使用 blockchain-research schema（name: blockchain-research），并叠加 x_profiles.task 与 x_operations.operation。"
 
-profile:
+x_profile:
   task: primitive
   operation: create
 

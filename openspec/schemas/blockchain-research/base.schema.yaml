@@ -1,21 +1,20 @@
-id: blockchain-research.base
+name: blockchain-research.base
+description: "Harness 扩展契约。定义所有 research change 的公共结构、change.yaml 必填字段和通用 validator，不替代 schema.yaml 的 artifacts 定义。"
 
-instruction: "Harness 扩展契约。定义所有 research change 的公共结构、change.yaml 必填字段和通用 validator，不替代 schema.yaml 的 artifacts 定义。"
-
-required_files:
+x_required_files:
   - change.yaml
   - request.md
   - plan.md
   - draft.md
 
-standard_dirs:
+x_standard_dirs:
   - sources
   - notes
   - claims
   - review
   - validation
 
-change_yaml_required_fields:
+x_change_yaml_required_fields:
   - id
   - schema
   - task_type
@@ -25,7 +24,7 @@ change_yaml_required_fields:
   - validators
   - publish_targets
 
-common_validators:
+x_common_validators:
   request:
     - required_files
     - markdown_sections

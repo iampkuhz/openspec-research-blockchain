@@ -1,7 +1,6 @@
-id: blockchain-research
+name: blockchain-research
 version: 1
-
-instruction: "统一 research schema。定义 research change 的 artifact workflow，并通过 profiles 和 operations 承载差异化约束。"
+description: 统一 research schema。定义 research change 的 artifact workflow，并通过 profiles 和 operations 承载差异化约束。
 
 x_artifact_flow:
   summary: "request.md -> plan.md -> sources/source-pack.md -> sources/evidence-map.md -> [notes/<source-slug>.md]* -> [claims/<claim-slug>.md]* -> draft.md -> review.md -> publish.md -> knowledge/**"
@@ -11,7 +10,7 @@ x_artifact_flow:
     "?": "0 或 1"
   source_of_truth: "artifacts[].requires"
 
-imports:
+x_imports:
   base: ./base.schema.yaml
 
 # =============================================================================
@@ -104,7 +103,7 @@ artifacts:
 # Profiles & Operations 路由
 # =============================================================================
 
-profiles:
+x_profiles:
   source_reading:
     path: ./profiles/source-reading.schema.yaml
     instruction: "当 task_type=source_reading 时加载。"
@@ -118,7 +117,7 @@ profiles:
     path: ./profiles/decision.schema.yaml
     instruction: "当 task_type=decision 时加载。"
 
-operations:
+x_operations:
   create:
     path: ./operations/create.schema.yaml
     instruction: "当 change_operation=create 时加载。"
@@ -130,7 +129,7 @@ operations:
 # Templates 映射
 # =============================================================================
 
-templates:
+x_templates:
   request: ./templates/request.md
   plan: ./templates/plan.md
   source_pack: ./templates/source-pack.md
@@ -142,7 +141,7 @@ templates:
   publish: ./templates/publish.md
   decision_criteria: ./templates/decision-criteria.md
 
-template_groups:
+x_template_groups:
   artifact_templates:
     - request.md
     - plan.md
@@ -163,7 +162,7 @@ template_groups:
   legacy_templates:
     - work-product.md
 
-final_templates:
+x_final_templates:
   knowledge_artifact:
     path: ./templates/knowledge-artifact.md
     instruction: "用于生成或更新 knowledge/**/artifact.md 的最终 Knowledge 正文。"
@@ -178,7 +177,7 @@ final_templates:
     applies_to:
       - knowledge/decisions/**/verdict.md
 
-support_templates:
+x_support_templates:
   decision_criteria:
     path: ./templates/decision-criteria.md
     instruction: "用于 decision 任务的评估维度、权重、选项、取舍规则和 verdict 生成依据；不直接发布到 knowledge/**。"
@@ -186,4 +185,4 @@ support_templates:
       - profiles/decision.schema.yaml
       - templates/draft.md
       - templates/publish.md
-      - final_templates.decision_verdict
+      - x_final_templates.decision_verdict
