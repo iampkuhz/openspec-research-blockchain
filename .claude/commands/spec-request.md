@@ -1,89 +1,18 @@
----
-description: 为 research change 生成或修订 request.md
-argument-hint: "[change-path | change-name]"
----
+# Deprecated: use /spec-research
 
-# spec-request
+本命令为兼容入口，不再作为主入口维护。
 
-`request` 阶段的主会话 orchestrator 入口。
+## 兼容行为
 
-用户传入参数：`$ARGUMENTS`
+当前用户如果调用 `/spec-request`，请转按 `/spec-research` 执行，但只推进到初始化 `change.yaml` 与生成 `request.md` 为止。
 
-## 语言输出约束
+不得生成：
 
-- 主会话所有过程说明、阶段汇报与完成总结默认使用简体中文。
-- 术语、命令、路径、文件名、schema key 与关键技术标识符优先保留英文。
-- 不要使用英文过程提示句，例如 `Let me...`、`Now I will...`。
+- `plan.md`
+- `draft.md`
+- `knowledge/**`
 
-## 执行模型
+## 迁移指引
 
-- 本 command 是**渐进式执行**模式下的 request 阶段入口，保持在主会话执行。
-- 适用于用户只想先完成 request 阶段、暂不推进完整 pipeline 的场景。
-- 如果需要端到端执行（request → plan → draft → review → artifact），应使用 `/spec-research` 而非本 command。
-- 主会话负责路由判断、目标路径解析、质量门控与最终写入。
-- `request.md` 的主链写作保留在主会话；不要再额外拆出 author subagent。
-- 如果当前任务实际是在改 OpenSpec / Harness / `.claude/` / `AGENTS.md` / `docs/governance/`，不要走 research pipeline，改走 governance review 路由，并显式调用 `governance-review-agent`。
-- 不要让一个 subagent 再去调用另一个 subagent。所有 delegation 都由主会话决定。
-
-## 规则来源
-
-执行前读取并遵循：
-
-- `harness/rules/_phase_index.yaml`（读取 `request` 阶段依赖）
-- `openspec/config.yaml`
-- `openspec/schemas/blockchain-research/schema.yaml`
-- 当前 change 的 `change.yaml`（如已存在）
-- `openspec/schemas/blockchain-research/templates/request.md`
-- 按需读取对应 profile：`openspec/schemas/blockchain-research/profiles/<task_type>.schema.yaml`
-- 按需读取对应 operation：`openspec/schemas/blockchain-research/operations/<change_operation>.schema.yaml`
-
-## OpenSpec Research Flow Contract
-
-本命令必须遵守当前仓库的 blockchain-research schema：
-
-```text
-request.md -> plan.md -> sources/source-pack.md -> sources/evidence-map.md -> [notes/<source-slug>.md]* -> [claims/<claim-slug>.md]* -> draft.md -> review.md -> publish.md -> knowledge/**
-```
-
-约束：
-
-- `draft.md` 是本 change 的唯一主候选产物。
-- 不得生成 `work-products/*.md`。
-- 不得直接写 `knowledge/**`。
-- 复杂任务必须拆成 child changes。
-- 必须遵守 `schema.yaml` 的 `x_artifact_flow`。
-
-## 执行步骤
-
-1. 从 `$ARGUMENTS`、当前工作目录或上下文中解析目标 change 目录。
-2. 如果无法安全确定目标，询问用户 change 路径或 change 名称。
-3. 读取 `openspec/config.yaml`、schema、`change.yaml`（如已存在）、template 与现有 `request.md`。
-4. 由主会话直接生成或修订 `request.md`，严格遵循 canonical template 与阶段边界。
-5. 如 `change.yaml` 不存在，初始化 `change.yaml` 并声明 `task_type` 与 `change_operation`。
-6. 完成前检查最终文件是否遵循 canonical template，且没有漂移到 plan / draft 职责。
-
-request.md 必须说明：
-
-1. 研究目标与 scope / out of scope
-2. `task_type` 候选值：`source_reading` | `primitive` | `synthesis` | `decision`
-3. `change_operation` 候选值：`create` | `update` | `extend` | `supersede` | `merge`
-4. 目标 Knowledge path 草案
-5. 如果任务复杂，是否需要拆 child changes
-
-## 完成总结
-
-汇报：
-
-- 最终使用的 change 路径
-- 对象类型与研究路径
-- 记录了哪些核心问题
-- 下一步是否建议进入 `/spec-plan`
-- 是否还有 fridge items / unresolved inputs
-
-## Validation 自检
-
-- [ ] `research_type` / `research_path` 已声明
-- [ ] 3-5 个开放性问题已定义，且与对象类型匹配
-- [ ] 覆盖范围与非目标已明确
-- [ ] 预期输出与对象类型匹配
-- [ ] 文件符合 `openspec/schemas/blockchain-research/templates/request.md` 模板结构
+- 新需求请直接调用 `/spec-research`
+- `/spec-research` 会自动完成 change 初始化、类型路由、request.md 与 plan.md 生成

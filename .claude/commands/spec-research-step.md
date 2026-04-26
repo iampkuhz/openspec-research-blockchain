@@ -1,0 +1,113 @@
+---
+description: 推进当前 change 的下一步，自动检测缺失产物并生成
+argument-hint: "[change-id | change-path]"
+---
+
+# spec-research-step
+
+推进当前 change 的下一步。
+
+用户传入参数：`$ARGUMENTS`（change-id 或 change 路径，可选）
+
+## 语言输出约束
+
+- 所有过程说明、阶段汇报默认使用简体中文。
+- 术语、命令、路径、文件名、schema key 与关键技术标识符优先保留英文。
+- 不要使用英文过程提示句，例如 `Let me...`、`Now I will...`。
+
+## OpenSpec Research Flow Contract
+
+本命令必须遵守当前仓库的 `blockchain-research` schema。
+
+主流程：
+
+```text
+request.md -> plan.md -> sources/source-pack.md -> sources/evidence-map.md -> [notes/<source-slug>.md]* -> [claims/<claim-slug>.md]* -> draft.md -> review.md -> publish.md -> knowledge/**
+```
+
+执行前必须读取：
+
+- `openspec/config.yaml`
+- `openspec/schemas/blockchain-research/schema.yaml`
+- 当前 change 的 `change.yaml`
+- `openspec/schemas/blockchain-research/profiles/<task_type>.schema.yaml`
+- `openspec/schemas/blockchain-research/operations/<change_operation>.schema.yaml`
+
+硬性约束：
+
+- `draft.md` 是当前 change 的唯一主候选产物。
+- 不得生成 `work-products/*.md`。
+- 不得直接写 `knowledge/**`，除非当前命令是 `/spec-research-publish`，且 `publish.md` 已定义合法映射。
+- 复杂任务必须拆成多个 child changes。
+- decision 任务必须明确 `decision-criteria.md -> draft.md#Verdict Draft -> decision-verdict.md -> knowledge/decisions/**/verdict.md` 的关系。
+
+## 参考 Skills
+
+本命令会调用以下 skills（按阶段自动选择）：
+
+- `skills/openspec-flow/build-research-support` — 来源包与证据面构建
+- `skills/research-authoring/extract-source-pack` — 来源提取
+- `skills/research-authoring/build-evidence-map` — 证据地图生成
+- `skills/research-authoring/write-source-note` — 来源精读笔记
+- `skills/research-authoring/extract-claims` — 声明提取
+- `skills/openspec-flow/build-draft` — 草稿生成
+- `skills/openspec-flow/build-review` — 评审生成
+- `skills/research-authoring/write-source-reading-draft` — 来源阅读型草稿
+- `skills/research-authoring/write-primitive-draft` — Primitive 型草稿
+- `skills/research-authoring/write-synthesis-draft` — Synthesis 型草稿
+- `skills/research-authoring/write-decision-draft` — Decision 型草稿
+- `skills/research-authoring/build-decision-criteria` — 决策标准生成
+
+## 执行步骤
+
+### 1. 定位 change
+
+如果 `$ARGUMENTS` 为空：
+
+- 扫描 `openspec/changes/` 下最近的未完成 change
+- 选择有 `request.md` 但缺少后续产物的 change
+
+如果 `$ARGUMENTS` 指定了 change-id 或路径：
+
+- 读取 `openspec/changes/<change-id>/change.yaml`
+
+### 2. 读取模型
+
+- 根据 `change.yaml` 的 `task_type` 加载对应 profile
+- 根据 `change_operation` 加载对应 operation
+
+### 3. 自动检测下一步
+
+按以下优先级检测当前 change 缺少的产物：
+
+| 缺少的文件 | 下一步动作 | 调用的 skill |
+|------------|-----------|-------------|
+| `sources/source-pack.md` | 生成来源包 | `extract-source-pack` |
+| `sources/evidence-map.md` | 生成证据地图 | `build-evidence-map` |
+| `sources/notes/*.md` | 生成来源笔记 | `write-source-note` |
+| `sources/claims/*.md` | 提取声明 | `extract-claims` |
+| `decision-criteria.md`（仅 decision 类型） | 生成决策标准 | `build-decision-criteria` |
+| `draft.md` | 生成草稿 | `write-primitive-draft` / `write-synthesis-draft` / `write-decision-draft` / `write-source-reading-draft` |
+| `review.md` | 生成评审 | `build-review` |
+
+### 4. 执行下一步
+
+根据步骤 3 的判断，调用对应 skill 生成缺失产物。
+
+如果当前 change 缺少的产物太多（例如既没有 sources 也没有 draft），从优先级最高的第一步开始，**不要一次性生成所有产物**。
+
+### 5. 拆分检查
+
+如果执行过程中发现当前 change 实际需要多个最终 Knowledge artifact：
+
+- 停止当前操作
+- 建议用户拆成多个 child changes
+- 不继续推进
+
+## 完成总结
+
+汇报：
+
+- 当前 change 路径
+- 执行了哪一步（生成了什么文件）
+- 下一步建议（调用 `/spec-research-step` 继续，或在 draft 完成后调用 `/spec-research-publish`）
