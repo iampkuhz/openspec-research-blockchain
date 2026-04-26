@@ -67,3 +67,6 @@ tests/snapshots/
 /openspec/archive/
 /openspec/changes/
 /harness/reports/
+!/harness/reports/README.md
+!/harness/reports/*.md
+/harness/reports/_work/

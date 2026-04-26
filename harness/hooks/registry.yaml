@@ -197,10 +197,10 @@ schema_validators:
     trigger: post_write
     instruction: "检查来源到产物的证据映射。"
 
-  work_product:
+  draft_contract:
     script: scripts/hooks/validators/work_product.py
-    trigger: post_write
-    instruction: "检查阶段候选产物的结构。"
+    legacy_script_name: true
+    note: "当前 validator 语义已迁移为 draft_contract，脚本名后续再改。旧语义 work-product 已统一改为 draft.md。"
 
   publish_targets:
     script: scripts/hooks/validators/publish_targets.py

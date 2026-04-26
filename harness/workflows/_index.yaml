@@ -1,101 +1,55 @@
 # 工作流索引
 
-version: "1.1"
+version: "2.0"
 description: |
-  工作流索引，用于支持按需加载。
+  Active workflow index，对齐 spec-research / spec-research-step / spec-research-publish / spec-governance-review command 体系。
   当 workflow 支持 multi-agent 执行时，命令层和协作入口还应同时读取
   `.claude/agents/` 目录中的 agent 合同。
 
 workflows:
-  - name: research-pipeline.md
-    description: "端到端研究流程：request → plan → draft → review → artifact"
-    trigger: "需要完整执行一个 research change"
-    output: "request.md, plan.md, sources/, draft.md, review/, knowledge/.../artifact.md"
+  research_intake_routing:
+    path: harness/workflows/research-intake-routing.md
+    command: /spec-research
+    outputs:
+      - change.yaml
+      - request.md
+      - plan.md
 
-  # 阶段规范（phase files）
-  - name: request-phase.md
-    description: "request 阶段规范：入口条件、形式要求、完成标准"
-    trigger: "生成或修订 request.md"
-    output: "openspec/changes/<change-id>/request.md"
+  research_step_execution:
+    path: harness/workflows/research-step-execution.md
+    command: /spec-research-step
+    outputs:
+      - sources/source-pack.md
+      - sources/evidence-map.md
+      - notes/*.md
+      - claims/*.md
+      - draft.md
+      - review.md
 
-  - name: plan-phase.md
-    description: "plan 阶段规范：入口条件、形式要求、完成标准"
-    trigger: "生成或修订 plan.md"
-    output: "openspec/changes/<change-id>/plan.md"
+  research_publish_flow:
+    path: harness/workflows/research-publish-flow.md
+    command: /spec-research-publish
+    outputs:
+      - publish.md
+      - knowledge/**/artifact.md
+      - knowledge/decisions/**/verdict.md
 
-  - name: draft-phase.md
-    description: "draft 阶段规范：入口条件、形式要求、图表矩阵、完成标准"
-    trigger: "生成或修订 draft.md"
-    output: "openspec/changes/<change-id>/draft.md"
+  source_reading:
+    path: harness/workflows/source-reading-workflow.md
+    task_type: source_reading
 
-  - name: artifact-phase.md
-    description: "artifact 阶段规范：提炼规则、移除规则、完成标准"
-    trigger: "从 draft.md 生成长期 artifact"
-    output: "knowledge/analysis/.../artifact.md 或 knowledge/decisions/.../artifact.md"
+  primitive:
+    path: harness/workflows/primitive-workflow.md
+    task_type: primitive
 
-  - name: intake-workflow.md
-    description: "研究请求接入与分类"
-    trigger: "用户提出研究需求"
-    output: "openspec/changes/<change-id>/request.md"
+  synthesis:
+    path: harness/workflows/synthesis-workflow.md
+    task_type: synthesis
 
-  - name: source-workflow.md
-    description: "来源验证与证据提取"
-    trigger: "intake workflow 完成，request.md 已填写"
-    output: "openspec/changes/<change-id>/sources/"
+  decision:
+    path: harness/workflows/decision-workflow.md
+    task_type: decision
 
-  - name: principle-atom-workflow.md
-    description: "知识笔记写作（definition/mechanism/evolution/comparison）"
-    trigger: "source workflow 完成，已有 source-pack.yaml 和 excerpts"
-    output: "openspec/changes/<change-id>/notes/"
-
-  - name: comparison-workflow.md
-    description: "比较分析写作"
-    trigger: "需要对比多个 primitive/synthesis"
-    output: "openspec/changes/<change-id>/comparisons/"
-
-  - name: diagram-workflow.md
-    description: "图表创建（PlantUML）"
-    trigger: "需要可视化机制/架构/流程"
-    output: "openspec/changes/<change-id>/diagrams/"
-
-  - name: review-workflow.md
-    description: "知识评审"
-    trigger: "draft.md 完成后，apply 到 knowledge/ 前"
-    output: "openspec/changes/<change-id>/review/"
-
-  - name: merge-workflow.md
-    description: "Change 合并到主线知识"
-    trigger: "review workflow 完成，评审结论为 approved"
-    output: "knowledge/analysis/ 或 knowledge/decisions/"
-
-  - name: update-existing-knowledge.md
-    description: "更新现有知识"
-    trigger: "规范更新/发现错误/生态变化"
-    output: "openspec/changes/ → knowledge/"
-
-  - name: governance-review-workflow.md
-    description: "规约与架构评审"
-    trigger: "修改 openspec/**、harness/**、.claude/**、AGENTS.md、docs/governance/"
-    output: "openspec/changes/<change-id>/review/governance-review.md"
-
-  - name: spec-system-audit-workflow.md
-    description: "规约体系周期性审计与清理：触发链、索引链、孤岛文件、死引用"
-    trigger: "需要对仓库规约体系做 repo-wide hygiene audit 或手工清理"
-    output: "会话总结；如需落盘则为 harness/reports/spec-system-audit-YYYY-MM-DD.md 或 review/spec-system-audit.md"
-
-categories:
-  research:
-    - research-pipeline.md
-    - intake-workflow.md
-    - source-workflow.md
-    - principle-atom-workflow.md
-    - comparison-workflow.md
-    - diagram-workflow.md
-  quality:
-    - review-workflow.md
-  merge:
-    - merge-workflow.md
-    - update-existing-knowledge.md
-  governance:
-    - governance-review-workflow.md
-    - spec-system-audit-workflow.md
+  governance_review:
+    path: harness/workflows/governance-review-workflow.md
+    command: /spec-governance-review

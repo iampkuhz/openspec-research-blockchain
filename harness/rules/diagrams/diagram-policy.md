@@ -228,7 +228,7 @@ Deployment (1014) ─────┘
 
 ## 相关文件
 
-- `skills/openspec-research-build-draft/SKILL.md`：必须引用本政策
+- `feipi-plantuml-generate-architecture-diagram` / `feipi-plantuml-generate-sequence-diagram`（全局 skill）：图表生成与校验工具，必须引用本政策
 - `openspec/schemas/blockchain-research/templates/draft.md`：必须提示使用 PlantUML skill
 - 用户级 skills (`feipi-plantuml-generate-architecture-diagram` 和 `feipi-plantuml-generate-sequence-diagram`)：图表生成与校验工具
 - `harness/rules/diagrams/architecture-quality-rules.md`：架构组件图质量规约（必须遵守）

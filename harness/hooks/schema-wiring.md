@@ -33,21 +33,77 @@ flowchart TD
     G -->|publish_targets 映射 staging 到 Knowledge| K
 ```
 
-## Hook 触发点
+## change.yaml 如何声明 validators
 
-| 写入目标 | 触发时机 | 读取 change.yaml | 运行 validators |
-|----------|----------|------------------|-----------------|
-| `request.md` | PostToolUse | 是 | base: required_files + markdown_sections |
-| `plan.md` | PostToolUse | 是 | base: required_files + markdown_sections |
-| `sources/source-pack.md` | PostToolUse | 是 | profile: source_pack |
-| `sources/evidence-map.md` | PostToolUse | 是 | profile: evidence_map |
-| `notes/*.md` | PostToolUse | 是 | 按 profile 中 notes 声明的 validators |
-| `claims/*.md` | PostToolUse | 是 | 按 profile 中 claims 声明的 validators |
-| `work-products/*.md` | PostToolUse | 是 | profile: markdown_sections + work_product + traceability |
-| `review/*.md` | PostToolUse | 是 | base: markdown_sections |
-| `publish.md` | PreToolUse | 是 | operation: publish_targets + traceability |
-| 写入 `knowledge/` 目录 | PreToolUse | 是 | operation: publish_targets + traceability |
-| Stop（流程结束） | 一次性 | 是 | 汇总 validation 状态 |
+change.yaml 中的 validators 段声明三类校验器：
+
+```yaml
+validators:
+  base:
+    - required_files
+    - markdown_sections
+  profile:
+    - traceability
+  operation:
+    - publish_targets
+```
+
+- `base`：公共校验器，对所有 task_type 生效
+- `profile`：按 task_type 加载的 profile 专属校验器
+- `operation`：按 change_operation 加载的操作专属校验器
+
+## Schema 如何映射到 validator
+
+`schema.yaml` 中 `artifacts[].id` 声明 artifact 标识（如 `request`、`plan`、`draft`、`publish`）。
+这些 id 不直接映射到 validator，而是通过 `change.yaml` 的 validators 段间接映射。
+
+`base.schema.yaml` 中 `common_validators` 声明所有 artifact 共享的校验器。
+
+`profiles/*.schema.yaml` 中 `artifact_constraints` 声明特定 task_type 的额外约束，可引用 profile validator。
+
+`operations/*.schema.yaml` 中声明特定 change_operation 的 validator。
+
+## Hook registry 如何调度
+
+`harness/hooks/registry.yaml` 的 `schema_validators` 段声明 validator id → script 映射：
+
+```yaml
+schema_validators:
+  required_files:
+    script: scripts/hooks/validators/required_files.py
+    trigger: post_write
+    instruction: "检查 change.yaml 声明的必需文件是否存在。"
+
+  markdown_sections:
+    script: scripts/hooks/validators/markdown_sections.py
+    trigger: post_write
+    instruction: "检查被修改的 Markdown 产物是否包含必要章节。"
+
+  source_pack:
+    script: scripts/hooks/validators/source_pack.py
+    trigger: post_write
+    instruction: "检查来源元信息和来源清单。"
+
+  evidence_map:
+    script: scripts/hooks/validators/evidence_map.py
+    trigger: post_write
+    instruction: "检查来源到产物的证据映射。"
+
+  draft_contract:
+    script: scripts/hooks/validators/work_product.py
+    legacy_script_name: true
+    note: "当前 validator 语义已迁移为 draft_contract，脚本名后续再改。"
+
+  publish_targets:
+    script: scripts/hooks/validators/publish_targets.py
+    trigger: pre_publish
+    instruction: "检查 publish.md 和 change.yaml 中的发布目标。"
+
+  traceability:
+    script: scripts/hooks/validators/traceability.py
+    trigger: pre_publish
+    instruction: "检查从来源到知识目标的可追溯性。"
+```
 
 ## 调用链
 
@@ -81,5 +137,5 @@ flowchart TD
 ## 关键原则
 
 1. **hooks 不通过路径硬猜语义**：校验器应优先读取 `change.yaml` 中的 `task_type`、`profile` 和 `validators` 来决定运行什么检查。
-2. **work-products 是 staging candidate**：不是最终 Knowledge artifact，最终产物在 `knowledge/**/artifact.md`。
+2. **draft.md 是唯一主候选产物**：不再使用 work-products/*.md 作为正式流程。
 3. **schema 是统一的**：`schema.yaml` 是入口，不是四套独立 schema。base + x_profiles + x_operations 共同构成一个 schema package。

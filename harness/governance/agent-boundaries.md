@@ -1,8 +1,8 @@
 # Agent 协作边界
 
-**主定义位置**：本文件  
-**用途**：定义本仓库 multi-agent 协作的分类、职责边界与调度原则。  
-**引用方**：`.claude/agents/CONTRACT.md`、`harness/workflows/research-pipeline.md`、`AGENTS.md`
+**主定义位置**：本文件
+**用途**：定义本仓库 multi-agent 协作的分类、职责边界与调度规则。
+**引用方**：`.claude/agents/CONTRACT.md`、`AGENTS.md`
 
 ---
 
@@ -10,7 +10,7 @@
 
 | Agent | 职责 | 调用方 |
 |-------|------|--------|
-| `primitive-author` | 单个 primitive 的全链路研究写作 | 主会话 orchestrator |
+| `primitive-author` | 单个 primitive 的全链路研究写作（request → plan → draft） | 主会话 orchestrator |
 | `synthesis-author` | 多 primitive 的横向对比合成 | 主会话 orchestrator |
 | `decision-author` | 场景决策分析写作 | 主会话 orchestrator |
 
@@ -21,14 +21,14 @@ Author agents 的特点：
 
 ## Specialist Agents（专长型）
 
-| Agent | 职责 | 调用方 |
-|-------|------|--------|
-| `source-evidence-agent` | sources/ 创建、链接验证、evidence gap | 主会话 orchestrator |
-| `diagram-agent` | 图表生成与验证 | 主会话 orchestrator |
-| `review-critic-agent` | 独立技术评审 | 主会话 orchestrator |
-| `publish-agent` | 长期 artifact 提炼 | 主会话 orchestrator |
-| `governance-review-agent` | 治理边界评审 | 主会话 orchestrator |
-| `spec-system-audit-agent` | 仓库规约体系审计与清理 | 主会话 orchestrator |
+| Agent | 职责 | 可写 | 不写 |
+|-------|------|------|------|
+| `source-evidence-agent` | sources/ 创建、链接验证、evidence gap | `sources/`、`notes/`、`claims/` | `draft.md`、`knowledge/**` |
+| `diagram-agent` | 图表生成与验证 | `diagrams/` supporting artifacts | `knowledge/**`（除非通过 draft/publish） |
+| `review-critic-agent` | 独立技术评审 | `review.md` | 不改 `draft.md` 正文（除非任务明确要求修复） |
+| `publish-agent` | 长期 artifact 提炼 | `publish.md`、publish gate 后的 `knowledge/**` | 不改 `request.md` / `plan.md` 的语义 |
+| `governance-review-agent` | 治理边界评审 | openspec/harness/commands/skills 规约文件 | 默认不改 `knowledge/**` |
+| `spec-system-audit-agent` | 仓库规约体系审计 | 审计报告 | 不改正式 policy 或 knowledge 正文 |
 
 Specialist agents 的特点：
 - 不负责 `request.md` / `plan.md` / `draft.md` 的写作

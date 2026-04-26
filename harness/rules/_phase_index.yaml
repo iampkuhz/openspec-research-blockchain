@@ -1,10 +1,10 @@
 # 阶段索引
 
-version: "1.1"
+version: "2.0"
 description: |
   按研究阶段声明依赖的 specs 与 rules。
   阶段切换时，Agent 读取本索引中该阶段的 depends 声明，自动加载对应文件。
-  不再靠 hardcode 的 prompt 逐个读取。
+  已对齐新版 artifact / research rules 分类。
 
 phases:
   request:
@@ -14,9 +14,10 @@ phases:
         - evidence-policy
       rules:
         - general/terminology-policy
-        - research/atom-definition-rules
+        - research/primitive-quality-rules
+        - artifacts/request-rules
       workflows:
-        - request-phase
+        - research-intake-routing
 
   plan:
     description: "研究计划生成"
@@ -26,9 +27,10 @@ phases:
         - research-object-model
       rules:
         - general/traceability-policy
-        - research/source-validation-rules
+        - research/source-quality-rules
+        - artifacts/plan-rules
       workflows:
-        - plan-phase
+        - research-intake-routing
 
   draft:
     description: "集中研究写作"
@@ -39,40 +41,20 @@ phases:
         - canonical-output-model
         - research-object-model
       rules:
-        - research/atom-mechanism-rules
-        - research/atom-evolution-rules
-        - research/note-comparison-rules
+        - research/primitive-quality-rules
+        - research/synthesis-quality-rules
+        - research/decision-quality-rules
         - research/uncertainty-rules
-        - research/component-quality-rules
-        - research/consensus-depth-rules
+        - research/traceability-rules
+        - research/evidence-policy
         - diagrams/diagram-policy
-        - diagrams/architecture-quality-rules
-        - diagrams/component-abstraction-rules
-        - diagrams/diagram-selection-matrix
-        - diagrams/brief-quality-rules
-        - diagrams/relationship-rules
-        - diagrams/annotation-rules
-        - diagrams/simplification-policy
-        - diagrams/diagram-review-checklist
         - writing/language-rules
         - writing/structure-rules
         - writing/table-rules
         - writing/summary-rules
+        - artifacts/draft-rules
       workflows:
-        - draft-phase
-
-  artifact:
-    description: "长期资产提炼"
-    depends:
-      specs:
-        - canonical-output-model
-        - evidence-policy
-      rules:
-        - general/update-policy
-        - general/traceability-policy
-        - writing/language-rules
-      workflows:
-        - artifact-phase
+        - research-step-execution
 
   review:
     description: "研究评审"
@@ -84,5 +66,20 @@ phases:
         - general/traceability-policy
         - writing/structure-rules
         - diagrams/diagram-review-checklist
+        - artifacts/review-rules
       workflows:
-        - review-workflow
+        - research-step-execution
+
+  publish:
+    description: "发布到 Knowledge"
+    depends:
+      specs:
+        - evidence-policy
+        - canonical-output-model
+      rules:
+        - general/traceability-policy
+        - general/update-policy
+        - writing/language-rules
+        - artifacts/publish-rules
+      workflows:
+        - research-publish-flow

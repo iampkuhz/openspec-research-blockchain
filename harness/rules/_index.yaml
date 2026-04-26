@@ -1,140 +1,32 @@
 # 规则索引
 
-version: "1.0"
+version: "2.0"
 description: |
-  轻量级规则索引，用于支持渐进式加载。
-  AGENTS.md 和 workflows 通过引用此索引来加载具体规则。
+  按 artifact_rules / research_rules / cross_cutting_rules 三层组织。
+  不再按 phase 分组。
 
-# 按领域分组的规则
-# 路径：相对于本文件 (_index.yaml)
+artifact_rules:
+  request: harness/rules/artifacts/request-rules.md
+  plan: harness/rules/artifacts/plan-rules.md
+  source_pack: harness/rules/artifacts/source-pack-rules.md
+  evidence_map: harness/rules/artifacts/evidence-map-rules.md
+  note: harness/rules/artifacts/note-rules.md
+  claim: harness/rules/artifacts/claim-rules.md
+  draft: harness/rules/artifacts/draft-rules.md
+  review: harness/rules/artifacts/review-rules.md
+  publish: harness/rules/artifacts/publish-rules.md
 
-domains:
-  intake:
-    description: "研究请求接入与分类"
-    rules:
-      - file: general/GLOBAL-GLOSSARY.md
-        description: "全局术语表"
-      - file: general/repo-governance.md
-        description: "仓库治理"
-      - file: general/terminology-policy.md
-        description: "术语治理"
-      - file: research/atom-definition-rules.md
-        description: "定义原子写作"
+research_rules:
+  source_quality: harness/rules/research/source-quality-rules.md
+  primitive_quality: harness/rules/research/primitive-quality-rules.md
+  synthesis_quality: harness/rules/research/synthesis-quality-rules.md
+  decision_quality: harness/rules/research/decision-quality-rules.md
+  decision_criteria: harness/rules/research/decision-criteria-rules.md
+  evidence_policy: harness/rules/research/evidence-policy.md
+  uncertainty: harness/rules/research/uncertainty-rules.md
+  traceability: harness/rules/research/traceability-rules.md
 
-  source:
-    description: "来源验证与证据提取"
-    rules:
-      - file: general/traceability-policy.md
-        description: "可追溯性"
-      - file: research/source-validation-rules.md
-        description: "来源验证"
-      - file: research/uncertainty-rules.md
-        description: "不确定性处理"
-
-  definition:
-    description: "定义原子写作"
-    rules:
-      - file: general/terminology-policy.md
-        description: "术语治理"
-      - file: general/traceability-policy.md
-        description: "可追溯性"
-      - file: research/atom-definition-rules.md
-        description: "定义原子写作"
-      - file: writing/structure-rules.md
-        description: "结构规范"
-
-  mechanism:
-    description: "机制分析写作"
-    rules:
-      - file: general/traceability-policy.md
-        description: "可追溯性"
-      - file: research/atom-mechanism-rules.md
-        description: "机制分析"
-      - file: writing/structure-rules.md
-        description: "结构规范"
-      - file: writing/table-rules.md
-        description: "表格规范"
-
-  evolution:
-    description: "演进分析写作"
-    rules:
-      - file: general/traceability-policy.md
-        description: "可追溯性"
-      - file: research/atom-evolution-rules.md
-        description: "演进分析"
-      - file: writing/structure-rules.md
-        description: "结构规范"
-
-  comparison:
-    description: "比较分析写作"
-    rules:
-      - file: general/terminology-policy.md
-        description: "术语治理"
-      - file: research/note-comparison-rules.md
-        description: "比较分析"
-      - file: writing/table-rules.md
-        description: "表格规范"
-      - file: writing/summary-rules.md
-        description: "摘要规范"
-
-  component-quality:
-    description: "组件分析与性能质量"
-    rules:
-      - file: research/component-quality-rules.md
-        description: "组件分析与性能质量要求"
-      - file: research/consensus-depth-rules.md
-        description: "共识算法分析深度要求"
-
-  diagram:
-    description: "图表建模与渲染"
-    rules:
-      - file: diagrams/diagram-policy.md
-        description: "图表总政策"
-      - file: diagrams/diagram-selection-matrix.md
-        description: "图类型选择"
-      - file: diagrams/brief-quality-rules.md
-        description: "Brief 质量"
-      - file: diagrams/relationship-rules.md
-        description: "关系语义"
-      - file: diagrams/annotation-rules.md
-        description: "注释规范"
-      - file: diagrams/simplification-policy.md
-        description: "简化政策"
-      - file: diagrams/diagram-review-checklist.md
-        description: "评审清单"
-      - file: diagrams/architecture-quality-rules.md
-        description: "架构图质量规约"
-      - file: diagrams/component-abstraction-rules.md
-        description: "组件抽象层级规约"
-
-  writing:
-    description: "写作风格与语言"
-    rules:
-      - file: writing/structure-rules.md
-        description: "结构规范"
-      - file: writing/table-rules.md
-        description: "表格规范"
-      - file: writing/summary-rules.md
-        description: "摘要规范"
-      - file: writing/language-rules.md
-        description: "语言与写作风格"
-
-  review:
-    description: "知识评审"
-    rules:
-      - file: general/terminology-policy.md
-        description: "术语治理"
-      - file: diagrams/diagram-review-checklist.md
-        description: "图表评审"
-      - file: writing/structure-rules.md
-        description: "结构规范"
-
-  merge:
-    description: "Change 合并到主线知识"
-    rules:
-      - file: general/repo-governance.md
-        description: "仓库治理"
-      - file: general/update-policy.md
-        description: "更新政策"
-      - file: general/traceability-policy.md
-        description: "可追溯性"
+cross_cutting_rules:
+  writing: harness/rules/writing/
+  diagrams: harness/rules/diagrams/
+  general: harness/rules/general/
