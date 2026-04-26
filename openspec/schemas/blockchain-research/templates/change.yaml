@@ -17,9 +17,9 @@ schema: blockchain-research
 
 task_type: primitive
 change_operation: create
-execution_scope: multi_artifact
+execution_scope: single_artifact
 
-instruction: "当前 change 使用 base schema，并叠加 task profile 和 operation profile。"
+instruction: "当前 change 使用 blockchain-research schema，并叠加 task profile 与 operation profile。"
 
 profile:
   task: primitive
@@ -28,32 +28,28 @@ profile:
 artifacts:
   request:
     path: request.md
-
+    required: true
   plan:
     path: plan.md
-
+    required: true
   source_pack:
     path: sources/source-pack.md
-
+    required: true
   evidence_map:
     path: sources/evidence-map.md
-
+    required: false
   notes:
     pattern: notes/*.md
     required: false
-
   claims:
     pattern: claims/*.md
     required: false
-
-  work_products:
-    pattern: work-products/*.md
+  draft:
+    path: draft.md
     required: true
-
   review:
-    pattern: review/*.md
-    required: true
-
+    path: review.md
+    required: false
   publish:
     path: publish.md
     required: false
@@ -63,12 +59,11 @@ validators:
     - required_files
     - markdown_sections
   profile:
-    - work_product
     - traceability
   operation:
     - publish_targets
 
 publish_targets:
-  - from: work-products/<work-product-slug>.md
+  - from: draft.md
     to: knowledge/analysis/primitives/<domain_id>/<topic_slug>/artifact.md
     type: knowledge_primitive

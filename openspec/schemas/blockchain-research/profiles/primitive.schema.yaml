@@ -3,41 +3,27 @@ id: blockchain-research.profile.primitive
 applies_when:
   task_type: primitive
 
-instruction: "用于主产出是 primitive Knowledge artifact 的研究任务。"
+instruction: "用于主要目标是生成或更新 primitive Knowledge artifact 的 research change。"
 
 required_artifacts:
   - request
   - plan
   - source_pack
-  - work_product
+  - draft
 
 optional_artifacts:
+  - evidence_map
   - note
   - claim
+  - review
+  - publish
 
-artifact_rules:
-  note:
-    pattern: notes/*.md
-    instruction: "可选的 source-level digestion，用于支撑 primitive。"
-    validators:
-      - markdown_sections
-      - traceability
+allowed_publish_targets:
+  - knowledge/analysis/primitives/**/artifact.md
 
-  claim:
-    pattern: claims/*.md
-    instruction: "可选的 claim 提炼，用于支撑 work-products。"
-    validators:
-      - markdown_sections
-      - traceability
-
-  work_product:
-    pattern: work-products/*.md
-    instruction: "准备发布到 Knowledge 的 staging primitive candidate。"
+artifact_constraints:
+  draft:
     publish_target_type: knowledge_primitive
     validators:
       - markdown_sections
-      - work_product
       - traceability
-
-allowed_publish_targets:
-  - knowledge/analysis/primitives/**

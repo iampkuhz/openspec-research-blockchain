@@ -1,22 +1,19 @@
 id: blockchain-research.base
 
-instruction: "所有 research change 的公共契约。task profile 可以收紧约束，但不要重新定义这些基础字段。"
+instruction: "Harness 扩展契约。定义所有 research change 的公共结构、change.yaml 必填字段和通用 validator，不替代 schema.yaml 的 artifacts 定义。"
 
 required_files:
   - change.yaml
   - request.md
   - plan.md
+  - draft.md
 
 standard_dirs:
   - sources
   - notes
   - claims
-  - work-products
   - review
   - validation
-
-optional_files:
-  - publish.md
 
 change_yaml_required_fields:
   - id
@@ -26,43 +23,29 @@ change_yaml_required_fields:
   - execution_scope
   - artifacts
   - validators
+  - publish_targets
 
-common_artifacts:
+common_validators:
   request:
-    path: request.md
-    instruction: "记录用户意图、研究范围、目标 Knowledge artifact 和边界。"
-    validators:
-      - required_files
-      - markdown_sections
-
+    - required_files
+    - markdown_sections
   plan:
-    path: plan.md
-    instruction: "记录执行计划、证据策略、work-products 清单和 publish target 草案。"
-    validators:
-      - required_files
-      - markdown_sections
-
+    - markdown_sections
   source_pack:
-    path: sources/source-pack.md
-    instruction: "记录来源清单和来源元信息。"
-    validators:
-      - source_pack
-
+    - source_pack
   evidence_map:
-    path: sources/evidence-map.md
-    instruction: "记录 sources 如何支撑 claims、work-products 和 publish targets。"
-    validators:
-      - evidence_map
-
+    - evidence_map
+  note:
+    - markdown_sections
+    - traceability
+  claim:
+    - markdown_sections
+    - traceability
+  draft:
+    - markdown_sections
+    - traceability
   review:
-    pattern: review/*.md
-    instruction: "记录语义审查、内容审查和人工确认项。"
-    validators:
-      - markdown_sections
-
+    - markdown_sections
   publish:
-    path: publish.md
-    instruction: "记录 staging work-products 到最终 Knowledge 路径的发布映射。"
-    validators:
-      - publish_targets
-      - traceability
+    - publish_targets
+    - traceability

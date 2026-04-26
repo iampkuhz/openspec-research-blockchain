@@ -1,10 +1,108 @@
 id: blockchain-research
 version: 1
 
-instruction: "统一入口 schema。先加载 base 公共契约，再根据 change.yaml 中的 task_type 加载对应 task profile，并根据 change_operation 加载对应 operation profile。"
+instruction: "统一 research schema。定义 research change 的 artifact workflow，并通过 profiles 和 operations 承载差异化约束。"
+
+x_artifact_flow:
+  summary: "request.md -> plan.md -> sources/source-pack.md -> sources/evidence-map.md -> [notes/<source-slug>.md]* -> [claims/<claim-slug>.md]* -> draft.md -> review.md -> publish.md -> knowledge/**"
+  notation:
+    "*": "0 到多个"
+    "+": "1 到多个"
+    "?": "0 或 1"
+  source_of_truth: "artifacts[].requires"
 
 imports:
   base: ./base.schema.yaml
+
+# =============================================================================
+# Artifact Workflow 定义
+# =============================================================================
+
+artifacts:
+  - id: request
+    generates: request.md
+    template: request.md
+    x_artifact_kind: singleton
+    x_cardinality: one
+    instruction: "生成研究请求说明，记录目标、边界、目标 Knowledge artifact 和 change_operation。"
+    requires: []
+
+  - id: plan
+    generates: plan.md
+    template: plan.md
+    x_artifact_kind: singleton
+    x_cardinality: one
+    instruction: "基于 request.md 生成执行计划、证据策略、支撑产物清单和 draft 目标路径草案。"
+    requires:
+      - request
+
+  - id: source_pack
+    generates: sources/source-pack.md
+    template: source-pack.md
+    x_artifact_kind: singleton
+    x_cardinality: one
+    instruction: "生成来源清单和来源元信息。"
+    requires:
+      - plan
+
+  - id: evidence_map
+    generates: sources/evidence-map.md
+    template: evidence-map.md
+    x_artifact_kind: singleton
+    x_cardinality: one
+    instruction: "生成 sources 到 notes、claims、draft 和 publish target 的证据映射。"
+    requires:
+      - source_pack
+
+  - id: note
+    generates: notes/<source-slug>.md
+    template: note.md
+    x_artifact_kind: collection
+    x_cardinality: zero_or_many
+    instruction: "对重要 source 生成结构化 source-level digestion。"
+    requires:
+      - source_pack
+
+  - id: claim
+    generates: claims/<claim-slug>.md
+    template: claim.md
+    x_artifact_kind: collection
+    x_cardinality: zero_or_many
+    instruction: "从 evidence_map 或 notes 中提炼可验证、可复用的 claim。"
+    requires:
+      - evidence_map
+
+  - id: draft
+    generates: draft.md
+    template: draft.md
+    x_artifact_kind: singleton
+    x_cardinality: one
+    instruction: "生成本 change 的唯一主候选产物，可通过 publish.md 发布为 source-note、primitive、synthesis 或 decision。"
+    requires:
+      - plan
+      - source_pack
+
+  - id: review
+    generates: review.md
+    template: review.md
+    x_artifact_kind: singleton
+    x_cardinality: one
+    instruction: "生成内容审查记录，评估 draft.md 的语义质量、证据充分性和人工确认项。"
+    requires:
+      - draft
+
+  - id: publish
+    generates: publish.md
+    template: publish.md
+    x_artifact_kind: singleton
+    x_cardinality: one
+    instruction: "生成 draft.md 到最终 Knowledge artifact 的发布映射。"
+    requires:
+      - review
+
+# =============================================================================
+# Profiles & Operations 路由
+# =============================================================================
 
 profiles:
   source_reading:
@@ -28,14 +126,64 @@ operations:
     path: ./operations/update.schema.yaml
     instruction: "当 change_operation=update 时加载。"
 
+# =============================================================================
+# Templates 映射
+# =============================================================================
+
 templates:
-  change: ./templates/change.yaml
   request: ./templates/request.md
   plan: ./templates/plan.md
   source_pack: ./templates/source-pack.md
   evidence_map: ./templates/evidence-map.md
   note: ./templates/note.md
   claim: ./templates/claim.md
-  work_product: ./templates/work-product.md
+  draft: ./templates/draft.md
   review: ./templates/review.md
   publish: ./templates/publish.md
+  decision_criteria: ./templates/decision-criteria.md
+
+template_groups:
+  artifact_templates:
+    - request.md
+    - plan.md
+    - source-pack.md
+    - evidence-map.md
+    - note.md
+    - claim.md
+    - draft.md
+    - review.md
+    - publish.md
+  manifest_templates:
+    - change.yaml
+  support_templates:
+    - decision-criteria.md
+  final_templates:
+    - knowledge-artifact.md
+    - decision-verdict.md
+  legacy_templates:
+    - work-product.md
+
+final_templates:
+  knowledge_artifact:
+    path: ./templates/knowledge-artifact.md
+    instruction: "用于生成或更新 knowledge/**/artifact.md 的最终 Knowledge 正文。"
+    applies_to:
+      - knowledge/analysis/source-notes/**/artifact.md
+      - knowledge/analysis/primitives/**/artifact.md
+      - knowledge/analysis/synthesis/**/artifact.md
+      - knowledge/decisions/**/artifact.md
+  decision_verdict:
+    path: ./templates/decision-verdict.md
+    instruction: "用于生成或更新 knowledge/decisions/**/verdict.md 的最终裁决文件。"
+    applies_to:
+      - knowledge/decisions/**/verdict.md
+
+support_templates:
+  decision_criteria:
+    path: ./templates/decision-criteria.md
+    instruction: "用于 decision 任务的评估维度、权重、选项、取舍规则和 verdict 生成依据；不直接发布到 knowledge/**。"
+    used_by:
+      - profiles/decision.schema.yaml
+      - templates/draft.md
+      - templates/publish.md
+      - final_templates.decision_verdict

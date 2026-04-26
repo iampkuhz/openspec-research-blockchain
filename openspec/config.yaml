@@ -22,9 +22,9 @@ knowledge_root: knowledge
 # 系统约束：资产模型（单一事实源）
 # =============================================================================
 # 本仓库只有一套长期资产模型：
-# - 过程层（staging area）：openspec/changes/<change-id>/ 中的 change.yaml, request.md, plan.md, work-products/*.md 等
+# - 过程层（staging area）：openspec/changes/<change-id>/ 中的 change.yaml, request.md, plan.md, draft.md 等
 #   openspec/changes/<id>/ 是 staging area，不是最终 Knowledge artifact 存放区。
-#   work-products/*.md 是 staging candidate，通过 publish.md / publish_targets 映射到 Knowledge。
+#   draft.md 是 staging candidate，通过 publish.md / publish_targets 映射到 Knowledge。
 # - 长期资产层：knowledge/analysis/ 和 knowledge/decisions/ 中的 artifact.md / verdict.md
 #   knowledge/**/artifact.md 才是最终 Knowledge artifact。
 #
@@ -34,125 +34,70 @@ knowledge_root: knowledge
 # =============================================================================
 
 context: |
-  仓库类型：基于 OpenSpec 的区块链技术调研工作台。
+  本仓库用于区块链与 AI 工程研究知识资产管理。
+  openspec/changes/<id>/ 是 staging area，用于保存研究过程中的请求、计划、来源、支撑材料、候选产物、审查记录和发布映射。
+  knowledge/**/artifact.md 才是最终 Knowledge artifact。
+  openspec/changes/<id>/draft.md 是本 change 的唯一主候选产物，不是最终 Knowledge artifact。
+  openspec/changes/<id>/notes/*.md 是 source-level digestion 的支撑材料。
+  openspec/changes/<id>/claims/*.md 是可验证主张的支撑材料。
+  change.yaml 是每个 change 的实例化 manifest，用于声明 task_type、change_operation、artifacts、validators 和 publish_targets。
+  hooks 应优先读取 change.yaml，不通过路径硬猜 artifact 语义。
 
-  长期正式资产统一挂在 knowledge/ 下，分为两类：
-  - knowledge/analysis/primitives/<domain_id>/<topic_slug>/artifact.md：底层机制研究（按 domain 分组）
-  - knowledge/analysis/synthesis/<topic_slug>/artifact.md：演进/综合分析（扁平化）
-  - knowledge/decisions/<domain_id>/<topic_slug>/artifact.md + verdict.md：场景决策分析
+rules:
+  request:
+    - "必须说明研究目标、范围边界、目标 Knowledge artifact 类型。"
+    - "必须说明本次 change 的 change_operation，例如 create、update、extend、supersede 或 merge。"
+    - "不得直接写最终结论，request 只描述需求、边界和预期产物。"
 
-  研究对象模型：
-  - primitive：单个协议、EIP、机制
-  - synthesis：多个对象之间的关系、演进、分类
-  - decision：面向场景的比较、选型与判断
+  plan:
+    - "必须声明本次 change 启用哪些 staging artifacts。"
+    - "必须声明 evidence strategy：需要哪些 sources、哪些 source 需要升级为 note。"
+    - "必须声明 draft.md 的目标 Knowledge 路径草案。"
+    - "如果任务复杂，必须说明需要拆成哪些 child changes，而不是在当前 change 产出多个主候选产物。"
 
-  domain 是 taxonomy / 浏览分组概念，不是独立的 object_type。
+  source_pack:
+    - "必须记录来源清单、来源类型、URL 或本地路径、访问时间、可信度备注。"
+    - "source_pack 只记录来源入口和元信息，不写完整分析结论。"
 
-  研究路径：
-  - deep-dive：单个对象深度分析
-  - evolution：演进历史分析
-  - scenario：场景驱动分析
+  evidence_map:
+    - "必须记录 source 如何支撑 notes、claims、draft 和 publish target。"
+    - "必须标记证据覆盖缺口和不确定性。"
 
-  写作规则：
-  - 遵循 `openspec/specs/analysis-principles/spec.md` 中的分析原则
+  note:
+    - "仅当 source 值得独立理解、复用、审查或长期沉淀时生成 note。"
+    - "note 是 source-level digestion 支撑材料，不是最终 primitive、synthesis 或 decision。"
+    - "一个 change 可以有多个 notes/*.md。"
 
-artifacts:
-  # ==========================================================================
-  # request.md - 研究问题定义（过程文件）
-  # ==========================================================================
-  - id: request
-    generates: request.md
-    description: 定义研究问题、范围与非目标
-    template: request.md
-    instruction: |
-      创建研究入口文件，定义：
-      - 研究对象类型（primitive/synthesis/decision）
-      - 研究路径（deep-dive/evolution/scenario）
-      - 研究背景与目的
-      - 范围与非目标
-      - 预期输出
+  claim:
+    - "claim 只记录可验证、可引用、可复用的主张。"
+    - "claim 必须能追溯到 source_pack 或 note。"
+    - "不要把所有事实都拆成 claim，只提炼对 draft.md 有支撑价值的主张。"
 
-      不提前写结论或完整机制。
-    requires: []
+  draft:
+    - "draft.md 是本 change 的唯一主候选产物，不是最终 Knowledge artifact。"
+    - "draft.md 可以发布为 source-note、primitive、synthesis 或 decision。"
+    - "draft.md 必须能追溯到 sources、notes 或 claims。"
+    - "draft.md 不得直接写入 knowledge/**。"
 
-  # ==========================================================================
-  # plan.md - 研究计划（过程文件）
-  # ==========================================================================
-  - id: plan
-    generates: plan.md
-    description: 研究计划、来源规划与依赖声明
-    template: plan.md
-    instruction: |
-      将 request 收紧为可执行计划：
-      - 研究路径与预算（deep/focused/light）
-      - 核心问题与后续确认问题
-      - 来源规划（L1/L2/L3/L4）
-      - 依赖声明（synthesis/decision 必需）
-      - 完成标准
+  review:
+    - "review 负责语义审查、内容审查、证据充分性审查和人工确认项。"
+    - "review 不替代自动 validation。"
+    - "review 必须说明是否允许进入 publish。"
 
-      这是 plan 文件，不是分析正文。
-    requires:
-      - request
+  publish:
+    - "publish 必须明确 from/to 映射。"
+    - "from 默认必须是 draft.md。"
+    - "to 必须指向 knowledge/**/artifact.md 或 knowledge/decisions/**/verdict.md。"
+    - "publish 不负责重新生成内容，只记录发布、合并、覆盖、拆分或保留策略。"
 
-  # ==========================================================================
-  # draft.md - 集中 review 稿（过程文件）
-  # ==========================================================================
-  - id: draft
-    generates: draft.md
-    description: 合并术语、分析与结论的集中 review 文件
-    template: draft.md
-    instruction: |
-      创建集中 review 用的研究草稿：
-      - 先补关键术语区
-      - 先讲机制，再讨论价值
-      - 解释设计原因与替代方案
-      - 写清边界、前提、失败条件
-      - 输出有限结论
-      - 写清不能确认什么
-
-      类型适配：
-      - primitive：实体分类、角色与信任边界、角色内部组件、跨角色核心流程、按条件需要的状态转换、能力边界
-      - synthesis：演进框架、关系定位、趋势判断
-      - decision：场景定义、比较维度、有限结论
-    requires:
-      - plan
-
-  # ==========================================================================
-  # decision-criteria.md - 决策标准（可选过程文件）
-  # ==========================================================================
-  - id: decision-criteria
-    generates: decision-criteria.md
-    description: 面向场景比较的决策标准（decision 类型可选）
-    template: decision-criteria.md
-    instruction: |
-      为 scenario 类研究创建决策标准：
-      - 定义具体场景
-      - 区分 hard constraints / soft preferences
-      - 解释每个标准为何重要
-      - 定义 confirmed/partial/unclear 判定
-
-      简单决策可直接在 plan.md 中说明，无需单独文件。
-    requires:
-      - plan
-
-apply:
-  # ==========================================================================
-  # Apply - 提升到 canonical 资产
-  # ==========================================================================
-  requires: [draft]
-  tracks: null
-  instruction: |
-    将通过评审的 draft 提升到 knowledge/ 长期资产：
-
-    目标位置：
-    - primitive → knowledge/analysis/primitives/<domain_id>/<topic_slug>/artifact.md
-    - synthesis → knowledge/analysis/synthesis/<topic_slug>/artifact.md
-    - decision → knowledge/decisions/<domain_id>/<topic_slug>/artifact.md + verdict.md
-
-    domain 是 taxonomy / 浏览分组概念，不作为独立的 object_type，不提供独立的 artifact.md。
-
-    过程文件（request.md, plan.md）保留在 openspec/changes/，不进入 knowledge/。
-    术语区默认折叠进 artifact.md 或 verdict.md。
-
-    演进类 artifact 约束：
-    - 遵循 `openspec/specs/canonical-output-model/spec.md` 中定义的演进类 artifact 质量约束
+x_research:
+  change_roots:
+    active: openspec/changes
+    archive: openspec/changes/archive
+  knowledge_root: knowledge
+  staging_dirs:
+    - sources
+    - notes
+    - claims
+    - review
+    - validation

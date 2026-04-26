@@ -3,22 +3,27 @@ id: blockchain-research.profile.source_reading
 applies_when:
   task_type: source_reading
 
-instruction: "用于主产出是 source-level reading note 的研究任务。"
+instruction: "用于主要目标是生成或更新 source-note Knowledge artifact 的 research change。"
 
 required_artifacts:
   - request
   - plan
   - source_pack
-  - note
+  - draft
 
-artifact_rules:
-  note:
-    pattern: notes/*.md
-    instruction: "由重要 source 生成的 staging source-note。"
+optional_artifacts:
+  - evidence_map
+  - note
+  - claim
+  - review
+  - publish
+
+allowed_publish_targets:
+  - knowledge/analysis/source-notes/**/artifact.md
+
+artifact_constraints:
+  draft:
     publish_target_type: knowledge_source_note
     validators:
       - markdown_sections
       - traceability
-
-allowed_publish_targets:
-  - knowledge/analysis/source-notes/**

@@ -180,34 +180,34 @@ schema_validators:
   required_files:
     script: scripts/hooks/validators/required_files.py
     trigger: post_write
-    instruction: "检查 change.yaml 声明的 required files 是否存在。"
+    instruction: "检查 change.yaml 声明的必需文件是否存在。"
 
   markdown_sections:
     script: scripts/hooks/validators/markdown_sections.py
     trigger: post_write
-    instruction: "检查被修改 Markdown artifact 的必要章节。"
+    instruction: "检查被修改的 Markdown 产物是否包含必要章节。"
 
   source_pack:
     script: scripts/hooks/validators/source_pack.py
     trigger: post_write
-    instruction: "检查 source metadata 和 source list。"
+    instruction: "检查来源元信息和来源清单。"
 
   evidence_map:
     script: scripts/hooks/validators/evidence_map.py
     trigger: post_write
-    instruction: "检查 source 到 artifact 的 evidence mapping。"
+    instruction: "检查来源到产物的证据映射。"
 
   work_product:
     script: scripts/hooks/validators/work_product.py
     trigger: post_write
-    instruction: "检查 staging work-product 的结构。"
+    instruction: "检查阶段候选产物的结构。"
 
   publish_targets:
     script: scripts/hooks/validators/publish_targets.py
     trigger: pre_publish
-    instruction: "检查 publish.md 和 change.yaml 中的 publish_targets。"
+    instruction: "检查 publish.md 和 change.yaml 中的发布目标。"
 
   traceability:
     script: scripts/hooks/validators/traceability.py
     trigger: pre_publish
-    instruction: "检查从 sources 到 Knowledge target 的 traceability。"
+    instruction: "检查从来源到知识目标的可追溯性。"

@@ -8,6 +8,7 @@ instruction: "用于更新已有 Knowledge artifact。"
 requires:
   existing_targets: true
   update_summary: true
+  traceability: true
 
 validators:
   - publish_targets

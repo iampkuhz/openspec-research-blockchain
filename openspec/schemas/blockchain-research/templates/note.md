@@ -1,4 +1,38 @@
-# note.md — Source Note 模板
-# 路径：openspec/changes/<change-id>/notes/<note-slug>.md
-# 用途：由重要 source 生成的 staging source-note。
-# 用于 source_reading task_type 或作为 primitive/synthesis/decision 的中间消化。
+# Source Note
+
+## 来源信息
+
+- Source ID:
+- 标题:
+- URL / 路径:
+- 类型:
+- 访问时间:
+
+## 摘要
+
+<!-- 这个 source 主要讲了什么。 -->
+
+## 要点
+
+-
+
+## 重要 Claim
+
+| Claim | 证据位置 | 置信度 |
+|---|---|---|
+|  |  |  |
+
+## 与 Draft 的关系
+
+<!-- 它如何支撑 draft.md。 -->
+
+## 可复用范围
+
+- source-notes:
+- primitives:
+- synthesis:
+- decisions:
+
+## 局限性
+
+<!-- source 本身的局限性。 -->
