@@ -138,6 +138,10 @@ sources ──┘          ├─> draft ──> review ──> artifact
 diagrams ────────────┘
 ```
 
+**辅助子工作流**：以下工作流被 `research-pipeline.md` 间接调用，但不作为独立的 command 入口：
+- `principle-atom-workflow.md`：单个 primitive 的知识笔记写作（definition/mechanism/evolution），由 author agent 内部使用
+- `comparison-workflow.md`：多对象比较分析，由 synthesis-author 在横向对比时使用
+
 ## 阶段顺序
 
 ### 阶段 1：request

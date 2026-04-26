@@ -1,3 +1,8 @@
+---
+name: review-knowledge-item
+description: 评审知识产出物，校验 artifact contract 与质量门。
+---
+
 # Skill: Review Knowledge Item
 
 ## Purpose

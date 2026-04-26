@@ -40,6 +40,8 @@ effort: high
 
 ## 读取输入
 
+<!-- Inputs: see below -->
+
 - `docs/governance/openspec-harness-boundary.md`
 - 受影响的 `openspec/**`
 - 受影响的 `harness/**`

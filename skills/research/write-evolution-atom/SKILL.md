@@ -1,3 +1,8 @@
+---
+name: write-evolution-atom
+description: 编写演进型 primitive 笔记，聚焦技术演进阶段与变化。
+---
+
 # Skill: Write Evolution Atom
 
 ## Purpose

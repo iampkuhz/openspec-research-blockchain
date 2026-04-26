@@ -1,0 +1,29 @@
+id: blockchain-research.profile.synthesis
+
+applies_when:
+  task_type: synthesis
+
+instruction: "用于主产出是 synthesis、comparison、taxonomy 或 cross-source analysis 的研究任务。"
+
+required_artifacts:
+  - request
+  - plan
+  - source_pack
+  - work_product
+
+optional_artifacts:
+  - note
+  - claim
+
+artifact_rules:
+  work_product:
+    pattern: work-products/*.md
+    instruction: "准备发布到 Knowledge 的 staging synthesis candidate。"
+    publish_target_type: knowledge_synthesis
+    validators:
+      - markdown_sections
+      - work_product
+      - traceability
+
+allowed_publish_targets:
+  - knowledge/analysis/synthesis/**

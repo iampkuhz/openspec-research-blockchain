@@ -1,16 +1,36 @@
 name: blockchain-research
-version: 3
+version: 4
 description: 面向区块链技术调研的研究驱动 OpenSpec 工作流
+
+# =============================================================================
+# Schema Package 注册（统一入口）
+# =============================================================================
+schemas:
+  blockchain-research:
+    path: openspec/schemas/blockchain-research/schema.yaml
+    instruction: "用于生成、更新、审查并发布研究型 Knowledge artifact 的统一 schema package。"
+
+default_schema: blockchain-research
+
+change_roots:
+  active: openspec/changes
+  archive: openspec/changes/archive
+
+knowledge_root: knowledge
 
 # =============================================================================
 # 系统约束：资产模型（单一事实源）
 # =============================================================================
 # 本仓库只有一套长期资产模型：
-# - 过程层：openspec/changes/<change-id>/ 中的 request.md, plan.md, draft.md 等
+# - 过程层（staging area）：openspec/changes/<change-id>/ 中的 change.yaml, request.md, plan.md, work-products/*.md 等
+#   openspec/changes/<id>/ 是 staging area，不是最终 Knowledge artifact 存放区。
+#   work-products/*.md 是 staging candidate，通过 publish.md / publish_targets 映射到 Knowledge。
 # - 长期资产层：knowledge/analysis/ 和 knowledge/decisions/ 中的 artifact.md / verdict.md
+#   knowledge/**/artifact.md 才是最终 Knowledge artifact。
 #
 # knowledge/topics/ 是遗留目录，不再作为主线 canonical 资产目标
 # atoms/claims/terms 是可选中间工作结构，不作为长期正式产物
+# 不在 openspec/changes/<id>/ 下使用 primitives/、synthesis/、decisions/ 作为最终知识分类目录
 # =============================================================================
 
 context: |

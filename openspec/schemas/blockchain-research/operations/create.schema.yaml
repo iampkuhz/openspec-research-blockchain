@@ -1,0 +1,12 @@
+id: blockchain-research.operation.create
+
+applies_when:
+  change_operation: create
+
+instruction: "用于创建新的 Knowledge artifact。"
+
+requires:
+  publish_target_status: new
+
+validators:
+  - publish_targets

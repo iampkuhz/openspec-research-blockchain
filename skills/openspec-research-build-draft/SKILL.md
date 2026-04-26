@@ -1,3 +1,8 @@
+---
+name: build-draft
+description: 生成或修订研究的 draft.md，合并术语、分析与结论的集中 review 稿。
+---
+
 # 生成研究草稿
 
 ## 规则来源

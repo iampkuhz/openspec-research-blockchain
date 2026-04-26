@@ -1,3 +1,8 @@
+---
+name: merge-change-into-knowledge
+description: 将通过评审的 change 产物提炼并发布到长期 knowledge/ 主线。
+---
+
 # Skill: Merge Change into Knowledge
 
 ## Purpose

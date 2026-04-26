@@ -13,7 +13,7 @@ openspec/changes/*
 
 # 临时文件
 tmp/
-/support/
+/support/*
 
 # Python
 __pycache__/
@@ -48,9 +48,22 @@ env/
 
 # Test artifacts
 tests/snapshots/
-/sources/
-/harness/reports/ai-native-progress-2026-W15.md
+/sources/*
+!/sources/README.md
 /knowledge/analysis/synthesis/ai-native-engineering/artifact.md
 /diagrams/ai-native-backend-architecture/
-/openspec/changes/
+# Git 索引目录（需追踪的入口文件）
+!/.github/
+!/.github/**
+!/openspec/changes/README.md
+!/openspec/changes/harness-architecture-audit-2026q2/
+!/openspec/changes/harness-architecture-audit-2026q2/**
+!/openspec/specs/README.md
+!/sources/README.md
+!/support/*README.md
+!/docs/README.md
+!/.claude/skills/
+!/.claude/skills/**
 /openspec/archive/
+/openspec/changes/
+/harness/reports/

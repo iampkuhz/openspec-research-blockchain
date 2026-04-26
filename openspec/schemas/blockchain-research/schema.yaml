@@ -1,150 +1,41 @@
-name: blockchain-research
-version: 3
-description: 面向区块链技术调研的研究驱动 OpenSpec 工作流
+id: blockchain-research
+version: 1
 
-artifacts:
-  - id: request
-    generates: request.md
-    description: 定义研究问题、范围与非目标的研究入口文件
-    template: request.md
-    instruction: |
-      为当前研究题目创建研究入口文件。
+instruction: "统一入口 schema。先加载 base 公共契约，再根据 change.yaml 中的 task_type 加载对应 task profile，并根据 change_operation 加载对应 operation profile。"
 
-      必须完成：
-      - 写清当前到底在问什么问题
-      - 写清为什么现在需要研究这个问题
-      - 明确范围与非目标
-      - 标注研究对象属于 primitive、synthesis、decision 中的哪一类
-      - 写清预期输出是什么
-      - 不提前写结论
+imports:
+  base: ./base.schema.yaml
 
-      **primitive 类型额外要求**：
-      - 核心问题必须包含定义层问题（是什么/管什么/不管什么）
-      - 核心问题必须包含范围/边界层问题（适用范围、与相邻协议的边界）
-      - 不得直接跳入机制细节问题
+profiles:
+  source_reading:
+    path: ./profiles/source-reading.schema.yaml
+    instruction: "当 task_type=source_reading 时加载。"
+  primitive:
+    path: ./profiles/primitive.schema.yaml
+    instruction: "当 task_type=primitive 时加载。"
+  synthesis:
+    path: ./profiles/synthesis.schema.yaml
+    instruction: "当 task_type=synthesis 时加载。"
+  decision:
+    path: ./profiles/decision.schema.yaml
+    instruction: "当 task_type=decision 时加载。"
 
-      风格要求：
-      - 中文优先
-      - 英文术语优先保留
-      - 技术导向、克制、非营销
+operations:
+  create:
+    path: ./operations/create.schema.yaml
+    instruction: "当 change_operation=create 时加载。"
+  update:
+    path: ./operations/update.schema.yaml
+    instruction: "当 change_operation=update 时加载。"
 
-      重要约束：
-      - request.md 只负责定义问题，不要求提前回答完整机制
-      - 像”为什么 4337 不直接改传统 transaction 路径””bundler / EntryPoint / paymaster 属于什么层”这类后续确认问题，应放进 plan.md
-      - 对于 synthesis 和 decision 类型，需要在 request 中初步列出依赖的 primitive 对象
-    requires: []
-
-  - id: plan
-    generates: plan.md
-    description: 合并研究计划、来源规划、依赖声明与证据矩阵的集中 review 文件
-    template: plan.md
-    instruction: |
-      为当前研究题目创建集中 review 用的研究计划文件，把 request 收紧成可执行计划。
-
-      必须完成：
-      - 写清研究路径：deep-dive、evolution、scenario
-      - 写清核心问题与后续确认问题
-      - 写清当前研究预算：deep、focused 或 light
-      - 写清本轮交付边界与完成标准
-      - 按 L1、L2、L3、L4 规划来源，并说明每条来源为什么重要
-      - 显式记录 evidence gap 与 unresolved ambiguity
-      - 【synthesis/decision 必需】在 plan 中声明依赖的 primitive，包括：
-        * 每个 primitive 的当前状态（已存在 / 需新建）
-        * 每个 primitive 的所需深度（deep / focused / light）
-        * 每个 primitive 的依赖原因和抽取内容
-        * 如果 primitive 缺失或深度不足，必须在 plan 中规划补充调研
-      - 【可选】添加证据矩阵章节，把关键主张与证据等级绑定
-
-      重要约束：
-      - 这是 plan 文件，不是分析正文
-      - plan.md 用于一次 review，同时承担原 brief.md、sources.md、dependencies.md、evidence-matrix.md 的职责
-      - 对 primitive，plan.md 必须显式列出后续确认的机制问题和边界问题
-      - 对 synthesis/decision，plan.md 必须显式列出依赖声明和补充计划
-    requires:
-      - request
-
-  - id: decision-criteria
-    generates: decision-criteria.md
-    description: 面向场景比较与选型的决策标准（decision 类型可选）
-    template: decision-criteria.md
-    instruction: |
-      为 scenario 类研究创建显式的决策标准文件。
-
-      必须完成：
-      - 定义具体场景
-      - 区分 hard constraints、soft preferences、open questions
-      - 解释每个标准为什么重要
-      - 定义 confirmed、partial、unclear 的判定方式
-
-      重要约束：
-      - 只在需要比较或选型时使用
-      - 不要写脱离实际场景的通用评分卡
-      - 对于简单决策，可直接在 plan.md 中简要说明标准，无需单独文件
-    requires:
-      - plan
-
-  - id: draft
-    generates: draft.md
-    description: 合并术语、分析与有限结论的集中 review 文件
-    template: draft.md
-    instruction: |
-      创建集中 review 用的研究草稿。
-
-      **来源前置门控**：在写入 draft.md 之前，必须确认 `sources/` 目录已存在。如果 sources/ 不存在，必须先向主会话返回来源需求 handoff，等待 `source-evidence-agent` 创建 sources/ 后再继续写 draft。二次研究（基于既有 artifact 的重新分析）同样必须创建 sources/，至少包含对既有 artifact 的证据审查记录和需要重新回源的来源清单。禁止在没有 sources/ 的情况下直接写 draft.md。
-
-      必须完成：
-      - 先补关键术语区，再进入分析正文
-      - 先讲机制，再讨论价值
-      - 解释设计原因与相关替代方案
-      - 写清边界、前提、失败条件
-      - 输出当前可以成立的有限结论
-      - 写清当前不能确认什么、还缺什么证据
-      - 如果是上层研究，只综合与当前问题直接相关的依赖内容
-      - 区分协议原生能力、官方生态能力、第三方能力
-      - 区分已上线、规划中、宣传性表述
-
-      类型适配：
-      - primitive：重点写实体分类、角色与信任边界、角色内部组件、跨角色核心流程、按条件需要的状态转换、设计取舍、能力边界
-      - primitive（evolution 路径）：必须回答项目经历了几个阶段、每个阶段新增什么、抛弃什么、代表什么样的技术思考；演进分析应以阶段叙事为主线，版本号和发布日期仅作为辅助标注，不得作为主结构
-      - synthesis：重点写演进框架、各对象定位、演进关系、趋势判断；**必须从依赖的 primitive draft.md 中提取 primitives 列表、架构描述和能力边界进行横向对比，不得脱离 primitive 独立撰写**
-      - decision：重点写场景定义、比较维度、有限结论；**每个候选方案必须对应一个 primitive change，如需要横向综合还应依赖 synthesis change；候选方案评估必须从依赖的 primitive draft.md / synthesis draft.md 中提取，不得脱离依赖 draft 独立撰写**
-
-      写作约束：
-      - 长期 artifact 质量约束遵循 `openspec/specs/canonical-output-model/spec.md`（总-分结构、列表维度一致性、禁止无意义精确数字、演进路线图要求）
-      - 区分协议原生能力、官方生态能力、第三方能力
-      - 区分已上线、规划中、宣传性表述
-
-      风格要求：
-      - 遵循 `openspec/specs/analysis-principles/spec.md` 与 `openspec/specs/canonical-output-model/spec.md` 中的约束
-
-      重要约束：
-      - 术语区必须使用表格（术语、定义、在本题中的作用），而不是按词分标题
-      - draft.md 用于一次 review，同时承担原 glossary.md、sources.md、dependencies.md、evidence-matrix.md、analysis.md、verdict.md 的职责
-    requires:
-      - plan
-
-apply:
-  requires: [draft]
-  tracks: null
-  instruction: |
-    这个 schema 用于研究写作，不是代码实现。
-    当执行 apply 时，应把研究改动包提炼为长期仓库资产：
-    - 将稳定的事实分析提升到 knowledge/analysis/
-    - 将稳定的场景判断提升到 knowledge/decisions/
-    - request.md、plan.md 仍保留在 openspec/changes/ 中，不进入长期目录
-    - primitive、synthesis 的稳定内容提升为 knowledge 下的 artifact.md
-    - decision 的 verdict.md 可以保留在长期目录
-    - 依赖声明已合并入 plan.md，不单独提升为长期 dependencies.md
-    - glossary 层默认折叠进 artifact.md 或 decision 的 artifact.md / verdict.md，不单独提升为长期 glossary.md
-    - 把稳定的证据约束折叠进 artifact.md 或 verdict.md
-    - 不要用上层总结覆盖下层研究本身
-    - primitive artifact 应在文档开头标注研究深度（deep / focused / light）
-    - diagrams/ 是 skill 执行中间产物，保留在 openspec/changes/<change-id>/，不复制到 knowledge/
-    - artifact.md 必须嵌入完整 PlantUML 代码块，不得只引用外部文件
-    - 演进类 primitive artifact 遵循 `openspec/specs/canonical-output-model/spec.md` 中的演进类质量约束
-
-    目录模型：
-    - primitive → knowledge/analysis/primitives/<domain_id>/<topic_slug>/artifact.md
-    - synthesis → knowledge/analysis/synthesis/<topic_slug>/artifact.md（扁平化）
-    - decision → knowledge/decisions/<domain_id>/<topic_slug>/artifact.md + verdict.md
-    - domain 是分组概念，不作为独立的 object_type
+templates:
+  change: ./templates/change.yaml
+  request: ./templates/request.md
+  plan: ./templates/plan.md
+  source_pack: ./templates/source-pack.md
+  evidence_map: ./templates/evidence-map.md
+  note: ./templates/note.md
+  claim: ./templates/claim.md
+  work_product: ./templates/work-product.md
+  review: ./templates/review.md
+  publish: ./templates/publish.md

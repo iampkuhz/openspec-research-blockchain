@@ -1,0 +1,74 @@
+# change.yaml — Change 实例化 Manifest 模板
+# 每个 change 目录下的 change.yaml 实例化此模板。
+#
+# 必填字段：
+#   id — change 唯一标识
+#   schema — 引用的 schema package id
+#   task_type — source_reading | primitive | synthesis | decision
+#   change_operation — create | update
+#   execution_scope — single_artifact | multi_artifact
+#   artifacts — 声明当前 change 涉及的文件与 glob pattern
+#   validators — 声明需要运行的校验器 id
+#
+# profile.task 和 profile.operation 分别对应 profiles/*.schema.yaml 和 operations/*.schema.yaml
+
+id: <change-id>
+schema: blockchain-research
+
+task_type: primitive
+change_operation: create
+execution_scope: multi_artifact
+
+instruction: "当前 change 使用 base schema，并叠加 task profile 和 operation profile。"
+
+profile:
+  task: primitive
+  operation: create
+
+artifacts:
+  request:
+    path: request.md
+
+  plan:
+    path: plan.md
+
+  source_pack:
+    path: sources/source-pack.md
+
+  evidence_map:
+    path: sources/evidence-map.md
+
+  notes:
+    pattern: notes/*.md
+    required: false
+
+  claims:
+    pattern: claims/*.md
+    required: false
+
+  work_products:
+    pattern: work-products/*.md
+    required: true
+
+  review:
+    pattern: review/*.md
+    required: true
+
+  publish:
+    path: publish.md
+    required: false
+
+validators:
+  base:
+    - required_files
+    - markdown_sections
+  profile:
+    - work_product
+    - traceability
+  operation:
+    - publish_targets
+
+publish_targets:
+  - from: work-products/<work-product-slug>.md
+    to: knowledge/analysis/primitives/<domain_id>/<topic_slug>/artifact.md
+    type: knowledge_primitive

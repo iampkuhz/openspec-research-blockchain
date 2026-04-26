@@ -50,6 +50,8 @@ effort: high
 
 ## 读取输入
 
+<!-- Inputs: see below -->
+
 - `AGENTS.md`
 - `CLAUDE.md`
 - `.claude/README.md`

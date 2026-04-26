@@ -1,3 +1,8 @@
+---
+name: refresh-existing-topic
+description: 刷新现有知识主题，更新过时内容与补充新证据。
+---
+
 # Skill: Refresh Existing Topic
 
 ## Purpose

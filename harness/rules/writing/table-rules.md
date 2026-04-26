@@ -198,7 +198,7 @@
 
 3. **使用附录**
    ```markdown
-   详见 [完整参数表](./appendix-params.md)。
+   详见附录中的完整参数表（`./appendix-params.md`，按需创建）。
    ```
 
 ## 检查清单

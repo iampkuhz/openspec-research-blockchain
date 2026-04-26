@@ -1,0 +1,24 @@
+id: blockchain-research.profile.source_reading
+
+applies_when:
+  task_type: source_reading
+
+instruction: "用于主产出是 source-level reading note 的研究任务。"
+
+required_artifacts:
+  - request
+  - plan
+  - source_pack
+  - note
+
+artifact_rules:
+  note:
+    pattern: notes/*.md
+    instruction: "由重要 source 生成的 staging source-note。"
+    publish_target_type: knowledge_source_note
+    validators:
+      - markdown_sections
+      - traceability
+
+allowed_publish_targets:
+  - knowledge/analysis/source-notes/**

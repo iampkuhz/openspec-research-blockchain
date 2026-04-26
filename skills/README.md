@@ -1,4 +1,8 @@
-# 仓库内置 Skills
+# skills/ — 仓库内置 Skills（迁移说明）
+
+> **迁移状态**：本目录仍为 skill 定义的真源（source of truth）。
+> `.claude/skills/` 已创建并包含指向本目录的符号链接。
+> 新增或修改 skill 时，请在 `skills/` 下操作，然后在 `.claude/skills/` 下创建对应符号链接。
 
 这些 skill 是 workflow 的叶子执行单元。
 

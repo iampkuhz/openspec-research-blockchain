@@ -1,3 +1,8 @@
+---
+name: write-comparison-note
+description: 编写横向比较笔记，对比多个 primitive/synthesis 的差异与演进。
+---
+
 # Skill: Write Comparison Note
 
 ## Purpose

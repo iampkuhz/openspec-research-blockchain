@@ -53,3 +53,12 @@ argument-hint: "[change-path | change-name]"
 - 是否创建或更新了 `sources/`
 - 仍然冻结中的 source / dependency gap
 - 进入 `/spec-draft` 前建议用户重点 review 的部分
+
+## Validation 自检
+
+- [ ] `plan.md` 的 study_depth / source_plan 与 `request.md` 的 `research_type` 匹配
+- [ ] 来源规划包含 L1/L2/L3/L4 分级
+- [ ] evidence gap 已显式记录
+- [ ] 图表范围（如需要）已声明
+- [ ] 完成标准与 `request.md` 的核心问题一一对应
+- [ ] 文件符合 `openspec/schemas/blockchain-research/templates/plan.md` 模板结构

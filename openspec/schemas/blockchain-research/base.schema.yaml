@@ -1,0 +1,68 @@
+id: blockchain-research.base
+
+instruction: "所有 research change 的公共契约。task profile 可以收紧约束，但不要重新定义这些基础字段。"
+
+required_files:
+  - change.yaml
+  - request.md
+  - plan.md
+
+standard_dirs:
+  - sources
+  - notes
+  - claims
+  - work-products
+  - review
+  - validation
+
+optional_files:
+  - publish.md
+
+change_yaml_required_fields:
+  - id
+  - schema
+  - task_type
+  - change_operation
+  - execution_scope
+  - artifacts
+  - validators
+
+common_artifacts:
+  request:
+    path: request.md
+    instruction: "记录用户意图、研究范围、目标 Knowledge artifact 和边界。"
+    validators:
+      - required_files
+      - markdown_sections
+
+  plan:
+    path: plan.md
+    instruction: "记录执行计划、证据策略、work-products 清单和 publish target 草案。"
+    validators:
+      - required_files
+      - markdown_sections
+
+  source_pack:
+    path: sources/source-pack.md
+    instruction: "记录来源清单和来源元信息。"
+    validators:
+      - source_pack
+
+  evidence_map:
+    path: sources/evidence-map.md
+    instruction: "记录 sources 如何支撑 claims、work-products 和 publish targets。"
+    validators:
+      - evidence_map
+
+  review:
+    pattern: review/*.md
+    instruction: "记录语义审查、内容审查和人工确认项。"
+    validators:
+      - markdown_sections
+
+  publish:
+    path: publish.md
+    instruction: "记录 staging work-products 到最终 Knowledge 路径的发布映射。"
+    validators:
+      - publish_targets
+      - traceability

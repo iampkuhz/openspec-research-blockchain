@@ -51,3 +51,11 @@ argument-hint: "[change-path | change-name]"
 - 记录了哪些核心问题
 - 下一步是否建议进入 `/spec-plan`
 - 是否还有 fridge items / unresolved inputs
+
+## Validation 自检
+
+- [ ] `research_type` / `research_path` 已声明
+- [ ] 3-5 个开放性问题已定义，且与对象类型匹配
+- [ ] 覆盖范围与非目标已明确
+- [ ] 预期输出与对象类型匹配
+- [ ] 文件符合 `openspec/schemas/blockchain-research/templates/request.md` 模板结构

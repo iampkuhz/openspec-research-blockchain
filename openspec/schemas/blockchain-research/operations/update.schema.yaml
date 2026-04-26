@@ -1,0 +1,14 @@
+id: blockchain-research.operation.update
+
+applies_when:
+  change_operation: update
+
+instruction: "用于更新已有 Knowledge artifact。"
+
+requires:
+  existing_targets: true
+  update_summary: true
+
+validators:
+  - publish_targets
+  - traceability

@@ -1,3 +1,8 @@
+---
+name: extract-source-pack
+description: 从原始来源提取来源包，包括来源获取、验证、摘录和归档。
+---
+
 # Skill: Extract Source Pack
 
 ## Purpose

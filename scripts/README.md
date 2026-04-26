@@ -18,64 +18,88 @@
 ```text
 scripts/
 ├── README.md
-├── hooks/                      ← 统一 hook 调度系统
-│   ├── dispatch.py             ← Dispatcher 入口
-│   └── validators/             ← Validator adapter 层
+├── setup-hooks.sh                  ← Hook 安装脚本
+├── hooks/                          ← 统一 hook 调度系统
+│   ├── dispatch.py                 ← Dispatcher 入口
+│   └── validators/                 ← Validator adapter 层
+│       ├── knowledge_artifact.py   ← knowledge 资产校验
+│       ├── frontmatter.py          ← frontmatter 校验
+│       ├── draft_diagram_contract.py ← diagram contract 校验
+│       ├── knowledge_artifact_toc.py ← artifact TOC 校验
+│       ├── unarchived_changes.py   ← 未归档变更检查
+│       ├── document_structure.py   ← 文档结构校验
+│       ├── traceability.py         ← 追溯链校验
+│       ├── knowledge_tree.py       ← knowledge 树校验
+│       └── process_file.py         ← 单文件处理
 ├── general/
-│   ├── init_research_item.py
-│   ├── check_frontmatter.py
-│   ├── check_traceability.py
-│   └── validate_knowledge_tree.py
+│   ├── init_research_item.py       ← 初始化研究项目（被 intake workflow 调用）
+│   ├── check_frontmatter.py        ← frontmatter 校验（被 artifact phase 调用）
+│   ├── check_traceability.py       ← claim→source 追溯链（被 review workflow 调用）
+│   ├── validate_knowledge_tree.py  ← knowledge 树结构校验（被 publish agent 调用）
+│   ├── check_knowledge_artifacts.py ← knowledge 资产校验（独立工具）
+│   ├── check_artifact_toc.py       ← artifact TOC 校验（独立工具）
+│   ├── check_process_files.py      ← 过程文件检查（独立工具）
+│   └── check_document_structure.py ← 文档结构检查（独立工具）
 ├── research/
-│   ├── normalize_claims.py
-│   ├── build_comparison_matrix.py
-│   ├── validate_sources.py
-│   ├── find_term_drift.py
-│   ├── check_artifact_contract.py
-│   └── validate_draft_diagram_contract.py
+│   ├── normalize_claims.py         ← claim 标准化（独立工具）
+│   ├── build_comparison_matrix.py  ← 特性对比矩阵（被 comparison workflow 间接使用）
+│   ├── validate_sources.py         ← 来源验证（被 source workflow 调用）
+│   ├── find_term_drift.py          ← 术语一致性检查（独立工具）
+│   ├── check_artifact_contract.py  ← artifact contract 校验（被 publish agent 调用）
+│   └── validate_draft_diagram_contract.py ← draft diagram contract 校验（被 draft phase 调用）
 ├── publish/
-│   └── move_change_outputs.py
+│   └── move_change_outputs.py      ← change 产物移动（被 merge workflow 调用）
 ├── diagrams/
-│   ├── check_plantuml.sh
-│   ├── validate_diagram_model.py
-│   └── check_diagram_references.py
+│   ├── check_plantuml.sh           ← PlantUML 语法校验（手工 troubleshooting）
+│   ├── validate_diagram_model.py   ← diagram model 校验（独立工具）
+│   └── check_diagram_references.py ← diagram 引用检查（被 diagram workflow 调用）
 ├── openspec/
-│   └── new_change.sh
+│   └── new_change.sh               ← 创建 OpenSpec change（被 intake workflow 调用）
 └── maintenance/
-    ├── install_repo_skills.sh
-    ├── render.sh
-    └── compare_svg.sh
+    ├── install_repo_skills.sh      ← skill 安装（独立工具）
+    ├── render.sh                   ← PlantUML 渲染（手工使用）
+    └── compare_svg.sh              ← SVG 比较（独立工具）
 ```
 
 ---
 
 ## 使用方法
 
+### 设置脚本
+
+| 脚本 | 功能 | 命令示例 | 调用方 |
+|------|------|----------|--------|
+| `setup-hooks.sh` | 安装本地 git hook，连接 dispatch.py | `bash scripts/setup-hooks.sh` | 独立工具（环境初始化） |
+
 ### 通用脚本（general/）
 
-| 脚本 | 功能 | 命令示例 |
-|------|------|----------|
-| `init_research_item.py` | 初始化研究项目结构，创建必要目录和空文件 | `python scripts/general/init_research_item.py --topic eip-4337 --type primitive` |
-| `check_frontmatter.py` | 检查 `knowledge/` 下长期 Markdown 的 YAML frontmatter 是否完整 | `python scripts/general/check_frontmatter.py knowledge/analysis/primitives/` |
-| `check_traceability.py` | 检查指定 topic 的 claim→source 追溯链是否完整 | `python scripts/general/check_traceability.py --topic eip-4337` |
-| `validate_knowledge_tree.py` | 校验 `knowledge/` 树是否满足长期目录结构约束 | `python scripts/general/validate_knowledge_tree.py knowledge` |
+| 脚本 | 功能 | 命令示例 | 调用方 |
+|------|------|----------|--------|
+| `init_research_item.py` | 初始化研究项目结构，创建必要目录和空文件 | `python scripts/general/init_research_item.py --topic eip-4337 --type primitive` | **被 intake workflow 调用** |
+| `check_frontmatter.py` | 检查 `knowledge/` 下长期 Markdown 的 YAML frontmatter 是否完整 | `python scripts/general/check_frontmatter.py knowledge/analysis/primitives/` | **被 artifact phase 调用** |
+| `check_traceability.py` | 检查指定 topic 的 claim→source 追溯链是否完整 | `python scripts/general/check_traceability.py --topic eip-4337` | **被 review workflow 调用** |
+| `validate_knowledge_tree.py` | 校验 `knowledge/` 树是否满足长期目录结构约束 | `python scripts/general/validate_knowledge_tree.py knowledge` | **被 publish agent 调用** |
+| `check_knowledge_artifacts.py` | 校验 knowledge 资产完整性 | 手动运行 | 独立工具 |
+| `check_artifact_toc.py` | 校验 artifact 的目录结构 | 手动运行 | 独立工具 |
+| `check_process_files.py` | 检查过程文件一致性 | 手动运行 | 独立工具 |
+| `check_document_structure.py` | 检查文档结构合规 | 手动运行 | 独立工具 |
 
 ### 研究脚本（research/）
 
 | 脚本 | 功能 | 命令示例 |
 |------|------|----------|
-| `normalize_claims.py` | 标准化 claims 格式，统一 claim_id 命名和 YAML 结构 | `python scripts/research/normalize_claims.py --topic eip-4337` |
-| `build_comparison_matrix.py` | 根据多个 topic 的 claims 生成特性对比矩阵 | `python scripts/research/build_comparison_matrix.py --topics eip-4337,eip-7702 --output comparison.yaml` |
-| `validate_sources.py` | 验证来源 URL 是否可访问、证据等级是否适当 | `python scripts/research/validate_sources.py --topic eip-4337` |
-| `find_term_drift.py` | 查找术语在不同 topic 中的定义是否一致 | `python scripts/research/find_term_drift.py --term UserOperation` |
-| `check_artifact_contract.py` | 校验长期 `artifact.md` / `verdict.md` 的 frontmatter 与 object contract | `python scripts/research/check_artifact_contract.py knowledge` |
-| `validate_draft_diagram_contract.py` | 校验 `draft.md` 中 diagram contract、hash 与 package 一致性 | `python scripts/research/validate_draft_diagram_contract.py openspec/changes/<id>/draft.md` |
+| `normalize_claims.py` | 标准化 claims 格式，统一 claim_id 命名和 YAML 结构 | `python scripts/research/normalize_claims.py --topic eip-4337` | 独立工具 |
+| `build_comparison_matrix.py` | 根据多个 topic 的 claims 生成特性对比矩阵 | `python scripts/research/build_comparison_matrix.py --topics eip-4337,eip-7702 --output comparison.yaml` | **被 comparison workflow 间接使用** |
+| `validate_sources.py` | 验证来源 URL 是否可访问、证据等级是否适当 | `python scripts/research/validate_sources.py --topic eip-4337` | **被 source workflow 调用** |
+| `find_term_drift.py` | 查找术语在不同 topic 中的定义是否一致 | `python scripts/research/find_term_drift.py --term UserOperation` | 独立工具 |
+| `check_artifact_contract.py` | 校验长期 `artifact.md` / `verdict.md` 的 frontmatter 与 object contract | `python scripts/research/check_artifact_contract.py knowledge` | **被 publish agent 调用** |
+| `validate_draft_diagram_contract.py` | 校验 `draft.md` 中 diagram contract、hash 与 package 一致性 | `python scripts/research/validate_draft_diagram_contract.py openspec/changes/<id>/draft.md` | **被 draft phase 调用** |
 
 ### 发布脚本（publish/）
 
 | 脚本 | 功能 | 命令示例 |
 |------|------|----------|
-| `move_change_outputs.py` | 将通过评审的 change 产物移动到 `knowledge/` 长期目录 | `python scripts/publish/move_change_outputs.py --change primitive-eip-4337-deep-dive-pass-1 --topic eip-4337 --domain account-abstraction` |
+| `move_change_outputs.py` | 将通过评审的 change 产物移动到 `knowledge/` 长期目录 | `python scripts/publish/move_change_outputs.py --change primitive-eip-4337-deep-dive-pass-1 --topic eip-4337 --domain account-abstraction` | **被 merge workflow 调用** |
 
 ### 图表脚本（diagrams/）
 
@@ -87,15 +111,15 @@ scripts/
 
 | 脚本 | 功能 | 命令示例 |
 |------|------|----------|
-| `check_plantuml.sh` | PlantUML 语法校验，仅用于手工 troubleshooting | `bash scripts/diagrams/check_plantuml.sh diagrams/source/architecture.puml` |
-| `validate_diagram_model.py` | 验证 diagram model YAML 的字段完整性 | `python scripts/diagrams/validate_diagram_model.py diagrams/models/architecture-model.yaml` |
-| `check_diagram_references.py` | 检查 diagram 在 `draft.md` 或其他文件中是否被正确引用 | `python scripts/diagrams/check_diagram_references.py architecture --topic eip-4337` |
+| `check_plantuml.sh` | PlantUML 语法校验，仅用于手工 troubleshooting | `bash scripts/diagrams/check_plantuml.sh diagrams/source/architecture.puml` | 手工使用 |
+| `validate_diagram_model.py` | 验证 diagram model YAML 的字段完整性 | `python scripts/diagrams/validate_diagram_model.py diagrams/models/architecture-model.yaml` | 独立工具 |
+| `check_diagram_references.py` | 检查 diagram 在 `draft.md` 或其他文件中是否被正确引用 | `python scripts/diagrams/check_diagram_references.py architecture --topic eip-4337` | **被 diagram workflow 调用** |
 
 ### OpenSpec 脚本（openspec/）
 
 | 脚本 | 功能 | 命令示例 |
 |------|------|----------|
-| `new_change.sh` | 创建 OpenSpec change 包，初始化模板文件 | `bash scripts/openspec/new_change.sh primitive eip-4337-deep-dive-pass-1` |
+| `new_change.sh` | 创建 OpenSpec change 包，初始化模板文件 | `bash scripts/openspec/new_change.sh primitive eip-4337-deep-dive-pass-1` | **被 intake workflow 调用** |
 
 ### 维护脚本（maintenance/）
 
@@ -103,9 +127,9 @@ scripts/
 
 | 脚本 | 功能 | 命令示例 |
 |------|------|----------|
-| `install_repo_skills.sh` | 将 `skills/` 目录链接到本地 skills 目录 | `bash scripts/maintenance/install_repo_skills.sh` |
-| `render.sh` | 渲染 PlantUML → SVG，仅用于手工渲染 | `bash scripts/maintenance/render.sh diagrams/source/architecture.puml --output-dir diagrams/build/` |
-| `compare_svg.sh` | 比较两个 SVG 文件差异 | `bash scripts/maintenance/compare_svg.sh old/architecture.svg new/architecture.svg` |
+| `install_repo_skills.sh` | 将 `skills/` 目录链接到本地 skills 目录 | `bash scripts/maintenance/install_repo_skills.sh` | 独立工具 |
+| `render.sh` | 渲染 PlantUML → SVG，仅用于手工渲染 | `bash scripts/maintenance/render.sh diagrams/source/architecture.puml --output-dir diagrams/build/` | 独立工具 |
+| `compare_svg.sh` | 比较两个 SVG 文件差异 | `bash scripts/maintenance/compare_svg.sh old/architecture.svg new/architecture.svg` | 独立工具 |
 
 正式 PlantUML 交付必须通过全局 skill 生成，不得直接使用 `render.sh` 作为正式产出路径。
 

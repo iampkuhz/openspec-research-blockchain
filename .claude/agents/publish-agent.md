@@ -49,14 +49,6 @@ effort: high
 - `knowledge/decisions/<domain_id>/<topic_slug>/artifact.md`
 - `knowledge/decisions/<domain_id>/<topic_slug>/verdict.md`
 - 主会话明确要求时的 update impact note
-
-## 写入范围
-
-- `knowledge/analysis/primitives/<domain_id>/<topic_slug>/artifact.md`
-- `knowledge/analysis/synthesis/<topic>/artifact.md`
-- `knowledge/decisions/<domain_id>/<topic_slug>/artifact.md`
-- `knowledge/decisions/<domain_id>/<topic_slug>/verdict.md`
-- 主会话明确要求时的 update impact note
 - 归档操作：将 `openspec/changes/<change-id>/` 整体移动到 `openspec/archive/<change-id>/`
 
 ## 工作合同

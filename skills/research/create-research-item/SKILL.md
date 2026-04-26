@@ -1,3 +1,8 @@
+---
+name: create-research-item
+description: 初始化一个新的研究项目，创建完整的目录结构和模板文件。
+---
+
 # Skill: Create Research Item
 
 ## Purpose

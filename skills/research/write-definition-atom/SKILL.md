@@ -1,3 +1,8 @@
+---
+name: write-definition-atom
+description: 编写定义型 primitive 笔记，聚焦概念定义与边界。
+---
+
 # Skill: Write Definition Atom
 
 ## Purpose

@@ -1,3 +1,8 @@
+---
+name: write-mechanism-atom
+description: 编写机制型 primitive 笔记，聚焦协议内部机制与流程。
+---
+
 # Skill: Write Mechanism Atom
 
 ## Purpose
