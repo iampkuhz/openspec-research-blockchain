@@ -1,6 +1,6 @@
 ---
-name: render-diagram-contract
-description: 为 change 生成 diagram supporting artifacts（brief、PlantUML 源码、验证报告），不直接修改 knowledge/**。
+name: diagram-render-contract
+description: 当 draft.md 需要 PlantUML 图，需要生成 diagram package（brief.yaml → diagram.puml → validation.json）并确保符合 diagram contract 时使用。
 ---
 
 # 渲染图表合约

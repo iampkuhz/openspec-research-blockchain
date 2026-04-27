@@ -1,8 +1,7 @@
-# skills/ — 仓库内置 Skills
+# skills/ — 仓库内置 Skills（Source of Truth）
 
-> **迁移状态**：本目录是 skill 定义的真源（source of truth）。
-> `.claude/skills/` 包含指向本目录的符号链接。
-> 新增或修改 skill 时，请在 `skills/` 下操作，然后在 `.claude/skills/` 下创建对应符号链接。
+> **本目录是 skill 定义的真源（source of truth）。**
+> `.claude/skills/` 是 Claude Code 的**平铺 symlink 暴露层**，不按 category 嵌套。
 
 这些 skill 是 workflow 的叶子执行单元。
 
@@ -18,67 +17,80 @@
 
 ### `skills/openspec-flow/` — OpenSpec change 流程能力（7 个）
 
-| Skill | 用途 |
-|-------|------|
-| `route-research-change/` | 判断研究类型（primitive / synthesis / decision） |
-| `init-change/` | 初始化 change 目录与 change.yaml |
-| `build-request-plan/` | 生成或修订 request.md 与 plan.md（合并自 build-request + build-plan） |
-| `build-research-support/` | 端到端执行 research pipeline（request → plan → draft → review → artifact） |
-| `build-draft/` | 生成或修订 draft.md，含 diagram contract |
-| `build-review/` | 生成 review.md |
-| `build-publish-plan/` | 生成 publish.md |
+| Skill | Exposed Name | 用途 |
+|-------|-------------|------|
+| `route-research-change/` | `openspec-route-research-change` | 判断研究类型（primitive / synthesis / decision） |
+| `init-change/` | `openspec-init-change` | 初始化 change 目录与 change.yaml |
+| `build-request-plan/` | `openspec-build-request-plan` | 生成或修订 request.md 与 plan.md |
+| `build-research-support/` | `openspec-build-research-support` | 端到端执行 research pipeline |
+| `build-draft/` | `openspec-build-draft` | 生成或修订 draft.md，含 diagram contract |
+| `build-review/` | `openspec-build-review` | 生成 review.md |
+| `build-publish-plan/` | `openspec-build-publish-plan` | 生成 publish.md |
 
 ### `skills/research-authoring/` — 研究写作与证据能力（6 个）
 
-| Skill | 用途 |
-|-------|------|
-| `extract-evidence/` | 提取来源包、证据地图与可追溯 claims（合并自 extract-source-pack + build-evidence-map + extract-claims） |
-| `write-source-note/` | 来源精读笔记 |
-| `write-primitive-draft/` | Primitive 型草稿（聚合 definition/evolution/mechanism 子章节规则） |
-| `write-synthesis-draft/` | Synthesis 型横向比较草稿 |
-| `write-decision-draft/` | Decision 型草稿 |
-| `build-decision-criteria/` | 决策标准生成 |
+| Skill | Exposed Name | 用途 |
+|-------|-------------|------|
+| `extract-evidence/` | `research-extract-evidence` | 提取来源包、证据地图与可追溯 claims |
+| `write-source-note/` | `research-write-source-note` | 来源精读笔记 |
+| `write-primitive-draft/` | `research-write-primitive-draft` | Primitive 型草稿 |
+| `write-synthesis-draft/` | `research-write-synthesis-draft` | Synthesis 型横向比较草稿 |
+| `write-decision-draft/` | `research-write-decision-draft` | Decision 型草稿 |
+| `build-decision-criteria/` | `research-build-decision-criteria` | 决策标准生成 |
 
 ### `skills/knowledge-publishing/` — 发布到 Knowledge 的能力（5 个）
 
-| Skill | 用途 |
-|-------|------|
-| `validate-publish-targets/` | 校验 publish_targets 合法性 |
-| `render-knowledge-artifact/` | 渲染 knowledge artifact |
-| `render-decision-verdict/` | 渲染 decision verdict |
-| `merge-change-into-knowledge/` | 合并 change 到 knowledge 主线 |
-| `review-knowledge-item/` | 评审知识产出物 |
+| Skill | Exposed Name | 用途 |
+|-------|-------------|------|
+| `validate-publish-targets/` | `publish-validate-targets` | 校验 publish_targets 合法性 |
+| `render-knowledge-artifact/` | `publish-render-artifact` | 渲染 knowledge artifact |
+| `render-decision-verdict/` | `publish-render-verdict` | 渲染 decision verdict |
+| `merge-change-into-knowledge/` | `publish-merge-knowledge` | 合并 change 到 knowledge 主线 |
+| `review-knowledge-item/` | `publish-review-knowledge` | 评审知识产出物 |
 
 ### `skills/governance/` — 规约治理能力（3 个）
 
-| Skill | 用途 |
-|-------|------|
-| `review-research-system/` | 审查 OpenSpec 合约、command 路由与 Harness 规则一致性（合并自 review-openspec-contracts + review-command-routing + review-harness-rules） |
-| `review-execution-boundaries/` | 审查 skill 边界与 hook 覆盖（合并自 review-skill-boundaries + review-hook-coverage） |
-| `cleanup-legacy-flow/` | 清理旧流程产物 |
+| Skill | Exposed Name | 用途 |
+|-------|-------------|------|
+| `review-research-system/` | `governance-review-system` | 审查 OpenSpec/Harness/Command 一致性 |
+| `review-execution-boundaries/` | `governance-review-boundaries` | 审查 skill 边界与 hook 覆盖 |
+| `cleanup-legacy-flow/` | `governance-cleanup-legacy` | 清理旧流程产物 |
 
 ### `skills/diagrams/` — 图表支撑能力（1 个）
 
-| Skill | 用途 |
-|-------|------|
-| `render-diagram-contract/` | 生成 diagram package（brief → puml → validation） |
+| Skill | Exposed Name | 用途 |
+|-------|-------------|------|
+| `render-diagram-contract/` | `diagram-render-contract` | 生成 diagram package（brief → puml → validation） |
 
 ### `skills/maintenance/` — 维护与更新能力（1 个）
 
-| Skill | 用途 |
-|-------|------|
-| `refresh-existing-topic/` | 刷新现有主题，含术语漂移检测 |
+| Skill | Exposed Name | 用途 |
+|-------|-------------|------|
+| `refresh-existing-topic/` | `maintenance-refresh-topic` | 刷新既有主题，含术语漂移检测 |
+
+---
+
+## Category → Exposed Name 映射表
+
+| Category | Repo path | Exposed name |
+|---|---|---|
+| `openspec-flow` | `skills/openspec-flow/<skill>` | `openspec-<skill>` |
+| `research-authoring` | `skills/research-authoring/<skill>` | `research-<skill>` |
+| `knowledge-publishing` | `skills/knowledge-publishing/<skill>` | `publish-<skill>` |
+| `governance` | `skills/governance/<skill>` | `governance-<skill>` |
+| `diagrams` | `skills/diagrams/<skill>` | `diagram-<skill>` |
+| `maintenance` | `skills/maintenance/<skill>` | `maintenance-<skill>` |
 
 ---
 
 ## Command → Skill 路由表
 
-| Command | Primary Skills |
+| Command | Skill packages |
 |---|---|
-| `/spec-research` | route-research-change, init-change, build-request-plan |
-| `/spec-research-step` | build-research-support, extract-evidence, write-source-note, build-draft, build-review |
-| `/spec-research-publish` | build-publish-plan, validate-publish-targets, render-knowledge-artifact, render-decision-verdict, merge-change-into-knowledge |
-| `/spec-governance-review` | review-research-system, review-execution-boundaries, cleanup-legacy-flow |
+| `/spec-research` | `openspec-route-research-change`, `openspec-init-change`, `openspec-build-request-plan` |
+| `/spec-research-step` | `openspec-build-research-support`, `research-extract-evidence`, `research-write-source-note`, `openspec-build-draft`, `openspec-build-review` |
+| `/spec-research-publish` | `openspec-build-publish-plan`, `publish-validate-targets`, `publish-render-artifact`, `publish-render-verdict`, `publish-merge-knowledge` |
+| `/spec-governance-review` | `governance-review-system`, `governance-review-boundaries`, `governance-cleanup-legacy` |
 
 ---
 
@@ -131,11 +143,20 @@
 
 ---
 
+## 新增 Skill 指南
+
+1. 在 `skills/<category>/<skill-name>/` 下创建 `SKILL.md`。
+2. 填写 frontmatter：`name` 使用带前缀的全局唯一名称（见上表），`description` 用中文、含触发场景、60-120 字。
+3. 在 `.claude/skills/` 下创建相对路径 symlink：`ln -s ../../skills/<category>/<skill-name> <exposed-name>`。
+4. 更新本 README 的分类索引与映射表。
+
+---
+
 ## 维护要求
 
 新增或调整 skill 时，至少同步更新：
 
-1. 本 README 的索引
+1. 本 README 的索引与映射表
 2. 对应 `SKILL.md` 的输入输出
 3. 触发它的 workflow / command / agent 文档
 4. `.claude/skills/` 下的符号链接

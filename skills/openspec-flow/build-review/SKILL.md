@@ -1,6 +1,6 @@
 ---
-name: build-review
-description: 为当前 change 生成或修订 review.md，汇总对 draft.md 的技术评审意见。
+name: openspec-build-review
+description: 当 draft.md 已完成且需要进入评审阶段，对 draft 的 claim traceability、术语一致性与结论边界进行独立评审，生成 review.md 时使用。
 ---
 
 # 生成研究评审

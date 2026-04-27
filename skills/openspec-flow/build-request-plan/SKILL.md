@@ -1,6 +1,6 @@
 ---
-name: build-request-plan
-description: 生成或修订 change 的 request.md 与 plan.md，把研究请求与执行计划合并为一次集中 review。
+name: openspec-build-request-plan
+description: 当 change 目录已创建或即将创建，需要生成 request.md 定义研究目标与范围边界，并基于已确认的 request 生成 plan.md 执行计划时使用。
 ---
 
 # 生成研究请求与计划

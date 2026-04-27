@@ -1,6 +1,6 @@
 ---
-name: write-decision-draft
-description: 基于决策标准与对比分析，编写 decision 类型的 draft.md 正文，包含 Verdict Draft。
+name: research-write-decision-draft
+description: 当研究类型为 decision 且 decision-criteria.md 已定义完成，需要基于决策标准与对比分析生成包含 Verdict Draft 章节的 draft.md 时使用。
 ---
 
 # 编写 Decision 型草稿

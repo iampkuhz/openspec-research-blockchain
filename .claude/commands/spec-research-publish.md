@@ -41,17 +41,17 @@ request.md -> plan.md -> sources/source-pack.md -> sources/evidence-map.md -> [n
 - 复杂任务必须拆成多个 child changes。
 - decision 任务必须明确 `decision-criteria.md -> draft.md#Verdict Draft -> decision-verdict.md -> knowledge/decisions/**/verdict.md` 的关系。
 
-## 参考 Skills
+## 可用 Skill packages
 
-本命令的参考 skill 包如下。优先参考对应 skill 的执行逻辑；如果 Claude Code 未自动加载 skill，则按本命令内联步骤执行。
+| Capability | Skill name | Skill path | Fallback |
+|---|---|---|---|
+| 生成 publish.md | `openspec-build-publish-plan` | `skills/openspec-flow/build-publish-plan/SKILL.md` | 使用本命令的内联步骤 |
+| 校验 publish_targets | `publish-validate-targets` | `skills/knowledge-publishing/validate-publish-targets/SKILL.md` | 使用本命令的内联步骤 |
+| 渲染 knowledge artifact | `publish-render-artifact` | `skills/knowledge-publishing/render-knowledge-artifact/SKILL.md` | 使用本命令的内联步骤 |
+| 渲染 decision verdict | `publish-render-verdict` | `skills/knowledge-publishing/render-decision-verdict/SKILL.md` | 使用本命令的内联步骤 |
+| 合并 change 到 knowledge | `publish-merge-knowledge` | `skills/knowledge-publishing/merge-change-into-knowledge/SKILL.md` | 使用本命令的内联步骤 |
 
-| Capability | Skill name | Skill path |
-|---|---|---|
-| 生成 publish.md | build-publish-plan | skills/openspec-flow/build-publish-plan/SKILL.md |
-| 校验 publish_targets | validate-publish-targets | skills/knowledge-publishing/validate-publish-targets/SKILL.md |
-| 渲染 knowledge artifact | render-knowledge-artifact | skills/knowledge-publishing/render-knowledge-artifact/SKILL.md |
-| 渲染 decision verdict | render-decision-verdict | skills/knowledge-publishing/render-decision-verdict/SKILL.md |
-| 合并 change 到 knowledge | merge-change-into-knowledge | skills/knowledge-publishing/merge-change-into-knowledge/SKILL.md |
+如果 Claude Code 未自动加载上述 skill，必须按本命令内联步骤执行，不得中止。
 
 ## 执行步骤
 
@@ -69,7 +69,7 @@ request.md -> plan.md -> sources/source-pack.md -> sources/evidence-map.md -> [n
 
 ### 3. 校验 publish_targets
 
-调用 `validate-publish-targets)` skill：
+调用 `publish-validate-targets` skill：
 
 - 验证 publish_targets 的路径与 schema.yaml 的 artifact 模型一致
 - 验证 decision 类型是否包含 verdict.md target

@@ -1,6 +1,6 @@
 ---
-name: build-decision-criteria
-description: 为 decision 类型研究生成 decision-criteria.md，定义评估维度与判断标准。
+name: research-build-decision-criteria
+description: 当研究类型为 decision 且 request/plan 已就绪，需要在方案对比前明确评估维度与判断标准并生成 decision-criteria.md 时使用。
 ---
 
 # 生成决策标准

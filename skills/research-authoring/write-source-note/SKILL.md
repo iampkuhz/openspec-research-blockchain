@@ -1,6 +1,6 @@
 ---
-name: write-source-note
-description: 对单个来源做 source digestion，生成 notes/<source-slug>.md 阅读笔记。
+name: research-write-source-note
+description: 当来源已收集完成，需要对单个来源做精读笔记，提取与研究问题直接相关的要点并生成 notes/<source-slug>.md 时使用。
 ---
 
 # 生成来源笔记

@@ -1,6 +1,6 @@
 ---
-name: write-primitive-draft
-description: 编写 primitive 类型的 draft.md 正文，聚合 definition/evolution/mechanism 子章节写作规则。
+name: research-write-primitive-draft
+description: 当研究类型为 primitive 且 claims 已提取完成，需要按 definition/evolution/mechanism 子视图规则生成 draft.md 正文时使用。
 ---
 
 # 编写 Primitive 型草稿

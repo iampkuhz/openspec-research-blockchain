@@ -1,6 +1,6 @@
 ---
-name: route-research-change
-description: 判断研究需求属于 primitive / synthesis / decision 中的哪一种，输出路由结果与 change 拆分建议。
+name: openspec-route-research-change
+description: 当用户给出自然语言研究需求，需要判断属于 primitive / synthesis / decision / source_reading 类型，并在复杂需求时拆分 child changes 时使用。
 ---
 
 # 路由研究需求

@@ -1,6 +1,6 @@
 ---
-name: render-knowledge-artifact
-description: 用于把稳定的 draft.md 结果提炼进长期 artifact 目录，适合一轮研究完成后整理长期资产时使用。
+name: publish-render-artifact
+description: 当 draft.md 已通过 review 且 publish.md 已定义合法映射，需要把稳定内容提炼进 knowledge/analysis/** 或 knowledge/decisions/** 的 artifact.md 时使用。
 ---
 
 # 生成长期 artifact

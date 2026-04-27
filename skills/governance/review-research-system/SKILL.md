@@ -1,6 +1,6 @@
 ---
-name: review-research-system
-description: 审查 OpenSpec 合约、command 路由与 Harness 规则的一致性，输出治理报告与修复建议。
+name: governance-review-system
+description: 当 schema、command、harness workflow/rule 新增或修改后，需要检查引用链完整性并输出治理问题清单与修复建议时使用。
 ---
 
 # 审查研究系统一致性

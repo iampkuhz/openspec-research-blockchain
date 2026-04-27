@@ -47,9 +47,11 @@ request.md -> plan.md -> sources/source-pack.md -> sources/evidence-map.md -> [n
 
 | Capability | Skill name | Skill path | Fallback |
 |---|---|---|---|
-| 路由研究任务 | route-research-change | skills/openspec-flow/route-research-change/SKILL.md | 使用本命令的 Routing Rules |
-| 初始化 change | init-change | skills/openspec-flow/init-change/SKILL.md | 使用本命令的 Init Steps |
-| 生成请求与计划 | build-request-plan | skills/openspec-flow/build-request-plan/SKILL.md | 使用本命令的 Build Steps |
+| 路由研究任务 | `openspec-route-research-change` | `skills/openspec-flow/route-research-change/SKILL.md` | 使用本命令的 Routing Rules |
+| 初始化 change | `openspec-init-change` | `skills/openspec-flow/init-change/SKILL.md` | 使用本命令的 Init Steps |
+| 生成请求与计划 | `openspec-build-request-plan` | `skills/openspec-flow/build-request-plan/SKILL.md` | 使用本命令的 Build Steps |
+
+如果 Claude Code 未自动加载上述 skill，必须按本命令内联步骤执行，不得中止。
 
 ## 执行步骤
 
@@ -59,7 +61,7 @@ request.md -> plan.md -> sources/source-pack.md -> sources/evidence-map.md -> [n
 
 ### 2. 路由研究类型
 
-参考 `route-research-change` skill（`skills/openspec-flow/route-research-change/SKILL.md`）。
+参考 `openspec-route-research-change` skill（`skills/openspec-flow/route-research-change/SKILL.md`）。
 
 **Routing Rules（Fallback）**：
 

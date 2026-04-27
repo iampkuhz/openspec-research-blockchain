@@ -1,6 +1,6 @@
 ---
-name: review-execution-boundaries
-description: 审查 skill 职责边界、hook 覆盖与执行层一致性，输出治理报告与重构建议。
+name: governance-review-boundaries
+description: 当新增或重构 skill 后需要确认分类合理性与 hook 覆盖完整性，或发现多个 skill 职责重叠时使用。
 ---
 
 # 审查执行层边界

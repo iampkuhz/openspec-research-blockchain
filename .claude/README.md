@@ -14,7 +14,7 @@ Claude 侧的入口索引。先看这里，再下钻到具体 command、agent、
 
 ## 2. Commands
 
-**Commands：**
+**Active commands（仅 4 个）：**
 
 | Command | 场景 | 读取入口 |
 |---------|------|----------|
@@ -22,6 +22,8 @@ Claude 侧的入口索引。先看这里，再下钻到具体 command、agent、
 | `spec-research-step.md` | 推进当前 change 的下一步，自动检测缺失产物并生成 | `harness/rules/_phase_index.yaml` |
 | `spec-research-publish.md` | 发布入口，唯一允许从 change 进入 `knowledge/**` 的 command | `openspec/config.yaml` apply 规则 |
 | `spec-governance-review.md` | 规约治理入口，审查 openspec / commands / skills / harness 一致性 | `docs/governance/openspec-harness-boundary.md` |
+
+Commands 负责入口，Skills 负责能力包。Commands 不依赖 skill 自动加载，每个 command 都有内联 fallback steps。
 
 **读取顺序**：
 - 先用 active command 判断场景

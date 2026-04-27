@@ -19,10 +19,10 @@
 
 | Command | Primary Skills |
 |---|---|
-| `/spec-research` | `route-research-change`、`init-change`、`build-request-plan` |
-| `/spec-research-step` | `build-research-support`、`extract-evidence`、`write-source-note`、`build-draft`、`build-review` |
-| `/spec-research-publish` | `build-publish-plan`、`validate-publish-targets`、`render-knowledge-artifact`、`render-decision-verdict`、`merge-change-into-knowledge` |
-| `/spec-governance-review` | `review-research-system`、`review-execution-boundaries`、`cleanup-legacy-flow` |
+| `/spec-research` | `openspec-route-research-change`、`openspec-init-change`、`openspec-build-request-plan` |
+| `/spec-research-step` | `openspec-build-research-support`、`research-extract-evidence`、`research-write-source-note`、`openspec-build-draft`、`openspec-build-review` |
+| `/spec-research-publish` | `openspec-build-publish-plan`、`publish-validate-targets`、`publish-render-artifact`、`publish-render-verdict`、`publish-merge-knowledge` |
+| `/spec-governance-review` | `governance-review-system`、`governance-review-boundaries`、`governance-cleanup-legacy` |
 
 ## Workflow 与 Command 的关系
 

@@ -1,6 +1,6 @@
 ---
-name: extract-evidence
-description: 从原始来源提取来源包、证据地图与可追溯 claims，作为 draft 的前置输入。
+name: research-extract-evidence
+description: 当 plan.md 中的来源规划已确定，需要实际获取来源内容、生成 source-pack.md、evidence-map.md、notes/ 与 claims/ 时使用。
 ---
 
 # 提取来源与证据

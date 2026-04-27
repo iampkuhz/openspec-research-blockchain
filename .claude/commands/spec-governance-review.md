@@ -41,15 +41,15 @@ request.md -> plan.md -> sources/source-pack.md -> sources/evidence-map.md -> [n
 - 复杂任务必须拆成多个 child changes。
 - decision 任务必须明确 `decision-criteria.md -> draft.md#Verdict Draft -> decision-verdict.md -> knowledge/decisions/**/verdict.md` 的关系。
 
-## 参考 Skills
+## 可用 Skill packages
 
-本命令的参考 skill 包如下。优先参考对应 skill 的执行逻辑；如果 Claude Code 未自动加载 skill，则按本命令内联步骤执行。
+| Capability | Skill name | Skill path | Fallback |
+|---|---|---|---|
+| 审查 skill 职责边界 | `governance-review-boundaries` | `skills/governance/review-execution-boundaries/SKILL.md` | 使用本命令的内联步骤 |
+| 清理旧流程产物 | `governance-cleanup-legacy` | `skills/governance/cleanup-legacy-flow/SKILL.md` | 使用本命令的内联步骤 |
+| 审查 OpenSpec/Harness/Command 一致性 | `governance-review-system` | `skills/governance/review-research-system/SKILL.md` | 使用本命令的内联步骤 |
 
-| Capability | Skill name | Skill path |
-|---|---|---|
-| 审查 skill 职责边界 | review-execution-boundaries | skills/governance/review-execution-boundaries/SKILL.md |
-| 清理旧流程产物 | cleanup-legacy-flow | skills/governance/cleanup-legacy-flow/SKILL.md |
-| 审查 OpenSpec/Harness/Command 一致性 | review-research-system | skills/governance/review-research-system/SKILL.md |
+如果 Claude Code 未自动加载上述 skill，必须按本命令内联步骤执行，不得中止。
 
 ## 职责
 

@@ -1,83 +1,49 @@
 ---
-name: merge-change-into-knowledge
-description: 将通过评审的 change 产物提炼并发布到长期 knowledge/ 主线。
+name: publish-merge-knowledge
+description: 当 change 产物已通过 publish gate 校验，需要合并到 `knowledge/` 主线并记录发布元数据时使用。
 ---
 
-# Skill: Merge Change into Knowledge
+# publish-merge-knowledge
 
-## Purpose
+## 何时使用
 
-将通过评审的 change 产物提炼并发布到长期 `knowledge/` 主线。
+- `publish.md` 已定义合法的 `publish_targets`。
+- 渲染完成（`artifact.md` / `verdict.md` 已写入）。
+- 用户请求"合并这个 change"或"完成 merge"。
 
-## Triggers
+## 输入
 
-用户请求：
-- "合并这个 change"
-- "完成 merge"
-- "发布到 knowledge"
+- `openspec/changes/<change-id>/change.yaml`
+- `openspec/changes/<change-id>/review/review-summary.md`
+- 已渲染的 `knowledge/` 文件
 
-## Required Inputs
+## 输出
 
-- **change_id**: Change ID
-- **review_status**: 评审状态（必须允许继续 publish）
+- 更新后的 `knowledge/analysis/**/artifact.md` 或 `knowledge/decisions/**/artifact.md` + `verdict.md`
+- Git commit 记录
 
-## Forbidden Inputs / Anti-patterns
-
-- 不要在评审未完成时 merge
-- 不要把过程文件整包复制到长期目录
-- 不要继续沿用 `knowledge/topics` 旧路径
-
-## Files to Read
+## 必读文件
 
 - `harness/workflows/merge-workflow.md`
-- `harness/rules/general/repo-governance.md`
 - `harness/rules/general/update-policy.md`
-- `openspec/changes/<change-id>/review/review-summary.md`
 
-## Files to Write
+## 执行步骤
 
-### 1. Long-term Outputs
+1. 确认 review gate 通过，评审结论允许继续 publish。
+2. 校验 `publish_targets` 与已渲染文件一致。
+3. 按 `change_operation` 类型处理：`create` 新增、`update` 执行 impact scan、`supersede` 标记旧版。
+4. 提交 git 变更。
+5. 记录发布元数据（change-id、来源路径、时间）。
 
-- `knowledge/analysis/.../artifact.md`
-- `knowledge/decisions/.../artifact.md`
-- `knowledge/decisions/.../verdict.md`（如适用）
+## 禁止事项
 
-### 2. Optional Impact Note
+- 不绕过 pre_publish gate 直接 merge。
+- 不从 request.md / plan.md 直接发布。
+- 不沿用 `knowledge/topics` 旧路径。
+- 不把过程文件整包复制到长期目录。
 
-- update 场景需要时，在 change packet 或相关 review 中记录 impact scan
+## 自检
 
-## Local Validation Steps
-
-1. 确认 review gate 满足
-2. 判断对象类型与目标路径
-3. 提炼 durable 内容到长期目录
-4. 如为 update，执行 impact scan
-5. 提交 git 变更
-
-## Output Contract
-
-```yaml
-change_id: <change-id>
-publish_type: new-artifact|update-artifact|refactor-artifact
-knowledge_paths:
-  - knowledge/analysis/...
-impact_scan: yes|no
-commit_hash: <git commit hash>
+```bash
+python scripts/hooks/dispatch.py --change openspec/changes/<change-id> --gate pre_publish --json
 ```
-
-## Quality Gate
-
-- [ ] 评审结论允许继续
-- [ ] 长期路径正确
-- [ ] 过程文件未被直接提升
-- [ ] update 场景已做 impact scan
-
-## Failure Modes
-
-### Merge 冲突
-
-**处理**：手动解决冲突，确保不丢失内容。
-
-### 评审后有新来源
-
-**处理**：如 minor 则记录 follow-up，如 major 则创建新 change。

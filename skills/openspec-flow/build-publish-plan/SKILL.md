@@ -1,6 +1,6 @@
 ---
-name: build-publish-plan
-description: 为当前 change 生成 publish.md，定义从 draft.md 到 knowledge/** 的映射规则。
+name: openspec-build-publish-plan
+description: 当 draft.md 已通过 review，需要生成 publish.md 定义从 draft 到 knowledge/** 的映射规则与 publish_targets 校验项时使用。
 ---
 
 # 生成发布计划

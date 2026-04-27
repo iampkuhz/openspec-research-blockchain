@@ -1,6 +1,6 @@
 ---
-name: render-decision-verdict
-description: 将 decision 类型的 draft.md 中的 Verdict Draft 提炼为 knowledge/decisions/**/verdict.md。
+name: publish-render-verdict
+description: 当研究类型为 decision 且 draft.md 包含 Verdict Draft 章节，需要将最终判断沉淀为 knowledge/decisions/**/verdict.md 时使用。
 ---
 
 # 渲染决策裁决

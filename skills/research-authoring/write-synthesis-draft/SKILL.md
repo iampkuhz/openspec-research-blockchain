@@ -1,6 +1,6 @@
 ---
-name: write-synthesis-draft
-description: 编写横向比较笔记，对比多个 primitive 的差异、演进与能力边界。
+name: research-write-synthesis-draft
+description: 当研究类型为 synthesis 且比较对象的 claims 已提取完成，需要横向对比多个对象在固定维度上的差异并生成 draft.md 时使用。
 ---
 
 # 编写 Synthesis 型草稿

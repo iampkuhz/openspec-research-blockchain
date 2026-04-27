@@ -41,21 +41,21 @@ request.md -> plan.md -> sources/source-pack.md -> sources/evidence-map.md -> [n
 - 复杂任务必须拆成多个 child changes。
 - decision 任务必须明确 `decision-criteria.md -> draft.md#Verdict Draft -> decision-verdict.md -> knowledge/decisions/**/verdict.md` 的关系。
 
-## 参考 Skills
+## 可用 Skill packages
 
-本命令的参考 skill 包如下。优先参考对应 skill 的执行逻辑；如果 Claude Code 未自动加载 skill，则按本命令内联步骤执行。
+| Capability | Skill name | Skill path | Fallback |
+|---|---|---|---|
+| 来源包与证据面构建 | `openspec-build-research-support` | `skills/openspec-flow/build-research-support/SKILL.md` | 使用本命令的内联步骤 |
+| 来源提取 | `research-extract-evidence` | `skills/research-authoring/extract-evidence/SKILL.md` | 使用本命令的内联步骤 |
+| 来源精读笔记 | `research-write-source-note` | `skills/research-authoring/write-source-note/SKILL.md` | 使用本命令的内联步骤 |
+| 草稿生成 | `openspec-build-draft` | `skills/openspec-flow/build-draft/SKILL.md` | 使用本命令的内联步骤 |
+| 评审生成 | `openspec-build-review` | `skills/openspec-flow/build-review/SKILL.md` | 使用本命令的内联步骤 |
+| Primitive 草稿 | `research-write-primitive-draft` | `skills/research-authoring/write-primitive-draft/SKILL.md` | 使用本命令的内联步骤 |
+| Synthesis 草稿 | `research-write-synthesis-draft` | `skills/research-authoring/write-synthesis-draft/SKILL.md` | 使用本命令的内联步骤 |
+| Decision 草稿 | `research-write-decision-draft` | `skills/research-authoring/write-decision-draft/SKILL.md` | 使用本命令的内联步骤 |
+| 决策标准 | `research-build-decision-criteria` | `skills/research-authoring/build-decision-criteria/SKILL.md` | 使用本命令的内联步骤 |
 
-| Capability | Skill name | Skill path |
-|---|---|---|
-| 来源包与证据面构建 | build-research-support | skills/openspec-flow/build-research-support/SKILL.md |
-| 来源提取 | extract-evidence | skills/research-authoring/extract-evidence/SKILL.md |
-| 来源精读笔记 | write-source-note | skills/research-authoring/write-source-note/SKILL.md |
-| 草稿生成 | build-draft | skills/openspec-flow/build-draft/SKILL.md |
-| 评审生成 | build-review | skills/openspec-flow/build-review/SKILL.md |
-| Primitive 草稿 | write-primitive-draft | skills/research-authoring/write-primitive-draft/SKILL.md |
-| Synthesis 草稿 | write-synthesis-draft | skills/research-authoring/write-synthesis-draft/SKILL.md |
-| Decision 草稿 | write-decision-draft | skills/research-authoring/write-decision-draft/SKILL.md |
-| 决策标准 | build-decision-criteria | skills/research-authoring/build-decision-criteria/SKILL.md |
+如果 Claude Code 未自动加载上述 skill，必须按本命令内联步骤执行，不得中止。
 
 ## 执行步骤
 
@@ -81,13 +81,13 @@ request.md -> plan.md -> sources/source-pack.md -> sources/evidence-map.md -> [n
 
 | 缺少的文件 | 下一步动作 | 调用的 skill |
 |------------|-----------|-------------|
-| `sources/source-pack.md` | 生成来源包 | `extract-source-pack` |
-| `sources/evidence-map.md` | 生成证据地图 | `build-evidence-map` |
-| `sources/notes/*.md` | 生成来源笔记 | `write-source-note` |
-| `sources/claims/*.md` | 提取声明 | `extract-claims` |
-| `decision-criteria.md`（仅 decision 类型） | 生成决策标准 | `build-decision-criteria` |
-| `draft.md` | 生成草稿 | `write-primitive-draft` / `write-synthesis-draft` / `write-decision-draft` / `write-source-reading-draft` |
-| `review.md` | 生成评审 | `build-review` |
+| `sources/source-pack.md` | 生成来源包 | `research-extract-evidence` |
+| `sources/evidence-map.md` | 生成证据地图 | `research-extract-evidence` |
+| `sources/notes/*.md` | 生成来源笔记 | `research-write-source-note` |
+| `sources/claims/*.md` | 提取声明 | `research-extract-evidence` |
+| `decision-criteria.md`（仅 decision 类型） | 生成决策标准 | `research-build-decision-criteria` |
+| `draft.md` | 生成草稿 | `openspec-build-draft` / `research-write-primitive-draft` / `research-write-synthesis-draft` / `research-write-decision-draft` |
+| `review.md` | 生成评审 | `openspec-build-review` |
 
 ### 4. 执行下一步
 

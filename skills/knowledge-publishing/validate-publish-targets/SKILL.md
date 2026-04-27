@@ -1,6 +1,6 @@
 ---
-name: validate-publish-targets
-description: 校验 publish.md 中定义的 publish_targets 是否合法，与 schema.yaml 的 artifact 模型一致。
+name: publish-validate-targets
+description: 当 publish.md 已生成，需要校验 publish_targets 的路径与 schema.yaml 的 artifact 模型一致且 decision 类型包含 verdict.md target 时使用。
 ---
 
 # 校验发布目标
