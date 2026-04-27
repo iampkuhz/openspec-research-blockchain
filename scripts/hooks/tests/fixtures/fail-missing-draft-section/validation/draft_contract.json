@@ -1,0 +1,19 @@
+{
+  "gate_id": "post_draft",
+  "validator": "draft_contract",
+  "status": "fail",
+  "blocking": true,
+  "checked_files": [
+    "draft.md"
+  ],
+  "errors": [
+    "Missing required sections in draft.md: Body, Evidence, Traceability"
+  ],
+  "warnings": [],
+  "rule_refs": [
+    "harness/rules/artifacts/draft-rules.md"
+  ],
+  "metadata": {
+    "change_dir": "/Users/zhehan/Documents/tools/llm/openspec/openspec-research-blockchain/scripts/hooks/tests/fixtures/fail-missing-draft-section"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "gate_id": "pre_publish",
+  "validator": "aggregate",
+  "status": "fail",
+  "blocking": true,
+  "checked_files": [
+    "publish.md",
+    "draft.md"
+  ],
+  "errors": [
+    "publish target 'openspec/changes/bad-target/artifact.md' 必须指向 knowledge/**"
+  ],
+  "warnings": [
+    "task_type=primitive，非 decision 类型跳过"
+  ],
+  "rule_refs": [
+    "harness/rules/research/decision-criteria-rules.md",
+    "harness/rules/artifacts/publish-rules.md",
+    "harness/rules/research/traceability-rules.md"
+  ],
+  "metadata": {
+    "aggregated_from": 3
+  }
+}

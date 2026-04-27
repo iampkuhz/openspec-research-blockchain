@@ -1,0 +1,23 @@
+{
+  "gate_id": "post_draft",
+  "validator": "aggregate",
+  "status": "fail",
+  "blocking": true,
+  "checked_files": [
+    "draft.md"
+  ],
+  "errors": [
+    "Missing sections in draft.md: Body, Evidence, Traceability"
+  ],
+  "warnings": [
+    "FAIL: Missing required sections in draft.md: Body, Evidence, Traceability",
+    "draft.md 未包含 Traceability 部分"
+  ],
+  "rule_refs": [
+    "harness/rules/artifacts/draft-rules.md",
+    "harness/rules/research/traceability-rules.md"
+  ],
+  "metadata": {
+    "aggregated_from": 3
+  }
+}
