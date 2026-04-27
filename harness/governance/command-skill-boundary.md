@@ -24,18 +24,6 @@
 | `/spec-research-publish` | `build-publish-plan`、`validate-publish-targets`、`render-knowledge-artifact`、`render-decision-verdict`、`merge-change-into-knowledge` |
 | `/spec-governance-review` | `review-research-system`、`review-execution-boundaries`、`cleanup-legacy-flow` |
 
-## Deprecated Commands
-
-以下 commands 仅作为兼容入口存在，不应在 Harness 主流程中作为 active command 引用：
-
-| Deprecated Command | 替代入口 |
-|---|---|
-| `/spec-request` | `/spec-research` |
-| `/spec-plan` | `/spec-research` |
-| `/spec-draft` | `/spec-research-step` |
-| `/spec-artifact` | `/spec-research-publish` |
-| `/spec-system-audit` | `/spec-governance-review` |
-
 ## Workflow 与 Command 的关系
 
 - Workflow 文件描述**怎么做**，但不直接作为用户入口

@@ -47,7 +47,6 @@
 ### 步骤 3：检查 command routing 是否一致
 
 - active commands 是否在 `_index.yaml` 中有对应 workflow
-- deprecated commands 是否只在兼容入口提及
 - command → skill → workflow 的映射是否清晰
 
 ### 步骤 4：检查 skill boundaries 是否一致

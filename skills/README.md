@@ -82,32 +82,6 @@
 
 ---
 
-## 合并与降级 Skill 索引
-
-以下 skill 已合并或降级，不再作为 active skill 暴露：
-
-| 旧 Skill | 去向 | 类型 |
-|---|---|---|
-| `build-request` | → `build-request-plan` | 合并 |
-| `build-plan` | → `build-request-plan` | 合并 |
-| `extract-source-pack` | → `extract-evidence` | 合并 |
-| `build-evidence-map` | → `extract-evidence` | 合并 |
-| `extract-claims` | → `extract-evidence` | 合并 |
-| `write-source-reading-draft` | → `write-primitive-draft` | 合并 |
-| `write-primitive-definition` | → `write-primitive-draft/references/definition/` | 降级为参考 |
-| `write-primitive-evolution` | → `write-primitive-draft/references/evolution/` | 降级为参考 |
-| `write-primitive-mechanism` | → `write-primitive-draft/references/mechanism/` | 降级为参考 |
-| `review-openspec-contracts` | → `review-research-system` | 合并 |
-| `review-command-routing` | → `review-research-system` | 合并 |
-| `review-harness-rules` | → `review-research-system` | 合并 |
-| `review-skill-boundaries` | → `review-execution-boundaries` | 合并 |
-| `review-hook-coverage` | → `review-execution-boundaries` | 合并 |
-| `detect-term-drift` | → `refresh-existing-topic` | 合并为章节 |
-
-详细说明见 `skills/_deprecated/` 下的各 `MIGRATED.md`。
-
----
-
 ## 用户级 Skills（全局）
 
 以下 global skills 不在本仓库内维护，但 workflow 会显式依赖它们：

@@ -14,7 +14,7 @@ Claude 侧的入口索引。先看这里，再下钻到具体 command、agent、
 
 ## 2. Commands
 
-**Active commands：**
+**Commands：**
 
 | Command | 场景 | 读取入口 |
 |---------|------|----------|
@@ -22,16 +22,6 @@ Claude 侧的入口索引。先看这里，再下钻到具体 command、agent、
 | `spec-research-step.md` | 推进当前 change 的下一步，自动检测缺失产物并生成 | `harness/rules/_phase_index.yaml` |
 | `spec-research-publish.md` | 发布入口，唯一允许从 change 进入 `knowledge/**` 的 command | `openspec/config.yaml` apply 规则 |
 | `spec-governance-review.md` | 规约治理入口，审查 openspec / commands / skills / harness 一致性 | `docs/governance/openspec-harness-boundary.md` |
-
-**Deprecated commands（兼容 shim，指向新入口）：**
-
-| Command | 指向 | 说明 |
-|---------|------|------|
-| `spec-request.md` | `/spec-research` | 只推进到 change.yaml + request.md |
-| `spec-plan.md` | `/spec-research` | 只推进到 plan.md |
-| `spec-draft.md` | `/spec-research-step` | 只生成/修正 draft.md |
-| `spec-artifact.md` | `/spec-research-publish` | 通过 publish.md 发布到 knowledge/** |
-| `spec-system-audit.md` | `/spec-governance-review` | 聚焦系统一致性审计 |
 
 **读取顺序**：
 - 先用 active command 判断场景

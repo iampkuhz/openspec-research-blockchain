@@ -60,7 +60,7 @@ effort: high
 - `harness/workflows/_index.yaml`
 - `harness/rules/_index.yaml`
 - `harness/rules/_phase_index.yaml`
-- `harness/workflows/spec-system-audit-workflow.md`
+- `harness/workflows/governance-review-workflow.md`
 - 主会话指定的目标文件：
   - `.claude/**`
   - `openspec/**`（不含 `openspec/changes/**`，除非主会话显式要求）

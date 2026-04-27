@@ -47,15 +47,9 @@
 - Schema 接线说明：[`harness/hooks/schema-wiring.md`](./hooks/schema-wiring.md)
 - Hook 系统说明：[`harness/hooks/README.md`](./hooks/README.md)
 
-## Deprecated 文件位置
-
-- 旧 workflow 文件：[`harness/workflows/_deprecated/`](./workflows/_deprecated/)
-- 旧 research rules：[`harness/rules/research/_deprecated/`](./rules/research/_deprecated/)
-
 ## 禁止事项
 
 - 不直接修改 `knowledge/` 主线，必须通过 change + publish 流程
 - 不生成 `work-products/*.md`，统一使用 `draft.md`
 - 不在 harness 中重新定义 OpenSpec 的 artifact graph
-- 不使用 `spec-artifact`、`spec-system-audit` 等 deprecated commands 作为 active 入口
 - 不保留 `principle-atom` / `atom-definition` 等旧命名，统一使用 `primitive`

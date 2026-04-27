@@ -104,12 +104,6 @@ Relevance:
 └── validation/
 ```
 
-说明：
-
-- 不再使用 `sources/inbox.yaml`（已废弃，来源清单使用 `sources/source-pack.md`）
-- 不再使用 `.openspec.yaml`（已废弃，manifest 使用 `change.yaml`）
-- 不再使用 `sources/fetched/` 和 `sources/excerpts/`（来源摘要使用 `notes/`）
-
 ## 从 Change 到长期资产的追溯
 
 建议至少保留以下信息：

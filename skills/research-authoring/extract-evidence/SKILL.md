@@ -24,8 +24,6 @@ description: 从原始来源提取来源包、证据地图与可追溯 claims，
 - `notes/<source-slug>.md`（精读笔记）
 - `claims/<claim-slug>.md`（结构化 claims）
 
-**已废弃**：`sources/inbox.yaml`、`sources/excerpts/`、`sources/source-review.md`、`sources/notes/`（在 sources/ 下）、`sources/claims/`（在 sources/ 下）。当前统一使用 `sources/source-pack.md` + `notes/` + `claims/`。
-
 ## 读取文件
 
 - `plan.md`（研究范围与来源规划）。

@@ -99,11 +99,10 @@ openspec apply --change <name>
 
 Claude Code 侧入口：
 
-- `/spec-request`
-- `/spec-plan`
-- `/spec-draft`
-- `/spec-artifact`
-- `/spec-research`
+- `/spec-research`（总入口）
+- `/spec-research-step`（推进下一步）
+- `/spec-research-publish`（发布到 knowledge）
+- `/spec-governance-review`（规约评审）
 
 ## 先看哪里
 

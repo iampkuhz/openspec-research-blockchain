@@ -29,8 +29,6 @@ description: 初始化一个新的研究 change，创建 change.yaml、request.m
 - 不要在 knowledge/ 下直接创建文件（必须通过 OpenSpec change）
 - 不要跳过 request.md 直接写分析
 - 不要在没有明确研究问题时开始
-- 不要使用 .openspec.yaml 作为 manifest（已废弃，使用 change.yaml）
-- 不要使用 sources/inbox.yaml 作为主流程文件（已废弃，使用 sources/source-pack.md）
 
 ## Files to Write
 
@@ -72,11 +70,6 @@ openspec/changes/<change-id>/
 └── validation/                  # 可选：校验结果
 ```
 
-**废弃文件说明**：
-- `.openspec.yaml`：已废弃，manifest 统一使用 `change.yaml`
-- `sources/inbox.yaml`：已废弃，来源清单使用 `sources/source-pack.md`
-- `sources/fetched/`：已废弃，来源摘要使用 `notes/`
-
 ## Local Validation Steps
 
 1. 检查 change 名称格式：`<type>-<topic>-<path>-pass-1`
@@ -91,7 +84,7 @@ openspec/changes/<change-id>/
 change_id: <生成的 change-id>
 change_path: openspec/changes/<change-id>/
 status: created
-next_step: "编辑 request.md 或使用 /spec-request 辅助生成"
+next_step: "编辑 request.md 或使用 /spec-research 辅助生成"
 ```
 
 ## Quality Gate
@@ -100,7 +93,6 @@ next_step: "编辑 request.md 或使用 /spec-request 辅助生成"
 - [ ] change.yaml 包含必要字段（task_type、change_operation、artifacts、publish_targets）
 - [ ] request.md 包含 goal/scope/non-goals
 - [ ] 目录结构完整（含 sources/、notes/、claims/）
-- [ ] 未使用废弃文件（.openspec.yaml、sources/inbox.yaml）
 
 ## Failure Modes
 
@@ -140,5 +132,5 @@ Assistant:
 
 4. 输出：
    "已创建研究项目 primitive-eip-4337-deep-dive-pass-1
-    下一步：编辑 request.md 或使用 /spec-request 辅助生成"
+    下一步：编辑 request.md 或使用 /spec-research 辅助生成"
 ```

@@ -65,7 +65,7 @@ OpenSpec 区块链研究协作的导航入口。
 | Apply 到长期知识 | `openspec/config.yaml` apply 段 + `harness/workflows/merge-workflow.md` | `knowledge/analysis/**` 或 `knowledge/decisions/**` |
 | 更新现有知识 | `harness/workflows/update-existing-knowledge.md` | `knowledge/` 增量更新 |
 | 修改规约分层或治理结构 | `docs/governance/openspec-harness-boundary.md` + `harness/workflows/governance-review-workflow.md` | `review/governance-review.md` |
-| 规约体系卫生审计 | `harness/workflows/spec-system-audit-workflow.md` | 审计总结或报告 |
+| 规约体系卫生审计 | `harness/workflows/governance-review-workflow.md` | 审计总结或报告 |
 
 **阶段型任务的统一做法**：
 1. 先在 `harness/workflows/_index.yaml` 确认任务类型
