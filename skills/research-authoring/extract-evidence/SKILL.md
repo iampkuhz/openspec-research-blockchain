@@ -19,13 +19,12 @@ description: 从原始来源提取来源包、证据地图与可追溯 claims，
 
 ## 输出
 
-- `sources/inbox.yaml`（来源收件箱）
-- `sources/excerpts/<source-id>-<section>.md`（来源摘录）
-- `sources/source-pack.yaml` 或 `sources/source-pack.md`（来源包）
-- `sources/source-review.md`（来源审查）
-- `sources/notes/<source-slug>.md`（精读笔记）
+- `sources/source-pack.md`（来源包）
 - `sources/evidence-map.md`（证据地图）
-- `sources/claims/<claim-slug>.md`（结构化 claims）
+- `notes/<source-slug>.md`（精读笔记）
+- `claims/<claim-slug>.md`（结构化 claims）
+
+**已废弃**：`sources/inbox.yaml`、`sources/excerpts/`、`sources/source-review.md`、`sources/notes/`（在 sources/ 下）、`sources/claims/`（在 sources/ 下）。当前统一使用 `sources/source-pack.md` + `notes/` + `claims/`。
 
 ## 读取文件
 

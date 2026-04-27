@@ -51,11 +51,10 @@ effort: medium
 
 ## 写入范围
 
-- `sources/inbox.yaml`
-- `sources/fetched/*`
-- `sources/excerpts/*`
-- `sources/source-pack.yaml`
-- `sources/source-review.md`
+- `sources/source-pack.md`
+- `sources/evidence-map.md`
+- `notes/<source-slug>.md`
+- `claims/<claim-slug>.md`
 
 除上述范围外，不得创建或修改 `request.md`、`plan.md`、`draft.md`、`artifact.md`、`verdict.md`。
 
@@ -83,13 +82,13 @@ effort: medium
 - conflicts
 - unresolved ambiguities
 
-### `sources/inbox.yaml` 与 `sources/source-pack.yaml`
+### `sources/source-pack.md` 与 `sources/evidence-map.md`
 
 - 结构化
 - 可复用
 - 能支撑后续 review / refresh
 
-### excerpts
+### notes 与 claims
 
 - 位置精确
 - 与研究问题的相关性明确
@@ -121,7 +120,7 @@ effort: medium
 
 当出现以下任一情况时，应视为本次子任务完成并停止：
 
-- 已写完 `sources/inbox.yaml`、`sources/source-pack.yaml`、`sources/source-review.md`
+- 已写完 `sources/source-pack.md`、`sources/evidence-map.md`
 - 已明确记录本轮 evidence gaps、conflicts 和 unresolved ambiguities
 - 主会话要求的定向链接验证已经完成
 

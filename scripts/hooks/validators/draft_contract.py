@@ -8,6 +8,7 @@
 
 import json
 import os
+import re
 import sys
 
 
@@ -31,9 +32,18 @@ def main():
     if os.path.exists(work_products_dir):
         _write_warn_result(change_dir, "work-products/ directory exists (should use draft.md instead)")
 
-    # 检查核心章节
-    required_sections = ["Metadata", "Summary", "Body", "Evidence", "Traceability"]
-    missing = [s for s in required_sections if f"## {s}" not in content and f"### {s}" not in content]
+    # 检查核心章节（同时接受英文和中文模板名称）
+    # 注意：draft 正文可以是编号章节（如 "## 1. 共识与亚秒出块层"），不一定需要 "## 正文"
+    required_sections_en = ["Metadata", "Summary", "Evidence", "Traceability"]
+    required_sections_cn = ["元数据", "摘要", "证据", "追踪链"]
+    missing = []
+    for en, cn in zip(required_sections_en, required_sections_cn):
+        if f"## {en}" not in content and f"## {cn}" not in content and f"### {en}" not in content and f"### {cn}" not in content:
+            missing.append(f"{en}/{cn}")
+    # Body section: check for numbered sections as body content
+    has_body = bool(re.search(r"^##\s+\d+[\.\s]", content, re.M)) or "## Body" in content or "## 正文" in content
+    if not has_body:
+        missing.append("Body/正文 (或编号章节)")
     if missing:
         _write_fail_result(change_dir, f"Missing required sections in draft.md: {', '.join(missing)}")
         sys.exit(1)

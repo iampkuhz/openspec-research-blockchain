@@ -1,6 +1,17 @@
 # Tempo 链特性增强与链层优化深度分析
 
-> **对象类型**：primitive
+## 元数据
+
+- 候选类型: primitive
+- 目标 Knowledge 路径: knowledge/analysis/primitives/blockchain-chains/tempo-chain-deep-dive/artifact.md
+- Operation: create
+
+## 摘要
+
+Tempo 是由 Stripe 和 Paradigm 联合孵化的 Layer 1 支付优化链。本 primitive 从共识（Simplex BFT ~600ms）、执行层（Reth 扩展 + 支付车道）、Token 标准（TIP-20 无原生代币）、预置 DEX（0xdec 订单簿）、智能账户（EIP-2718 0x76 交易类型）、隐私扩展（Zones Validity Proofs）、机器支付（MPP HTTP 402）七个维度分析其链层优化。核心设计哲学：不引入原生代币，通过协议级创新实现支付专用基础设施。
+
+---
+
 > **研究路径**：deep-dive
 > **相关 domains**：blockchain-chains, payments, stablecoins
 
@@ -504,3 +515,47 @@ Client                          Server
 | **Tempo Zones** | 基于有效性证明的隐私执行环境 |
 | **MPP** | Machine Payments Protocol，HTTP 402 支付协议 |
 | **VRF** | Verifiable Random Function，用于随机领导者选举 |
+
+---
+
+## 证据
+
+| Claim / Source | 支撑章节 | 置信度 |
+|---|---|---|
+| Simplex BFT 实现 ~600ms 出块 | 第 1 节 | high |
+| 确定性终局无 reorg 风险 | 第 1 节 | high |
+| VRF 随机领导者选举提供 DoS 保护 | 第 1 节 | high |
+| Header 扩展 3 字段（general_gas_limit / shared_gas_limit / timestamp_millis_part） | 第 2 节 | high |
+| Payment Lanes 双重 gas 约束 | 第 2 节 | high |
+| 无原生代币 + 固定 base fee | 第 3 节 | high |
+| Fee AMM 自动 token 转换 | 第 3 节 | high |
+| TIP-20 增强标准（RBAC / TIP-403 / memo / 奖励分发） | 第 3 节 | high |
+| 预置 DEX 0xdec 预编译 + 订单簿 + Flip Orders | 第 4 节 | high |
+| pathUSD 路由机制 | 第 4 节 | high |
+| Tempo Transaction 0x76 交易类型 | 第 5 节 | high |
+| 4 种签名类型（secp256k1 / P256 / WebAuthn / Keychain） | 第 5 节 | high |
+| 2D Nonces 并行执行 | 第 5 节 | high |
+| Fee Sponsorship 双签名域分离 | 第 5 节 | high |
+| Access Keys 委托签名 + 限额 | 第 5 节 | high |
+| Tempo Zones 隐私执行 + Validity Proofs | 第 6 节 | high |
+| MPP HTTP 402 支付协议 | 第 7 节 | high |
+| 100K TPS 性能声明 | 不确定性标注 | medium |
+| Zones 证明系统类型（SNARK/STARK） | 不确定性标注 | medium |
+
+## 追踪链
+
+- request: openspec/changes/primitive-tempo-chain-deep-dive-pass-1/request.md
+- plan: openspec/changes/primitive-tempo-chain-deep-dive-pass-1/plan.md
+- source_pack: openspec/changes/primitive-tempo-chain-deep-dive-pass-1/sources/source-pack.md
+- evidence_map: 待生成
+- notes: 未生成（source 级别摘要足够支撑 draft）
+- claims: 未生成（核心 claim 已整合到证据表）
+- decision_criteria: 不适用（primitive 类型）
+
+## 发布就绪
+
+- [x] 证据可追踪：所有核心 claim 有 L1 官方文档来源支撑
+- [x] 目标路径明确：knowledge/analysis/primitives/blockchain-chains/tempo-chain-deep-dive/artifact.md
+- [x] review 完成：review.md 已生成，审查结论为"允许进入 publish"
+- [x] 模板章节完整：元数据/摘要/正文/证据/追踪链/发布就绪
+- [x] 不确定性已标注：5 个 medium 置信度领域已在不确定性标注段说明

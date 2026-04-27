@@ -90,22 +90,25 @@ Relevance:
 
 ```text
 <change-id>/
+├── change.yaml
 ├── request.md
 ├── plan.md
-├── draft.md
 ├── sources/
-│   ├── inbox.yaml
-│   ├── fetched/
-│   ├── excerpts/
-│   └── source-review.md
-├── review/
-└── .openspec.yaml
+│   ├── source-pack.md
+│   └── evidence-map.md
+├── notes/
+├── claims/
+├── draft.md
+├── review.md
+├── publish.md
+└── validation/
 ```
 
 说明：
 
-- `evidence-matrix.md` 可以存在，但不再作为主线必需文件
-- 依赖声明默认合并进 `plan.md`
+- 不再使用 `sources/inbox.yaml`（已废弃，来源清单使用 `sources/source-pack.md`）
+- 不再使用 `.openspec.yaml`（已废弃，manifest 使用 `change.yaml`）
+- 不再使用 `sources/fetched/` 和 `sources/excerpts/`（来源摘要使用 `notes/`）
 
 ## 从 Change 到长期资产的追溯
 

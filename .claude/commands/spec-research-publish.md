@@ -43,13 +43,15 @@ request.md -> plan.md -> sources/source-pack.md -> sources/evidence-map.md -> [n
 
 ## 参考 Skills
 
-本命令会调用以下 skills：
+本命令的参考 skill 包如下。优先参考对应 skill 的执行逻辑；如果 Claude Code 未自动加载 skill，则按本命令内联步骤执行。
 
-- `skills/openspec-flow/build-publish-plan` — 生成 publish.md
-- `skills/knowledge-publishing/validate-publish-targets` — 校验 publish_targets 合法性
-- `skills/knowledge-publishing/render-knowledge-artifact` — 渲染 knowledge artifact
-- `skills/knowledge-publishing/render-decision-verdict` — 渲染 decision verdict（仅 decision 类型）
-- `skills/knowledge-publishing/merge-change-into-knowledge` — 合并 change 到 knowledge 主线
+| Capability | Skill name | Skill path |
+|---|---|---|
+| 生成 publish.md | build-publish-plan | skills/openspec-flow/build-publish-plan/SKILL.md |
+| 校验 publish_targets | validate-publish-targets | skills/knowledge-publishing/validate-publish-targets/SKILL.md |
+| 渲染 knowledge artifact | render-knowledge-artifact | skills/knowledge-publishing/render-knowledge-artifact/SKILL.md |
+| 渲染 decision verdict | render-decision-verdict | skills/knowledge-publishing/render-decision-verdict/SKILL.md |
+| 合并 change 到 knowledge | merge-change-into-knowledge | skills/knowledge-publishing/merge-change-into-knowledge/SKILL.md |
 
 ## 执行步骤
 

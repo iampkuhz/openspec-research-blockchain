@@ -30,7 +30,10 @@ def main():
     if os.path.exists(draft_path):
         checked_files.append("draft.md")
         content = read_markdown(draft_path)
-        if "Traceability" not in content and "traceability" not in content.lower():
+        has_trace = ("Traceability" in content or
+                     "traceability" in content.lower() or
+                     "追踪链" in content)
+        if not has_trace:
             warnings.append("draft.md 未包含 Traceability 部分")
 
     # 检查 publish.md 是否引用 draft.md

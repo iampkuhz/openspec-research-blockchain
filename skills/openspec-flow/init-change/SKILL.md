@@ -1,13 +1,13 @@
 ---
 name: init-change
-description: 初始化一个新的研究项目，创建完整的目录结构和模板文件。
+description: 初始化一个新的研究 change，创建 change.yaml、request.md、plan.md 及完整目录结构。
 ---
 
-# Skill: Create Research Item
+# Skill: Init Change
 
 ## Purpose
 
-初始化一个新的研究项目，创建完整的目录结构和模板文件。
+初始化一个新的研究 change，创建符合 blockchain-research schema 的目录结构与 manifest 文件。
 
 ## Triggers
 
@@ -19,48 +19,71 @@ description: 初始化一个新的研究项目，创建完整的目录结构和�
 ## Required Inputs
 
 - **topic**: 研究主题名称
-- **type**: 研究对象类型 (primitive/synthesis/domain/decision)
+- **task_type**: 对象类型 (primitive/synthesis/decision/source_reading)
 - **domain** (可选): 所属域
 - **path**: 研究路径 (deep-dive/evolution/scenario/comparison)
+- **change_operation**: create / update / extend / supersede / merge
 
 ## Forbidden Inputs / Anti-patterns
 
 - 不要在 knowledge/ 下直接创建文件（必须通过 OpenSpec change）
 - 不要跳过 request.md 直接写分析
 - 不要在没有明确研究问题时开始
-
-## Files to Read
-
-- `harness/workflows/intake-workflow.md` - 接入流程
-- `harness/rules/general/repo-governance.md` - 仓库治理规则
+- 不要使用 .openspec.yaml 作为 manifest（已废弃，使用 change.yaml）
+- 不要使用 sources/inbox.yaml 作为主流程文件（已废弃，使用 sources/source-pack.md）
 
 ## Files to Write
 
-### 1. OpenSpec Change
+### 1. OpenSpec Change Manifest
 
-在 `openspec/changes/<change-id>/` 创建：
+在 `openspec/changes/<change-id>/` 创建 `change.yaml`，包含：
+- `id`: change 唯一标识
+- `schema`: blockchain-research
+- `task_type`: primitive / synthesis / decision
+- `change_operation`: create / update / extend / supersede / merge
+- `execution_scope`: single_artifact
+- `instruction`: 研究任务描述
+- `profile`: { task, operation }
+- `artifacts`: 声明所有 artifact 路径
+- `validators`: base / profile / operation 校验器
+- `publish_targets`: 从 draft.md 到 knowledge/** 的映射
 
-- `request.md` - 研究问题定义
-- `plan.md` - 研究计划和来源规划
-- `.openspec.yaml` - OpenSpec 元数据
+### 2. 研究文档
 
-### 2. 目录结构
+- `request.md` — 研究问题定义（目标、边界、非目标、预期输出）
+- `plan.md` — 研究执行计划（问题拆解、来源规划、证据矩阵、完成标准）
+
+### 3. 目录结构
 
 ```
 openspec/changes/<change-id>/
-├── request.md
-├── plan.md
-├── sources/
-│   ├── inbox.yaml
-│   └── fetched/
-└── .openspec.yaml
+├── change.yaml                  # 必须：change manifest
+├── request.md                   # 必须：研究请求
+├── plan.md                      # 必须：执行计划
+├── sources/                     # 必须：来源目录
+│   ├── source-pack.md           # 按需：来源清单
+│   └── evidence-map.md          # 按需：证据映射
+├── notes/                       # 可选：来源精读笔记
+├── claims/                      # 可选：可验证主张
+├── decision-criteria.md         # decision 类型时创建
+├── draft.md                     # 必须：唯一主候选产物
+├── review.md                    # 可选：评审记录
+├── publish.md                   # 必须：发布映射
+└── validation/                  # 可选：校验结果
 ```
+
+**废弃文件说明**：
+- `.openspec.yaml`：已废弃，manifest 统一使用 `change.yaml`
+- `sources/inbox.yaml`：已废弃，来源清单使用 `sources/source-pack.md`
+- `sources/fetched/`：已废弃，来源摘要使用 `notes/`
 
 ## Local Validation Steps
 
 1. 检查 change 名称格式：`<type>-<topic>-<path>-pass-1`
-2. 检查 request.md 包含必要字段
-3. 检查没有直接在 knowledge/ 下创建文件
+2. 检查 request.md 包含 goal/scope/non-goals
+3. 检查 change.yaml 包含 task_type、change_operation、artifacts、publish_targets
+4. 检查没有直接在 knowledge/ 下创建文件
+5. 检查 sources/ 目录已创建
 
 ## Output Contract
 
@@ -74,9 +97,10 @@ next_step: "编辑 request.md 或使用 /spec-request 辅助生成"
 ## Quality Gate
 
 - [ ] change 名称符合规范
+- [ ] change.yaml 包含必要字段（task_type、change_operation、artifacts、publish_targets）
 - [ ] request.md 包含 goal/scope/non-goals
-- [ ] 目录结构完整
-- [ ] .openspec.yaml 正确配置 schema
+- [ ] 目录结构完整（含 sources/、notes/、claims/）
+- [ ] 未使用废弃文件（.openspec.yaml、sources/inbox.yaml）
 
 ## Failure Modes
 
@@ -86,11 +110,11 @@ next_step: "编辑 request.md 或使用 /spec-request 辅助生成"
 
 ### 类似研究已存在
 
-**处理**：读取现有 artifact.md，评估是否需要更新而非新建。
+**处理**：读取现有 artifact，评估是否需要更新而非新建。
 
 ### 研究范围过大
 
-**处理**：建议拆分为多个 changes 或定义 pass 1 范围。
+**处理**：建议拆分为多个 child changes 或定义 pass 1 范围。
 
 ## When to Stop and Ask for Manual Triage
 
@@ -106,13 +130,13 @@ User: 创建一个新的 EIP-4337 深度研究
 Assistant:
 1. 确认信息：
    - Topic: eip-4337
-   - Type: primitive
+   - Task type: primitive
    - Domain: account-abstraction
    - Path: deep-dive
 
 2. 创建 change: primitive-eip-4337-deep-dive-pass-1
 
-3. 创建目录结构和 request.md
+3. 创建 change.yaml、request.md、plan.md 及目录结构
 
 4. 输出：
    "已创建研究项目 primitive-eip-4337-deep-dive-pass-1

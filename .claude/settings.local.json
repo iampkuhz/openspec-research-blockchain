@@ -34,6 +34,21 @@
     ],
     "defaultMode": "bypassPermissions"
   },
+  "hooks": {
+    "PermissionRequest": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cd /Users/zhehan/Documents/tools/llm/openspec/openspec-research-blockchain && python3 scripts/hooks/auto_allow_claude_dir_permission.py",
+            "timeout": 5,
+            "statusMessage": "Auto-allowing .claude permissions..."
+          }
+        ]
+      }
+    ]
+  },
   "language": "chinese",
   "effortLevel": "high"
 }

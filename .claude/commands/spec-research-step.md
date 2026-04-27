@@ -43,20 +43,19 @@ request.md -> plan.md -> sources/source-pack.md -> sources/evidence-map.md -> [n
 
 ## 参考 Skills
 
-本命令会调用以下 skills（按阶段自动选择）：
+本命令的参考 skill 包如下。优先参考对应 skill 的执行逻辑；如果 Claude Code 未自动加载 skill，则按本命令内联步骤执行。
 
-- `skills/openspec-flow/build-research-support` — 来源包与证据面构建
-- `skills/research-authoring/extract-source-pack` — 来源提取
-- `skills/research-authoring/build-evidence-map` — 证据地图生成
-- `skills/research-authoring/write-source-note` — 来源精读笔记
-- `skills/research-authoring/extract-claims` — 声明提取
-- `skills/openspec-flow/build-draft` — 草稿生成
-- `skills/openspec-flow/build-review` — 评审生成
-- `skills/research-authoring/write-source-reading-draft` — 来源阅读型草稿
-- `skills/research-authoring/write-primitive-draft` — Primitive 型草稿
-- `skills/research-authoring/write-synthesis-draft` — Synthesis 型草稿
-- `skills/research-authoring/write-decision-draft` — Decision 型草稿
-- `skills/research-authoring/build-decision-criteria` — 决策标准生成
+| Capability | Skill name | Skill path |
+|---|---|---|
+| 来源包与证据面构建 | build-research-support | skills/openspec-flow/build-research-support/SKILL.md |
+| 来源提取 | extract-evidence | skills/research-authoring/extract-evidence/SKILL.md |
+| 来源精读笔记 | write-source-note | skills/research-authoring/write-source-note/SKILL.md |
+| 草稿生成 | build-draft | skills/openspec-flow/build-draft/SKILL.md |
+| 评审生成 | build-review | skills/openspec-flow/build-review/SKILL.md |
+| Primitive 草稿 | write-primitive-draft | skills/research-authoring/write-primitive-draft/SKILL.md |
+| Synthesis 草稿 | write-synthesis-draft | skills/research-authoring/write-synthesis-draft/SKILL.md |
+| Decision 草稿 | write-decision-draft | skills/research-authoring/write-decision-draft/SKILL.md |
+| 决策标准 | build-decision-criteria | skills/research-authoring/build-decision-criteria/SKILL.md |
 
 ## 执行步骤
 

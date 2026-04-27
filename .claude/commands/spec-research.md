@@ -43,12 +43,13 @@ request.md -> plan.md -> sources/source-pack.md -> sources/evidence-map.md -> [n
 
 ## 参考 Skills
 
-本命令会调用以下 skills：
+本命令的参考 skill 包如下。优先参考对应 skill 的执行逻辑；如果 Claude Code 未自动加载 skill，则按本命令内联步骤执行。
 
-- `skills/openspec-flow/route-research-change` — 判断研究类型（primitive / synthesis / decision）
-- `skills/openspec-flow/init-change` — 初始化 change 目录与 change.yaml
-- `skills/openspec-flow/build-request` — 生成 request.md
-- `skills/openspec-flow/build-plan` — 生成 plan.md
+| Capability | Skill name | Skill path | Fallback |
+|---|---|---|---|
+| 路由研究任务 | route-research-change | skills/openspec-flow/route-research-change/SKILL.md | 使用本命令的 Routing Rules |
+| 初始化 change | init-change | skills/openspec-flow/init-change/SKILL.md | 使用本命令的 Init Steps |
+| 生成请求与计划 | build-request-plan | skills/openspec-flow/build-request-plan/SKILL.md | 使用本命令的 Build Steps |
 
 ## 执行步骤
 
@@ -58,28 +59,28 @@ request.md -> plan.md -> sources/source-pack.md -> sources/evidence-map.md -> [n
 
 ### 2. 路由研究类型
 
-调用 `route-research-change` skill，判断需求属于：
+参考 `route-research-change` skill（`skills/openspec-flow/route-research-change/SKILL.md`）。
 
-- `primitive` — 定义/描述某个概念、机制、组件
-- `synthesis` — 横向对比多个方案/技术
-- `decision` — 在多个候选方案中做选择判断
+**Routing Rules（Fallback）**：
 
-如果任务复杂、涉及多个最终 Knowledge artifact：
+- 定义/描述某个机制、组件、协议、工具 → `primitive`
+- 横向对比多个方案/技术/框架 → `synthesis`
+- 在多个候选方案中做选择 → `decision`
+- 仅回源阅读验证来源 → `source_reading`
 
-- 拆成多个 child changes
-- 为每个 change 生成独立的 change.yaml
-- 建立 change graph 关系
+如果任务复杂（涉及多个最终 Knowledge artifact 或覆盖 3+ 独立主题域），拆成多个 child changes。
 
 ### 3. 初始化 change
 
-调用 `init-change` skill：
+参考 `init-change` skill（`skills/openspec-flow/init-change/SKILL.md`）。
 
 - 创建 `openspec/changes/<change-id>/` 目录
 - 生成 `change.yaml`（含 `task_type`、`profile`、`operation`）
+- 创建 `sources/`、`notes/`、`claims/` 空目录
 
 ### 4. 生成 request.md
 
-调用 `build-request` skill：
+参考 `build-request-plan` skill（`skills/openspec-flow/build-request-plan/SKILL.md`）。
 
 - 明确研究目标、范围边界、非目标
 - 填写研究对象类型、研究路径、核心问题、触发原因
@@ -87,7 +88,7 @@ request.md -> plan.md -> sources/source-pack.md -> sources/evidence-map.md -> [n
 
 ### 5. 生成 plan.md
 
-调用 `build-plan` skill：
+参考 `build-request-plan` skill。
 
 - 规划研究路径、关键来源、预期产出
 - plan 完成后停止，**不直接生成 draft.md**

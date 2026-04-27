@@ -43,14 +43,13 @@ request.md -> plan.md -> sources/source-pack.md -> sources/evidence-map.md -> [n
 
 ## 参考 Skills
 
-本命令会调用以下 skills：
+本命令的参考 skill 包如下。优先参考对应 skill 的执行逻辑；如果 Claude Code 未自动加载 skill，则按本命令内联步骤执行。
 
-- `skills/governance/review-openspec-contracts` — 审查 OpenSpec 合约一致性
-- `skills/governance/review-command-routing` — 审查 command 与 skill 路由
-- `skills/governance/review-skill-boundaries` — 审查 skill 职责边界
-- `skills/governance/review-harness-rules` — 审查 Harness 规则一致性
-- `skills/governance/review-hook-coverage` — 审查 Hook 覆盖率
-- `skills/governance/cleanup-legacy-flow` — 清理旧流程产物
+| Capability | Skill name | Skill path |
+|---|---|---|
+| 审查 skill 职责边界 | review-execution-boundaries | skills/governance/review-execution-boundaries/SKILL.md |
+| 清理旧流程产物 | cleanup-legacy-flow | skills/governance/cleanup-legacy-flow/SKILL.md |
+| 审查 OpenSpec/Harness/Command 一致性 | review-research-system | skills/governance/review-research-system/SKILL.md |
 
 ## 职责
 
