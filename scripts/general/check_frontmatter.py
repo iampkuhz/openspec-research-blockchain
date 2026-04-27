@@ -8,7 +8,6 @@
 - 校验 research_depth 枚举
 - 校验 synthesis_kind 是否为 comparison、evolution 或 taxonomy
 - 校验 related_domains 是否都出现在 domains.yaml 中
-- 拒绝已废弃字段：status, source_change, topic_slug, primary_domain, decision_space
 - 校验路径结构是否符合 canonical 模型
 
 用法:
@@ -24,7 +23,6 @@ import yaml
 VALID_RESEARCH_DEPTH = {"deep", "focused", "light"}
 VALID_SYNTHESIS_KIND = {"comparison", "evolution", "taxonomy"}
 VALID_OBJECT_TYPES = {"primitive", "synthesis", "decision"}
-DEPRECATED_FIELDS = {"status", "source_change", "topic_slug", "primary_domain", "decision_space"}
 
 
 def load_domains(registry_path: Path) -> set:
@@ -97,11 +95,6 @@ def check_frontmatter(file_path: Path, knowledge_root: Path, domains: set) -> li
 
     # 推断 object_type
     inferred_type, domain_id, topic_slug = infer_object_type_from_path(file_path, knowledge_root)
-
-    # 检查 deprecated fields
-    for field in DEPRECATED_FIELDS:
-        if field in fm:
-            errors.append(f"Deprecated field '{field}' found; remove it (derived from path or no longer used)")
 
     # verdict.md 极轻量 frontmatter 检查
     if file_path.name == "verdict.md":

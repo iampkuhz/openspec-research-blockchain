@@ -5,7 +5,7 @@
 用于 git pre-commit hook 与 CI，拦截不符合规约的写入。
 
 检查项：
-1. frontmatter 合法性（字段、枚举、deprecated field 拒绝）
+1. frontmatter 合法性（字段、枚举）
 2. artifact contract（frontmatter 存在性、object_type、最小章节）
 
 用法:

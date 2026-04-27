@@ -47,7 +47,6 @@
 - `artifact.md` **必须**以 YAML frontmatter 开头（即文件第一行是 `---`）。
 - Frontmatter **必须**包含 `object_type`、`title`、`research_depth`、`updated_at` 字段。
 - Frontmatter 字段值**必须**符合 `check_frontmatter.py` 中定义的枚举约束。
-- **禁止**使用已废弃字段：`status`、`source_change`、`topic_slug`、`primary_domain`、`decision_space`。
 
 ### 目录（TOC）强制
 

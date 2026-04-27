@@ -1,13 +1,12 @@
 ---
 name: cleanup-legacy-flow
-description: 识别并清理过时的 change 流程产物（旧命令引用、已废弃 skill、孤立的 change 目录）。
+description: 识别并清理过时的 change 流程产物（孤立目录、过期引用、残留旧文件）。
 ---
 
 # 清理旧流程产物
 
 ## 适用场景
 
-- Command / Skill 迁移后，需要清理残留的旧引用。
 - 发现 change 目录引用了已不存在的 skill 或命令。
 
 ## 输入

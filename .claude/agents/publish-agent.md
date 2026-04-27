@@ -60,7 +60,7 @@ effort: high
 5. 如目标路径、对象类型或 review gate 存在歧义，必须回报主会话。
 6. **TOC 强制**：写入的 `artifact.md` 必须以目录（TOC）开头，覆盖所有一级和二级标题。
 7. **增量更新检查**：如目标路径已有旧 artifact，必须比对新旧内容。旧内容保留率 < 50% 时必须标记 `needs-justification` 并回报主会话。禁止以"不相关"为由删除仍有效的旧内容。
-8. **Frontmatter 强制**：写入的 `artifact.md` / `verdict.md` 必须以 YAML frontmatter 开头。artifact.md 的 frontmatter 必须包含 `object_type`、`title`、`research_depth`、`updated_at` 字段。禁止使用已废弃字段。
+8. **Frontmatter 强制**：写入的 `artifact.md` / `verdict.md` 必须以 YAML frontmatter 开头。artifact.md 的 frontmatter 必须包含 `object_type`、`title`、`research_depth`、`updated_at` 字段。
 9. **归档强制**：知识提炼完成后，必须判断 change 是否达到可归档状态。如满足以下条件，执行归档（mv `openspec/changes/<change-id>/` → `openspec/archive/<change-id>/`）：
    - artifact.md / verdict.md 已成功写入 knowledge/
    - review gate 无 high severity 未关闭问题
