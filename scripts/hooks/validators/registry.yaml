@@ -1,0 +1,67 @@
+version: 1
+
+validators:
+  required_files:
+    script: scripts/hooks/validators/required_files.py
+    input_contract: change_context
+    output_contract: gate_result
+
+  markdown_sections:
+    script: scripts/hooks/validators/markdown_sections.py
+    input_contract: artifact_file
+    output_contract: gate_result
+
+  change_manifest:
+    script: scripts/hooks/validators/change_manifest.py
+    input_contract: change_context
+    output_contract: gate_result
+
+  child_change_graph:
+    script: scripts/hooks/validators/child_change_graph.py
+    input_contract: change_context
+    output_contract: gate_result
+
+  source_pack:
+    script: scripts/hooks/validators/source_pack.py
+    input_contract: artifact_file
+    output_contract: gate_result
+
+  evidence_map:
+    script: scripts/hooks/validators/evidence_map.py
+    input_contract: artifact_file
+    output_contract: gate_result
+
+  draft_contract:
+    script: scripts/hooks/validators/draft_contract.py
+    input_contract: artifact_file
+    output_contract: gate_result
+
+  review_readiness:
+    script: scripts/hooks/validators/review_readiness.py
+    input_contract: artifact_file
+    output_contract: gate_result
+
+  publish_targets:
+    script: scripts/hooks/validators/publish_targets.py
+    input_contract: change_context
+    output_contract: gate_result
+
+  decision_verdict:
+    script: scripts/hooks/validators/decision_verdict.py
+    input_contract: change_context
+    output_contract: gate_result
+
+  knowledge_artifact:
+    script: scripts/hooks/validators/knowledge_artifact.py
+    input_contract: change_context
+    output_contract: gate_result
+
+  knowledge_tree:
+    script: scripts/hooks/validators/knowledge_tree.py
+    input_contract: repo_context
+    output_contract: gate_result
+
+  traceability:
+    script: scripts/hooks/validators/traceability.py
+    input_contract: change_context
+    output_contract: gate_result

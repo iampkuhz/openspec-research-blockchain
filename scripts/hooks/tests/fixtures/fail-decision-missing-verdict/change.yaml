@@ -1,0 +1,16 @@
+id: test-fail-decision-missing-verdict
+schema: blockchain-research
+task_type: decision
+change_operation: add
+execution_scope: change
+artifacts:
+  - request.md
+  - draft.md
+  - publish.md
+validators:
+  - required_files
+  - decision_verdict
+  - publish_targets
+publish_targets:
+  - from: draft.md
+    to: knowledge/decisions/test-decision/artifact.md

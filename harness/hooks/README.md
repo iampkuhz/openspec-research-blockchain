@@ -1,108 +1,89 @@
-# Hook System — 统一校验调度
+# Hook System — 统一质量门禁调度
 
 **职责层级**：Harness execution layer。
-- 不定义 OpenSpec 正式规则（`openspec/specs/`）
-- 不替代 workflow 执行步骤（`harness/workflows/`）
-- 只负责把正式规则映射为可执行、可路由、可组合的校验条目
 
-**边界原则**：
-- 校验的「什么算通过」属于 OpenSpec 正式规则
-- 校验的「何时触发、对谁触发、以什么严重性执行」属于本注册表
-- 校验的「如何执行」属于 validator adapter 脚本
+## 三层分离
 
----
+| 层 | 文件 | 职责 |
+|---|---|---|
+| Gate 定义 | `harness/gates/registry.yaml` | machine-readable gate 定义（blocking、artifact、validators） |
+| Hook 绑定 | `harness/hooks/registry.yaml` | Claude Code hook event → dispatch.py 映射 |
+| Validator 映射 | `scripts/hooks/validators/registry.yaml` | validator name → script 路径映射 |
 
 ## 核心原则
 
 1. **Hooks 是确定性质量门禁**，不是人类评审的替代
-2. **Hooks 不替代 review.md**：review 是独立的人类评审过程
-3. **Hooks 优先读取 change.yaml**，不通过路径硬猜 task_type
-4. **Hooks 不定义 artifact 正式语义**，那是 OpenSpec 的职责
-
-## 三类 Gate
-
-| Gate 类型 | 触发时机 | 推荐 validator |
-|---|---|---|
-| post-write | 文件写入后 | `required_files`、`markdown_sections`、`source_pack`、`evidence_map`、`document_structure` |
-| pre-publish | publish.md 生成前 | `publish_targets`、`traceability` |
-| post-publish | knowledge 文件写入后 | `knowledge_artifact`、`knowledge_artifact_toc`、`document_structure` |
+2. **hooks/registry.yaml 只负责 event → gate runner**，不重复定义 gate
+3. **blocking gate fail 应 exit 2**，用于 Claude Code 阻断
+4. **validation/*.json** 是每次 change 执行 gate 的结果记录
 
 ## 架构概览
 
 ```
 .claude/settings.json          ← Claude Code 事件绑定（薄入口）
-.githooks/pre-commit           ← Git pre-commit（薄入口）
         │
         ▼
-scripts/hooks/dispatch.py      ← 统一调度器：匹配 + 执行 + 报告
+scripts/hooks/dispatch.py      ← Gate 调度器：加载 registry、执行 validators、聚合结果
         │
-        ├─ harness/hooks/registry.yaml    ← 声明式注册表
+        ├─ harness/gates/registry.yaml        ← Gate 定义（source of truth）
+        ├─ scripts/hooks/validators/registry.yaml  ← Validator name → script 映射
         │
-        └─ scripts/hooks/validators/      ← Validator adapter 层
-                ├─ knowledge_artifact.py
-                ├─ knowledge_artifact_toc.py
-                ├─ draft_diagram_contract.py
-                ├─ document_structure.py
-                ├─ process_file.py
-                ├─ unarchived_changes.py
-                ├─ frontmatter.py
-                ├─ knowledge_tree.py
-                ├─ traceability.py
+        └─ scripts/hooks/validators/          ← Validator 脚本
                 ├─ required_files.py
                 ├─ markdown_sections.py
+                ├─ change_manifest.py
+                ├─ child_change_graph.py
                 ├─ source_pack.py
                 ├─ evidence_map.py
-                └─ work_product.py (legacy, 语义已迁移为 draft_contract)
+                ├─ draft_contract.py
+                ├─ review_readiness.py
+                ├─ publish_targets.py
+                ├─ decision_verdict.py
+                ├─ knowledge_artifact.py
+                ├─ knowledge_tree.py
+                └─ traceability.py
 ```
 
 ## 数据流
 
 ```
-Event (PostToolUse / pre-commit / manual)
-  → settings.json / .githooks/pre-commit
-    → dispatch.py --run --event EVENT [--files ...]
-      → 加载 registry.yaml
-      → 按 event + path_patterns 匹配规则
-      → 按 args_mode 执行 validator adapter
-      → 汇总结果，blocking error 则退出码 1
+Event (post_write / pre_publish / stop)
+  → .claude/settings.json
+    → dispatch.py --event EVENT --gate-registry ... --validator-registry ...
+      → 加载 gates/registry.yaml 获取 gate 定义
+      → 加载 validators/registry.yaml 获取脚本路径
+      → 根据 gate 选择 validators 并顺序执行
+      → 聚合结果，写入 validation/*.json
+      → blocking gate fail 时 exit 2
 ```
 
 ## CLI 接口
 
 ```bash
-# 查看所有注册校验器
-python3 scripts/hooks/dispatch.py --list
+# 按 change 和 gate 运行
+python3 scripts/hooks/dispatch.py --change openspec/changes/<id> --gate post_draft
 
-# 查看特定事件下的校验器
-python3 scripts/hooks/dispatch.py --list --event post_tool_use
+# 运行所有适用 gates
+python3 scripts/hooks/dispatch.py --change openspec/changes/<id> --all
 
-# 模拟运行（只展示匹配，不执行）
-python3 scripts/hooks/dispatch.py --dry-run --event post_tool_use --files path/to/file.md
+# 按事件运行
+python3 scripts/hooks/dispatch.py --event pre_publish --change openspec/changes/<id>
 
-# 实际运行
-python3 scripts/hooks/dispatch.py --run --event post_tool_use --files path/to/file.md
+# JSON 输出
+python3 scripts/hooks/dispatch.py --change openspec/changes/<id> --gate post_draft --json
 
-# 运行 git staged 文件的 pre_commit 事件
-python3 scripts/hooks/dispatch.py --run --event pre_commit --staged
-
-# 手动运行特定 validator
-python3 scripts/hooks/dispatch.py --run --event manual --validator traceability --extra-args --topic eip-4337
+# 列出所有 gates
+python3 scripts/hooks/dispatch.py --list-gates
 ```
 
-## Validator 索引
+## Gate 索引
 
-| ID | Event | Path | Severity | Blocking | 说明 |
-|---|---|---|---|---|---|
-| `knowledge-artifact` | post_tool_use | `knowledge/**/artifact.md`, `knowledge/**/verdict.md` | error | true | 校验 artifact frontmatter 与 contract |
-| `knowledge-artifact-toc` | post_tool_use | `knowledge/**/artifact.md`, `knowledge/**/verdict.md` | error | true | 校验 TOC 覆盖 |
-| `draft-diagram-contract` | post_tool_use | `openspec/changes/*/draft.md` | error | true | 校验 diagram contract |
-| `document-structure` | post_tool_use | `knowledge/**/*.md`, `openspec/changes/**/*.md` | error | true | 校验 Markdown 结构约束 |
-| `process-file` | pre_commit | `openspec/changes/*/request.md`, `plan.md` | error | true | 校验 process 文件最小字段 |
-| `unarchived-changes` | pre_commit | `knowledge/**` | warning | false | 检查未归档 change（advisory） |
-| `frontmatter` | pre_commit | `knowledge/**/*.md` | error | true | 校验 frontmatter（默认关闭） |
-| `knowledge-tree` | pre_commit | `knowledge/**` | error | true | 校验 knowledge 树结构（默认关闭） |
-| `traceability` | manual | — | warning | false | 检查可追溯性（手动指定 --topic） |
-
-## 与 Phase/Workflow 的对齐
-
-Registry 中的 `phases` 字段与 `harness/governance/quality-gates.md` 中的 gate 声明对齐。
+| Gate | Artifact | Blocking | Validators |
+|---|---|---|---|
+| `post_request` | request | true | required_files, markdown_sections, change_manifest |
+| `post_plan` | plan | true | required_files, markdown_sections, child_change_graph |
+| `post_research` | research_support | false | source_pack, evidence_map, traceability |
+| `post_draft` | draft | true | draft_contract, markdown_sections, traceability |
+| `post_review` | review | true | review_readiness, markdown_sections |
+| `pre_publish` | publish | true | publish_targets, traceability, decision_verdict |
+| `post_publish` | knowledge | true | knowledge_artifact, knowledge_tree, traceability |

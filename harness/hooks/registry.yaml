@@ -1,213 +1,25 @@
-# Hook Registry — 声明式校验注册表
+# Hook Registry — Hook Event -> Gate Runner 映射
 #
-# 职责：声明「什么时候、对什么文件、运行什么校验、以什么严重性执行」。
-# 不定义校验逻辑本身（那是 scripts/hooks/validators/ 的职责）。
-# 不定义 OpenSpec 正式规则（那是 openspec/specs/ 的职责）。
-#
-# 维度说明：
-#   id          — 校验器唯一标识
-#   event       — Claude Code hook 事件名：post_tool_use / pre_commit / manual
-#   phases      — 适用研究阶段：request / plan / draft / artifact / review
-#   path_patterns — glob 模式（相对于仓库根目录），命中则触发
-#   validator   — 校验器脚本（相对于 scripts/hooks/validators/）
-#   args_mode   — how files are passed: "files" (append all) / "one_per_file" / "none"
-#   severity    — error（blocking）/ warning（advisory）
-#   blocking    — true = 失败则阻止操作 / false = 仅报告
-#   timeout     — 超时秒数
-#   enabled     — true / false，快速开关
-#   description — 人类可读说明
+# 职责：声明「什么时候、运行哪个 gate runner」。
+# 不定义 gate 本身（那是 harness/gates/registry.yaml 的职责）。
+# 不定义 validator 脚本路径（那是 scripts/hooks/validators/registry.yaml 的职责）。
 #
 # 边界：
 # - 本文件属于 Harness execution layer，不是 OpenSpec canonical policy。
-# - 校验的「正式规则」（artifact contract / evidence policy 等）仍在 openspec/specs/。
-# - 本文件只负责把正式规则映射为执行层的可运行校验条目。
+# - Gate 定义在 harness/gates/registry.yaml。
+# - Validator 映射在 scripts/hooks/validators/registry.yaml。
 
-version: "1.0"
+version: 1
 
-validators:
-  # ========================================================================
-  # Knowledge artifact 校验（artifact.md / verdict.md）
-  # ========================================================================
-  - id: knowledge-artifact
-    event: post_tool_use
-    phases: [artifact, review]
-    path_patterns:
-      - "knowledge/**/artifact.md"
-      - "knowledge/**/verdict.md"
-    validator: knowledge_artifact.py
-    args_mode: one_per_file
-    severity: error
-    blocking: true
-    timeout: 30
-    enabled: true
-    description: "校验 knowledge/ 下 artifact.md / verdict.md 的 frontmatter 与 artifact contract"
+hook_bindings:
+  post_write:
+    description: "文件写入后，根据变更文件和当前 change 状态推断需要运行的 gate。"
+    command: "python scripts/hooks/dispatch.py --event post_write --gate-registry harness/gates/registry.yaml --validator-registry scripts/hooks/validators/registry.yaml"
 
-  - id: knowledge-artifact-toc
-    event: post_tool_use
-    phases: [artifact, review]
-    path_patterns:
-      - "knowledge/**/artifact.md"
-      - "knowledge/**/verdict.md"
-    validator: knowledge_artifact_toc.py
-    args_mode: one_per_file
-    severity: error
-    blocking: true
-    timeout: 30
-    enabled: true
-    description: "校验 knowledge/ artifact.md 的 TOC 覆盖所有一二级标题"
+  stop:
+    description: "Claude 本轮停止前，汇总当前 change 的 gate 状态。"
+    command: "python scripts/hooks/dispatch.py --event stop --gate-registry harness/gates/registry.yaml --validator-registry scripts/hooks/validators/registry.yaml"
 
-  # ========================================================================
-  # Draft diagram contract 校验
-  # ========================================================================
-  - id: draft-diagram-contract
-    event: post_tool_use
-    phases: [draft]
-    path_patterns:
-      - "openspec/changes/*/draft.md"
-    validator: draft_diagram_contract.py
-    args_mode: one_per_file
-    severity: error
-    blocking: true
-    timeout: 30
-    enabled: true
-    description: "校验 draft.md 中 PlantUML diagram 的 contract、hash 与来源证明"
-
-  # ========================================================================
-  # Document structure 校验（通用 Markdown 结构约束）
-  # ========================================================================
-  - id: document-structure
-    event: post_tool_use
-    phases: [request, plan, draft, artifact, review]
-    path_patterns:
-      - "knowledge/**/*.md"
-      - "openspec/changes/**/*.md"
-    validator: document_structure.py
-    args_mode: one_per_file
-    severity: error
-    blocking: true
-    timeout: 30
-    enabled: true
-    description: "校验 Markdown 文档结构：标题深度、列表嵌套、代码块行数"
-
-  # ========================================================================
-  # Process file 校验（request.md / plan.md 最小字段）
-  # ========================================================================
-  - id: process-file
-    event: pre_commit
-    phases: [request, plan]
-    path_patterns:
-      - "openspec/changes/*/request.md"
-      - "openspec/changes/*/plan.md"
-    validator: process_file.py
-    args_mode: files
-    severity: error
-    blocking: true
-    timeout: 30
-    enabled: true
-    description: "校验 request.md / plan.md 是否包含最小必需字段"
-
-  # ========================================================================
-  # Unarchived changes 检查（advisory）
-  # ========================================================================
-  - id: unarchived-changes
-    event: pre_commit
-    phases: [artifact, review, merge]
-    path_patterns:
-      - "knowledge/**"
-    validator: unarchived_changes.py
-    args_mode: none
-    severity: warning
-    blocking: false
-    timeout: 30
-    enabled: true
-    description: "检查是否存在已归档但 change 目录仍未移动的情况（advisory）"
-
-  # ========================================================================
-  # Frontmatter 校验（knowledge/ 下长期 Markdown）
-  # ========================================================================
-  - id: frontmatter
-    event: pre_commit
-    phases: [artifact]
-    path_patterns:
-      - "knowledge/**/*.md"
-    validator: frontmatter.py
-    args_mode: none
-    severity: error
-    blocking: true
-    timeout: 60
-    enabled: false
-    description: "校验 knowledge/ 下长期 Markdown 的 YAML frontmatter（默认关闭，按需开启）"
-
-  # ========================================================================
-  # Knowledge tree 校验（canonical 目录结构）
-  # ========================================================================
-  - id: knowledge-tree
-    event: pre_commit
-    phases: [artifact]
-    path_patterns:
-      - "knowledge/**"
-    validator: knowledge_tree.py
-    args_mode: none
-    severity: error
-    blocking: true
-    timeout: 30
-    enabled: false
-    description: "校验 knowledge/ 树是否满足长期目录结构约束（默认关闭，按需开启）"
-
-  # ========================================================================
-  # Traceability 校验（claims → sources → atoms）
-  # ========================================================================
-  - id: traceability
-    event: manual
-    phases: [review, artifact]
-    path_patterns: []
-    validator: traceability.py
-    args_mode: none
-    severity: warning
-    blocking: false
-    timeout: 60
-    enabled: true
-    description: "检查知识可追溯性（claims → sources → atoms），需手动指定 --topic"
-
-# ========================================================================
-# Schema-wiring validators（由 change.yaml 驱动）
-# ========================================================================
-# 以下 validator 条目不再依赖 path_patterns 硬猜语义，
-# 而是由 change.yaml 中的 validators 列表显式声明。
-# registry 只负责 validator id → 脚本映射。
-
-schema_validators:
-  required_files:
-    script: scripts/hooks/validators/required_files.py
-    trigger: post_write
-    instruction: "检查 change.yaml 声明的必需文件是否存在。"
-
-  markdown_sections:
-    script: scripts/hooks/validators/markdown_sections.py
-    trigger: post_write
-    instruction: "检查被修改的 Markdown 产物是否包含必要章节。"
-
-  source_pack:
-    script: scripts/hooks/validators/source_pack.py
-    trigger: post_write
-    instruction: "检查来源元信息和来源清单。"
-
-  evidence_map:
-    script: scripts/hooks/validators/evidence_map.py
-    trigger: post_write
-    instruction: "检查来源到产物的证据映射。"
-
-  draft_contract:
-    script: scripts/hooks/validators/work_product.py
-    legacy_script_name: true
-    note: "当前 validator 语义已迁移为 draft_contract，脚本名后续再改。旧语义 work-product 已统一改为 draft.md。"
-
-  publish_targets:
-    script: scripts/hooks/validators/publish_targets.py
-    trigger: pre_publish
-    instruction: "检查 publish.md 和 change.yaml 中的发布目标。"
-
-  traceability:
-    script: scripts/hooks/validators/traceability.py
-    trigger: pre_publish
-    instruction: "检查从来源到知识目标的可追溯性。"
+  pre_publish:
+    description: "发布前强制运行 pre_publish gate。"
+    command: "python scripts/hooks/dispatch.py --event pre_publish --gate pre_publish --gate-registry harness/gates/registry.yaml --validator-registry scripts/hooks/validators/registry.yaml"

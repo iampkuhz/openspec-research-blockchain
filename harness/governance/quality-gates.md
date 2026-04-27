@@ -1,6 +1,9 @@
-# 质量门禁定义
+# 质量门禁定义（人读说明）
 
-**本文件位置**：`harness/governance/quality-gates.md`
+**本文件是质量门禁的人读说明，不承担机器配置定义。**
+
+**Machine-readable source of truth**: [`harness/gates/registry.yaml`](../gates/registry.yaml)
+
 **用途**：定义研究流程中各阶段的质量门禁（gate），每个 gate 说明输入文件、检查项、推荐 validator、失败处理。
 
 ---

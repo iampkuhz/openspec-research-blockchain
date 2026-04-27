@@ -9,9 +9,10 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 scripts/hooks/dispatch.py --run --event post_tool_use --files \"$(jq -r '.tool_response.filePath // .tool_input.file_path' 2>/dev/null)\"",
+            "command": "cd /Users/zhehan/Documents/tools/llm/openspec/openspec-research-blockchain && python3 scripts/hooks/dispatch.py --event post_write --files \"$(jq -r '.tool_response.filePath // .tool_input.file_path' 2>/dev/null)\"",
             "timeout": 60,
-            "statusMessage": "Running hook validations..."
+            "statusMessage": "Running hook validations...",
+            "if": "filePath contains 'openspec/changes/'"
           }
         ]
       }

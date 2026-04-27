@@ -1,0 +1,14 @@
+id: test-fail-traceability
+schema: blockchain-research
+task_type: primitive
+change_operation: add
+execution_scope: change
+artifacts:
+  - request.md
+  - draft.md
+validators:
+  - required_files
+  - traceability
+publish_targets:
+  - from: draft.md
+    to: knowledge/analysis/primitives/test-fail-trace/artifact.md

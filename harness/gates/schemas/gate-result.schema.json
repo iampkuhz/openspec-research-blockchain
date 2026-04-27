@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Research Gate Result",
+  "type": "object",
+  "required": [
+    "gate_id",
+    "status",
+    "blocking",
+    "checked_files",
+    "errors",
+    "warnings",
+    "rule_refs",
+    "metadata"
+  ],
+  "properties": {
+    "gate_id": {
+      "type": "string"
+    },
+    "validator": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["pass", "warn", "fail", "skip", "error"]
+    },
+    "blocking": {
+      "type": "boolean"
+    },
+    "checked_files": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "rule_refs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "change_id": {
+          "type": "string"
+        },
+        "task_type": {
+          "type": "string"
+        },
+        "change_operation": {
+          "type": "string"
+        },
+        "repo_root": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}

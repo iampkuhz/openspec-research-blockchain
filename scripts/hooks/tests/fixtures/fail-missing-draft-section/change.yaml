@@ -1,0 +1,16 @@
+id: test-fail-missing-draft-section
+schema: blockchain-research
+task_type: primitive
+change_operation: add
+execution_scope: change
+artifacts:
+  - request.md
+  - plan.md
+  - draft.md
+validators:
+  - required_files
+  - draft_contract
+  - markdown_sections
+publish_targets:
+  - from: draft.md
+    to: knowledge/analysis/primitives/test-fail/artifact.md

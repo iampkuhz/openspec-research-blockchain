@@ -1,0 +1,15 @@
+id: test-fail-bad-publish-target
+schema: blockchain-research
+task_type: primitive
+change_operation: add
+execution_scope: change
+artifacts:
+  - request.md
+  - draft.md
+  - publish.md
+validators:
+  - required_files
+  - publish_targets
+publish_targets:
+  - from: draft.md
+    to: openspec/changes/bad-target/artifact.md

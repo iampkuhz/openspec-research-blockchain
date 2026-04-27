@@ -1,0 +1,121 @@
+version: 1
+
+gates:
+  post_request:
+    stage: post_request
+    blocking: true
+    artifact: request
+    files:
+      required:
+        - change.yaml
+        - request.md
+    validators:
+      - required_files
+      - markdown_sections
+      - change_manifest
+    rule_refs:
+      - harness/rules/artifacts/request-rules.md
+    output:
+      path: validation/post-request.json
+
+  post_plan:
+    stage: post_plan
+    blocking: true
+    artifact: plan
+    files:
+      required:
+        - change.yaml
+        - request.md
+        - plan.md
+    validators:
+      - required_files
+      - markdown_sections
+      - child_change_graph
+    rule_refs:
+      - harness/rules/artifacts/plan-rules.md
+    output:
+      path: validation/post-plan.json
+
+  post_research:
+    stage: post_research
+    blocking: false
+    artifact: research_support
+    files:
+      required:
+        - sources/source-pack.md
+        - sources/evidence-map.md
+    validators:
+      - source_pack
+      - evidence_map
+      - traceability
+    rule_refs:
+      - harness/rules/artifacts/source-pack-rules.md
+      - harness/rules/artifacts/evidence-map-rules.md
+      - harness/rules/research/evidence-policy.md
+    output:
+      path: validation/post-research.json
+
+  post_draft:
+    stage: post_draft
+    blocking: true
+    artifact: draft
+    files:
+      required:
+        - draft.md
+    validators:
+      - draft_contract
+      - markdown_sections
+      - traceability
+    rule_refs:
+      - harness/rules/artifacts/draft-rules.md
+      - harness/rules/research/traceability-rules.md
+    output:
+      path: validation/post-draft.json
+
+  post_review:
+    stage: post_review
+    blocking: true
+    artifact: review
+    files:
+      required:
+        - review.md
+    validators:
+      - review_readiness
+      - markdown_sections
+    rule_refs:
+      - harness/rules/artifacts/review-rules.md
+    output:
+      path: validation/post-review.json
+
+  pre_publish:
+    stage: pre_publish
+    blocking: true
+    artifact: publish
+    files:
+      required:
+        - draft.md
+        - review.md
+        - publish.md
+    validators:
+      - publish_targets
+      - traceability
+      - decision_verdict
+    rule_refs:
+      - harness/rules/artifacts/publish-rules.md
+      - harness/rules/research/decision-criteria-rules.md
+      - harness/rules/research/traceability-rules.md
+    output:
+      path: validation/pre-publish.json
+
+  post_publish:
+    stage: post_publish
+    blocking: true
+    artifact: knowledge
+    validators:
+      - knowledge_artifact
+      - knowledge_tree
+      - traceability
+    rule_refs:
+      - harness/rules/research/traceability-rules.md
+    output:
+      path: validation/post-publish.json
