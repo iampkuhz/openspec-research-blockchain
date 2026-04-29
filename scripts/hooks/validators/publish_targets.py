@@ -16,6 +16,7 @@ sys.path.insert(0, str(SCRIPT_DIR.parent))
 from lib.gate_result import make_result
 from lib.path_policy import is_valid_publish_target
 from lib.yaml_loader import load_yaml
+from lib.markdown_utils import has_heading
 
 
 def main():
@@ -44,9 +45,9 @@ def main():
     with open(publish_path, "r") as fh:
         content = fh.read()
 
-    # 检查 Publish Targets
-    if "Publish Targets" not in content and "publish_targets" not in content:
-        warnings.append("publish.md 未包含 'Publish Targets' 标题")
+    # 检查 Publish Targets（支持中英文标题）
+    if not has_heading(content, "Publish Targets") and "publish_targets" not in content:
+        warnings.append("publish.md 未包含 'Publish Targets' / '发布目标' 标题")
 
     # 检查不得从 request.md / plan.md 发布
     for line in content.split("\n"):

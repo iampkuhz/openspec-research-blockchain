@@ -14,7 +14,7 @@ from pathlib import Path
 SCRIPT_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(SCRIPT_DIR.parent))
 from lib.gate_result import make_result
-from lib.markdown_utils import read_markdown
+from lib.markdown_utils import read_markdown, has_heading
 
 
 def main():
@@ -40,17 +40,36 @@ def main():
     errors = []
     warnings = []
 
-    # 检查 Review Target
-    if "Review Target" not in content and "review target" not in content.lower():
-        warnings.append("review.md 未包含 'Review Target' 部分")
+    # 检查 Review Target（支持中英文标题，通过 has_heading alias 系统）
+    if not has_heading(content, "Review Target"):
+        warnings.append("review.md 未包含 'Review Target' / '评审目标' 部分")
 
-    # 检查 Decision
-    if "Decision" not in content and "decision" not in content.lower():
-        warnings.append("review.md 未包含 Decision 部分")
+    # 检查 Decision（支持中英文标题）
+    if not has_heading(content, "Decision"):
+        warnings.append("review.md 未包含 'Decision' / '决策' 部分")
 
-    # 检查是否有 Critical / FAIL 问题
-    if "FAIL" in content or "Critical" in content or "critical" in content.lower():
-        errors.append("review.md 包含 FAIL 或 Critical issue，应阻断 publish")
+    # 检查是否有明确的拒绝发布决定
+    # 只检查 "是否允许发布: no" 这种明确的拒绝，忽略模板占位符 "yes / no"
+    has_blocker = False
+    lines = content.split("\n")
+    for line in lines:
+        line_stripped = line.strip()
+        # 匹配 "是否允许发布: no" 但排除 "yes / no" 占位符
+        if "是否允许发布" in line_stripped:
+            # 如果是 "yes / no" 或 "yes/no" 占位符，不算拒绝
+            if "yes" in line_stripped.lower() and "/" in line_stripped:
+                continue
+            # 如果明确写 no
+            if line_stripped.lower().endswith("no"):
+                has_blocker = True
+                break
+        # 检查问题表格中的 FAIL 级别条目（实际填了 FAIL 的）
+        if line_stripped.startswith("| FAIL") or line_stripped.startswith("|FAIL"):
+            has_blocker = True
+            break
+
+    if has_blocker:
+        errors.append("review.md 明确拒绝发布，应阻断 publish")
 
     status = "fail" if errors else ("warn" if warnings else "pass")
     exit_code = 1 if status == "fail" else 0

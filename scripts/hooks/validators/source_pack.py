@@ -52,8 +52,8 @@ def main():
         print(json.dumps(result))
         sys.exit(1)
 
-    # 检查 Source List 标题
-    if "Source List" not in content and "## Source" not in content:
+    # 检查 Source List 标题（支持中英文）
+    if "Source List" not in content and "## Source" not in content and "来源清单" not in content and "## 来源" not in content:
         result = make_result(
             gate_id=gate_id,
             validator="source_pack",

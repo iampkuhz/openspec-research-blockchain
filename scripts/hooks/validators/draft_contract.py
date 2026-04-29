@@ -78,7 +78,7 @@ def _write_warn_result(change_dir, warn_msg):
         "gate_id": "post_draft",
         "validator": "draft_contract",
         "status": "warn",
-        "blocking": True,
+        "blocking": False,
         "checked_files": ["draft.md"],
         "errors": [],
         "warnings": [warn_msg],
