@@ -1,5 +1,13 @@
 # MCP 工具使用指南
 
+## Claude agent 配置约束
+
+`source-evidence-agent.md` 需要直接调用 MCP 工具，因此 frontmatter 必须省略 `tools` 白名单，并
+声明 `mcpServers`。不要给该 agent 添加 `tools:` 白名单，除非已通过 smoke test 确认不会排除 MCP。
+
+如果当前 agent 看不到下列 MCP 工具，不要重复读取模板或本文件等待工具出现；应按 source 合同写
+blocked `sources/source-pack.md` 与 `sources/evidence-map.md` 后停止。
+
 ## fastmcp-gateway: 联网搜索
 
 **工具**：`searxng_search_web`

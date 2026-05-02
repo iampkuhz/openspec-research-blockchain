@@ -39,7 +39,7 @@ Commands 负责入口，Skills 负责能力包。Commands 不依赖 skill 自动
 | `agents/primitive-author.md` | primitive 主链写作 | `research_type=primitive` |
 | `agents/synthesis-author.md` | synthesis 横向合成 | `research_type=synthesis` |
 | `agents/decision-author.md` | decision 场景判断 | `research_type=decision` |
-| `agents/source-evidence-agent.md` | `sources/` 采集与验证 | plan/draft 需要补来源 |
+| `agents/source-evidence-agent.md` | `sources/` 采集与验证，直接调用 MCP | plan/draft 需要补来源 |
 | `agents/diagram-agent.md` | `diagrams/` 生成与验证 | 需要正式图表时 |
 | `agents/review-critic-agent.md` | 独立评审 | draft 冻结后 |
 | `agents/publish-agent.md` | artifact 提炼与 apply 前检查 | review 通过后 |
@@ -49,6 +49,8 @@ Commands 负责入口，Skills 负责能力包。Commands 不依赖 skill 自动
 **调度原则**：
 - 主会话 orchestrator 统一调度 specialist agent。
 - author agent 只负责主链写作，不嵌套拉起其他 subagent。
+- source 阶段直接调度 `source-evidence-agent`。该 agent 省略 `tools` 白名单并声明 `mcpServers`，
+  以继承主会话工具并启用 `mcp__fastmcp-gateway__searxng_search_web` 与 `mcp__crawl4ai__md`。
 
 ---
 

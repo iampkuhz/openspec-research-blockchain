@@ -108,6 +108,11 @@ request.md
 
 不要把 subagent 的 evidence gap 细节、评分过程、traceability 审计过程或图表内部生成步骤返回主会话；这些内容应写入对应 artifact。
 
+**source capsule MCP 配置**：
+`source-evidence-agent` 的 frontmatter 省略 `tools` 白名单并声明 `mcpServers`，用于继承主会话工具并
+启用 `mcp__fastmcp-gateway__searxng_search_web` 与 `mcp__crawl4ai__md`。如果 MCP 不可用，则按
+source 合同写 blocked `sources/source-pack.md` 与 `sources/evidence-map.md` 后停止。
+
 ### 4. 推进状态机
 
 对每个 change 重复：

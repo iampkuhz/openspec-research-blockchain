@@ -95,7 +95,50 @@ request.md
 
 ### sources
 
-只把来源阶段调度给 `source-evidence-agent` 或等价 skill。command 只检查：
+来源阶段直接调度 `source-evidence-agent`。该 agent 的 frontmatter 省略 `tools` 白名单，并声明
+`mcpServers`，以便继承主会话工具并启用 MCP。
+
+统一做法：
+
+1. 调用 `source-evidence-agent` 执行 source capsule。
+2. 明确要求使用 MCP：
+   - 搜索：`mcp__fastmcp-gateway__searxng_search_web`
+   - 网页提取：`mcp__crawl4ai__md`
+3. 明确禁止写 `draft.md`、`review.md`、`publish.md`、`knowledge/**`。
+4. 如果 agent 看不到 MCP 工具，按 `source-evidence-agent` 的无联网工具硬停止路径写 blocked
+   `sources/source-pack.md` 与 `sources/evidence-map.md`，然后停止。
+
+推荐 subagent prompt 骨架：
+
+```text
+你是 source-evidence-agent，请执行 source capsule。
+
+Change: <change-id>
+
+读取：
+- openspec/changes/<change-id>/request.md
+- openspec/changes/<change-id>/plan.md
+- harness/workflows/source-workflow.md
+- openspec/specs/evidence-policy/spec.md
+- harness/rules/research/source-quality-rules.md
+- harness/rules/research/uncertainty-rules.md
+- harness/rules/general/traceability-policy.md
+- .claude/tools/mcp-tools.md
+
+执行：
+- 使用 mcp__fastmcp-gateway__searxng_search_web 搜索来源。
+- 使用 mcp__crawl4ai__md 提取网页正文。
+- 每找到一个来源，立即写入 sources/source-pack.md。
+- 生成 sources/evidence-map.md。
+- 按需写 notes/*.md 或 claims/*.md。
+
+停止边界：
+- 不写 draft.md / review.md / publish.md / knowledge/**。
+- 遇到 MCP 不可用，立即写 blocked source-pack/evidence-map 并停止。
+- 连续两次读取同一文件且返回 unchanged 后，禁止再次读取该文件。
+```
+
+command 只检查：
 
 - `sources/source-pack.md` 是否存在
 - `sources/evidence-map.md` 是否存在

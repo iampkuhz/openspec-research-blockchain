@@ -14,7 +14,8 @@
 | `name` | string | 是 | agent 唯一标识符，kebab-case，与文件名一致（不含 `.md`） |
 | `description` | string | 是 | 一句话描述，说明职责 + 何时被谁调用 |
 | `model` | string | 是 | `"inherit"` 继承主会话模型，或指定模型名 |
-| `tools` | list | 是 | 允许使用的工具列表，最小权限原则 |
+| `tools` | list | 条件必填 | 允许使用的工具列表，最小权限原则；需要继承主会话工具或 MCP 工具时可省略 |
+| `mcpServers` | list | 否 | 需要显式启用的 MCP server 名称；仅在该 agent 需要 MCP 能力时填写 |
 | `skills` | list | 是 | 允许调用的 skill 列表，空列表填 `[]` |
 | `color` | string | 否 | 终端显示颜色标识 |
 | `effort` | string | 否 | `"low"` / `"medium"` / `"high"` |
@@ -22,7 +23,8 @@
 **校验规则**：
 - `name` 必须与文件名（不含 `.md`）一致
 - `description` 必须包含 **"由谁在什么情况下调用"**
-- `tools` 不得包含 `Agent`（禁止 agent 嵌套调用）
+- 若填写 `tools`，不得包含 `Agent`（禁止 agent 嵌套调用）
+- 需要 MCP 工具时，优先省略 `tools` 并填写 `mcpServers`，避免白名单漏掉 MCP 工具。
 
 ---
 
@@ -87,7 +89,8 @@ Author agents 与 specialist agents 的分类、职责边界与调度原则以 `
 - [ ] frontmatter 包含所有必填字段
 - [ ] `name` 与文件名一致
 - [ ] `description` 包含调用方和调用时机
-- [ ] `tools` 不包含 `Agent`
+- [ ] 如存在 `tools`，不包含 `Agent`
+- [ ] 需要 MCP 能力的 agent 已填写 `mcpServers`，且没有用 `tools` 白名单排除 MCP 工具
 - [ ] 角色定位段落存在
 - [ ] 主会话边界段落存在
 - [ ] 读取输入列出具体路径
