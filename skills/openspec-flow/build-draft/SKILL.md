@@ -15,7 +15,8 @@ description: 当当前 change 已有 request、plan 与证据材料，需要生�
 
 - `openspec/changes/<id>/request.md`
 - `openspec/changes/<id>/plan.md`
-- `openspec/changes/<id>/sources/source-review.md`（如有）
+- `openspec/changes/<id>/sources/source-pack.md`
+- `openspec/changes/<id>/sources/evidence-map.md`
 - `openspec/changes/<id>/sources/excerpts/`（如有）
 
 ## 输出
@@ -25,7 +26,7 @@ description: 当当前 change 已有 request、plan 与证据材料，需要生�
 
 ## 必读文件
 
-- `harness/workflows/draft-phase.md` —— draft 阶段规范
+- `harness/workflows/research-step-execution.md` —— draft 阶段执行规约
 - `harness/rules/diagrams/diagram-policy.md` —— 图表政策
 - `openspec/schemas/blockchain-research/templates/draft.md` —— draft 模板
 

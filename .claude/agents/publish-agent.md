@@ -37,19 +37,20 @@ effort: high
 - `request.md`
 - `plan.md`
 - `draft.md`
-- `review/review-summary.md`
-- `harness/workflows/merge-workflow.md`
+- `review.md`
+- `harness/workflows/research-publish-flow.md`
 - `harness/rules/general/update-policy.md`
 - `openspec/config.yaml`
 
 ## 写入范围
 
+- `publish.md`
 - `knowledge/analysis/primitives/<domain_id>/<topic_slug>/artifact.md`
 - `knowledge/analysis/synthesis/<topic>/artifact.md`
 - `knowledge/decisions/<domain_id>/<topic_slug>/artifact.md`
 - `knowledge/decisions/<domain_id>/<topic_slug>/verdict.md`
 - 主会话明确要求时的 update impact note
-- 归档操作：将 `openspec/changes/<change-id>/` 整体移动到 `openspec/archive/<change-id>/`
+- 归档操作：将 `openspec/changes/<change-id>/` 整体移动到 `openspec/changes/archive/<change-id>/`
 
 ## 工作合同
 
@@ -79,11 +80,10 @@ effort: high
 
 ## 完成信号
 
-向主会话返回：
+向主会话返回（精简为最小推进信号）：
 - 写入的 artifact 文件列表及路径
-- 对象类型确认（primitive / synthesis / decision）
 - review gate 确认状态
-- update impact scan 结果（如有更新场景）
-- 归档状态：已归档到 `openspec/archive/<change-id>/` / 延迟归档（原因）/ 需要归档但无法执行（原因）
-- 归档前执行的智能决策：哪些内容沉淀为 openspec/specs、哪些合并到 knowledge/
-- 如有歧义或 blocker，说明原因和建议
+- 归档状态：已归档 / 延迟归档（原因）
+- 如存在路径歧义或 blocker，说明原因（1-2 句）
+
+**以下细节不单独返回主会话**：update impact scan 详情、归档前智能决策的中间分析。

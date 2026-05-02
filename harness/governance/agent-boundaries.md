@@ -10,12 +10,14 @@
 
 | Agent | 职责 | 调用方 |
 |-------|------|--------|
-| `primitive-author` | 单个 primitive 的全链路研究写作（request → plan → draft） | 主会话 orchestrator |
-| `synthesis-author` | 多 primitive 的横向对比合成 | 主会话 orchestrator |
-| `decision-author` | 场景决策分析写作 | 主会话 orchestrator |
+| `primitive-author` | 单个 primitive 的 intake / draft capsule 写作 | 主会话 orchestrator |
+| `synthesis-author` | 多 primitive 的 intake / draft capsule 写作 | 主会话 orchestrator |
+| `decision-author` | 场景决策的 intake / draft capsule 写作 | 主会话 orchestrator |
 
 Author agents 的特点：
-- 负责 `request.md` → `plan.md` → `draft.md` 的主链写作
+- 可以被多次独立调用，但每次调用必须声明 capsule mode
+- `mode=intake` 只写 `request.md`、`plan.md`，完成后停止
+- `mode=draft` 只写 `draft.md`，前置条件是 `sources/` 已就绪
 - 不直接调用 specialist agent；如需 `sources/` 或 `diagrams/`，向主会话返回明确 handoff 需求
 - 完成后将 draft 交回主会话，由主会话决定是否调用 review-critic-agent
 
@@ -41,3 +43,12 @@ Specialist agents 的特点：
 - Author agent 只负责主链写作，不嵌套拉起其他 subagent
 - 主会话决定路由、目标路径、是否进入下一阶段；agent 自主决定具体实现细节
 - 失败降级：若运行环境不支持真实 subagent，仍按 contract 顺序串行执行，不得跳过 handoff artifact 与 quality gate
+
+## Capsule 隔离原则
+
+- multi-agent 的首要目的不是并发，而是让复杂任务拆成边界清晰、上下文干净、可停止和可审计的子任务。
+- 按"会污染后续判断的认知边界"切分 capsule，不按文件数量机械切分。
+- `request.md` 与 `plan.md` 默认属于同一个 intake capsule，因为 scope、来源策略和完成标准强耦合。
+- `sources/`、`draft.md`、`review.md`、`publish.md` 必须分属不同 capsule。
+- 默认不新增常驻 `request-planner` agent；只有当 request 生成需要独立治理、反复修订或跨研究类型复用时，才升级为独立 agent。
+- 主会话只消费 agent 的完成状态、产出路径和 blocker；中间分析细节应沉淀在对应 artifact 内。

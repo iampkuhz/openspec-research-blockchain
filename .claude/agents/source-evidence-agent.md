@@ -44,7 +44,7 @@ effort: medium
 - `request.md`
 - `plan.md`
 - `harness/workflows/source-workflow.md`
-- `harness/rules/research/source-validation-rules.md`
+- `harness/rules/research/source-quality-rules.md`
 - `harness/rules/research/uncertainty-rules.md`
 - `harness/rules/general/traceability-policy.md`
 - `openspec/specs/evidence-policy/spec.md`
@@ -53,6 +53,7 @@ effort: medium
 
 - `sources/source-pack.md`
 - `sources/evidence-map.md`
+- `sources/source-review.md`（仅 plan 明确要求兼容旧格式时）
 - `notes/<source-slug>.md`
 - `claims/<claim-slug>.md`
 
@@ -73,20 +74,13 @@ effort: medium
 
 ## 产出要求
 
-### `sources/source-review.md`
-
-必须覆盖：
-
-- key sources
-- evidence gaps
-- conflicts
-- unresolved ambiguities
-
 ### `sources/source-pack.md` 与 `sources/evidence-map.md`
 
 - 结构化
 - 可复用
 - 能支撑后续 review / refresh
+- 必须覆盖 key sources、evidence gaps、conflicts、unresolved ambiguities
+- 默认不创建 `sources/source-review.md`；只有 plan 明确要求兼容旧格式时才可作为 supporting file 生成
 
 ### notes 与 claims
 
@@ -124,9 +118,9 @@ effort: medium
 - 已明确记录本轮 evidence gaps、conflicts 和 unresolved ambiguities
 - 主会话要求的定向链接验证已经完成
 
-返回主会话时只汇报：
+返回主会话时（精简为最小推进信号）：
+- sources/ 目录路径
+- 完成状态（成功 / 因链接无法访问受阻）
+- 如有 blocker，列出无法访问的关键来源（1-2 句）
 
-- 已验证 / 未验证来源
-- 关键 excerpts 或摘录位置
-- evidence gaps / conflicts / unresolved ambiguities
-- 建议主会话如何并回 `plan.md` 或 `draft.md`
+**以下细节写入 sources/ 文件内部，不单独返回主会话**：完整 excerpt 摘录、evidence tier 详情、conflict 分析、ambiguity 详情。

@@ -83,8 +83,8 @@ request.md -> plan.md -> sources/source-pack.md -> sources/evidence-map.md -> [n
 |------------|-----------|-------------|
 | `sources/source-pack.md` | 生成来源包 | `research-extract-evidence` |
 | `sources/evidence-map.md` | 生成证据地图 | `research-extract-evidence` |
-| `sources/notes/*.md` | 生成来源笔记 | `research-write-source-note` |
-| `sources/claims/*.md` | 提取声明 | `research-extract-evidence` |
+| `notes/*.md` | 生成来源笔记 | `research-write-source-note` |
+| `claims/*.md` | 提取声明 | `research-extract-evidence` |
 | `decision-criteria.md`（仅 decision 类型） | 生成决策标准 | `research-build-decision-criteria` |
 | `draft.md` | 生成草稿 | `openspec-build-draft` / `research-write-primitive-draft` / `research-write-synthesis-draft` / `research-write-decision-draft` |
 | `review.md` | 生成评审 | `openspec-build-review` |

@@ -14,7 +14,7 @@ description: 当 change 产物已通过 publish gate 校验，需要合并到 `k
 ## 输入
 
 - `openspec/changes/<change-id>/change.yaml`
-- `openspec/changes/<change-id>/review/review-summary.md`
+- `openspec/changes/<change-id>/review.md`
 - 已渲染的 `knowledge/` 文件
 
 ## 输出
@@ -24,7 +24,7 @@ description: 当 change 产物已通过 publish gate 校验，需要合并到 `k
 
 ## 必读文件
 
-- `harness/workflows/merge-workflow.md`
+- `harness/workflows/research-publish-flow.md`
 - `harness/rules/general/update-policy.md`
 
 ## 执行步骤

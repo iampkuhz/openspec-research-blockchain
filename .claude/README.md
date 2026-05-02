@@ -18,7 +18,7 @@ Claude 侧的入口索引。先看这里，再下钻到具体 command、agent、
 
 | Command | 场景 | 读取入口 |
 |---------|------|----------|
-| `spec-research.md` | 技术调研总入口，接收自然语言需求、路由研究类型、初始化 change | `openspec/schemas/blockchain-research/schema.yaml` |
+| `spec-research.md` | 技术调研总入口，按 research pipeline 调度 agents 推进到 Knowledge artifact | `harness/workflows/research-pipeline.md` |
 | `spec-research-step.md` | 推进当前 change 的下一步，自动检测缺失产物并生成 | `harness/rules/_phase_index.yaml` |
 | `spec-research-publish.md` | 发布入口，唯一允许从 change 进入 `knowledge/**` 的 command | `openspec/config.yaml` apply 规则 |
 | `spec-governance-review.md` | 规约治理入口，审查 openspec / commands / skills / harness 一致性 | `docs/governance/openspec-harness-boundary.md` |

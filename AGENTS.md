@@ -61,8 +61,8 @@ OpenSpec 区块链研究协作的导航入口。
 | 创建新研究 | `harness/workflows/intake-workflow.md` | `openspec/changes/<id>/request.md` |
 | 收集与验证来源 | `harness/workflows/source-workflow.md` | `openspec/changes/<id>/sources/` |
 | 正式图表 | `harness/workflows/diagram-workflow.md` | `openspec/changes/<id>/diagrams/` |
-| 评审研究产出 | `harness/workflows/review-workflow.md` | `openspec/changes/<id>/review/` |
-| Apply 到长期知识 | `openspec/config.yaml` apply 段 + `harness/workflows/merge-workflow.md` | `knowledge/analysis/**` 或 `knowledge/decisions/**` |
+| 评审研究产出 | `harness/workflows/research-step-execution.md` | `openspec/changes/<id>/review.md` |
+| Apply 到长期知识 | `openspec/config.yaml` apply 段 + `harness/workflows/research-publish-flow.md` | `knowledge/analysis/**` 或 `knowledge/decisions/**` |
 | 更新现有知识 | `harness/workflows/update-existing-knowledge.md` | `knowledge/` 增量更新 |
 | 修改规约分层或治理结构 | `docs/governance/openspec-harness-boundary.md` + `harness/workflows/governance-review-workflow.md` | `review/governance-review.md` |
 | 规约体系卫生审计 | `harness/workflows/governance-review-workflow.md` | 审计总结或报告 |
@@ -109,7 +109,7 @@ OpenSpec 区块链研究协作的导航入口。
 ### 过程产物
 
 以下文件留在 `openspec/changes/<change-id>/`，不直接进入长期目录：
-`request.md`、`plan.md`、`draft.md`、`decision-criteria.md`（可选）、`sources/`、`diagrams/`、`review/`
+`request.md`、`plan.md`、`draft.md`、`decision-criteria.md`（可选）、`sources/`、`diagrams/`、`review.md`、`review/`（可选 supporting files）
 
 **补充说明**：
 - `domain` 是 taxonomy / 浏览分组概念，不是独立 `object_type`
@@ -151,7 +151,7 @@ Specialist agent 按需加载：`source-evidence-agent`、`diagram-agent`、`rev
 
 **协作边界**：
 - 主会话负责 orchestrate
-- author agent 负责主链写作（request → plan → draft）
+- author agent 负责主链写作 capsule（intake: request → plan；draft: draft）
 - specialist agent 负责 `sources/`、`diagrams/`、`review/`、`publish` 等专项上下文
 - 不允许 author agent 嵌套拉起 subagent
 

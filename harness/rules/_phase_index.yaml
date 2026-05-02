@@ -32,6 +32,22 @@ phases:
       workflows:
         - research-intake-routing
 
+  sources:
+    description: "来源收集与证据映射"
+    depends:
+      specs:
+        - evidence-policy
+      rules:
+        - general/traceability-policy
+        - research/source-quality-rules
+        - research/uncertainty-rules
+        - artifacts/source-pack-rules
+        - artifacts/evidence-map-rules
+        - artifacts/note-rules
+        - artifacts/claim-rules
+      workflows:
+        - source-workflow
+
   draft:
     description: "集中研究写作"
     depends:

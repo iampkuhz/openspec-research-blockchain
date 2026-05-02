@@ -1,6 +1,6 @@
 ---
 name: publish-review-knowledge
-description: 当 change 产物需要独立评审，校验 artifact contract 与质量门，生成 review/ 目录下的评审报告时使用。
+description: 当 change 产物需要独立评审，校验 artifact contract 与质量门，生成 review.md 及按需 supporting review 文件时使用。
 ---
 
 # publish-review-knowledge
@@ -19,13 +19,14 @@ description: 当 change 产物需要独立评审，校验 artifact contract 与�
 
 ## 输出
 
+- `openspec/changes/<change-id>/review.md`
 - `openspec/changes/<change-id>/review/checklist.yaml`
 - `openspec/changes/<change-id>/review/issues.md`
-- `openspec/changes/<change-id>/review/review-summary.md`
 
 ## 必读文件
 
-- `harness/workflows/review-workflow.md`
+- `harness/workflows/research-step-execution.md`
+- `harness/rules/artifacts/review-rules.md`
 - `openspec/specs/evidence-policy/spec.md`
 
 ## 执行步骤

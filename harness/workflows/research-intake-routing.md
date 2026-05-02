@@ -74,6 +74,8 @@
 - 范围边界（覆盖什么、不覆盖什么）
 - 预期输出
 
+同时遵守 `harness/rules/artifacts/request-rules.md`。如果是二次研究，既有 artifact 只能作为参考基线，request 不得切断新来源搜索或回源验证。
+
 ### 步骤 8：生成 plan.md
 
 使用 `openspec/schemas/blockchain-research/templates/plan.md` 模板：
@@ -86,6 +88,7 @@
 ### 步骤 9：不生成 draft.md
 
 本阶段只产出 request.md 和 plan.md，不提前写分析正文。
+在 `/spec-research` 端到端场景中，本阶段应作为 intake capsule 执行，完成后停止并把来源 handoff 交回主会话。
 
 ### 步骤 10：不写 knowledge/**
 

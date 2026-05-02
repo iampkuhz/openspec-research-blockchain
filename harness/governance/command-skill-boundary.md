@@ -9,17 +9,17 @@
 
 | 概念 | 职责 | 不做什么 |
 |---|---|---|
-| **Command** | 用户入口 / routing / 本次任务边界 | 不包含具体写作步骤、不定义质量规则 |
+| **Command** | 用户入口 / routing / orchestration / 本次任务边界 | 不包含具体写作步骤、不定义质量规则 |
 | **Skill** | 可复用执行能力 / 多步骤执行策略 / 脚本与模板组织 | 不定义 artifact 正式语义、不直接生成最终 knowledge |
 | **Harness Workflow** | 执行规约，解释某类任务的步骤与输入输出 | 不直接触发、不替代 command 的路由职责 |
 | **Harness Rule** | 质量规则，定义 artifact 或 task_type 的质量要求 | 不直接生成产物、不和 schema 冲突 |
 | **Hook / Script** | 确定性校验，质量 gate 的自动化落地 | 不替代人类评审、不通过路径硬猜语义 |
 
-## Active Commands 与 Primary Skills 映射
+## Active Commands 与 Primary Skills / Workflow 映射
 
-| Command | Primary Skills |
+| Command | Primary Skills / Workflow |
 |---|---|
-| `/spec-research` | `openspec-route-research-change`、`openspec-init-change`、`openspec-build-request-plan` |
+| `/spec-research` | `openspec-route-research-change`、`openspec-init-change`、`harness/workflows/research-pipeline.md`、agent capsules |
 | `/spec-research-step` | `openspec-build-research-support`、`research-extract-evidence`、`research-write-source-note`、`openspec-build-draft`、`openspec-build-review` |
 | `/spec-research-publish` | `openspec-build-publish-plan`、`publish-validate-targets`、`publish-render-artifact`、`publish-render-verdict`、`publish-merge-knowledge` |
 | `/spec-governance-review` | `governance-review-system`、`governance-review-boundaries`、`governance-cleanup-legacy` |

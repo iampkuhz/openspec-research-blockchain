@@ -7,6 +7,21 @@ description: |
   `.claude/agents/` 目录中的 agent 合同。
 
 workflows:
+  research_pipeline:
+    path: harness/workflows/research-pipeline.md
+    command: /spec-research
+    outputs:
+      - change.yaml
+      - request.md
+      - plan.md
+      - sources/source-pack.md
+      - sources/evidence-map.md
+      - draft.md
+      - review.md
+      - publish.md
+      - knowledge/**/artifact.md
+      - knowledge/decisions/**/verdict.md
+
   research_intake_routing:
     path: harness/workflows/research-intake-routing.md
     command: /spec-research
@@ -25,6 +40,15 @@ workflows:
       - claims/*.md
       - draft.md
       - review.md
+
+  source_workflow:
+    path: harness/workflows/source-workflow.md
+    stage: sources
+    outputs:
+      - sources/source-pack.md
+      - sources/evidence-map.md
+      - notes/*.md
+      - claims/*.md
 
   research_publish_flow:
     path: harness/workflows/research-publish-flow.md

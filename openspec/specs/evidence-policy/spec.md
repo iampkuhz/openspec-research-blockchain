@@ -41,4 +41,4 @@
 4. **记录**证据缺口在 `draft.md` 的"证据缺口"章节
 5. **标注**相关结论的置信度为"基于已有知识，待 L1 验证"
 
-详见：`harness/rules/research/source-validation-rules.md` 和 `harness/workflows/research-pipeline.md`。
+执行层应在 Harness 中把上述正式政策落实为来源验证、证据映射和回修流程。

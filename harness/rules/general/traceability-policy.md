@@ -42,7 +42,7 @@
 `draft.md` 和长期 `artifact.md` 不要求逐段附 YAML，但必须满足：
 
 - 对应 change packet 中存在 `sources/`
-- `sources/source-review.md` 能解释核心来源与证据缺口
+- `sources/source-pack.md` 和 `sources/evidence-map.md` 能解释核心来源、证据覆盖与证据缺口
 - 关键结论能够回指到 `source_id`
 
 ### L4：`knowledge` → `change packet`

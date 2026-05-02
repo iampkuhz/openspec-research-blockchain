@@ -38,17 +38,18 @@ effort: high
 - `plan.md`
 - `sources/`
 - `diagrams/`（如存在）
-- `harness/workflows/review-workflow.md`
+- `harness/workflows/research-step-execution.md`
 - `harness/rules/general/terminology-policy.md`
 - `harness/rules/general/traceability-policy.md`
 - `harness/rules/diagrams/diagram-review-checklist.md`（如有图表）
+- `harness/rules/artifacts/review-rules.md`
 - `openspec/specs/evidence-policy/spec.md`
 
 ## 写入范围
 
+- `review.md`
 - `review/checklist.yaml`
 - `review/issues.md`
-- `review/review-summary.md`
 
 ## 工作合同
 
@@ -67,6 +68,7 @@ effort: high
 - 术语必须符合仓库术语政策
 - uncertainty 必须保持显式
 - 评审输出必须能直接供主会话和 `publish-agent` 消费
+- `review.md` 是 canonical review artifact；`review/` 目录只保存 supporting details
 
 ## 禁止事项
 
@@ -76,9 +78,9 @@ effort: high
 
 ## 完成信号
 
-向主会话返回：
+向主会话返回（精简为最小推进信号）：
 - 评审 verdict（`approved` / `approved with minor fixes` / `needs revision`）
-- severity 分布（high / medium / low 问题数量）
-- 必须修复项列表（high severity）
-- 建议修复项列表（medium severity）
-- traceability 审计结果（claim → source 映射完整性）
+- `review.md` 路径
+- 如有 high severity 未关闭问题，列出 blocker 项（1-2 句）
+
+**以下细节写入 review/ 文件内部，不单独返回主会话**：完整 severity 分布、traceability 审计详情、术语一致性检查过程、每条问题的详细修复建议。
