@@ -93,7 +93,6 @@ request.md -> plan.md -> sources/source-pack.md -> sources/evidence-map.md -> [n
 参考 `build-request-plan` skill。
 
 - 规划研究路径、关键来源、预期产出
-- plan 完成后停止，**不直接生成 draft.md**
 
 ### 6. 二次研究来源保护
 
@@ -103,6 +102,36 @@ request.md -> plan.md -> sources/source-pack.md -> sources/evidence-map.md -> [n
 - **既有 artifact 是起点，不是天花板**：二次研究的 request 必须明确既有 artifact 仅作为参考基线，仍需回源到原始项目仓库、文档、commit 历史等验证和补充信息。
 - 如发现 request.md 已包含此类自我设限表述，**必须先修正 request.md 再继续**。
 
+### 7. 自动执行到底
+
+plan.md 生成后，必须继续执行完整 pipeline，直到生成最终 Knowledge artifact。
+
+对每个 change，按以下循环自动推进（类似 `/spec-research-step` 的自动循环版本）：
+
+1. 检测当前 change 缺少的产物（按 pipeline 顺序）
+2. 调用对应 skill 或内联步骤生成缺失产物
+3. 重复步骤 1-2，直到 `publish.md` 生成且 `knowledge/**` 已写入
+
+**Pipeline 步骤映射**：
+
+| 缺少的文件 | 动作 | 关键 skill / 内联逻辑 |
+|---|---|---|
+| `sources/source-pack.md` | 来源搜索与提取 | `research-extract-evidence` / MCP 网页搜索 |
+| `sources/evidence-map.md` | 生成证据地图 | `research-extract-evidence` |
+| `sources/notes/*.md` | 来源精读笔记 | `research-write-source-note` |
+| `sources/claims/*.md` | 提取可验证主张 | `research-extract-evidence` |
+| `decision-criteria.md`（仅 decision） | 决策标准 | `research-build-decision-criteria` |
+| `draft.md` | 生成研究草稿 | 按 task_type 调用 `research-write-primitive-draft` / `research-write-synthesis-draft` / `research-write-decision-draft` |
+| `review.md` | 生成评审 | `openspec-build-review` |
+| `publish.md` | 生成发布映射 | `publish-agent` / 内联逻辑 |
+| `knowledge/**/artifact.md` | 写入最终产物 | 按 publish.md 映射写入 |
+
+**Synthesis 依赖处理**：
+如果当前 change 是 synthesis 类型且 `depends_on` 列出了其他 changes，必须先确保被依赖的 changes 已完成（即已有 `knowledge/**` 产出），再继续。
+
+**Decision 特殊流程**：
+如果是 decision 类型，流程为：`decision-criteria.md -> draft.md（含 Verdict Draft 章节）-> decision-verdict.md -> knowledge/decisions/**/verdict.md`。
+
 ## 完成总结
 
 汇报：
@@ -110,5 +139,5 @@ request.md -> plan.md -> sources/source-pack.md -> sources/evidence-map.md -> [n
 - 当前任务拆解为几个 changes
 - 每个 change 的 `task_type`（primitive / synthesis / decision）
 - 每个 change 的路径
-- request.md 与 plan.md 的生成状态
-- 是否建议用户调用 `/spec-research-step` 推进下一步
+- 最终 Knowledge artifact 的写入路径
+- 每个 change 的关键结论摘要（2-3 句）
