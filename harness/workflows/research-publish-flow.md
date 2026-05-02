@@ -1,6 +1,7 @@
-# Research Publish Flow — `/spec-research-publish` 执行规约
+# Research Publish Flow — `/spec-research-step` publish 阶段执行规约
 
-**对应 Command**：`/spec-research-publish`
+**对应 Command**：`/spec-research-step`
+**阶段**：publish
 **输出**：`publish.md`、`knowledge/**/artifact.md`、`knowledge/decisions/**/verdict.md`
 
 ---

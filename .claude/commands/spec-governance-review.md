@@ -15,31 +15,33 @@ argument-hint: "[scope | target-files]"
 - 术语、命令、路径、文件名、schema key 与关键技术标识符优先保留英文。
 - 不要使用英文过程提示句，例如 `Let me...`、`Now I will...`。
 
-## OpenSpec Research Flow Contract
+## Command 定位
 
-本命令必须遵守当前仓库的 `blockchain-research` schema。
+`/spec-governance-review` 是治理入口，不执行普通 research artifact flow。
 
-主流程：
+它负责：
 
-```text
-request.md -> plan.md -> sources/source-pack.md -> sources/evidence-map.md -> [notes/<source-slug>.md]* -> [claims/<claim-slug>.md]* -> draft.md -> review.md -> publish.md -> knowledge/**
-```
+- 审查 OpenSpec / Harness / command / agent / skill / hook / script 的职责边界
+- 发现 stale reference、duplicated policy、routing gap、loading overreach
+- 按需调用 governance review 或 spec system audit agent
+- 输出治理问题清单、修复建议，或在高置信范围内执行小修复
 
-执行前必须读取：
+它不负责：
 
-- `openspec/config.yaml`
-- `openspec/schemas/blockchain-research/schema.yaml`
-- 当前 change 的 `change.yaml`
-- `openspec/schemas/blockchain-research/profiles/<task_type>.schema.yaml`
-- `openspec/schemas/blockchain-research/operations/<change_operation>.schema.yaml`
+- 生成普通 research `request.md` / `plan.md` / `draft.md`
+- 收集来源或写研究正文
+- 发布 `knowledge/**`
 
-硬性约束：
+## 必读文件
 
-- `draft.md` 是当前 change 的唯一主候选产物。
-- 不得生成 `work-products/*.md`。
-- 不得直接写 `knowledge/**`，除非当前命令是 `/spec-research-publish`，且 `publish.md` 已定义合法映射。
-- 复杂任务必须拆成多个 child changes。
-- decision 任务必须明确 `decision-criteria.md -> draft.md#Verdict Draft -> decision-verdict.md -> knowledge/decisions/**/verdict.md` 的关系。
+| 文件 | 作用 |
+|---|---|
+| `docs/governance/openspec-harness-boundary.md` | 判断 OpenSpec / Harness / command 分层 |
+| `harness/governance/command-skill-boundary.md` | 判断 command、skill、workflow、rule、hook 边界 |
+| `harness/governance/agent-boundaries.md` | 判断 multi-agent 与 capsule 边界 |
+| `.claude/agents/CONTRACT.md` | 修改或审查 agent 时校验最小合同 |
+| `harness/workflows/governance-review-workflow.md` | 治理评审执行流程 |
+| `harness/workflows/_index.yaml`、`harness/rules/_phase_index.yaml` | 检查 workflow / phase 引用链 |
 
 ## 可用 Skill packages
 

@@ -58,11 +58,11 @@ OpenSpec 区块链研究协作的导航入口。
 | 任务 | 主入口 | 主要产出 |
 |------|--------|----------|
 | 端到端研究（request → plan → draft → review → apply） | `harness/workflows/research-pipeline.md` | 完整 change 产物链 + 长期 artifact |
-| 创建新研究 | `harness/workflows/intake-workflow.md` | `openspec/changes/<id>/request.md` |
+| 创建新研究 | `harness/workflows/research-intake-routing.md` | `openspec/changes/<id>/request.md` |
 | 收集与验证来源 | `harness/workflows/source-workflow.md` | `openspec/changes/<id>/sources/` |
 | 正式图表 | `harness/workflows/diagram-workflow.md` | `openspec/changes/<id>/diagrams/` |
 | 评审研究产出 | `harness/workflows/research-step-execution.md` | `openspec/changes/<id>/review.md` |
-| Apply 到长期知识 | `openspec/config.yaml` apply 段 + `harness/workflows/research-publish-flow.md` | `knowledge/analysis/**` 或 `knowledge/decisions/**` |
+| Apply 到长期知识 | `openspec/config.yaml` apply 段 + `harness/workflows/research-publish-flow.md`（由 `/spec-research-step` publish 阶段触发） | `knowledge/analysis/**` 或 `knowledge/decisions/**` |
 | 更新现有知识 | `harness/workflows/update-existing-knowledge.md` | `knowledge/` 增量更新 |
 | 修改规约分层或治理结构 | `docs/governance/openspec-harness-boundary.md` + `harness/workflows/governance-review-workflow.md` | `review/governance-review.md` |
 | 规约体系卫生审计 | `harness/workflows/governance-review-workflow.md` | 审计总结或报告 |

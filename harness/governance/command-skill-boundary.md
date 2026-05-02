@@ -20,15 +20,14 @@
 | Command | Primary Skills / Workflow |
 |---|---|
 | `/spec-research` | `openspec-route-research-change`、`openspec-init-change`、`harness/workflows/research-pipeline.md`、agent capsules |
-| `/spec-research-step` | `openspec-build-research-support`、`research-extract-evidence`、`research-write-source-note`、`openspec-build-draft`、`openspec-build-review` |
-| `/spec-research-publish` | `openspec-build-publish-plan`、`publish-validate-targets`、`publish-render-artifact`、`publish-render-verdict`、`publish-merge-knowledge` |
+| `/spec-research-step` | `openspec-build-research-support`、`research-extract-evidence`、`research-write-source-note`、`openspec-build-draft`、`openspec-build-review`、`openspec-build-publish-plan`、`publish-validate-targets`、`publish-render-artifact`、`publish-render-verdict`、`publish-merge-knowledge` |
 | `/spec-governance-review` | `governance-review-system`、`governance-review-boundaries`、`governance-cleanup-legacy` |
 
 ## Workflow 与 Command 的关系
 
 - Workflow 文件描述**怎么做**，但不直接作为用户入口
 - Command 文件决定**什么时候调用哪个 workflow**
-- 一个 command 可对应多个 workflow（如 `/spec-research-step` 对应 `research_step_execution`）
+- 一个 command 可对应多个 workflow（如 `/spec-research-step` 对应 `research_step_execution` 与 `research_publish_flow`）
 - 一个 workflow 可被多个 command 间接引用（如 `source-reading-workflow.md` 被 intake 和 step 都引用）
 
 ## Rule 与 Workflow 的关系

@@ -35,10 +35,9 @@
 | 入口 | 职责 | 引用的 workflow |
 |---|---|---|
 | `/spec-research` | 端到端 orchestrator | 本文件 |
-| `/spec-research-step` | 单 change 下一阶段推进 | `research-step-execution.md` |
-| `/spec-research-publish` | 发布到 `knowledge/**` | `research-publish-flow.md` |
+| `/spec-research-step` | 单 change 下一阶段推进，含 publish | `research-step-execution.md` + `research-publish-flow.md` |
 
-`/spec-research` 可以自动串起 intake、step、publish；但具体阶段规则仍由被引用 workflow 和 phase rules 承担。
+`/spec-research` 可以自动串起 intake、step 和 publish capsule；具体阶段规则仍由被引用 workflow 和 phase rules 承担。
 
 ---
 
@@ -78,7 +77,7 @@
    - verdict 为 `needs revision` 时停止并回报 blocker。
 
 7. **Publish capsule**
-   - review verdict 为 `approved` 或 `approved with minor fixes` 后，主会话调用 `publish-agent` 或 `/spec-research-publish`。
+   - review verdict 为 `approved` 或 `approved with minor fixes` 后，主会话调用 `publish-agent` 或 `/spec-research-step` 的 publish 阶段。
    - 按 `research-publish-flow.md` 生成 `publish.md` 并写入合法 `knowledge/**` 目标。
 
 ---

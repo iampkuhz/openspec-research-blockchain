@@ -88,8 +88,7 @@
 | Command | Skill packages |
 |---|---|
 | `/spec-research` | `openspec-route-research-change`, `openspec-init-change`, `openspec-build-request-plan` |
-| `/spec-research-step` | `openspec-build-research-support`, `research-extract-evidence`, `research-write-source-note`, `openspec-build-draft`, `openspec-build-review` |
-| `/spec-research-publish` | `openspec-build-publish-plan`, `publish-validate-targets`, `publish-render-artifact`, `publish-render-verdict`, `publish-merge-knowledge` |
+| `/spec-research-step` | `openspec-build-research-support`, `research-extract-evidence`, `research-write-source-note`, `openspec-build-draft`, `openspec-build-review`, `openspec-build-publish-plan`, `publish-validate-targets`, `publish-render-artifact`, `publish-render-verdict`, `publish-merge-knowledge` |
 | `/spec-governance-review` | `governance-review-system`, `governance-review-boundaries`, `governance-cleanup-legacy` |
 
 ---

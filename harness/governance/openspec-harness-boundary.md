@@ -35,7 +35,7 @@
 
 - Command 负责接收用户需求、判断 change 类型、初始化 change
 - Command 不应包含具体的写作步骤或质量规则
-- Active commands：`/spec-research`、`/spec-research-step`、`/spec-research-publish`、`/spec-governance-review`
+- Active commands：`/spec-research`、`/spec-research-step`、`/spec-governance-review`
 
 ### 4. Skill 是可复用能力
 

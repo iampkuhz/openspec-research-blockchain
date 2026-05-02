@@ -21,9 +21,9 @@
 |---|---|---|
 | `research-pipeline.md` | `/spec-research` | 端到端研究编排与 agent capsule 调度 |
 | `research-intake-routing.md` | `/spec-research` | 研究请求接入、task_type 判断、change 初始化、request/plan 生成 |
-| `research-step-execution.md` | `/spec-research-step` | 自动下一步判断、sources/draft/review 生成 |
+| `research-step-execution.md` | `/spec-research-step` | 自动下一步判断、sources/draft/review/publish 生成 |
 | `source-workflow.md` | — | 来源收集、链接验证与 evidence map 阶段流程 |
-| `research-publish-flow.md` | `/spec-research-publish` | publish 校验、knowledge artifact 生成 |
+| `research-publish-flow.md` | `/spec-research-step` publish 阶段 | publish 校验、knowledge artifact 生成 |
 | `source-reading-workflow.md` | — | task_type=source_reading 的执行流程 |
 | `primitive-workflow.md` | — | task_type=primitive 的执行流程 |
 | `synthesis-workflow.md` | — | task_type=synthesis 的执行流程 |

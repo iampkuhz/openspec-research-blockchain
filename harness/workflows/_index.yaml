@@ -2,7 +2,7 @@
 
 version: "2.0"
 description: |
-  Active workflow index，对齐 spec-research / spec-research-step / spec-research-publish / spec-governance-review command 体系。
+  Active workflow index，对齐 spec-research / spec-research-step / spec-governance-review command 体系。
   当 workflow 支持 multi-agent 执行时，命令层和协作入口还应同时读取
   `.claude/agents/` 目录中的 agent 合同。
 
@@ -40,6 +40,9 @@ workflows:
       - claims/*.md
       - draft.md
       - review.md
+      - publish.md
+      - knowledge/**/artifact.md
+      - knowledge/decisions/**/verdict.md
 
   source_workflow:
     path: harness/workflows/source-workflow.md
@@ -52,7 +55,8 @@ workflows:
 
   research_publish_flow:
     path: harness/workflows/research-publish-flow.md
-    command: /spec-research-publish
+    command: /spec-research-step
+    stage: publish
     outputs:
       - publish.md
       - knowledge/**/artifact.md

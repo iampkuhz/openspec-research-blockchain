@@ -1,7 +1,7 @@
 # Research Step Execution — `/spec-research-step` 执行规约
 
 **对应 Command**：`/spec-research-step`
-**输出**：`sources/source-pack.md`、`sources/evidence-map.md`、`notes/*.md`、`claims/*.md`、`draft.md`、`review.md`
+**输出**：`sources/source-pack.md`、`sources/evidence-map.md`、`notes/*.md`、`claims/*.md`、`draft.md`、`review.md`、`publish.md`、`knowledge/**`
 
 ---
 
@@ -28,16 +28,23 @@ elif missing draft.md:
 elif missing review.md:
   → build review.md
 
+elif review approved and missing publish.md:
+  → build publish.md
+
+elif review approved and publish targets not written:
+  → publish to knowledge/**
+
 else:
-  → report ready for publish（建议调用 /spec-research-publish）
+  → report completed
 ```
 
 ## 执行原则
 
-1. **不写 knowledge/**：step 阶段只产出 change 目录下的过程产物
+1. **只有 publish 阶段写 knowledge/**：sources / draft / review 只产出 change 目录下的过程产物
 2. **不生成 work-products/*.md**：统一使用 draft.md 作为主候选产物
 3. **如果发现多个 final artifacts**：停止并建议拆 child changes
 4. **按 plan 声明执行**：只做 plan.md 中声明的研究范围和图表规划
+5. **publish 必须通过 review gate**：无 `review.md` 或 verdict 不通过时不得写 `knowledge/**`
 
 ## 各步产出说明
 
@@ -86,7 +93,25 @@ else:
 - high severity 问题清单
 - 修复建议
 
+### build publish
+
+产出：`publish.md`
+- draft → knowledge 的 from/to 映射
+- publish target 类型（artifact / verdict）
+- traceability 保留说明
+
+### publish to knowledge
+
+产出：
+- `knowledge/**/artifact.md`
+- `knowledge/decisions/**/verdict.md`（decision 类型）
+
+要求：
+- 必须存在 `publish.md`
+- 必须符合 `openspec/config.yaml` 与 schema asset model
+- 不得从 `request.md` 或 `plan.md` 直接发布
+
 ## 完成后进入
 
-- 如 review 通过 → 调用 `/spec-research-publish`
 - 如 review 不通过 → 返回 draft 修复后重新 review
+- 如 publish 完成 → 汇报写入路径

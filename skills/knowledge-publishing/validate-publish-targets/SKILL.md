@@ -27,7 +27,7 @@ description: 当 publish.md 已生成，需要校验 publish_targets 的路径�
 
 ## 写入文件
 
-不直接写入文件，输出校验报告供 `/spec-research-publish` 使用。
+不直接写入文件，输出校验报告供 `/spec-research-step` 的 publish 阶段使用。
 
 ## 禁止事项
 
