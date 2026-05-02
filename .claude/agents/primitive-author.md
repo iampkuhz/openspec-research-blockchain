@@ -56,7 +56,7 @@ effort: high
 
 1. 读取 `request.md`、`plan.md`、sources、primitive workflow、draft 模板和 draft / primitive 质量规则。
 2. 校验 `sources/source-pack.md` 与 `sources/evidence-map.md` 已就绪；如缺失，返回 handoff。
-3. 如需要正式图表但 `diagrams/` 未就绪，返回 handoff 给主会话。
+3. 如 plan / draft 正文需要正式图表但 `diagrams/` 未就绪，调用 `diagram-agent` 生成图表 package。
 4. 写 `draft.md`：术语表、实体分类、信任边界、组件结构、核心流程、状态转换、设计取舍、能力边界、有限结论。
 5. 对历史演进类分析，按架构模式变化划分阶段，不机械按版本号或时间窗口切分。
 6. 标注来源等级和 uncertainty，避免无意义数字。
@@ -130,7 +130,7 @@ effort: high
 
 ## 禁止事项
 
-1. 不要调用其他 subagent。
+1. 不要调用其他 subagent（`diagram-agent` 除外）。
 2. 不要超出当前 mode 的写入范围。
 3. 不要横向对比其他 primitive。
 4. 不要做场景决策。

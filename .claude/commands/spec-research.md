@@ -102,8 +102,7 @@ request.md
 |---|---|---|---|
 | intake | 对应 author agent，`mode=intake` | `request.md`、`plan.md`、按需 `decision-criteria.md` | 产物路径、依赖 handoff、blocker |
 | source | `source-evidence-agent` | `sources/source-pack.md`、`sources/evidence-map.md`、按需 `notes/*.md`、`claims/*.md` | sources 是否就绪 |
-| draft | 对应 author agent，`mode=draft` | `draft.md` | draft 是否就绪、是否需要补 sources / diagrams |
-| diagram | `diagram-agent`（按需） | `diagrams/<diagram-id>/` | validation 是否通过 |
+| draft | 对应 author agent，`mode=draft` | `draft.md`、按需 `diagrams/**` | draft 是否就绪；diagram 由 author agent 作为 draft 子步骤直接调用 |
 | review | `review-critic-agent` | `review.md` | verdict 与 high severity blocker |
 | publish | `publish-agent` | `publish.md`、合法 `knowledge/**` targets | 写入路径、归档状态、blocker |
 
@@ -124,7 +123,6 @@ request.md
 
 - synthesis：依赖 primitive draft 未完成时，先推进 primitive child changes。
 - decision：候选方案 primitive / synthesis 未完成时，先补齐依赖；不得让 decision author 独立评估候选方案。
-- diagram：只在 plan / draft 声明需要正式图表，或 author 返回 diagram handoff 时调用。
 
 ## 完成总结
 

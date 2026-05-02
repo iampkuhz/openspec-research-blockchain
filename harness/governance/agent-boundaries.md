@@ -18,7 +18,8 @@ Author agents 的特点：
 - 可以被多次独立调用，但每次调用必须声明 capsule mode
 - `mode=intake` 只写 `request.md`、`plan.md`，完成后停止
 - `mode=draft` 只写 `draft.md`，前置条件是 `sources/` 已就绪
-- 不直接调用 specialist agent；如需 `sources/` 或 `diagrams/`，向主会话返回明确 handoff 需求
+- 如需 `sources/`，向主会话返回明确 handoff 需求
+- 如需正式图表，可直接调用 `diagram-agent`，作为 draft 阶段内的子步骤，不作为独立 capsule
 - 完成后将 draft 交回主会话，由主会话决定是否调用 review-critic-agent
 
 ## Specialist Agents（专长型）
