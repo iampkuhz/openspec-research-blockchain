@@ -31,7 +31,7 @@
 | 步骤 2（创建 Brief） | `simplification-policy.md` | 简化政策 |
 | 步骤 4（校验） | `diagram-review-checklist.md` | 对照评审清单 |
 
-**注意**：规则文件在对话中可能被压缩，**校验前必须重新读取** `diagram-review-checklist.md`。
+**注意**：规则文件在对话首次加载后会被模型缓存，**无需在每次校验前重新读取**。只有当规则文件本身发生变更（如 harness 更新）时才需要重新加载。
 
 ## 主要技能（优先使用）
 
@@ -143,7 +143,9 @@ messages:
 ```
 
 **注意**：
-- Skill 会自动执行完整校验链（brief 校验、覆盖校验、布局校验、渲染校验）
+- Skill 内部已执行 **generate → validate → fix → re-validate 的自循环**（最多 5 次重试）
+- 只需调用一次 skill，等待其返回最终结果
+- skill 返回后只读取最终 `validation.json` 做 contract 判定；不要自行重跑 validation 或再次调用 skill
 - 只有 `validation.json` 显示 `final_status=success` 且 `render_result=ok` 时才能交付
 - 不得绕过 skill 直接手写 PlantUML
 
@@ -151,16 +153,18 @@ messages:
 
 **仅当图表类型为 Architecture Diagram 或 Sequence Diagram 时执行此步骤**。
 
-用户级 skills 会自动执行：
+用户级 skills 内部自循环执行：
 
 1. **brief 校验** - 检查 brief 结构、字段和覆盖范围
-2. **覆盖校验** - 检查所有组件 / 参与者是否落图
-3. **布局校验** - 检查布局方向、对齐线与简化策略
-4. **渲染校验** - 检查 PlantUML 是否可成功渲染
+2. **PlantUML 生成** - 按 render-rules 生成 `.puml`
+3. **覆盖校验** - 检查所有组件 / 参与者是否落图
+4. **布局校验** - 检查布局方向、对齐线与简化策略
+5. **渲染校验** - 检查 PlantUML 是否可成功渲染
+6. **自循环修复** - 若任一步骤失败，解析错误并修复 `.puml`，重跑 2-5，最多 5 次
 
 **注意**：
 - 这些校验属于用户级 skill 内部实现，不在本仓库 `scripts/` 目录
-- 用户级 skills 会自动执行校验流程
+- 用户级 skills 的自循环最多 5 次，超过后以 `blocked` 状态返回
 - `validation.json` 与 `brief.normalized.yaml` 虽是中间产物，但应保留在 change 目录，作为 diagram contract 审计线索
 
 ### 步骤 5：创建 fallback 图表（Unsupported Types）

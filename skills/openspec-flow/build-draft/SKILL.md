@@ -22,7 +22,7 @@ description: 当当前 change 已有 request、plan 与证据材料，需要生�
 ## 输出
 
 - `openspec/changes/<id>/draft.md`
-- `openspec/changes/<id>/diagrams/<diagram-id>/`（如有 PlantUML 图）
+- 不生成新的 `openspec/changes/<id>/diagrams/<diagram-id>/`；如需正式 PlantUML 图，必须先由主会话调用 `diagram-agent` 完成。
 
 ## 必读文件
 
@@ -36,9 +36,9 @@ description: 当当前 change 已有 request、plan 与证据材料，需要生�
 2. 对 mechanism-heavy 内容先写实体分类表（role / component / data / state / external）。
 3. 写图表清单表，明确必需图、回答的问题、可省略的理由。
 4. 先写术语表（表格形式），再写分析正文。
-5. 需要 PlantUML 图时调用全局 skill（`feipi-plantuml-generate-architecture-diagram` / `feipi-plantuml-generate-sequence-diagram`）生成 diagram package。
-6. 在 draft.md 中每个 PlantUML block 前添加 contract comment：`<!-- verified-diagram: package=./diagrams/<id>/validation.json puml=./diagrams/<id>/diagram.puml sha256=<sha256> -->`。
-7. 执行 diagram contract 校验脚本，确认所有图验证通过。
+5. 如果 plan 要求正式 PlantUML 图但 `diagrams/<diagram-id>/validation.json` 缺失或未通过，停止并向主会话返回 `diagram-agent` handoff；不要在 draft skill 内直接调用 PlantUML skill。
+6. 消费已完成的 diagram package，在 draft.md 中每个 PlantUML block 前添加 contract comment：`<!-- verified-diagram: package=./diagrams/<id>/validation.json puml=./diagrams/<id>/diagram.puml sha256=<sha256> -->`。
+7. 只读取最终 `validation.json` 与 `diagram.puml` 做嵌入和 contract 判定；不要重跑 diagram validation 或再次调用 PlantUML skill。
 8. 验证 draft.md 参考资料链接状态，更新 `[已验证]` / `[未验证]` 标记。
 
 ## 禁止事项
@@ -48,6 +48,7 @@ description: 当当前 change 已有 request、plan 与证据材料，需要生�
 - 不生成 `work-products/*.md`。
 - 不手写 PlantUML block 后跳过 diagram contract 流程。
 - 不在 validation.json 未显示 success 时声称图已完成。
+- 不在 draft 阶段直接调用 `feipi-plantuml-generate-architecture-diagram` / `feipi-plantuml-generate-sequence-diagram`；正式图表缺失时返回 handoff。
 
 ## 自检
 
