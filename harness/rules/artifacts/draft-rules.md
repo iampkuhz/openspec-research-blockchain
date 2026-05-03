@@ -29,6 +29,8 @@
 - evidence 不足时必须明确写不确定性
 - 结论只能是 bounded conclusions
 - decision 类型必须包含 Decision Analysis 与 Verdict Draft
+- 不得保留 `[TODO: diag-*]`、`TODO diagram`、`待补图` 等图表占位
+- plan 声明的正式 PlantUML 图表必须已由 `diagrams/<diagram-id>/` package 支撑；fallback 图表必须在 draft 中完成并说明降级理由
 
 ## Traceability 要求
 
@@ -47,3 +49,4 @@
 
 - 阻塞进入 review 阶段
 - 返回缺失章节和 traceability gap 清单
+- 图表 TODO、缺少必需正式图表 package 或 diagram contract 校验失败时，阻塞进入 review / publish 阶段

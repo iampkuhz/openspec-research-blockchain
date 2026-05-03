@@ -22,6 +22,7 @@
 - draft.md 不能被直接复制为 final artifact，必须经过提炼
 - decision verdict 必须追溯到 decision-criteria.md 和 draft.md 的 Verdict Draft
 - 不得绕过 review
+- 不得发布含图表 TODO、缺少必需正式图表 package 或 review 中仍有 blocking diagram issue 的 draft
 - traceability 从 draft 保留到 artifact
 
 ## Traceability 要求
@@ -39,3 +40,4 @@
 - 阻塞写入 knowledge/**
 - 返回不合法的 publish target
 - 要求补全 traceability
+- 要求先补齐 diagram gate 或显式记录合法 fallback 降级

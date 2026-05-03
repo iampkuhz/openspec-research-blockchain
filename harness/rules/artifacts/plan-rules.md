@@ -26,6 +26,8 @@
 - 每条来源附可点击链接或 `[待补链接：原因]`
 - synthesis/decision 类型必须对每个依赖 primitive 声明所需深度
 - 来源规划表包含"验证状态"列
+- 图表规划必须区分正式图表与 fallback 图表：正式 PlantUML 图表需标明 `diagram-agent`、图表类型、必需性和预期 `diagram_id`
+- 如果决定将正式图表降级为 Mermaid / Markdown 表格 / ASCII，必须在 plan 中写明降级理由
 
 ## Traceability 要求
 
@@ -41,3 +43,4 @@
 
 - 阻塞进入 sources / draft 阶段
 - 返回缺失章节和依赖缺口清单
+- 图表规划缺失必需性、类型或 `diagram_id` 时，阻塞进入 draft 阶段

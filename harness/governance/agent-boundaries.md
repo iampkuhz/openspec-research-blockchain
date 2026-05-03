@@ -19,7 +19,7 @@ Author agents 的特点：
 - `mode=intake` 只写 `request.md`、`plan.md`，完成后停止
 - `mode=draft` 只写 `draft.md`，前置条件是 `sources/` 已就绪
 - 如需 `sources/`，向主会话返回明确 handoff 需求
-- 如需正式图表，可直接调用 `diagram-agent`，作为 draft 阶段内的子步骤，不作为独立 capsule
+- 如需正式图表，向主会话返回明确 handoff 需求；由主会话调用 `diagram-agent`
 - 完成后将 draft 交回主会话，由主会话决定是否调用 review-critic-agent
 
 ## Specialist Agents（专长型）

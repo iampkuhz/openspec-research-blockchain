@@ -66,17 +66,25 @@
    - 按 `harness/workflows/source-workflow.md` 生成或补充 `sources/source-pack.md`、`sources/evidence-map.md`、`notes/*.md`、`claims/*.md`。
    - 完成后立即停止。
 
-5. **Draft capsule**
+5. **Diagram capsule（draft 的前置子步骤）**
+   - 在进入 draft capsule 之前，主会话检查 `plan.md` 中的图表规划。
+   - 如果 plan 声明了正式 PlantUML 类型图表（Architecture Diagram / Sequence Diagram），主会话必须先调用 `diagram-agent` 生成图表 package。
+   - diagram-agent 完成后，图表产物位于 `openspec/changes/<change-id>/diagrams/`。
+   - **计划要求的正式图表未完成、`validation.json` 未通过或 draft 仍含图表 TODO 占位时，draft capsule 不得开始写作。**
+   - 如果 plan 声明了 fallback 类型图表（Mermaid / 表格 / ASCII），author agent 在 draft 中直接写入即可。
+
+6. **Draft capsule**
    - 主会话再次调用对应 author agent，声明 `mode=draft`。
-   - 该 capsule 读取 `request.md`、`plan.md`、`sources/` 和按需的 `diagrams/`，只生成或修订 `draft.md`。
+   - 该 capsule 读取 `request.md`、`plan.md`、`sources/` 和 `diagrams/`，只生成或修订 `draft.md`。
    - 如果发现需要更多来源或正式图表，返回 handoff，不自行调用 specialist。
 
-6. **Review capsule**
+7. **Review capsule**
    - draft 冻结后，主会话调用 `review-critic-agent`。
    - 评审结果写入 `review.md`，可按需附带 `review/checklist.yaml`、`review/issues.md`。
    - verdict 为 `needs revision` 时停止并回报 blocker。
+   - 如果 plan 要求的正式图表缺失或 draft 中仍有图表 TODO，占位问题必须按 blocker / high severity 处理，不得作为 medium severity 放行。
 
-7. **Publish capsule**
+8. **Publish capsule**
    - review verdict 为 `approved` 或 `approved with minor fixes` 后，主会话调用 `publish-agent` 或 `/spec-research-step` 的 publish 阶段。
    - 按 `research-publish-flow.md` 生成 `publish.md` 并写入合法 `knowledge/**` 目标。
 
@@ -98,11 +106,13 @@
 |---|---|---|
 | intake | `primitive-author` / `synthesis-author` / `decision-author` | `request.md`、`plan.md`、`decision-criteria.md`（仅 decision 按需） |
 | source | `source-evidence-agent` | `sources/`、`notes/`、`claims/` |
+| diagram | `diagram-agent` | `diagrams/` |
 | draft | `primitive-author` / `synthesis-author` / `decision-author` | `draft.md` |
 | review | `review-critic-agent` | `review.md`，按需 `review/` supporting files |
 | publish | `publish-agent` | `publish.md`、合法 `knowledge/**` targets |
 
 Author agent 可以被多次调用，但每次调用必须是独立上下文，并由主会话声明 capsule mode。
+Author agent 不调用 specialist agent；需要来源或正式图表时返回 handoff，由主会话调度对应 specialist。
 
 ---
 
@@ -123,6 +133,7 @@ Author agent 可以被多次调用，但每次调用必须是独立上下文，�
 
 - task 实际需要多个最终 Knowledge artifact，但尚未拆 child changes。
 - sources 无法支撑高确定性 claim，且无可接受降级策略。
+- plan 要求正式图表但 `diagrams/` 未生成、校验未通过，或 draft 中仍保留图表 TODO。
 - review verdict 为 `needs revision`。
 - publish target 不符合 `openspec/config.yaml` 或 schema asset model。
 - agent 需要写入自身 capsule 范围之外的文件。
@@ -137,4 +148,5 @@ Author agent 可以被多次调用，但每次调用必须是独立上下文，�
 - 每个 change 的 `task_type`
 - 每个 change 的路径
 - 每个 capsule 的完成状态
+- 正式图表 gate 状态（如 plan 声明了 diagram）
 - 写入的最终 `knowledge/**` 路径

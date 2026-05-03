@@ -49,7 +49,7 @@
 
 | 检查项 | 是/否 | 备注 |
 |--------|------|------|
-| PlantUML block 前是否有 `<!-- diagram: ... -->` comment？ | | |
+| PlantUML block 前是否有 `<!-- verified-diagram: ... -->` contract comment？ | | |
 | comment 格式是否正确？ | | |
 | `puml` 路径是否指向存在的 `diagram.puml`？ | | |
 
@@ -72,13 +72,13 @@ ls openspec/changes/<change-id>/diagrams/<diagram-id>/diagram.puml
 | 是否有手写的 `@startuml ... @enduml` 但无 diagram.puml？ | | |
 
 **检测技巧**：
-- 搜索 `@startuml` 但无 `<!-- diagram:` → 可能为手写
+- 搜索 `@startuml` 但无 `<!-- verified-diagram:` → 可能为手写
 - 搜索 `stateDiagram` / `activityDiagram` in PlantUML → unsupported type
 - 有 diagram 但无 `openspec/changes/<change-id>/diagrams/<id>/diagram.puml` → 可能为手写
 
 **违规处理**：
 - ❌ Unsupported type 使用 PlantUML → **Major**，建议降级为 Mermaid/表格/ASCII
-- ❌ 手写 PlantUML 无 contract → **Blocker**，必须删除或重新执行 skill
+- ❌ 手写 PlantUML 无 `verified-diagram` contract → **Blocker**，必须删除或重新执行 skill
 
 ---
 

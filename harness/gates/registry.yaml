@@ -64,10 +64,12 @@ gates:
         - draft.md
     validators:
       - draft_contract
+      - draft_diagram_contract
       - markdown_sections
       - traceability
     rule_refs:
       - harness/rules/artifacts/draft-rules.md
+      - harness/rules/diagrams/diagram-policy.md
       - harness/rules/research/traceability-rules.md
     output:
       path: validation/post-draft.json

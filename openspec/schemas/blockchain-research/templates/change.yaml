@@ -44,6 +44,9 @@ artifacts:
   claims:
     pattern: claims/*.md
     required: false
+  diagrams:
+    pattern: diagrams/*/
+    required: false
   draft:
     path: draft.md
     required: true
@@ -60,6 +63,7 @@ validators:
     - markdown_sections
   profile:
     - traceability
+    - draft_diagram_contract
   operation:
     - publish_targets
 

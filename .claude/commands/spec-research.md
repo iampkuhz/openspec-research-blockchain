@@ -58,6 +58,7 @@ request.md
   -> sources/source-pack.md
   -> sources/evidence-map.md
   -> [notes/*.md] / [claims/*.md]
+  -> [diagrams/<diagram-id>/]*
   -> draft.md
   -> review.md
   -> publish.md
@@ -102,9 +103,12 @@ request.md
 |---|---|---|---|
 | intake | 对应 author agent，`mode=intake` | `request.md`、`plan.md`、按需 `decision-criteria.md` | 产物路径、依赖 handoff、blocker |
 | source | `source-evidence-agent` | `sources/source-pack.md`、`sources/evidence-map.md`、按需 `notes/*.md`、`claims/*.md` | sources 是否就绪 |
-| draft | 对应 author agent，`mode=draft` | `draft.md`、按需 `diagrams/**` | draft 是否就绪；diagram 由 author agent 作为 draft 子步骤直接调用 |
+| diagram | `diagram-agent` | `diagrams/**` | plan 要求的正式图表是否就绪 |
+| draft | 对应 author agent，`mode=draft` | `draft.md` | draft 是否就绪；只消费已完成的 `diagrams/**` |
 | review | `review-critic-agent` | `review.md` | verdict 与 high severity blocker |
 | publish | `publish-agent` | `publish.md`、合法 `knowledge/**` targets | 写入路径、归档状态、blocker |
+
+Author agent 不调用 specialist agent。plan 或 draft 需要正式图表时，author agent 返回 handoff，主会话再调用 `diagram-agent`。
 
 不要把 subagent 的 evidence gap 细节、评分过程、traceability 审计过程或图表内部生成步骤返回主会话；这些内容应写入对应 artifact。
 

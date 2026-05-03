@@ -201,20 +201,16 @@ stateDiagram-v2
 
 **PlantUML 类型（Architecture/Sequence）**：
 
-在 `draft.md` / `artifact.md` 中嵌入完整 PlantUML 代码块：
+在 `draft.md` / `artifact.md` 中嵌入完整 PlantUML 代码块，且代码块前必须有 verified diagram contract comment：
 
-```markdown
+````markdown
+<!-- verified-diagram: package=./diagrams/<diagram-id>/validation.json puml=./diagrams/<diagram-id>/diagram.puml sha256=<sha256> -->
 ```plantuml
 @startuml
 ...
 @enduml
 ```
-```
-
-可选添加 comment 标注来源：
-```markdown
-<!-- diagram: Fabric-X Architecture，来源 L1-01, L1-02, L1-03 -->
-```
+````
 
 **Fallback 类型（Mermaid/表格/ASCII）**：
 
@@ -237,7 +233,7 @@ stateDiagram-v2
 - `openspec/changes/<change-id>/diagrams/<diagram-id>/diagram.puml`（必需）— PlantUML 源码，skill 执行中间产物
 - `openspec/changes/<change-id>/diagrams/<diagram-id>/diagram.svg`（可选）— 预渲染结果，方便预览
 - `openspec/changes/<change-id>/diagrams/<diagram-id>/validation.json`（必需）— validation 合同，供 `validate_draft_diagram_contract.py` 使用
-- `draft.md` / `artifact.md` 中嵌入的完整 PlantUML 代码块（正式交付）
+- `draft.md` / `artifact.md` 中嵌入的完整 PlantUML 代码块和 `verified-diagram` contract comment（正式交付）
 
 **Fallback 类型**：
 - Mermaid 代码块（直接嵌入 draft.md / artifact.md）

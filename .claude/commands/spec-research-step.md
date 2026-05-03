@@ -58,6 +58,7 @@ request.md
   -> sources/source-pack.md
   -> sources/evidence-map.md
   -> [notes/*.md] / [claims/*.md]
+  -> [diagrams/<diagram-id>/]*
   -> draft.md
   -> review.md
   -> publish.md
@@ -84,6 +85,7 @@ request.md
 | plan 要求 notes 且缺少 `notes/*.md` | source capsule | `source-evidence-agent` 或 source note skill |
 | plan 要求 claims 且缺少 `claims/*.md` | source capsule | `source-evidence-agent` 或 evidence skill |
 | decision 缺少 `decision-criteria.md` | decision intake support | `decision-author mode=intake` 或 `research-build-decision-criteria` |
+| plan 要求正式 PlantUML 图表且 `diagrams/` 缺失或校验未通过 | diagram capsule | `diagram-agent` |
 | 缺少 `draft.md` | draft capsule | 对应 author agent `mode=draft` |
 | 缺少 `review.md` | review capsule | `review-critic-agent` |
 | review 未通过 | 停止 | 返回 repair blocker |
@@ -144,6 +146,18 @@ command 只检查：
 - `sources/evidence-map.md` 是否存在
 - blocker 是否影响 draft
 
+### diagrams
+
+当 `plan.md` 声明正式 PlantUML 图表、Architecture Diagram、Sequence Diagram 或显式要求 `diagram-agent` 时，draft 前先调用 `diagram-agent`。
+
+command 只检查：
+
+- `diagrams/<diagram-id>/diagram.puml` 是否存在
+- `diagrams/<diagram-id>/validation.json` 是否存在且通过
+- plan 中每个必需正式图表是否有对应 package
+
+如果图表类型已在 plan 中正式降级为 Mermaid / Markdown 表格 / ASCII，则不需要调用 `diagram-agent`，但 draft 必须完成 fallback 图表并说明降级理由。
+
 ### draft
 
 按 `task_type` 调用对应 author agent 的 `mode=draft`：
@@ -152,7 +166,7 @@ command 只检查：
 - `synthesis` → `synthesis-author`
 - `decision` → `decision-author`
 
-command 只检查 `draft.md` 是否生成、是否返回补 sources / diagrams handoff。
+进入 draft 前必须先完成 diagrams gate。command 只检查 `draft.md` 是否生成、是否返回补 sources / diagrams handoff。
 
 ### review
 
@@ -163,6 +177,7 @@ command 只检查 `draft.md` 是否生成、是否返回补 sources / diagrams h
 - `needs revision`
 
 `needs revision` 时停止，不进入 publish。
+如果 review 指出 plan 要求的正式图表缺失、`diagrams/` package 为空、或 draft 中仍有图表 TODO，占位问题视为 blocking，不进入 publish。
 
 ### publish
 
@@ -178,9 +193,10 @@ publish 阶段必须：
 
 1. 检查 `draft.md` 存在。
 2. 检查 `review.md` verdict 为 `approved` 或 `approved with minor fixes`。
-3. 生成或校验 `publish.md`。
-4. 校验 publish targets 符合 schema 与 `openspec/config.yaml`。
-5. 写入合法 `knowledge/**/artifact.md` 和 decision `verdict.md`（如适用）。
+3. 检查 draft 不含图表 TODO，且计划要求的正式图表 gate 已满足。
+4. 生成或校验 `publish.md`。
+5. 校验 publish targets 符合 schema 与 `openspec/config.yaml`。
+6. 写入合法 `knowledge/**/artifact.md` 和 decision `verdict.md`（如适用）。
 
 ## 禁止事项
 

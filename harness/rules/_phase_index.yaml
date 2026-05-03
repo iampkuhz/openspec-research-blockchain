@@ -70,6 +70,7 @@ phases:
         - writing/summary-rules
         - artifacts/draft-rules
       workflows:
+        - diagram-workflow
         - research-step-execution
 
   review:

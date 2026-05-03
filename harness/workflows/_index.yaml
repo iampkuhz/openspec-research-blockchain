@@ -16,6 +16,7 @@ workflows:
       - plan.md
       - sources/source-pack.md
       - sources/evidence-map.md
+      - diagrams/**/*
       - draft.md
       - review.md
       - publish.md
@@ -38,6 +39,7 @@ workflows:
       - sources/evidence-map.md
       - notes/*.md
       - claims/*.md
+      - diagrams/**/*
       - draft.md
       - review.md
       - publish.md
@@ -52,6 +54,12 @@ workflows:
       - sources/evidence-map.md
       - notes/*.md
       - claims/*.md
+
+  diagram_workflow:
+    path: harness/workflows/diagram-workflow.md
+    stage: draft
+    outputs:
+      - diagrams/**/*
 
   research_publish_flow:
     path: harness/workflows/research-publish-flow.md

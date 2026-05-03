@@ -36,6 +36,11 @@ validators:
     input_contract: artifact_file
     output_contract: gate_result
 
+  draft_diagram_contract:
+    script: scripts/hooks/validators/draft_diagram_contract.py
+    input_contract: change_context
+    output_contract: gate_result
+
   review_readiness:
     script: scripts/hooks/validators/review_readiness.py
     input_contract: artifact_file

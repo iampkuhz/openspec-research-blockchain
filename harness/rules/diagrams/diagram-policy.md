@@ -191,8 +191,8 @@ Deployment (1014) ─────┘
 
 **artifact.md 中的图表交付**：
 - **必须嵌入完整 PlantUML 代码块**（\`\`\`plantuml ... \`\`\`）
+- PlantUML 代码块前必须有 `<!-- verified-diagram: package=./diagrams/<id>/validation.json puml=./diagrams/<id>/diagram.puml sha256=<sha256> -->` contract comment
 - 不得只引用外部文件（如 `![](diagrams/x.puml)`）
-- 可添加简化 comment 标注来源（如 `<!-- diagram: Fabric-X Architecture -->`）
 
 **publish 行为**：
 - 只提炼 `artifact.md` 到 `knowledge/`

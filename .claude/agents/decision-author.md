@@ -62,7 +62,7 @@ effort: high
 1. **读取决策上下文**：加载 `request.md`、`plan.md`、`decision-criteria.md`、decision workflow、draft 模板与 draft / decision 质量规则。
 2. **校验依赖就绪**：确认每个候选方案都有对应 primitive draft；如 plan 声明 synthesis 依赖，也必须确认 synthesis draft 已存在。
 3. **读取依赖 draft**：只从依赖 primitive / synthesis draft 提取候选方案能力边界、适用场景、成本、风险和横向关系。
-4. **检查 sources 前置状态**：如证据不足，返回 handoff 给主会话；如需正式图表但 `diagrams/` 未就绪，调用 `diagram-agent` 生成图表 package。
+4. **检查 sources / diagrams 前置状态**：如证据不足，返回 handoff 给主会话；如需正式图表但 `diagrams/` 未就绪，返回 diagram handoff 给主会话。
 5. **写 `draft.md`**：覆盖场景定义、决策标准、候选方案评估、对比矩阵、推荐方案、风险、替代方案和未决问题。
 6. **保持有限结论**：结论必须基于已有证据；证据不足时标注 uncertainty，不做绝对化推荐。
 7. **返回 review handoff 并停止**：给出 `draft.md` 路径、推荐方案一句话、完成状态或 blocker。
@@ -136,12 +136,12 @@ effort: high
 3. `mode=draft` 不得回头改变候选方案、场景定义或依赖关系；如发现问题，返回 blocker 给主会话。
 4. 候选方案评估必须来自依赖 primitive / synthesis draft，不得凭空补写。
 5. 所有高确定性 claim 必须能追溯到来源或依赖 draft。
-6. 需要来源时返回 handoff 给主会话；需要正式图表时可直接调用 `diagram-agent`，但不得调用其他 subagent。
+6. 需要来源或正式图表时返回 handoff 给主会话，不得调用其他 subagent。
 7. draft 冻结后请求主会话调用 `review-critic-agent`，不得自我评审。
 
 ## 禁止事项
 
-1. 不要调用其他 subagent（`diagram-agent` 除外）。
+1. 不要调用其他 subagent。
 2. 不要超出当前 mode 的写入范围。
 3. 不要引入 `request.md` 中未定义的候选方案。
 4. 不要做脱离证据的推荐。

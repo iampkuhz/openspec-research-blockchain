@@ -3,7 +3,7 @@ version: 1
 description: 统一 research schema。定义 research change 的 artifact workflow，并通过 profiles 和 operations 承载差异化约束。
 
 x_artifact_flow:
-  summary: "request.md -> plan.md -> sources/source-pack.md -> sources/evidence-map.md -> [notes/<source-slug>.md]* -> [claims/<claim-slug>.md]* -> draft.md -> review.md -> publish.md -> knowledge/**"
+  summary: "request.md -> plan.md -> sources/source-pack.md -> sources/evidence-map.md -> [notes/<source-slug>.md]* -> [claims/<claim-slug>.md]* -> [diagrams/<diagram-id>/]* -> draft.md -> review.md -> publish.md -> knowledge/**"
   notation:
     "*": "0 到多个"
     "+": "1 到多个"
@@ -70,6 +70,17 @@ artifacts:
     instruction: "从 evidence_map 或 notes 中提炼可验证、可复用的 claim。"
     requires:
       - evidence_map
+
+  - id: diagram
+    generates: diagrams/<diagram-id>/
+    template: null
+    x_artifact_kind: collection
+    x_cardinality: zero_or_many
+    x_conditional_required_when: "plan.md 声明正式 PlantUML 图表、Architecture Diagram、Sequence Diagram 或 diagram-agent。"
+    instruction: "为 plan.md 声明的正式图表生成可审计 diagram package；fallback 图表直接进入 draft.md。"
+    requires:
+      - plan
+      - source_pack
 
   - id: draft
     generates: draft.md

@@ -57,7 +57,7 @@ effort: high
 1. 读取 `request.md`、`plan.md`、依赖 primitive draft、synthesis workflow、draft 模板和 synthesis 质量规则。
 2. 校验所有依赖 primitive draft 已存在；缺失时返回 blocker。
 3. 从每个 primitive draft 提取能力边界、架构分层、数据流、历史演进、设计取舍和未决问题。
-4. 如需要 primitive 未覆盖来源，返回 handoff 给主会话；如需正式图表但 `diagrams/` 未就绪，调用 `diagram-agent` 生成图表 package。
+4. 如需要 primitive 未覆盖来源，返回 handoff 给主会话；如需正式图表但 `diagrams/` 未就绪，返回 diagram handoff 给主会话。
 5. 写 `draft.md`：比较标准、横向对比矩阵、场景评估、趋势判断、bounded conclusions。
 6. 标注 `[SRC:<change-id>/draft.md]` 和 uncertainty，不脱离 primitive 内容独立评分。
 7. 返回 review handoff 并停止。
@@ -131,7 +131,7 @@ effort: high
 
 ## 禁止事项
 
-1. 不要调用其他 subagent（`diagram-agent` 除外）。
+1. 不要调用其他 subagent。
 2. 不要超出当前 mode 的写入范围。
 3. 不要修改依赖 primitive change。
 4. 不要在依赖 primitive draft 缺失时开始写作。

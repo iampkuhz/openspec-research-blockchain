@@ -22,6 +22,9 @@ elif plan requires source digestion and missing notes:
 elif plan requires claims and missing claims:
   → build claims/*.md
 
+elif plan requires formal diagrams and missing/invalid diagrams:
+  → build diagrams
+
 elif missing draft.md:
   → build draft.md
 
@@ -45,6 +48,7 @@ else:
 3. **如果发现多个 final artifacts**：停止并建议拆 child changes
 4. **按 plan 声明执行**：只做 plan.md 中声明的研究范围和图表规划
 5. **publish 必须通过 review gate**：无 `review.md` 或 verdict 不通过时不得写 `knowledge/**`
+6. **正式图表是 draft 前置 gate**：plan 声明需通过 `diagram-agent` / PlantUML skill 生成的图表时，必须先完成 `diagrams/` package；缺图不得进入 draft / review / publish
 
 ## 各步产出说明
 
@@ -75,6 +79,15 @@ else:
 - 提取关键主张
 - 每个 claim 必须有 source 支撑
 
+### build diagrams
+
+产出：`diagrams/<diagram-id>/`
+- 仅当 `plan.md` 明确声明正式 PlantUML 图表、Architecture Diagram、Sequence Diagram 或需要 `diagram-agent` 时触发。
+- 由主会话调用 `diagram-agent`，并按 `harness/workflows/diagram-workflow.md` 生成 diagram package。
+- 每个正式图表至少包含 `brief.yaml`、`diagram.puml`、`validation.json`。
+- `validation.json` 必须显示生成和渲染通过；未通过时返回 blocker。
+- 若 plan 将某图正式降级为 Mermaid / Markdown 表格 / ASCII，则不需要 `diagrams/` package，但 draft 必须记录降级理由。
+
 ### build draft
 
 产出：`draft.md`
@@ -84,6 +97,7 @@ else:
 - 声明 target knowledge path
 - 包含 Evidence 与 Traceability
 - decision 类型必须包含 Decision Analysis 与 Verdict Draft
+- 不得包含图表 TODO 占位；plan 要求的正式图表必须已由 `diagrams/` package 支撑，fallback 图表必须直接完成
 - **不生成 work-products/*.md**
 
 ### build review
@@ -92,6 +106,7 @@ else:
 - 评审结论（approved / approved with minor fixes / needs revision）
 - high severity 问题清单
 - 修复建议
+- plan 要求的正式图表缺失、`diagrams/` package 为空或 draft 仍有图表 TODO 时，必须判为阻塞问题，不得放行 publish
 
 ### build publish
 
@@ -110,6 +125,7 @@ else:
 - 必须存在 `publish.md`
 - 必须符合 `openspec/config.yaml` 与 schema asset model
 - 不得从 `request.md` 或 `plan.md` 直接发布
+- 不得发布含图表 TODO 或未满足正式图表 gate 的 draft
 
 ## 完成后进入
 
