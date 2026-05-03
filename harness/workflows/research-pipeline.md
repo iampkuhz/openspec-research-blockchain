@@ -140,6 +140,51 @@ Author agent 不调用 specialist agent；需要来源或正式图表时返回 h
 
 ---
 
+## Agent 后台等待保护
+
+**背景**：当主 orchestrator 使用 `run_in_background: true` 启动 subagent 后，不得在主会话中进行 busy-wait 轮询（反复检查 agent 是否完成）。每次轮询都是一次完整的 LLM API 调用，属于严重浪费。
+
+本节是 `harness/governance/agent-boundaries.md` 中"调用与等待策略"在 `/spec-research` 端到端流程里的落地说明。
+
+**强制规则**：
+
+1. **单个 capsule 默认前台调用**：只要当前关键路径上只有一个 agent 需要执行，就使用 `run_in_background: false`（即 `Agent` tool 的默认行为）。Agent tool 调用本身会阻塞直到 subagent 完成，主会话自动收到结果，零额外调用。
+
+2. **后台只用于真实并行**：只有多个 child changes 或多个彼此独立的 capsule 可以并行推进时，才使用 `run_in_background: true`。不得因为单个 agent 预计耗时较长就改成后台调用再轮询。
+
+3. **并行时批量发出**：当多个 child changes 需要并行运行独立 agent 时，必须在**同一轮调度**中发出所有 `Agent` 调用。Claude Code 会并发执行这些 agents，并在每个完成时自动向主会话推送通知。主会话收到所有完成通知后自然继续，**不得主动轮询**。
+
+4. **禁止 busy-wait 轮询**：主会话不得反复发送 "继续等待"、"检查 agent 状态"、"agent 完成了吗" 等消息。收到 subagent 完成通知是被动事件，不需要主动检查。
+
+5. **无可推进工作时停止发言**：如果所有下一步都依赖后台 agent 的结果，主会话最多汇报一次"后台任务已启动，等待完成通知"，随后结束当前轮次或安静等待系统通知，不得继续生成等待消息。
+
+6. **长时间等待的降级**：只有当前工具列表明确提供延迟唤醒 / scheduler 能力时，才可设置单次延迟唤醒；否则保持后台任务运行并等待系统完成通知。不得编造 `ScheduleWakeup` 等不存在的工具。
+
+**错误示例**（禁止）：
+```
+主会话: "继续等待后台 source-evidence-agent 完成。"
+主会话: "继续等待。"        ← 浪费调用 #1
+主会话: "继续等待。"        ← 浪费调用 #2
+...（重复 50+ 次）
+```
+
+**正确示例 1**（单个 agent，前台）：
+```
+主会话: Agent(source-evidence-agent, run_in_background: false)
+        ← 自动阻塞，agent 完成后直接收到结果
+```
+
+**正确示例 2**（多个 agent 并行）：
+```
+主会话: 同时发出 2 个 Agent 调用（都 run_in_background: true）
+        ← Claude Code 并发执行，自动推送完成通知
+        ← 收到通知 A
+        ← 收到通知 B
+        ← 两个都完成，自然继续下一步
+```
+
+---
+
 ## 完成信号
 
 端到端完成时，主会话汇报：

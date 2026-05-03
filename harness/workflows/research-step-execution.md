@@ -49,6 +49,8 @@ else:
 4. **按 plan 声明执行**：只做 plan.md 中声明的研究范围和图表规划
 5. **publish 必须通过 review gate**：无 `review.md` 或 verdict 不通过时不得写 `knowledge/**`
 6. **正式图表是 draft 前置 gate**：plan 声明需通过 `diagram-agent` / PlantUML skill 生成的图表时，必须先完成 `diagrams/` package；缺图不得进入 draft / review / publish
+7. **默认前台调用 agent**：单个 change 的下一步推进不使用后台 agent；只有主会话批量并行推进多个独立 child changes 时，才允许后台调用
+8. **禁止 busy-wait 轮询**：后台 agent 启动后只等待系统完成通知，不反复发送"继续等待"或"检查状态"消息；如果无其他可推进工作，停止发言等待通知
 
 ## 各步产出说明
 

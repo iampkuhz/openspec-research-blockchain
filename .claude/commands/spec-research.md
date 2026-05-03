@@ -108,6 +108,14 @@ request.md
 | review | `review-critic-agent` | `review.md` | verdict 与 high severity blocker |
 | publish | `publish-agent` | `publish.md`、合法 `knowledge/**` targets | 写入路径、归档状态、blocker |
 
+**Agent 调用方式**：
+
+- 调度主规则见 `harness/governance/agent-boundaries.md` 的"调用与等待策略"。
+- 单个 capsule agent 使用**前台调用**（`run_in_background: false`，即默认行为），Agent tool 自动阻塞等待完成，无需额外轮询。
+- 多个独立 child changes 的 capsule 才可在同一轮调度中并行发出（都设 `run_in_background: true`），Claude Code 自动推送完成通知。
+- **禁止 busy-wait 轮询**：不得反复发送 "继续等待"、"检查 agent 状态" 等消息。详细说明见 `harness/workflows/research-pipeline.md` 的 "Agent 后台等待保护"。
+- 如果后台 agent 运行期间没有可并行推进的工作，最多汇报一次后台任务已启动，然后停止发言，等待系统完成通知。
+
 Author agent 不调用 specialist agent。plan 或 draft 需要正式图表时，author agent 返回 handoff，主会话再调用 `diagram-agent`。
 
 不要把 subagent 的 evidence gap 细节、评分过程、traceability 审计过程或图表内部生成步骤返回主会话；这些内容应写入对应 artifact。

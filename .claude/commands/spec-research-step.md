@@ -37,6 +37,7 @@ argument-hint: "[change-id | change-path]"
 | `openspec/schemas/blockchain-research/schema.yaml` | 确认 artifact flow、requires、templates、profiles、operations |
 | 当前 change 的 `change.yaml` | 确认 `task_type`、`change_operation`、artifacts、publish_targets |
 | `harness/rules/_phase_index.yaml` | 按阶段加载必要 rules / specs / workflows |
+| `harness/governance/agent-boundaries.md` | 确认 agent 调度、调用与等待策略 |
 
 ### 按阶段读取
 
@@ -94,6 +95,14 @@ request.md
 | 全部完成 | 汇报完成 | 无 |
 
 ## 阶段执行
+
+### Agent 调用方式
+
+- 调度主规则见 `harness/governance/agent-boundaries.md` 的"调用与等待策略"。
+- `/spec-research-step` 只推进单个 change，默认所有 capsule agent 都使用前台调用（不设置 `run_in_background` 或显式设为 `false`）。
+- 只有当 step 执行被主会话用于批量推进多个独立 child changes，且调用在同一轮调度中批量发出时，才允许后台调用。
+- 禁止 busy-wait 轮询：不得反复发送 "继续等待"、"检查 agent 状态"、"agent 完成了吗" 等消息。
+- 如果后台 agent 运行期间没有不依赖其结果的工作，最多汇报一次后台任务已启动，然后停止发言，等待系统完成通知。
 
 ### sources
 
