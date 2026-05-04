@@ -98,18 +98,35 @@
 - 子任务必须能独立读取输入、独立写入产物、独立停止并返回 handoff。
 - 不为了并发而拆分；并发只是 child changes 或独立来源验证的副作用。
 
+### 快速路径（减少 LLM 调用）
+
+当同时满足以下条件时，主会话可使用快速路径跳过独立的 diagram-agent 和 review-critic-agent 调用，将对应工作合并到 author agent 内部：
+
+1. **无正式 PlantUML 图表需求**：plan.md 未声明 Architecture Diagram 或 Sequence Diagram 类型的正式图表，或仅声明 fallback 类型（Mermaid / 表格 / ASCII）。
+2. **研究深度为 focused 或 light**：非 `deep` 深度的研究。
+3. **单一 change**：不需要拆 child changes。
+4. **非 decision 类型**：仅适用于 `primitive` 和 `synthesis`。
+
+快速路径下：
+- author agent（mode=draft）直接在 draft 中内嵌 Mermaid / ASCII / 表格图表，不调用 diagram-agent。
+- author agent 在 draft 完成后自行执行一次自检（检查 claim traceability、术语一致性、结论边界），在 draft 末尾追加自检通过的标记。
+- 主会话仍需调用 review-critic-agent 做独立评审（评审胶囊不可跳过），但可在 prompt 中说明"已通过作者自检"以减少 reviewer 的返工轮次。
+- **publish-agent 调用不可跳过**。
+
+> 注意：快速路径减少的是 diagram-agent 这一独立调用。intake、source、draft、review、publish 五个胶囊的认知边界仍然必须保持。
+
 ---
 
 ## Agent 调度
 
-| capsule | 默认 agent | 写入范围 |
-|---|---|---|
-| intake | `primitive-author` / `synthesis-author` / `decision-author` | `request.md`、`plan.md`、`decision-criteria.md`（仅 decision 按需） |
-| source | `source-evidence-agent` | `sources/`、`notes/`、`claims/` |
-| diagram | `diagram-agent` | `diagrams/` |
-| draft | `primitive-author` / `synthesis-author` / `decision-author` | `draft.md` |
-| review | `review-critic-agent` | `review.md`，按需 `review/` supporting files |
-| publish | `publish-agent` | `publish.md`、合法 `knowledge/**` targets |
+| capsule | 默认 agent | 写入范围 | 快速路径 |
+|---|---|---|---|
+| intake | `primitive-author` / `synthesis-author` / `decision-author` | `request.md`、`plan.md`、`decision-criteria.md`（仅 decision 按需） | 不可跳过 |
+| source | `source-evidence-agent` | `sources/`、`notes/`、`claims/` | 不可跳过 |
+| diagram | `diagram-agent` | `diagrams/` | 如 plan 仅声明 fallback 图表可跳过 |
+| draft | `primitive-author` / `synthesis-author` / `decision-author` | `draft.md` | 不可跳过 |
+| review | `review-critic-agent` | `review.md`，按需 `review/` supporting files | 不可跳过（评审胶囊是独立质量门） |
+| publish | `publish-agent` | `publish.md`、合法 `knowledge/**` targets | 不可跳过 |
 
 Author agent 可以被多次调用，但每次调用必须是独立上下文，并由主会话声明 capsule mode。
 Author agent 不调用 specialist agent；需要来源或正式图表时返回 handoff，由主会话调度对应 specialist。

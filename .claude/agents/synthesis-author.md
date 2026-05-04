@@ -62,6 +62,12 @@ effort: high
 6. 标注 `[SRC:<change-id>/draft.md]` 和 uncertainty，不脱离 primitive 内容独立评分。
 7. 返回 review handoff 并停止。
 
+### 快速路径补充（当主会话声明 fast_path=true 时）
+
+1. 如 plan 声明了 fallback 类型图表（Mermaid / 表格 / ASCII），直接在 draft 中内嵌，不返回 diagram handoff。
+2. draft 完成后执行一次自检（与 primitive-author 快速路径相同）。
+3. 自检通过后在 draft 末尾追加 `## 作者自检` 章节。
+
 ## 读取输入
 
 ### Common

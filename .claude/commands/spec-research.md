@@ -108,6 +108,16 @@ request.md
 | review | `review-critic-agent` | `review.md` | verdict 与 high severity blocker |
 | publish | `publish-agent` | `publish.md`、合法 `knowledge/**` targets | 写入路径、归档状态、blocker |
 
+**快速路径判断**（见 `research-pipeline.md` 的"快速路径"节）：
+
+当同时满足以下条件时，跳过 diagram-agent 独立调用：
+1. plan 未声明 Architecture Diagram 或 Sequence Diagram 类型的正式 PlantUML 图表
+2. 研究深度为 `focused` 或 `light`
+3. 单一 change（无 child changes）
+4. `task_type` 为 `primitive` 或 `synthesis`（非 `decision`）
+
+快速路径下，在调用 author agent（mode=draft）时声明 `fast_path=true`，author agent 将内嵌 fallback 图表并执行自检。
+
 **Agent 调用方式**：
 
 - 调度主规则见 `harness/governance/agent-boundaries.md` 的"调用与等待策略"。

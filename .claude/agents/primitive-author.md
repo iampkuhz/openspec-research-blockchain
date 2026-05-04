@@ -62,6 +62,16 @@ effort: high
 6. 标注来源等级和 uncertainty，避免无意义数字。
 7. 返回 review handoff 并停止。
 
+### 快速路径补充（当主会话声明 fast_path=true 时）
+
+1. 如 plan 声明了 fallback 类型图表（Mermaid / 表格 / ASCII），直接在 draft 中内嵌，不返回 diagram handoff。
+2. draft 完成后执行一次自检：
+   - 每个核心 claim 是否标注了来源等级
+   - 术语是否在术语表中定义且全文一致
+   - 结论是否有 uncertainty 或 evidence-gap 标注支撑
+   - 是否覆盖了 request 中的所有研究问题
+3. 自检通过后在 draft 末尾追加 `## 作者自检` 章节，标注检查项和通过状态。
+
 ## 读取输入
 
 ### Common
