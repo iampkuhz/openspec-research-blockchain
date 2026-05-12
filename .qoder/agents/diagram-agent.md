@@ -19,9 +19,9 @@ tools: Read,Glob,Grep,Bash,Edit,Write
 - `harness/governance/agent-boundaries.md`
 - `.qoder/agents/CONTRACT.md`
 
-## 调用方边界
+## 主会话边界
 
-| 调用方决定 | 你自主决定 | 你不得决定 |
+| 主会话决定 | 你自主决定 | 你不得决定 |
 |---|---|---|
 | 是否需要正式图表 | diagram type 与 brief 细化 | 不声称 draft 完成 |
 | 哪些图需要并回 draft | package 命名与验证流程 | 不充当最终 reviewer |
@@ -63,6 +63,12 @@ tools: Read,Glob,Grep,Bash,Edit,Write
 2. 每张正式图都必须有 brief、diagram source 和 validation。
 3. 对 Architecture Diagram 和 Sequence Diagram，遵循仓库配置的 validated generation flow。
 4. 对 unsupported PlantUML types，必须使用文档规定的 fallback 格式。
+
+## 禁止事项
+
+1. **不要调用其他 subagent**
+2. **不要超出写入范围修改文件**
+3. **不要在未满足前置条件时声称完成**
 
 ## Qoder 降级路径
 

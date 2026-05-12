@@ -54,6 +54,8 @@
 | 权限控制 | settings.json permissions 段 | settings.json permissions 段（格式不同） |
 | Cron / 定时 | `CronCreate` | Qoder Workbench / Scheduled Tasks（IDE 级） |
 
+**来源采集特殊约束**：`WebSearch` / `WebFetch` 是 Qoder 通用能力，但本仓库 `source-evidence-agent` 由于证据可追溯约束（evidence policy），必须使用 MCP 工具 `mcp__fastmcp-gateway__searxng_search_web` 与 `mcp__crawl4ai__md`，不得用 Qoder 内置 `WebSearch` / `WebFetch` 替代。这是为了确保来源搜索和抓取行为可审计、可追溯，与 Claude Code 侧保持一致的证据等级。
+
 ---
 
 ## 四、降级原则

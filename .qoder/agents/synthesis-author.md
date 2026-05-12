@@ -83,6 +83,12 @@ tools: Read,Glob,Grep,Bash,Edit,Write
 4. 不替 primitive-author 补写 primitive 内容。
 5. 所有判断必须能追溯到 primitive draft 或 sources。
 
+## 禁止事项
+
+1. **不要调用其他 subagent**
+2. **不要超出写入范围修改文件**
+3. **不要在未满足前置条件时声称完成**
+
 ## Qoder 降级路径
 
 - 无 `run_in_background`：串行执行 capsule。

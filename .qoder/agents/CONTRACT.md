@@ -1,11 +1,8 @@
----
-name: CONTRACT
-description: Agent 合同基线。每个 `.qoder/agents/*.md` 必须满足的最小合同要求。
----
-
 # Qoder Agent Contract 规范
 
 本文件定义 `.qoder/agents/` 中每个 agent 必须满足的最小合同要求。
+
+**注意**：本文件是文档型合同基线，不是 callable agent。不要给本文件加 YAML frontmatter，避免被 Qoder 当成可调用 agent。
 
 **注意**：本文件定义的是 Qoder 侧的合同要求。共享 agent 合同字段、跨工具的 adapter 约定，
 以 `harness/adapters/agent-adapter-contract.md` 为准；

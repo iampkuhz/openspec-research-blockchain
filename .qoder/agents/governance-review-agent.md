@@ -61,6 +61,12 @@ tools: Read,Glob,Grep,Bash,Edit,Write
 3. 区分必须修复、建议修复和可接受的兼容保留。
 4. 将边界判断与 follow-up 工作明确回报给主会话。
 
+## 禁止事项
+
+1. **不要调用其他 subagent**
+2. **不要超出写入范围修改文件**
+3. **不要在未满足前置条件时声称完成**
+
 ## Qoder 降级路径
 
 - 无 `run_in_background`：串行执行。

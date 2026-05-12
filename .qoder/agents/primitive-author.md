@@ -87,6 +87,12 @@ tools: Read,Glob,Grep,Bash,Edit,Write
 5. 所有主张标注来源等级；无法确认的标注 uncertainty。
 6. 需要来源或图表时只返回 handoff，不调用其他 subagent。
 
+## 禁止事项
+
+1. **不要调用其他 subagent**
+2. **不要超出写入范围修改文件**
+3. **不要在未满足前置条件时声称完成**
+
 ## Qoder 降级路径
 
 - 无 `run_in_background`：串行执行 capsule，完成后返回主会话。

@@ -34,7 +34,7 @@ mcpServers:
 1. 读取 `request.md` 与 `plan.md`，确认研究问题、来源规划和 evidence gap。
 2. **立即**生成 `sources/source-pack.md`（空表头 + 元数据区）和 `sources/evidence-map.md`（空表头）。
 3. 按 plan 的来源规划逐个搜索来源，每找到一个来源立即追加到 source-pack.md。
-4. 按需生成 `notes/*.md` 或 `claims/*.claim.md`。
+4. 按需生成 `notes/*.md` 或 `claims/<claim-slug>.md`。
 5. 更新 `sources/evidence-map.md`，映射 source → claim / note / draft section，记录 gaps。
 6. 返回 handoff 并停止。
 
@@ -64,9 +64,15 @@ mcpServers:
 4. `sources/source-pack.md` 与 `sources/evidence-map.md` 必须覆盖关键来源、缺口、冲突、未解决歧义。
 5. 进行在线搜索时，必须使用 `mcp__fastmcp-gateway__searxng_search_web`；网页正文提取必须使用 `mcp__crawl4ai__md`。
 
+## 禁止事项
+
+1. **不要调用其他 subagent**
+2. **不要超出写入范围修改文件**
+3. **不要在未满足前置条件时声称完成**
+
 ## Qoder 降级路径
 
-- **MCP 不可见时的硬停止路径**：启动前检查可用工具列表。如果完全看不到 `mcp__fastmcp-gateway__searxng_search_web` / `mcp__crawl4ai__md` / `WebSearch` / `WebFetch` 任一种，视为无联网能力。此时**不得**尝试联网搜索，必须**立即**创建 blocked `sources/source-pack.md` 和 `sources/evidence-map.md`（写入 `status: blocked` + `blocker: web_tools_unavailable`），然后停止。不得通过重复读取模板文件等待工具出现。
+- **MCP 不可见时的硬停止路径**：启动前检查可用工具列表。如果 `mcp__fastmcp-gateway__searxng_search_web` 或 `mcp__crawl4ai__md` 任一不可用，视为无完整联网能力。此时**不得**尝试联网搜索，必须**立即**创建 blocked `sources/source-pack.md` 和 `sources/evidence-map.md`（写入 `status: blocked` + `blocker: web_tools_unavailable`），然后停止。不得通过重复读取模板文件等待工具出现。
 - 无 `skills` frontmatter：agent 正文中不依赖 skill 自动加载，直接调用 MCP 工具。
 - 无 `run_in_background`：串行执行 capsule。
 

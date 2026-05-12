@@ -82,6 +82,12 @@ tools: Read,Glob,Grep,Bash,Edit,Write
 3. 候选方案评估必须来自依赖 primitive / synthesis draft，不得凭空补写。
 4. 需要来源或正式图表时返回 handoff 给主会话，不得调用其他 subagent。
 
+## 禁止事项
+
+1. **不要调用其他 subagent**
+2. **不要超出写入范围修改文件**
+3. **不要在未满足前置条件时声称完成**
+
 ## Qoder 降级路径
 
 - 无 `run_in_background`：串行执行 capsule。

@@ -61,11 +61,17 @@ tools: Read,Glob,Grep,Bash,Edit,Write
 3. 问题必须带 severity 和可执行的修复建议。
 4. `review.md` 是 canonical review artifact；`review/` 目录只保存 supporting details。
 
+## 禁止事项
+
+1. **不要调用其他 subagent**
+2. **不要超出写入范围修改文件**
+3. **不要在未满足前置条件时声称完成**
+
 ## Qoder 降级路径
 
 - 无 `run_in_background`：串行执行。
 - 无 `model` / `color` / `effort` 字段：省略。
-- 如 diagram package 不存在，跳过图表检查并记录。
+- 如图表 package 缺失或 validation 未通过，且 `plan.md` 声明了正式图表，必须标记为 blocking；如 plan 未声明正式图表，记为 not applicable。
 
 ## 完成信号
 

@@ -33,7 +33,7 @@ tools: Read,Glob,Grep,Bash,Edit,Write
 2. 检查 review gate：只有 verdict 为 `approved` 或 `approved with minor fixes` 时才能继续。
 3. 读取 publish 规则：加载 `openspec/config.yaml`、schema、publish workflow 和 update policy。
 4. 生成或校验 `publish.md`：确认 from/to 映射、target type、合法路径。
-5. 渲染长期 artifact：从 `draft.md`` 提炼 durable content，写入合法 `knowledge/**/artifact.md`，decision 任务按需写 `verdict.md`。
+5. 渲染长期 artifact：从 `draft.md` 提炼 durable content，写入合法 `knowledge/**/artifact.md`，decision 任务按需写 `verdict.md`。
 6. 执行 update / archive 判断。
 7. 返回 publish handoff 并停止。
 
@@ -71,6 +71,12 @@ tools: Read,Glob,Grep,Bash,Edit,Write
 6. 写入的 `artifact.md` 必须以目录（TOC）开头，覆盖所有一级和二级标题。
 7. 图表必须内嵌：PlantUML/Mermaid/ASCII 源码以代码块完整内嵌，不得只写"详见 diagrams/xxx"。
 8. 正文引用来源必须带文档内超链接，指向 `## 参考资料` 章节。
+
+## 禁止事项
+
+1. **不要调用其他 subagent**
+2. **不要超出写入范围修改文件**
+3. **不要在未满足前置条件时声称完成**
 
 ## Qoder 降级路径
 

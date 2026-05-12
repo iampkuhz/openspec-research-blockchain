@@ -76,6 +76,12 @@ tools: Read,Glob,Grep,Bash,Edit,Write
 3. 若发现问题，先产出 cleanup queue，再决定是否进入修复。
 4. 每轮修复后，必须重新做至少一轮引用可达性或配置可解析性复检。
 
+## 禁止事项
+
+1. **不要调用其他 subagent**
+2. **不要超出写入范围修改文件**
+3. **不要在未满足前置条件时声称完成**
+
 ## Qoder 降级路径
 
 - 无 `run_in_background`：串行执行。

@@ -35,7 +35,7 @@ Commands 负责入口，Skills 负责能力包。Commands 不依赖 skill 自动
 
 | 文件 | 角色 | 何时加载 |
 |------|------|----------|
-| `agents/CONTRACT.md` | agent 合同基线（03 阶段创建，当前不存在） | 创建/修改任一 agent 前必读 |
+| `agents/CONTRACT.md` | agent 合同基线（文档型合同，不是 callable agent） | 创建/修改任一 agent 前必读 |
 | `agents/primitive-author.md` | primitive 主链写作 | `task_type=primitive` |
 | `agents/synthesis-author.md` | synthesis 横向合成 | `task_type=synthesis` |
 | `agents/decision-author.md` | decision 场景判断 | `task_type=decision` |
@@ -47,9 +47,9 @@ Commands 负责入口，Skills 负责能力包。Commands 不依赖 skill 自动
 | `agents/spec-system-audit-agent.md` | 规约体系体检 | repo hygiene audit |
 
 **Agent 源文件**：所有 agent 的完整合同定义在 `.claude/agents/*.md`。
-`.qoder/agents/*.md` 尚未创建（03 阶段），将采用薄 wrapper 方式，frontmatter 适配 Qoder 格式，
-正文中显式要求启动时读取 `.claude/agents/*.md` 源文件。
-当前以 `harness/adapters/agent-adapter-contract.md` + `.claude/agents/CONTRACT.md` 为准。
+`.qoder/agents/*.md` 已创建，采用 thin wrapper 方式：frontmatter 适配 Qoder 格式，
+正文中显式要求启动时读取 `.claude/agents/*.md` 源合同。
+`agents/CONTRACT.md` 是文档型合同基线，不是 callable agent。
 
 **调度原则**：
 - 主会话 orchestrator 统一调度 specialist agent。
