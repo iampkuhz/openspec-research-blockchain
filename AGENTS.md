@@ -39,6 +39,7 @@ OpenSpec 区块链研究协作的导航入口。
 | 场景 | 追加读取 |
 |------|----------|
 | Claude 场景 | `CLAUDE.md` → `.claude/README.md` |
+| Qoder 场景 | `QODER.md` → `.qoder/README.md` |
 | 治理型任务（修改 OpenSpec / Harness / 治理结构） | `docs/governance/openspec-harness-boundary.md` |
 | 需要联网搜索或网页提取 | `.claude/tools/mcp-tools.md` |
 | 需要查看 change 目录结构或现有样例 | `openspec/changes/` |
@@ -166,10 +167,12 @@ Specialist agent 按需加载：`source-evidence-agent`、`diagram-agent`、`rev
 | 规则域索引 | `harness/rules/_index.yaml` |
 | Change 目录与样例 | `openspec/changes/` |
 | Governance 索引 | `docs/governance/README.md` |
+| Adapter 层索引 | `harness/adapters/README.md` |
 | Skills 索引 | `skills/README.md` |
 | Scripts 索引 | `scripts/README.md` |
 | Hook 系统索引 | `harness/hooks/README.md` |
 | Claude 侧路由 | `CLAUDE.md`、`.claude/README.md` |
+| Qoder 侧路由 | `QODER.md`、`.qoder/README.md` |
 | MCP 工具指南 | `.claude/tools/mcp-tools.md` |
 
 ---

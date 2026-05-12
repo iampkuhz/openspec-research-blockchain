@@ -127,6 +127,20 @@ Skill / command 应承载：
 **Skill / command 不是 canonical policy source。**  
 **Skill / command 也不是 repo governance source。**
 
+### 3.4 Adapter layer（tool-neutral）
+
+Adapter 层负责定义跨 tool 的共享约定。  
+判断标准是：**这条说明是否同时服务于 Claude Code 与 Qoder，但不属于 OpenSpec 正式规则或 Harness 执行步骤。**
+
+Adapter 层应承载：
+
+1. **agent 合同字段映射**：共享语义如何表达为不同 tool 的 frontmatter
+2. **tool capability matrix**：能力差异、字段格式转换、降级策略
+3. **entry point index**：不同 tool 的目录约定与入口文件索引
+
+Adapter 不重新定义正式规则，不复制 agent 正文或 SKILL.md 内容。  
+对应入口：`harness/adapters/`
+
 ---
 
 ## 4. 一句话边界
@@ -241,6 +255,10 @@ harness/
   governance/
     agent-boundaries.md
     escalation-policy.md
+  adapters/
+    README.md
+    agent-adapter-contract.md
+    tool-capability-matrix.md
   workflows/
     build-research-draft.md
     review-research-artifact.md

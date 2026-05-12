@@ -4,6 +4,8 @@
 **用途**：定义本仓库 multi-agent 协作的分类、职责边界与调度规则。
 **引用方**：`.claude/agents/CONTRACT.md`、`AGENTS.md`
 
+Agent 边界定义是 tool-neutral 的，不依赖 Claude Code 或 Qoder 的具体目录结构。具体工具的 agent 文件只做 adapter 映射，参见 `harness/adapters/agent-adapter-contract.md`。
+
 ---
 
 ## Author Agents（研究型）
