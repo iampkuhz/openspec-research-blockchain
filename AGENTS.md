@@ -1,189 +1,135 @@
 # AGENTS.md
 
-OpenSpec 区块链研究协作的导航入口。
+OpenSpec 区块链研究协作的轻量导航入口。
 
-**定位**：本文件只负责回答三件事。
-- 先读什么
-- 任务该路由到哪里
-- 哪些约束必须优先记住
+**本文件是 cross-client navigation entry**，不是 policy / schema / workflow / rules 事实源。遇到冲突以正式文件为准。
 
-**不是这里的职责**：
-- 不在这里重写 `openspec/config.yaml`、`openspec/schemas/blockchain-research/schema.yaml`、`openspec/specs/**` 的正式规则
-- 不在这里展开 `harness/workflows/**`、`harness/rules/**`、`.claude/agents/**` 的执行细节
-- 不把所有索引和政策复制一遍
-
-**冲突处理**：如果本文件与真源不一致，以真源为准。真源优先级从高到低：
-1. `openspec/specs/**`（正式政策）
-2. `openspec/config.yaml` + `openspec/schemas/blockchain-research/schema.yaml`（模型与规则）
-3. `harness/workflows/_index.yaml` + `harness/rules/_phase_index.yaml`（执行路由）
-
-**核心原则**：知道去哪里找知识，而不是把所有知识加载进来。
+**核心原则**：先判任务，再读索引，最后只读必要叶子文件。不要把本文件当规则全集，也不要在启动时展开整个仓库。
 
 ---
 
-## 一、必读顺序
+## 1. Source of Truth by Decision Type
 
-### 默认顺序
+| Decision type | Source of truth |
+|---|---|
+| Formal policy / invariant | `openspec/specs/**` |
+| Artifact graph / object model / publish constraints | `openspec/schemas/blockchain-research/schema.yaml` |
+| Root directories / lifecycle roots | `openspec/config.yaml` |
+| Workflow selection | `harness/workflows/_index.yaml` |
+| Phase dependency | `harness/rules/_phase_index.yaml` |
+| Concrete phase rules | `harness/rules/**` |
+| Mechanical validation | `harness/gates/registry.yaml` + `scripts/hooks/validators/registry.yaml` |
+| Claude Code adapter | `CLAUDE.md` + `.claude/**` |
+| Qoder adapter | `QODER.md` + `.qoder/**` if present |
+| Skill behavior | `skills/**/SKILL.md` |
+| Script behavior | `scripts/**` |
 
-| 步骤 | 读取文件 | 目的 |
-|------|----------|------|
-| 1 | `AGENTS.md` | 获取导航、路由和最小硬约束 |
-| 2 | `openspec/config.yaml` | 确认 workflow 配置、artifact 依赖与 apply 规则 |
-| 3 | `openspec/schemas/blockchain-research/schema.yaml` | 确认研究对象模型、资产模型与产物路径 |
-| 4 | `harness/workflows/_index.yaml` | 识别当前任务属于哪类 workflow |
-| 5 | `harness/rules/_phase_index.yaml` | 在阶段明确后按需加载 specs / rules / workflows |
-| 6 | `harness/rules/_index.yaml` | 只有需要继续下钻叶子规则时才读 |
-
-### 条件加载
-
-| 场景 | 追加读取 |
-|------|----------|
-| Claude 场景 | `CLAUDE.md` → `.claude/README.md` |
-| Qoder 场景 | `QODER.md` → `.qoder/README.md` |
-| 治理型任务（修改 OpenSpec / Harness / 治理结构） | `docs/governance/openspec-harness-boundary.md` |
-| 需要联网搜索或网页提取 | `.claude/tools/mcp-tools.md` |
-| 需要查看 change 目录结构或现有样例 | `openspec/changes/` |
-| 需要技能或脚本支持 | `skills/README.md`、`scripts/README.md` |
-| Hook / 校验 / 调度 | `harness/hooks/README.md`、`harness/hooks/registry.yaml` |
-| Multi-Agent 执行 | `.claude/agents/CONTRACT.md` → 按 `research_type` 加载对应 author agent |
-
-**加载原则**：
-- 先读索引，再读叶子文件
-- 先按任务路由，再按阶段加载
-- 只加载当前任务需要的最小上下文
+Adapter 不重新定义 research policy / artifact schema / workflow semantics。与 OpenSpec / Harness 冲突时，后者胜出。
 
 ---
 
-## 二、任务路由
+## 2. Routing Discriminators
 
-| 任务 | 主入口 | 主要产出 |
-|------|--------|----------|
-| 端到端研究（request → plan → draft → review → apply） | `harness/workflows/research-pipeline.md` | 完整 change 产物链 + 长期 artifact |
-| 创建新研究 | `harness/workflows/research-intake-routing.md` | `openspec/changes/<id>/request.md` |
-| 收集与验证来源 | `harness/workflows/source-workflow.md` | `openspec/changes/<id>/sources/` |
-| 正式图表 | `harness/workflows/diagram-workflow.md` | `openspec/changes/<id>/diagrams/` |
-| 评审研究产出 | `harness/workflows/research-step-execution.md` | `openspec/changes/<id>/review.md` |
-| Apply 到长期知识 | `openspec/config.yaml` apply 段 + `harness/workflows/research-publish-flow.md`（由 `/spec-research-step` publish 阶段触发） | `knowledge/analysis/**` 或 `knowledge/decisions/**` |
-| 更新现有知识 | `harness/workflows/update-existing-knowledge.md` | `knowledge/` 增量更新 |
-| 修改规约分层或治理结构 | `docs/governance/openspec-harness-boundary.md` + `harness/workflows/governance-review-workflow.md` | `review/governance-review.md` |
-| 规约体系卫生审计 | `harness/workflows/governance-review-workflow.md` | 审计总结或报告 |
+基于用户输入选择 workflow，不要猜阶段：
 
-**阶段型任务的统一做法**：
-1. 先在 `harness/workflows/_index.yaml` 确认任务类型
-2. 再在 `harness/rules/_phase_index.yaml` 找当前阶段依赖
-3. 最后按索引加载必要的 spec、rule、workflow 叶子文件
+- 端到端从需求到 publish → `harness/workflows/research-pipeline.md`
+- 没有 `change-id`，要创建/初始化研究 → `harness/workflows/research-intake-routing.md`
+- 已有 `change-id`，未指定阶段 → 先做 **Change State Detection**（§5），再读 `harness/workflows/research-step-execution.md`
+- 只要来源、证据、claim mapping → `harness/workflows/source-workflow.md`
+- 只要 diagram package → `harness/workflows/diagram-workflow.md`
+- 要求 publish 到长期知识 → `harness/workflows/research-publish-flow.md`
+- 修改 spec / schema / harness / command / agent / skill / hook / governance → `harness/workflows/governance-review-workflow.md`
+
+不复制 workflow 步骤细节。需要具体规则时按 §1 的决策类型索引下钻。
 
 ---
 
-## 三、单一事实源
+## 3. Conditional Loading
 
-### OpenSpec 是正式规则层
-
-以下内容以 OpenSpec 为准：
-- artifact 依赖链、研究对象模型、长期资产模型
-- apply 准入规则、evidence / output model 等正式政策
-
-对应入口：`openspec/config.yaml`、`openspec/schemas/blockchain-research/schema.yaml`、`openspec/specs/**`
-
-### Harness 是执行手册层
-
-以下内容以 Harness 索引和 workflow/rule 文件为准：
-- 任务如何路由、阶段如何切换、规则如何按需加载
-- review / repair / merge 的执行步骤
-
-对应入口：`harness/workflows/_index.yaml`、`harness/rules/_phase_index.yaml`、`harness/rules/_index.yaml`
-
-**边界原则**：OpenSpec 定义正式规则；Harness 负责把正式规则落实成执行步骤。不要在 `AGENTS.md` 或 Harness 中重新定义 OpenSpec 的正式语义。
+| 场景 | 读取入口 |
+|---|---|
+| Claude Code command / agent | `CLAUDE.md` → `.claude/README.md` |
+| Qoder 入口 | `QODER.md`；仅当 `.qoder/` 存在时再读 `.qoder/README.md` |
+| 治理修改 | `docs/governance/openspec-harness-boundary.md` + `harness/workflows/governance-review-workflow.md` |
+| Hook / gate / validator | `harness/hooks/README.md`、`harness/gates/registry.yaml`、`scripts/hooks/validators/registry.yaml` |
+| Skills / scripts | `skills/README.md` / `scripts/README.md`，再读目标 `SKILL.md` 或脚本 |
+| 联网 / MCP | `.claude/tools/mcp-tools.md`；仅在需要外部事实、source evidence、claim verification 或用户明确要求时加载，不绑定到单一阶段 |
+| Multi-Agent | `harness/governance/agent-boundaries.md` + `.claude/agents/CONTRACT.md`，再读目标 agent |
 
 ---
 
-## 四、研究模型速查
+## 4. Change State Detection
 
-### 长期产物
+用户提供或上下文出现 `change-id` 时：
 
-| 类型 | 研究路径 | 产物位置 |
-|------|----------|----------|
-| `primitive` | `deep-dive` | `knowledge/analysis/primitives/<domain_id>/<topic_slug>/artifact.md` |
-| `synthesis` | `evolution` | `knowledge/analysis/synthesis/<topic_slug>/artifact.md` |
-| `decision` | `scenario` | `knowledge/decisions/<domain_id>/<topic_slug>/artifact.md` + `verdict.md` |
-
-### 过程产物
-
-以下文件留在 `openspec/changes/<change-id>/`，不直接进入长期目录：
-`request.md`、`plan.md`、`draft.md`、`decision-criteria.md`（可选）、`sources/`、`diagrams/`、`review.md`、`review/`（可选 supporting files）
-
-**补充说明**：
-- `domain` 是 taxonomy / 浏览分组概念，不是独立 `object_type`
-- `knowledge/topics/` 是遗留目录，不再作为主线 canonical 资产目标
+1. 检查 `openspec/changes/<change-id>/` 中现有 artifact 文件
+2. 用文件存在性识别阶段：`change.yaml`、`request.md`、`plan.md`、`sources/`、`claims/`、`draft.md`、`review.md`、`publish.md`、`validation/`
+3. 不只根据用户口头描述推断阶段
+4. 只加载当前或下一阶段需要的 workflow / phase index / rule leaves
+5. change 目录不存在或 artifact 状态不一致时，先进入 intake / repair / governance 检查，不继续推进
 
 ---
 
-## 五、最小硬约束
+## 5. Write Safety
 
-- 禁止直接修改 `knowledge/` 主线；研究过程文件进入 `openspec/changes/`
-- 长期资产只沉淀到 `knowledge/analysis/` 和 `knowledge/decisions/`
-- 核心技术主张遵守证据等级约束，每个 claim 必须可追溯到 source
-- 术语优先复用既有 glossary / taxonomy
-- 涉及仓库治理、分层、路由或规约边界的修改，必须进入 governance review 路由
+写入前必须确认 task type、change-id、current stage、target artifact、governing workflow/rules/schema。
 
-> 证据等级与可追溯性细节见 `openspec/specs/evidence-policy/spec.md`；术语与 traceability 执行细节见 `harness/rules/general/` 下的对应 policy。
-
----
-
-## 六、Claude 与 Multi-Agent（条件加载）
-
-### Claude 场景
-
-追加读取 `CLAUDE.md` → `.claude/README.md`，按当前任务涉及的 command / agent / rule 文件下钻。具体路由提醒以 CLAUDE.md 为准。
-
-### Multi-Agent 场景
-
-只有当 workflow 或 Claude 路由明确需要 multi-agent 时，才加载 `.claude/agents/**`。
-
-必须先读 `.claude/agents/CONTRACT.md`，再按 `research_type` 路由：
-
-| 研究类型 | Author Agent |
-|----------|-------------|
-| `primitive` | primitive-author |
-| `synthesis` | synthesis-author |
-| `decision` | decision-author |
-
-Specialist agent 按需加载：`source-evidence-agent`、`diagram-agent`、`review-critic-agent`、`publish-agent`、`governance-review-agent`、`spec-system-audit-agent`。
-
-**协作边界**：
-- 主会话负责 orchestrate
-- author agent 负责主链写作 capsule（intake: request → plan；draft: draft）
-- specialist agent 负责 `sources/`、`diagrams/`、`review/`、`publish` 等专项上下文
-- 不允许 author agent 嵌套拉起 subagent
+- 普通研究默认只写 `openspec/changes/<change-id>/`
+- 不得直接写 `knowledge/**`，除非通过 publish workflow 且满足 review / validation 要求
+- 修改 OpenSpec / Harness / command / agent / skill / hook / governance 文件，必须走 governance review
+- validator 失败时不得继续生命周期推进，除非 workflow 明确允许 waiver
+- 删除、迁移、批量重命名文件前必须先输出 plan 或 diff，不静默执行
 
 ---
 
-## 七、索引入口
+## 6. Validation Protocol
 
-| 需求 | 入口 |
-|------|------|
-| Workflow 总索引 | `harness/workflows/_index.yaml` |
-| 阶段依赖索引 | `harness/rules/_phase_index.yaml` |
-| 规则域索引 | `harness/rules/_index.yaml` |
-| Change 目录与样例 | `openspec/changes/` |
-| Governance 索引 | `docs/governance/README.md` |
-| Adapter 层索引 | `harness/adapters/README.md` |
-| Skills 索引 | `skills/README.md` |
-| Scripts 索引 | `scripts/README.md` |
-| Hook 系统索引 | `harness/hooks/README.md` |
-| Claude 侧路由 | `CLAUDE.md`、`.claude/README.md` |
-| Qoder 侧路由 | `QODER.md`、`.qoder/README.md` |
-| MCP 工具指南 | `.claude/tools/mcp-tools.md` |
+1. 先读 gate / validator registry（§1）
+2. 根据 changed files、current stage、target artifact 选择 validator
+3. deterministic validator 先于 semantic review
+4. 校验结果写入 `openspec/changes/<change-id>/validation/`（需持久化时）
+5. validator 失败时停止 lifecycle advancement
+6. 没有 applicable validator 时记录未运行原因
 
 ---
 
-## 八、遇到问题时
+## 7. Multi-Agent Boundary
 
-| 问题 | 先看哪里 |
-|------|----------|
-| 不知道当前任务该走哪个 workflow | `harness/workflows/_index.yaml` |
-| 不知道当前阶段还要加载哪些规则 | `harness/rules/_phase_index.yaml` |
-| 不知道长期产物应该落在哪里 | `openspec/schemas/blockchain-research/schema.yaml` |
-| 不知道 apply 是否允许 | `openspec/config.yaml` |
-| 不知道治理型修改是否越界 | `docs/governance/openspec-harness-boundary.md` |
-| 不知道 Claude 侧该调哪个 command / agent | `.claude/README.md` |
+只有 workflow 明确授权或用户明确要求时才加载 `.claude/agents/**`。
+
+- 不得虚构 agent；agent 文件必须真实存在
+- 主会话负责 orchestrate；author agent 只写 intake / draft capsule，不调用其他 subagent
+- specialist agent 只产出 scoped artifact：`sources/`、`diagrams/`、`review.md`、`publish.md`
+- 默认前台串行；不鼓励后台 agent 或 busy-wait 轮询
+- subagent 不默认拥有 publish / apply / archive 权限
+
+| `task_type` | Author Agent |
+|---|---|
+| `primitive` | `.claude/agents/primitive-author.md` |
+| `synthesis` | `.claude/agents/synthesis-author.md` |
+| `decision` | `.claude/agents/decision-author.md` |
+
+Specialist agent（按需加载）：`source-evidence-agent`、`diagram-agent`、`review-critic-agent`、`publish-agent`、`governance-review-agent`、`spec-system-audit-agent`。
+
+---
+
+## 8. Low Token Reading Protocol
+
+- 文件发现用 `rg --files`，内容定位用 `rg -n`
+- 大文件用 `wc -l`、`sed -n '<start>,<end>p'`、`rg -n '<pattern>'` 分段读取
+- 不 `cat` 整个目录，不无目的全文读取 `openspec/changes/`、`knowledge/`、`harness/rules/diagrams/`
+- 读索引时只输出"下一步读哪个文件"，不复制索引全文
+- 单线程顺序执行；不为了提速并行调用 agent 或批量展开无关文件
+
+---
+
+## 9. Quick Lookup
+
+| 问题 | 先看 |
+|---|---|
+| 当前任务走哪个 workflow | `harness/workflows/_index.yaml` |
+| 当前阶段需要哪些规则 | `harness/rules/_phase_index.yaml` |
+| artifact 形状与依赖 | `openspec/schemas/blockchain-research/schema.yaml` |
+| publish / apply / archive 根目录 | `openspec/config.yaml` |
+| 规约修改是否越界 | `docs/governance/openspec-harness-boundary.md` |
+| hook 覆盖哪些检查 | `harness/gates/registry.yaml` + `scripts/hooks/validators/registry.yaml` |
