@@ -4,8 +4,8 @@
   "status": "fail",
   "blocking": false,
   "checked_files": [
-    "sources/source-pack.md",
-    "sources/evidence-map.md"
+    "sources/evidence-map.md",
+    "sources/source-pack.md"
   ],
   "errors": [
     "sources/evidence-map.md not found"
@@ -13,8 +13,8 @@
   "warnings": [],
   "rule_refs": [
     "harness/rules/artifacts/source-pack-rules.md",
-    "harness/rules/artifacts/evidence-map-rules.md",
-    "harness/rules/research/traceability-rules.md"
+    "harness/rules/research/traceability-rules.md",
+    "harness/rules/artifacts/evidence-map-rules.md"
   ],
   "metadata": {
     "aggregated_from": 3

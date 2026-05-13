@@ -4,12 +4,12 @@
   "status": "fail",
   "blocking": true,
   "checked_files": [
-    "validation/post-plan.json",
-    "validation/post-request.json",
-    "validation/post-draft.json",
-    "publish.md",
     "validation/post-research.json",
+    "validation/post-draft.json",
+    "validation/post-plan.json",
     "draft.md",
+    "validation/post-request.json",
+    "publish.md",
     "validation/post-review.json"
   ],
   "errors": [
@@ -25,9 +25,9 @@
     "task_type=primitive，非 decision 类型跳过"
   ],
   "rule_refs": [
-    "harness/rules/research/decision-criteria-rules.md",
     "harness/gates/registry.yaml",
     "harness/rules/research/traceability-rules.md",
+    "harness/rules/research/decision-criteria-rules.md",
     "harness/rules/artifacts/publish-rules.md"
   ],
   "metadata": {

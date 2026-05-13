@@ -4,8 +4,8 @@
   "status": "pass",
   "blocking": true,
   "checked_files": [
-    "request.md",
     "plan.md",
+    "request.md",
     "change.yaml"
   ],
   "errors": [],

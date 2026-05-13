@@ -4,14 +4,14 @@
   "status": "fail",
   "blocking": true,
   "checked_files": [
+    "validation/post-draft.json",
     "draft.md",
+    "decision-criteria.md",
+    "validation/post-request.json",
     "validation/post-research.json",
     "validation/post-plan.json",
-    "publish.md",
-    "decision-criteria.md",
-    "validation/post-draft.json",
     "validation/post-review.json",
-    "validation/post-request.json"
+    "publish.md"
   ],
   "errors": [
     "存在 blocking fail 的前置 gate，不得进入 publish",
@@ -26,10 +26,10 @@
     "publish.md 未包含 verdict mapping"
   ],
   "rule_refs": [
-    "harness/rules/artifacts/publish-rules.md",
+    "harness/rules/research/decision-criteria-rules.md",
     "harness/rules/research/traceability-rules.md",
-    "harness/gates/registry.yaml",
-    "harness/rules/research/decision-criteria-rules.md"
+    "harness/rules/artifacts/publish-rules.md",
+    "harness/gates/registry.yaml"
   ],
   "metadata": {
     "aggregated_from": 4
