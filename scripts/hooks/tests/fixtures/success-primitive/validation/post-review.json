@@ -1,0 +1,11 @@
+{
+  "gate_id": "post_review",
+  "validator": "aggregate",
+  "status": "pass",
+  "blocking": true,
+  "checked_files": ["review.md"],
+  "errors": [],
+  "warnings": [],
+  "rule_refs": ["harness/rules/artifacts/review-rules.md"],
+  "metadata": {"aggregated_from": 1}
+}

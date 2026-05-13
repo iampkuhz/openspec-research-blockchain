@@ -158,6 +158,16 @@ source 合同写 blocked `sources/source-pack.md` 与 `sources/evidence-map.md` 
 - 当前任务拆解为几个 changes
 - 每个 change 的 `task_type`
 - 每个 change 的路径
+- 每个 change 是 "created new"（新建）还是 "resumed existing"（复用已有）
 - 每个 change 的 capsule 完成状态
 - 最终写入的 `knowledge/**` 路径
 - 遇到的 blocker（如有）
+
+## 禁止事项
+
+- 不要跳过 `review.md` 直接 publish。
+- 不要跳过 `publish.md` 直接写 `knowledge/**`。
+- 不要从 `request.md` 或 `plan.md` 直接生成 `knowledge/**`。
+- 不要在 command 内展开 subagent 的内部分析细节。
+- **不得在普通 research 执行中修改 `.claude/**`、`harness/**`、`openspec/specs/**`、`openspec/schemas/**`、`AGENTS.md`、`CLAUDE.md`、`docs/governance/**`。**
+- 如果发现 command / agent / harness 需要优化，只能记录到当前 change 的 review/blocker 或 `tmp/` 分析文件，停止并建议走 `/spec-governance-review`。

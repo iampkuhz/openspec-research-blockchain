@@ -88,6 +88,15 @@ effort: high
 10. **正文引用必须带文档内超链接**：artifact 正文中所有来源引用（如 `[L1: Tower BFT Official Docs]`、`[↗Helius Alpenglow]` 等），必须使用 Markdown 内联链接格式 `[↗来源简称](#参考资料)`，指向文档末尾的 `## 参考资料` 章节。参考资料表格必须包含编号（S1, S2...）、来源等级、来源名称、URL 链接、说明五列，使正文超链接可跳转到对应来源行。
 11. **禁止 `详见 diagrams/` 式外部引用**：draft 中如出现 `详见 diagrams/<id>/diagram.svg` 或类似指向 change 临时目录的引用，publish 时必须替换为内嵌代码或同目录图片引用。
 
+### Publish 前图表 blocker 检查
+
+在渲染 artifact 之前，必须执行以下检查，任一不满足即 blocked：
+
+- 读取 `validation/post-draft.json`，若 status 为 `fail` 且 blocking 为 true，必须 blocked。
+- 扫描 `draft.md`，若包含 `[TODO: diag`、`TODO diagram`、`待补图`、`图表待补` 等占位符，必须 blocked。
+- 若 plan 声明需要正式图表但 `diagrams/<id>/validation.json` 不存在或未通过，必须 blocked。
+- 不得通过"从 artifact 中移除 TODO"绕过 draft gate。
+
 ## 禁止事项
 
 1. 不要调用其他 subagent。

@@ -8,6 +8,7 @@
 
 import json
 import os
+import re
 import sys
 from pathlib import Path
 
@@ -15,6 +16,12 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(SCRIPT_DIR.parent))
 from lib.gate_result import make_result
 from lib.markdown_utils import read_markdown, has_heading
+
+# 图表 TODO 占位模式
+DIAGRAM_TODO_PATTERN = re.compile(
+    r"(\[TODO:\s*diag|TODO:\s*diagram|待补图|图表待补|diag-\d+.*TODO)",
+    re.I,
+)
 
 
 def main():
@@ -39,6 +46,13 @@ def main():
     content = read_markdown(review_path)
     errors = []
     warnings = []
+
+    # 检查 draft.md 中的图表 TODO（作为 review_readiness 的前置检查）
+    draft_path = os.path.join(change_dir, "draft.md")
+    if os.path.exists(draft_path):
+        draft_content = Path(draft_path).read_text(encoding="utf-8")
+        if DIAGRAM_TODO_PATTERN.search(draft_content):
+            errors.append("draft.md 包含图表 TODO / diag 占位，review 不得放行")
 
     # 检查 Review Target（支持中英文标题，通过 has_heading alias 系统）
     if not has_heading(content, "Review Target"):

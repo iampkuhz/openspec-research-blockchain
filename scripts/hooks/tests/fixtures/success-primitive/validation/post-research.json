@@ -1,0 +1,11 @@
+{
+  "gate_id": "post_research",
+  "validator": "aggregate",
+  "status": "pass",
+  "blocking": false,
+  "checked_files": ["sources/source-pack.md", "sources/evidence-map.md"],
+  "errors": [],
+  "warnings": [],
+  "rule_refs": ["harness/rules/artifacts/source-pack-rules.md"],
+  "metadata": {"aggregated_from": 1}
+}

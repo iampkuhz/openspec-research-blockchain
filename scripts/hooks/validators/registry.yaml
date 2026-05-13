@@ -70,3 +70,18 @@ validators:
     script: scripts/hooks/validators/traceability.py
     input_contract: change_context
     output_contract: gate_result
+
+  gate_chain:
+    script: scripts/hooks/validators/gate_chain.py
+    input_contract: change_context
+    output_contract: gate_result
+
+  change_dedup:
+    script: scripts/hooks/validators/change_dedup.py
+    input_contract: change_context
+    output_contract: gate_result
+
+  protected_paths:
+    script: scripts/hooks/validators/protected_paths.py
+    input_contract: change_context
+    output_contract: gate_result

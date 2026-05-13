@@ -71,6 +71,15 @@
 
 **如果步骤 5 决定继续推进已有 change，则跳过步骤 7 的 ID 创建，直接复用已有目录。change.yaml 的 `id` 保持不变，即使其命名不符合步骤 7 的新格式；不得因为历史命名不合规而新建重复 change。**
 
+### 步骤 5b：Target path 锁定
+
+初始化 change 时，必须锁定 canonical publish target：
+
+1. `request.md` 中声明的目标 Knowledge 路径、`plan.md` 中的目标路径草案、`change.yaml` 的 `publish_targets` 必须一致。
+2. 后续 agent（draft / review / publish）不得单方面修改 target path。
+3. 如需修改，必须在 `plan.md` 中记录 migration rationale，并同步更新 `change.yaml`。
+4. publish 阶段校验 `publish.md` 的 to 路径与 `change.yaml` 的 `publish_targets` 一致。
+
 ### 步骤 6：判断 change_operation
 
 判断是新建还是更新：

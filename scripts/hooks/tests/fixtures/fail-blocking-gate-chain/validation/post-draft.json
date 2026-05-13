@@ -1,0 +1,13 @@
+{
+  "gate_id": "post_draft",
+  "validator": "aggregate",
+  "status": "fail",
+  "blocking": true,
+  "checked_files": ["draft.md"],
+  "errors": [
+    "draft.md 仍包含图表 TODO 占位，阻塞 post_draft gate"
+  ],
+  "warnings": [],
+  "rule_refs": ["harness/rules/artifacts/draft-rules.md"],
+  "metadata": {"aggregated_from": 1}
+}

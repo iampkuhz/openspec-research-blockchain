@@ -1,0 +1,21 @@
+id: synthesis_test-inherited
+schema: blockchain-research
+task_type: synthesis
+change_operation: create
+execution_scope: change
+artifacts:
+  - request.md
+  - plan.md
+  - draft.md
+  - publish.md
+  - sources/source-pack.md
+validators:
+  - required_files
+  - source_pack
+publish_targets:
+  - from: draft.md
+    to: knowledge/analysis/synthesis/test-inherited/artifact.md
+source_pack:
+  mode: inherited
+  inherits_from:
+    - primitive_test-dedup_clean

@@ -31,6 +31,7 @@ gates:
       - required_files
       - markdown_sections
       - child_change_graph
+      - change_dedup
     rule_refs:
       - harness/rules/artifacts/plan-rules.md
     output:
@@ -99,6 +100,7 @@ gates:
         - review.md
         - publish.md
     validators:
+      - gate_chain
       - publish_targets
       - traceability
       - decision_verdict

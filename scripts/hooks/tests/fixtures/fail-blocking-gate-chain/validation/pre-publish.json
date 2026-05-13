@@ -1,0 +1,36 @@
+{
+  "gate_id": "pre_publish",
+  "validator": "aggregate",
+  "status": "fail",
+  "blocking": true,
+  "checked_files": [
+    "draft.md",
+    "validation/post-research.json",
+    "validation/post-request.json",
+    "validation/post-draft.json",
+    "publish.md",
+    "sources/source-pack.md",
+    "validation/post-plan.json",
+    "validation/post-review.json"
+  ],
+  "errors": [
+    "存在 blocking fail 的前置 gate，不得进入 publish",
+    "sources/source-pack.md 已存在但 validation/post-research.json 未执行，疑似绕过 gate 直接写入",
+    "post_draft 状态为 fail 且 blocking=true，原因: draft.md 仍包含图表 TODO 占位，阻塞 post_draft gate",
+    "review.md 已存在但 validation/post-review.json 未执行，疑似绕过 gate 直接写入"
+  ],
+  "warnings": [
+    "validation/post-request.json 不存在，对应 gate 尚未执行",
+    "validation/post-plan.json 不存在，对应 gate 尚未执行",
+    "task_type=primitive，非 decision 类型跳过"
+  ],
+  "rule_refs": [
+    "harness/gates/registry.yaml",
+    "harness/rules/research/decision-criteria-rules.md",
+    "harness/rules/artifacts/publish-rules.md",
+    "harness/rules/research/traceability-rules.md"
+  ],
+  "metadata": {
+    "aggregated_from": 4
+  }
+}

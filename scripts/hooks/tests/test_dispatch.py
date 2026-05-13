@@ -53,6 +53,26 @@ class TestDispatch(unittest.TestCase):
         result = self.run_dispatch("fail-decision-missing-verdict", "pre_publish")
         self.assertEqual(result.returncode, 2, f"Expected exit 2, got {result.returncode}, stderr: {result.stderr}")
 
+    def test_fail_blocking_gate_chain_pre_publish(self):
+        """fail-blocking-gate-chain: post-draft fail+blocking, pre_publish must fail."""
+        result = self.run_dispatch("fail-blocking-gate-chain", "pre_publish")
+        self.assertEqual(result.returncode, 2, f"Expected exit 2 (blocking gate chain), got {result.returncode}, stderr: {result.stderr}")
+
+    def test_fail_draft_diagram_todo_post_review(self):
+        """fail-draft-diagram-todo: draft has diagram TODO, post_review must fail."""
+        result = self.run_dispatch("fail-draft-diagram-todo", "post_review")
+        self.assertEqual(result.returncode, 2, f"Expected exit 2 (diagram TODO), got {result.returncode}, stderr: {result.stderr}")
+
+    def test_pass_dedup_clean_post_plan(self):
+        """pass-dedup-clean: no duplicate changes, consistent targets, post_plan should pass."""
+        result = self.run_dispatch("pass-dedup-clean", "post_plan")
+        self.assertEqual(result.returncode, 0, f"Expected exit 0 (clean dedup), got {result.returncode}, stderr: {result.stderr}")
+
+    def test_pass_synthesis_inherited_post_research(self):
+        """pass-synthesis-inherited: source_pack with inherited mode, post_research should pass."""
+        result = self.run_dispatch("pass-synthesis-inherited", "post_research")
+        self.assertEqual(result.returncode, 0, f"Expected exit 0 (inherited sources), got {result.returncode}, stderr: {result.stderr}")
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -52,8 +52,27 @@ def main():
         print(json.dumps(result))
         sys.exit(1)
 
+    # 检查是否为 inherited mode（synthesis 继承来源）
+    is_inherited = False
+    inherits_from = []
+    if "inherits_from:" in content or "inherits_from：" in content or "来源继承自:" in content:
+        is_inherited = True
+        # 提取 inherits_from 列表
+        for line in content.split("\n"):
+            line = line.strip()
+            if line.startswith("- ") and (is_inherited or "inherit" in line.lower()):
+                inherits_from.append(line[2:].strip())
+
     # 检查 Source List 标题（支持中英文）
-    if "Source List" not in content and "## Source" not in content and "来源清单" not in content and "## 来源" not in content:
+    has_source_list = (
+        "Source List" in content or
+        "## Source" in content or
+        "来源清单" in content or
+        "## 来源" in content or
+        is_inherited  # inherited mode 可以没有传统来源清单
+    )
+
+    if not has_source_list:
         result = make_result(
             gate_id=gate_id,
             validator="source_pack",
@@ -63,7 +82,22 @@ def main():
             errors=[],
             warnings=["source-pack.md 未包含 'Source List' 标题"],
             rule_refs=["harness/rules/artifacts/source-pack-rules.md"],
-            metadata={"change_dir": change_dir},
+            metadata={"change_dir": change_dir, "mode": "inherited" if is_inherited else "direct"},
+        )
+        print(json.dumps(result))
+        sys.exit(0)
+
+    if is_inherited and not inherits_from:
+        result = make_result(
+            gate_id=gate_id,
+            validator="source_pack",
+            status="warn",
+            blocking=False,
+            checked_files=["sources/source-pack.md"],
+            errors=[],
+            warnings=["source-pack.md 声明 inherited mode 但未列出 inherits_from"],
+            rule_refs=["harness/rules/artifacts/source-pack-rules.md"],
+            metadata={"change_dir": change_dir, "mode": "inherited"},
         )
         print(json.dumps(result))
         sys.exit(0)
@@ -77,7 +111,7 @@ def main():
         errors=[],
         warnings=[],
         rule_refs=["harness/rules/artifacts/source-pack-rules.md"],
-        metadata={"change_dir": change_dir},
+        metadata={"change_dir": change_dir, "mode": "inherited" if is_inherited else "direct"},
     )
     print(json.dumps(result))
     sys.exit(0)

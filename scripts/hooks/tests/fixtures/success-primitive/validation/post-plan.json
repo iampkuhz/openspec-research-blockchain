@@ -1,0 +1,11 @@
+{
+  "gate_id": "post_plan",
+  "validator": "aggregate",
+  "status": "pass",
+  "blocking": true,
+  "checked_files": ["change.yaml", "request.md", "plan.md"],
+  "errors": [],
+  "warnings": [],
+  "rule_refs": ["harness/rules/artifacts/plan-rules.md"],
+  "metadata": {"aggregated_from": 1}
+}

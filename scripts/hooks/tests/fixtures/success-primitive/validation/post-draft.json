@@ -4,20 +4,21 @@
   "status": "pass",
   "blocking": true,
   "checked_files": [
-    "sources/source-pack.md",
     "publish.md",
+    "sources/source-pack.md",
     "draft.md"
   ],
   "errors": [],
   "warnings": [
     "PASS: draft.md has required structure",
-    "no section requirements for unknown"
+    "blocks=0"
   ],
   "rule_refs": [
+    "harness/rules/diagrams/diagram-policy.md",
     "harness/rules/artifacts/draft-rules.md",
     "harness/rules/research/traceability-rules.md"
   ],
   "metadata": {
-    "aggregated_from": 3
+    "aggregated_from": 4
   }
 }

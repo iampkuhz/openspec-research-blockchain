@@ -4,22 +4,34 @@
   "status": "fail",
   "blocking": true,
   "checked_files": [
+    "draft.md",
+    "validation/post-research.json",
+    "validation/post-plan.json",
     "publish.md",
     "decision-criteria.md",
-    "draft.md"
+    "validation/post-draft.json",
+    "validation/post-review.json",
+    "validation/post-request.json"
   ],
   "errors": [
+    "存在 blocking fail 的前置 gate，不得进入 publish",
+    "request.md 已存在但 validation/post-request.json 未执行，疑似绕过 gate 直接写入",
+    "draft.md 已存在但 validation/post-draft.json 未执行，疑似绕过 gate 直接写入",
     "decision 类型需要 decision-criteria.md 或 draft.md 包含 Decision Analysis"
   ],
   "warnings": [
+    "validation/post-plan.json 不存在，对应 gate 尚未执行",
+    "validation/post-research.json 不存在，对应 gate 尚未执行",
+    "validation/post-review.json 不存在，对应 gate 尚未执行",
     "publish.md 未包含 verdict mapping"
   ],
   "rule_refs": [
     "harness/rules/artifacts/publish-rules.md",
-    "harness/rules/research/decision-criteria-rules.md",
-    "harness/rules/research/traceability-rules.md"
+    "harness/rules/research/traceability-rules.md",
+    "harness/gates/registry.yaml",
+    "harness/rules/research/decision-criteria-rules.md"
   ],
   "metadata": {
-    "aggregated_from": 3
+    "aggregated_from": 4
   }
 }

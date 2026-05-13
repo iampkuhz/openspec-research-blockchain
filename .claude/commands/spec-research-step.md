@@ -200,12 +200,13 @@ command 只检查：
 
 publish 阶段必须：
 
-1. 检查 `draft.md` 存在。
-2. 检查 `review.md` verdict 为 `approved` 或 `approved with minor fixes`。
-3. 检查 draft 不含图表 TODO，且计划要求的正式图表 gate 已满足。
-4. 生成或校验 `publish.md`。
-5. 校验 publish targets 符合 schema 与 `openspec/config.yaml`。
-6. 写入合法 `knowledge/**/artifact.md` 和 decision `verdict.md`（如适用）。
+1. 生成或校验 `publish.md`。
+2. 运行 `dispatch.py --event pre_publish` 确认无 blocking gate fail。
+3. 检查 `draft.md` 存在。
+4. 检查 `review.md` verdict 为 `approved` 或 `approved with minor fixes`。
+5. 检查 draft 不含图表 TODO，且计划要求的正式图表 gate 已满足。
+6. 校验 publish targets 符合 schema 与 `openspec/config.yaml`。
+7. 写入合法 `knowledge/**/artifact.md` 和 decision `verdict.md`（如适用）。
 
 ## 禁止事项
 
@@ -213,6 +214,8 @@ publish 阶段必须：
 - 不要跳过 `publish.md` 直接写 `knowledge/**`。
 - 不要从 `request.md` 或 `plan.md` 直接生成 `knowledge/**`。
 - 不要在 step command 内展开 subagent 的内部分析细节。
+- **不得在普通 research 执行中修改 `.claude/**`、`harness/**`、`openspec/specs/**`、`openspec/schemas/**`、`AGENTS.md`、`CLAUDE.md`、`docs/governance/**`。**
+- 如果发现 command / agent / harness 需要优化，只能记录到当前 change 的 review/blocker，停止并建议走 `/spec-governance-review`。
 
 ## 完成总结
 

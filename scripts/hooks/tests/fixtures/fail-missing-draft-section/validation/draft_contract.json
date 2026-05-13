@@ -7,7 +7,7 @@
     "draft.md"
   ],
   "errors": [
-    "Missing required sections in draft.md: Body, Evidence, Traceability"
+    "Missing required sections in draft.md: Evidence/\u8bc1\u636e, Traceability/\u8ffd\u8e2a\u94fe, Body/\u6b63\u6587 (\u6216\u7f16\u53f7\u7ae0\u8282)"
   ],
   "warnings": [],
   "rule_refs": [

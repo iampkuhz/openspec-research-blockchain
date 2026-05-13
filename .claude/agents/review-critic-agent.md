@@ -78,6 +78,16 @@ effort: high
 5. 问题必须带 severity 和可执行的修复建议。
 6. `review.md` 是 canonical review artifact；`review/` 目录只保存 supporting details。
 
+### 图表 blocker 硬性规则（必须执行）
+
+以下情况必须判定为 **high severity / blocking**，且 verdict 必须是 `needs revision`：
+
+- plan 声明必需正式图表（PlantUML / Architecture Diagram / Sequence Diagram），但 `diagrams/<id>/validation.json` 不存在或未通过验证。
+- draft 中包含 `[TODO: diag-*]`、`TODO diagram`、`待补图`、`图表待补`、`diag-` 等占位符。
+- plan 要求正式图表但 `diagrams/` 目录为空。
+
+图表 blocker 不得使用 `approved with minor fixes` 降级。
+
 ## 禁止事项
 
 1. 不要调用其他 subagent。

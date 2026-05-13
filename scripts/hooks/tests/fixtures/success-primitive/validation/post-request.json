@@ -1,0 +1,11 @@
+{
+  "gate_id": "post_request",
+  "validator": "aggregate",
+  "status": "pass",
+  "blocking": true,
+  "checked_files": ["change.yaml", "request.md"],
+  "errors": [],
+  "warnings": [],
+  "rule_refs": ["harness/rules/artifacts/request-rules.md"],
+  "metadata": {"aggregated_from": 1}
+}

@@ -13,6 +13,33 @@
             "timeout": 60,
             "statusMessage": "Running hook validations...",
             "if": "filePath contains 'openspec/changes/'"
+          },
+          {
+            "type": "command",
+            "command": "cd /Users/zhehan/Documents/tools/llm/openspec/openspec-research-blockchain && python3 scripts/hooks/dispatch.py --event post_write --files \"$(jq -r '.tool_response.filePath // .tool_input.file_path' 2>/dev/null)\"",
+            "timeout": 60,
+            "statusMessage": "Running post-publish checks...",
+            "if": "filePath contains 'knowledge/'"
+          },
+          {
+            "type": "command",
+            "command": "cd /Users/zhehan/Documents/tools/llm/openspec/openspec-research-blockchain && python3 scripts/hooks/validators/protected_paths.py --files \"$(jq -r '.tool_response.filePath // .tool_input.file_path' 2>/dev/null)\"",
+            "timeout": 30,
+            "statusMessage": "Checking protected paths guard...",
+            "if": "filePath contains '.claude/' || filePath contains 'harness/' || filePath contains 'openspec/specs/' || filePath contains 'openspec/schemas/' || filePath contains 'AGENTS.md' || filePath contains 'CLAUDE.md' || filePath contains 'docs/governance/'"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cd /Users/zhehan/Documents/tools/llm/openspec/openspec-research-blockchain && python3 scripts/hooks/dispatch.py --event stop --json",
+            "timeout": 30,
+            "statusMessage": "Summarizing validation gates..."
           }
         ]
       }

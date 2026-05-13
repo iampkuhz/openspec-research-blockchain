@@ -26,3 +26,13 @@ x_artifact_constraints:
     validators:
       - markdown_sections
       - traceability
+
+x_source_pack_modes:
+  direct:
+    description: "synthesis 自行收集来源，必须生成完整 source_pack.md 和 evidence_map.md"
+  inherited:
+    description: "synthesis 继承依赖 primitive 的来源，必须在 source_pack.md 中声明 inherits_from 列表和来源摘要"
+    requires:
+      - "source_pack.md 中必须包含 inherits_from 字段，列出依赖的 change ID"
+      - "source_pack.md 中必须包含来源汇总表，即使不重复列出每条 source"
+      - "evidence_map 仍必须存在，描述 primitive source 如何支撑 synthesis claim"

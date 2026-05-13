@@ -1,0 +1,19 @@
+{
+  "gate_id": "post_review",
+  "validator": "aggregate",
+  "status": "fail",
+  "blocking": true,
+  "checked_files": [
+    "review.md"
+  ],
+  "errors": [
+    "draft.md 包含图表 TODO / diag 占位，review 不得放行"
+  ],
+  "warnings": [],
+  "rule_refs": [
+    "harness/rules/artifacts/review-rules.md"
+  ],
+  "metadata": {
+    "aggregated_from": 2
+  }
+}

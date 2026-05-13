@@ -10,14 +10,16 @@
     "Missing sections in draft.md: Body, Evidence, Traceability"
   ],
   "warnings": [
-    "FAIL: Missing required sections in draft.md: Body, Evidence, Traceability",
+    "FAIL: Missing required sections in draft.md: Evidence/证据, Traceability/追踪链, Body/正文 (或编号章节)",
+    "blocks=0",
     "draft.md 未包含 Traceability 部分"
   ],
   "rule_refs": [
-    "harness/rules/artifacts/draft-rules.md",
-    "harness/rules/research/traceability-rules.md"
+    "harness/rules/research/traceability-rules.md",
+    "harness/rules/diagrams/diagram-policy.md",
+    "harness/rules/artifacts/draft-rules.md"
   ],
   "metadata": {
-    "aggregated_from": 3
+    "aggregated_from": 4
   }
 }

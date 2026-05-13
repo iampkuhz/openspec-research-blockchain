@@ -555,8 +555,8 @@ def main():
             repo_root = find_repo_root()
             change_dir = find_change_dir(repo_root)
         except RuntimeError:
-            # 如果无法定位 change，在 post_tool_use 事件中静默退出
-            if args.event == "post_tool_use" or args.event == "post_write":
+            # 如果无法定位 change，stop/post_tool_use/post_write 事件中静默退出
+            if args.event in ("stop", "post_tool_use", "post_write"):
                 print("[dispatch] no change directory found, skipping")
                 return
             print("[dispatch] ERROR: cannot locate change directory, use --change", file=sys.stderr)
@@ -564,7 +564,7 @@ def main():
 
     if not change_dir or not os.path.isdir(change_dir):
         # 文件路径可能不在 change 目录中，跳过
-        if args.event == "post_tool_use" or args.event == "post_write":
+        if args.event in ("stop", "post_tool_use", "post_write"):
             print(f"[dispatch] not in a change directory, skipping")
             return
         print(f"[dispatch] ERROR: change directory not found: {change_dir}", file=sys.stderr)
@@ -652,8 +652,38 @@ def _infer_change_dir(filepath: str) -> str | None:
     return None
 
 
+def _infer_change_dir_from_knowledge(knowledge_path: str, repo_root: str) -> str | None:
+    """从 knowledge/** 路径反向查找对应的 change 目录（通过 publish_targets 匹配）。"""
+    changes_root = os.path.join(repo_root, "openspec", "changes")
+    if not os.path.isdir(changes_root):
+        return None
+    abs_knowledge = os.path.abspath(knowledge_path)
+    for entry in sorted(os.listdir(changes_root)):
+        if entry == "archive":
+            continue
+        change_yaml_path = os.path.join(changes_root, entry, "change.yaml")
+        if not os.path.exists(change_yaml_path):
+            continue
+        try:
+            change_yaml = load_yaml(change_yaml_path)
+        except Exception:
+            continue
+        for pt in change_yaml.get("publish_targets", []):
+            if isinstance(pt, dict):
+                to_path = pt.get("to", "")
+                if to_path and to_path in abs_knowledge:
+                    return os.path.join(changes_root, entry)
+    return None
+
+
 def _infer_change_dir_from_path(filepath: str) -> str | None:
     """从未创建的文件路径推断 change 目录。"""
+    repo_root = str(ROOT)
+    # 优先尝试从 knowledge 路径反向查找 change
+    if filepath.startswith("knowledge/") or "/knowledge/" in filepath:
+        result = _infer_change_dir_from_knowledge(filepath, repo_root)
+        if result:
+            return result
     if "openspec/changes/" in filepath:
         parts = filepath.split("openspec/changes/")
         if len(parts) > 1:
