@@ -15,9 +15,9 @@
     "draft.md 未包含 Traceability 部分"
   ],
   "rule_refs": [
+    "harness/rules/research/traceability-rules.md",
     "harness/rules/diagrams/diagram-policy.md",
-    "harness/rules/artifacts/draft-rules.md",
-    "harness/rules/research/traceability-rules.md"
+    "harness/rules/artifacts/draft-rules.md"
   ],
   "metadata": {
     "aggregated_from": 4

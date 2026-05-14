@@ -7,9 +7,8 @@
 # OpenSpec 过程文件
 openspec/changes/*
 !openspec/changes/README.md
-!openspec/changes/*.md
-!openspec/changes/governance-multi-agent-upgrade-pass-1/
-!openspec/changes/governance-multi-agent-upgrade-pass-1/**
+!/openspec/specs/README.md
+/openspec/archive/
 
 # 临时文件
 tmp/
@@ -58,18 +57,11 @@ tests/snapshots/
 # Git 索引目录（需追踪的入口文件）
 !/.github/
 !/.github/**
-!/openspec/changes/README.md
-!/openspec/changes/harness-architecture-audit-2026q2/
-!/openspec/changes/harness-architecture-audit-2026q2/**
-!/openspec/specs/README.md
 !/sources/README.md
 !/support/*README.md
 !/docs/README.md
 !/.claude/skills/
 !/.claude/skills/**
-/openspec/archive/
-# /openspec/changes/ — 默认忽略已在第 8 行声明；negate 规则在第 9-12 行
-# 此处不再重复，避免覆盖前面的 !openspec/changes/README.md
 /harness/reports/
 !/harness/reports/README.md
 !/harness/reports/*.md

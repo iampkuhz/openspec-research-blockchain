@@ -4,13 +4,13 @@
   "status": "pass",
   "blocking": true,
   "checked_files": [
-    "validation/post-request.json",
     "sources/source-pack.md",
-    "publish.md",
+    "validation/post-research.json",
     "draft.md",
     "validation/post-plan.json",
+    "validation/post-request.json",
     "validation/post-review.json",
-    "validation/post-research.json",
+    "publish.md",
     "validation/post-draft.json"
   ],
   "errors": [],
@@ -18,10 +18,10 @@
     "task_type=primitive，非 decision 类型跳过"
   ],
   "rule_refs": [
-    "harness/gates/registry.yaml",
-    "harness/rules/artifacts/publish-rules.md",
+    "harness/rules/research/traceability-rules.md",
     "harness/rules/research/decision-criteria-rules.md",
-    "harness/rules/research/traceability-rules.md"
+    "harness/rules/artifacts/publish-rules.md",
+    "harness/gates/registry.yaml"
   ],
   "metadata": {
     "aggregated_from": 4

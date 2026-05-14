@@ -5,13 +5,13 @@
   "blocking": true,
   "checked_files": [
     "validation/post-review.json",
-    "sources/source-pack.md",
-    "validation/post-request.json",
-    "publish.md",
     "draft.md",
-    "validation/post-research.json",
+    "validation/post-request.json",
+    "sources/source-pack.md",
     "validation/post-draft.json",
-    "validation/post-plan.json"
+    "validation/post-plan.json",
+    "validation/post-research.json",
+    "publish.md"
   ],
   "errors": [
     "存在 blocking fail 的前置 gate，不得进入 publish",
@@ -25,10 +25,10 @@
     "task_type=primitive，非 decision 类型跳过"
   ],
   "rule_refs": [
-    "harness/rules/artifacts/publish-rules.md",
     "harness/gates/registry.yaml",
-    "harness/rules/research/decision-criteria-rules.md",
-    "harness/rules/research/traceability-rules.md"
+    "harness/rules/research/traceability-rules.md",
+    "harness/rules/artifacts/publish-rules.md",
+    "harness/rules/research/decision-criteria-rules.md"
   ],
   "metadata": {
     "aggregated_from": 4
