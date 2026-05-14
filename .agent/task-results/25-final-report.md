@@ -92,6 +92,7 @@ python3 -m pytest scripts/hooks/tests -q
 ## Commits
 
 - `0685a39` — V2 spec system hardening: validators, config alignment, skill fixes (12 files, +541/-14)
+- `1dbbfbb` — V2 post-review fixes: ROOT definition, path resolution, profile fields, gate wiring, ledger
 
 ## Unresolved Risks
 

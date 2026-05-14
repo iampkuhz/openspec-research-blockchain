@@ -5,8 +5,8 @@
   "blocking": true,
   "checked_files": [
     "sources/source-pack.md",
-    "draft.md",
-    "publish.md"
+    "publish.md",
+    "draft.md"
   ],
   "errors": [],
   "warnings": [

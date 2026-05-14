@@ -4,14 +4,14 @@
   "status": "pass",
   "blocking": true,
   "checked_files": [
-    "draft.md",
     "validation/post-draft.json",
-    "validation/post-research.json",
     "publish.md",
+    "sources/source-pack.md",
+    "validation/post-research.json",
     "validation/post-request.json",
     "validation/post-plan.json",
-    "sources/source-pack.md",
-    "validation/post-review.json"
+    "validation/post-review.json",
+    "draft.md"
   ],
   "errors": [],
   "warnings": [

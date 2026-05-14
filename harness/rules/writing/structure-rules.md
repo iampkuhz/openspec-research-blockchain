@@ -181,7 +181,7 @@ code here
 ### 内部引用
 
 ```markdown
-详见 [组件分析](./atoms/core-mechanism.md#gas-calc)。
+详见 [组件分析](./<domain>/<topic-slug>.md)。
 ```
 
 ### 外部引用

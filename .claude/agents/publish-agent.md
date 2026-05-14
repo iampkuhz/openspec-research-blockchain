@@ -84,7 +84,7 @@ effort: high
 6. 写入的 `artifact.md` 必须以目录（TOC）开头，覆盖所有一级和二级标题。
 7. 如目标路径已有旧 artifact，必须比对新旧内容。旧内容保留率 < 50% 时必须标记 `needs-justification` 并回报主会话。
 8. 如本 change 仍被 pending synthesis / decision 依赖，必须延迟归档。
-9. **图表必须内嵌**：draft 中如引用 `diagrams/**` 的正式图表（`verified-diagram` 标注），在 artifact 中必须将 PlantUML / Mermaid / ASCII 源码以 ` ```plantuml` / ` ```mermaid` / ` ```text` 代码块完整内嵌到正文对应位置，不得只写"详见 diagrams/xxx.svg"。如原始源码不可获取（仅有 SVG/PNG 等二进制渲染结果），必须将渲染文件复制到 artifact 同级目录，并在 artifact 中使用相对路径 `![图名](diagram.svg)` 引用。
+9. **图表必须内嵌**：draft 中如引用 `diagrams/**` 的正式图表（`verified-diagram` 标注），在 artifact 中必须将 PlantUML / Mermaid / ASCII 源码以 ` ```plantuml` / ` ```mermaid` / ` ```text` 代码块完整内嵌到正文对应位置，不得只写"详见 diagrams/xxx.svg"。如原始源码不可获取（仅有 SVG/PNG 等二进制渲染结果），必须将渲染文件复制到 artifact 同级目录，并在 artifact 中使用相对路径 `![图名](<diagram.svg>)` 引用。
 10. **正文引用必须带文档内超链接**：artifact 正文中所有来源引用（如 `[L1: Tower BFT Official Docs]`、`[↗Helius Alpenglow]` 等），必须使用 Markdown 内联链接格式 `[↗来源简称](#参考资料)`，指向文档末尾的 `## 参考资料` 章节。参考资料表格必须包含编号（S1, S2...）、来源等级、来源名称、URL 链接、说明五列，使正文超链接可跳转到对应来源行。
 11. **禁止 `详见 diagrams/` 式外部引用**：draft 中如出现 `详见 diagrams/<id>/diagram.svg` 或类似指向 change 临时目录的引用，publish 时必须替换为内嵌代码或同目录图片引用。
 

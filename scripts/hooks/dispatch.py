@@ -209,17 +209,37 @@ def run_validator(
             timeout=60,
             cwd=repo_root,
         )
-        # 尝试从 stdout 解析 JSON result
-        for line in proc.stdout.strip().split("\n"):
-            line = line.strip()
-            if line.startswith("{"):
-                try:
-                    result = json.loads(line)
+        # 尝试从 stdout 解析 JSON result，优先整段解析（支持 pretty JSON）
+        stdout = proc.stdout.strip()
+        if stdout:
+            # 1. 优先尝试整段解析（pretty JSON）
+            try:
+                result = json.loads(stdout)
+                if isinstance(result, dict):
                     return result
-                except json.JSONDecodeError:
-                    pass
+            except json.JSONDecodeError:
+                pass
 
-        # 如果无法解析 JSON，根据 exit code 构建 result
+            # 2. 从 stdout 中提取第一个完整 JSON 对象（处理混有日志的情况）
+            brace_depth = 0
+            start = None
+            for i, ch in enumerate(stdout):
+                if ch == "{":
+                    if brace_depth == 0:
+                        start = i
+                    brace_depth += 1
+                elif ch == "}":
+                    brace_depth -= 1
+                    if brace_depth == 0 and start is not None:
+                        try:
+                            result = json.loads(stdout[start:i+1])
+                            if isinstance(result, dict):
+                                return result
+                        except json.JSONDecodeError:
+                            pass
+                        start = None
+
+        # 3. 无法解析 JSON 时的 fallback：根据 exit code 构建 result
         status = "pass" if proc.returncode == 0 else "fail"
         return make_result(
             gate_id=gate_id,
@@ -228,9 +248,9 @@ def run_validator(
             blocking=gate_config.get("blocking", True),
             checked_files=gate_config.get("files", {}).get("required", []),
             errors=[proc.stderr.strip()] if proc.stderr.strip() and proc.returncode != 0 else [],
-            warnings=[proc.stdout.strip()] if proc.stdout.strip() else [],
+            warnings=[stdout] if stdout else [],
             rule_refs=gate_config.get("rule_refs", []),
-            metadata={"change_dir": change_dir, "repo_root": repo_root},
+            metadata={"change_dir": change_dir, "repo_root": repo_root, "returncode": proc.returncode},
         )
     except subprocess.TimeoutExpired:
         return make_result(

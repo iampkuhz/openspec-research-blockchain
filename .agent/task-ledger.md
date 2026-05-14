@@ -33,3 +33,4 @@
 | 23 | 23-FULL-VALIDATION-MATRIX | done | 32/32 tests pass |
 | 24 | 24-GIT-COMMIT-CHECKPOINTS | done | 1 commit created |
 | 25 | 25-FINAL-REPORT | done | All 25 tasks completed |
+| 26 | 26-GOVERNANCE-GATE-HARDENING | done | Dispatcher pretty JSON fixed, advisory aggregation semantic fixed, 5 dead refs cleared, governance_check passes |

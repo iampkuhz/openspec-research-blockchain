@@ -1,20 +1,20 @@
 {
   "gate_id": "post_research",
   "validator": "aggregate",
-  "status": "fail",
+  "status": "warn",
   "blocking": false,
   "checked_files": [
-    "sources/evidence-map.md",
-    "sources/source-pack.md"
+    "sources/source-pack.md",
+    "sources/evidence-map.md"
   ],
-  "errors": [
-    "sources/evidence-map.md not found"
+  "errors": [],
+  "warnings": [
+    "[advisory] sources/evidence-map.md not found"
   ],
-  "warnings": [],
   "rule_refs": [
-    "harness/rules/artifacts/source-pack-rules.md",
+    "harness/rules/artifacts/evidence-map-rules.md",
     "harness/rules/research/traceability-rules.md",
-    "harness/rules/artifacts/evidence-map-rules.md"
+    "harness/rules/artifacts/source-pack-rules.md"
   ],
   "metadata": {
     "aggregated_from": 3

@@ -46,7 +46,7 @@ publish.md 必须定义：
 - draft 中如引用 `diagrams/**` 的正式图表（`<!-- verified-diagram: <id> -->` 标注），必须在 artifact 中将 PlantUML / Mermaid / ASCII 源码以代码块完整内嵌到正文对应位置。
 - 源码读取路径为 `openspec/changes/<change-id>/diagrams/<id>/diagram.puml`；如 change 已归档，则从 `openspec/changes/archive/<change-id>/diagrams/<id>/diagram.puml` 读取。
 - 禁止在 artifact 中写"详见 diagrams/xxx.svg"或任何指向 change 临时目录的引用。
-- 如原始源码不可获取（仅有 SVG/PNG 等二进制渲染结果），必须将渲染文件复制到 artifact 同级目录，并在 artifact 中使用相对路径 `![图名](diagram.svg)` 引用。
+- 如原始源码不可获取（仅有 SVG/PNG 等二进制渲染结果），必须将渲染文件复制到 artifact 同级目录，并在 artifact 中使用相对路径 `![图名](<diagram.svg>)` 引用。
 
 **文档内超链接规则**：
 - artifact 正文中所有来源引用必须使用 Markdown 内联链接格式 `[↗来源简称](#参考资料)`，指向文档末尾的 `## 参考资料` 章节。
@@ -86,5 +86,5 @@ publish.md 必须定义：
 ## 完成后
 
 - 知识资产已沉淀到 knowledge/**
-- change 目录可归档到 `openspec/archive/`
+- change 目录可归档到 `openspec/changes/archive/`
 - 如需更新已有 knowledge，走 update 场景的 impact scan

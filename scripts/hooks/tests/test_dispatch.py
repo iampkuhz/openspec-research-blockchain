@@ -74,5 +74,58 @@ class TestDispatch(unittest.TestCase):
         self.assertEqual(result.returncode, 0, f"Expected exit 0 (inherited sources), got {result.returncode}, stderr: {result.stderr}")
 
 
+class TestDispatchPrettyJsonParsing(unittest.TestCase):
+    """Test that dispatch correctly parses pretty-printed JSON validator output."""
+
+    def test_run_validator_parses_pretty_json(self):
+        """Verify that run_validator parses multi-line (indented) JSON output, not just single-line."""
+        from scripts.hooks.dispatch import run_validator
+        from scripts.hooks.lib.gate_result import make_result
+        import json
+
+        # Simulate a validator entry that outputs pretty JSON
+        validator_entry = {"script": "hooks/validators/schema_package.py"}
+
+        # We can't easily test the actual subprocess call here, so test the
+        # JSON extraction logic indirectly via a real validator that outputs pretty JSON
+        validator_entry_ref = {"script": "hooks/validators/reference_integrity.py"}
+
+        result = run_validator(
+            "reference_integrity",
+            validator_entry_ref,
+            str(ROOT),
+            "governance_check",
+            {"blocking": True, "rule_refs": [], "files": {"required": []}},
+            str(ROOT),
+        )
+
+        # The result should be a parsed dict, not have the JSON in warnings
+        self.assertIsInstance(result, dict)
+        self.assertIn("validator", result)
+        self.assertEqual(result["validator"], "reference_integrity")
+        # Should NOT have the JSON blob in warnings
+        for w in result.get("warnings", []):
+            self.assertFalse(
+                w.strip().startswith("{"),
+                f"Pretty JSON should not appear in warnings: {w[:100]}"
+            )
+
+    def test_run_validator_missing_script(self):
+        """Missing validator script should return error result."""
+        from scripts.hooks.dispatch import run_validator
+
+        result = run_validator(
+            "nonexistent_validator",
+            {"script": "hooks/validators/nonexistent.py"},
+            str(ROOT),
+            "test_gate",
+            {"blocking": True, "rule_refs": [], "files": {"required": []}},
+            str(ROOT),
+        )
+
+        self.assertEqual(result["status"], "error")
+        self.assertTrue(len(result["errors"]) > 0)
+
+
 if __name__ == "__main__":
     unittest.main()
