@@ -70,10 +70,10 @@ def validate_schema_package() -> tuple[list[str], int]:
         for profile_file in sorted(PROFILES_DIR.glob("*.yaml")):
             profile = load_yaml(str(profile_file))
             profile_name = profile_file.stem
-            for kind in ("required", "optional"):
-                for aid in profile.get(kind, []):
+            for key in ("x_required_artifacts", "x_optional_artifacts"):
+                for aid in profile.get(key, []):
                     if aid not in artifact_ids:
-                        errors.append(f"profile '{profile_name}': {kind} artifact '{aid}' not defined in schema")
+                        errors.append(f"profile '{profile_name}': {key} artifact '{aid}' not defined in schema")
 
     # 4. operation 文件存在
     if OPERATIONS_DIR.exists():

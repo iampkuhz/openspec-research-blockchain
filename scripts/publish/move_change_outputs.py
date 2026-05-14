@@ -23,6 +23,8 @@ from datetime import datetime
 
 VALID_TYPES = {"primitive", "synthesis", "decision"}
 
+ROOT = Path(__file__).resolve().parent.parent.parent
+
 
 def _load_archive_root() -> str:
     """从 openspec/config.yaml 读取 archive root，失败时回退到默认值。"""

@@ -54,6 +54,13 @@ def is_optional_ref(line: str) -> bool:
     return any(re.search(p, line, re.IGNORECASE) for p in OPTIONAL_PATTERNS)
 
 
+# 可识别的顶层目录（repo-root 风格路径的前缀）
+REPO_ROOT_PREFIXES = {
+    "harness/", "openspec/", "scripts/", ".claude/", "docs/",
+    "AGENTS", "CLAUDE", "QODER",
+}
+
+
 def resolve_ref(ref_path: str, source_file: Path) -> Path | None:
     """解析相对或绝对引用为实际路径。"""
     ref = ref_path.strip().rstrip("/")
@@ -65,11 +72,25 @@ def resolve_ref(ref_path: str, source_file: Path) -> Path | None:
     # Skip template placeholders like <change-id>
     if "<" in ref or ">" in ref:
         return None
-    # Must contain a slash or start with ./ or ../ to be a path
-    if "/" not in ref and not ref.startswith("./") and not ref.startswith("../"):
-        return None
+
+    # Repo-root 风格路径：以已知顶层目录开头，从 ROOT 解析
+    if any(ref.startswith(prefix) for prefix in REPO_ROOT_PREFIXES):
+        return (ROOT / ref).resolve()
+
+    # 绝对路径
     if ref.startswith("/"):
-        return ROOT / ref.lstrip("/")
+        return (ROOT / ref.lstrip("/")).resolve()
+
+    # ./ 或 ../ 开头的相对路径
+    if ref.startswith("./") or ref.startswith("../"):
+        return (source_file.parent / ref).resolve()
+
+    # 其他相对路径：如果包含已知顶层目录，也从 ROOT 解析
+    parts = ref.split("/")
+    if parts[0] in REPO_ROOT_PREFIXES:
+        return (ROOT / ref).resolve()
+
+    # 普通相对路径
     return (source_file.parent / ref).resolve()
 
 
@@ -173,7 +194,7 @@ def main():
         status="pass",
         blocking=False,
         checked_files=checked_files[:50],
-        rule_refs=["docs/governance/ openspec-harness-boundary.md"],
+        rule_refs=["docs/governance/openspec-harness-boundary.md"],
         metadata={"total_checked": len(checked_files)},
     )
     print(json.dumps(result, indent=2, ensure_ascii=False))

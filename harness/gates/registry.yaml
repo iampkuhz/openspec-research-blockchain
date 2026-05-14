@@ -123,3 +123,17 @@ gates:
       - harness/rules/research/traceability-rules.md
     output:
       path: validation/post-publish.json
+
+  governance_check:
+    stage: governance_check
+    blocking: true
+    artifact: governance
+    description: "治理修改时的规约体系完整性校验，不用于普通研究 change"
+    validators:
+      - reference_integrity
+      - phase_index
+      - schema_package
+    rule_refs:
+      - docs/governance/openspec-harness-boundary.md
+    output:
+      path: validation/governance-check.json
