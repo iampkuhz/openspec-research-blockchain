@@ -4,9 +4,9 @@
   "status": "pass",
   "blocking": true,
   "checked_files": [
+    "draft.md",
     "sources/source-pack.md",
-    "publish.md",
-    "draft.md"
+    "publish.md"
   ],
   "errors": [],
   "warnings": [
@@ -14,8 +14,8 @@
     "blocks=0"
   ],
   "rule_refs": [
-    "harness/rules/artifacts/draft-rules.md",
     "harness/rules/diagrams/diagram-policy.md",
+    "harness/rules/artifacts/draft-rules.md",
     "harness/rules/research/traceability-rules.md"
   ],
   "metadata": {

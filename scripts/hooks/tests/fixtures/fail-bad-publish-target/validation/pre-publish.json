@@ -4,13 +4,13 @@
   "status": "fail",
   "blocking": true,
   "checked_files": [
-    "validation/post-request.json",
-    "validation/post-review.json",
-    "validation/post-draft.json",
-    "draft.md",
-    "validation/post-plan.json",
     "validation/post-research.json",
-    "publish.md"
+    "validation/post-request.json",
+    "publish.md",
+    "validation/post-draft.json",
+    "validation/post-plan.json",
+    "draft.md",
+    "validation/post-review.json"
   ],
   "errors": [
     "存在 blocking fail 的前置 gate，不得进入 publish",
@@ -26,8 +26,8 @@
   ],
   "rule_refs": [
     "harness/gates/registry.yaml",
-    "harness/rules/research/decision-criteria-rules.md",
     "harness/rules/artifacts/publish-rules.md",
+    "harness/rules/research/decision-criteria-rules.md",
     "harness/rules/research/traceability-rules.md"
   ],
   "metadata": {

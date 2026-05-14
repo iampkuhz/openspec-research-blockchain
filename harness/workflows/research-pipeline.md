@@ -100,7 +100,7 @@
 
 ### 快速路径（减少 LLM 调用）
 
-当同时满足以下条件时，主会话可使用快速路径跳过独立的 diagram-agent 和 review-critic-agent 调用，将对应工作合并到 author agent 内部：
+当同时满足以下条件时，主会话可使用快速路径跳过独立的 diagram-agent 调用，将对应工作合并到 author agent 内部：
 
 1. **无正式 PlantUML 图表需求**：plan.md 未声明 Architecture Diagram 或 Sequence Diagram 类型的正式图表，或仅声明 fallback 类型（Mermaid / 表格 / ASCII）。
 2. **研究深度为 focused 或 light**：非 `deep` 深度的研究。

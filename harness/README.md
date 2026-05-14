@@ -13,7 +13,7 @@
 | Hook/Script | `scripts/hooks/` | 确定性校验 |
 | Knowledge | `knowledge/` | 最终长期研究资产 |
 
-详细边界见 [`harness/governance/openspec-harness-boundary.md`](./governance/openspec-harness-boundary.md)。
+详细边界见 [`docs/governance/openspec-harness-boundary.md`](../docs/governance/openspec-harness-boundary.md)。
 
 ## Active Workflows
 
