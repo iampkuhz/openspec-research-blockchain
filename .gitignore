@@ -28,6 +28,9 @@ downloads/
 eggs/
 .eggs/
 lib/
+# 但追踪 hooks 核心 helper（不是 Python build artifact）
+!scripts/hooks/lib/
+!scripts/hooks/lib/*.py
 lib64/
 parts/
 sdist/
@@ -65,7 +68,8 @@ tests/snapshots/
 !/.claude/skills/
 !/.claude/skills/**
 /openspec/archive/
-/openspec/changes/
+# /openspec/changes/ — 默认忽略已在第 8 行声明；negate 规则在第 9-12 行
+# 此处不再重复，避免覆盖前面的 !openspec/changes/README.md
 /harness/reports/
 !/harness/reports/README.md
 !/harness/reports/*.md
