@@ -15,7 +15,7 @@ description: 当用户提出新的研究目标需要创建 change 目录、chang
 
 - 用户研究需求的自然语言描述。
 - 路由结果：`task_type`（primitive/synthesis/decision/source_reading）。
-- `change_operation`：create / update / extend / supersede / merge。
+- `change_operation`：create / update（当前仅支持这两项）。
 
 ## 输出
 

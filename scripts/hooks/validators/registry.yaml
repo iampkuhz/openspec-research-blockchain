@@ -85,3 +85,45 @@ validators:
     script: scripts/hooks/validators/protected_paths.py
     input_contract: change_context
     output_contract: gate_result
+
+  frontmatter:
+    script: scripts/hooks/validators/frontmatter.py
+    input_contract: repo_context
+    output_contract: exit_code
+    description: "校验 knowledge/ 下 artifact.md 和 verdict.md 的 frontmatter 格式"
+
+  document_structure:
+    script: scripts/hooks/validators/document_structure.py
+    input_contract: artifact_file
+    output_contract: exit_code
+    description: "校验 Markdown 文档结构完整性"
+
+  process_file:
+    script: scripts/hooks/validators/process_file.py
+    input_contract: artifact_file
+    output_contract: exit_code
+    description: "校验单文件最小字段与格式"
+
+  knowledge_artifact_toc:
+    script: scripts/hooks/validators/knowledge_artifact_toc.py
+    input_contract: artifact_file
+    output_contract: exit_code
+    description: "校验 artifact 目录结构与 TOC 完整性"
+
+  reference_integrity:
+    script: scripts/hooks/validators/reference_integrity.py
+    input_contract: repo_context
+    output_contract: gate_result
+    description: "检测 spec-system 文件中的死本地路径引用"
+
+  phase_index:
+    script: scripts/hooks/validators/phase_index.py
+    input_contract: repo_context
+    output_contract: gate_result
+    description: "校验 _phase_index.yaml 中 specs/rules/workflows 引用完整性"
+
+  schema_package:
+    script: scripts/hooks/validators/schema_package.py
+    input_contract: repo_context
+    output_contract: gate_result
+    description: "校验 schema package 完整性（artifacts, templates, profiles, operations）"

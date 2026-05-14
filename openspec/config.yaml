@@ -46,7 +46,7 @@ context: |
 rules:
   request:
     - "必须说明研究目标、范围边界、目标 Knowledge artifact 类型。"
-    - "必须说明本次 change 的 change_operation，例如 create、update、extend、supersede 或 merge。"
+    - "必须说明本次 change 的 change_operation，例如 create 或 update。"
     - "不得直接写最终结论，request 只描述需求、边界和预期产物。"
 
   plan:

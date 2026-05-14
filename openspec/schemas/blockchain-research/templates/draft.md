@@ -4,7 +4,7 @@
 
 - 候选类型: source_note | primitive | synthesis | decision
 - 目标 Knowledge 路径:
-- Operation: create | update | extend | supersede | merge
+- Operation: create | update
 
 ## 摘要
 

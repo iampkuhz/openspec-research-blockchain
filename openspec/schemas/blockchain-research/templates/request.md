@@ -18,7 +18,7 @@
 
 - 类型:
 - 预期路径:
-- Operation: create | update | extend | supersede | merge
+- Operation: create | update
 
 ## 背景
 

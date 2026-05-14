@@ -23,8 +23,9 @@ description: 当既有知识主题因规范更新、事实错误或生态变化�
 
 ## 必读文件
 
-- `harness/workflows/update-existing-knowledge.md`
+- `harness/workflows/research-intake-routing.md`
 - `harness/rules/general/update-policy.md`
+- `harness/workflows/research-publish-flow.md`（发布阶段）
 
 ## 执行步骤
 

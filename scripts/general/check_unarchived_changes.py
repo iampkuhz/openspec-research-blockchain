@@ -3,7 +3,7 @@
 检查是否存在已归档但 change 目录仍留在 openspec/changes/ 下的情况。
 
 在 commit 涉及 knowledge/ 时触发：如果 knowledge/ 下的 artifact 已存在，
-但对应的 change 目录未归档（仍在 openspec/changes/ 而非 openspec/archive/），
+但对应的 change 目录未归档（仍在 openspec/changes/ 而非 openspec/changes/archive/），
 则发出警告。
 
 注意：这是 advisory 检查，不会阻止 commit。
@@ -17,14 +17,33 @@
 """
 
 import sys
+import yaml
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent.parent
 
 
+def _load_archive_root() -> str:
+    """从 openspec/config.yaml 读取 archive root，失败时回退到默认值。"""
+    config_path = ROOT / "openspec" / "config.yaml"
+    try:
+        with open(config_path, "r") as f:
+            data = yaml.safe_load(f)
+        if isinstance(data, dict):
+            roots = data.get("change_roots", {})
+            if isinstance(roots, dict):
+                archive = roots.get("archive")
+                if isinstance(archive, str) and archive:
+                    return archive
+    except Exception:
+        pass
+    return "openspec/changes/archive"
+
+
 def main():
+    archive_root = _load_archive_root()
     changes_dir = ROOT / "openspec" / "changes"
-    archive_dir = ROOT / "openspec" / "archive"
+    archive_dir = ROOT / archive_root
 
     if not changes_dir.exists():
         print("No openspec/changes/ directory found.")
@@ -83,7 +102,7 @@ def main():
         print("WARNING: Unarchived changes detected (advisory only):")
         for item in unique_unarchived:
             print(f"  - {item}")
-        print("\nRun: mv openspec/changes/<id>/ openspec/archive/<id>/")
+        print("\nRun: mv openspec/changes/<id>/ openspec/changes/archive/<id>/")
         sys.exit(0)  # Advisory only, don't block commit
     else:
         print("Change archiving check passed.")

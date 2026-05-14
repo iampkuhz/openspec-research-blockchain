@@ -24,6 +24,23 @@ from datetime import datetime
 VALID_TYPES = {"primitive", "synthesis", "decision"}
 
 
+def _load_archive_root() -> str:
+    """从 openspec/config.yaml 读取 archive root，失败时回退到默认值。"""
+    config_path = ROOT / "openspec" / "config.yaml"
+    try:
+        with open(config_path, "r") as f:
+            data = yaml.safe_load(f)
+        if isinstance(data, dict):
+            roots = data.get("change_roots", {})
+            if isinstance(roots, dict):
+                archive = roots.get("archive")
+                if isinstance(archive, str) and archive:
+                    return archive
+    except Exception:
+        pass
+    return "openspec/changes/archive"
+
+
 def parse_args():
     parser = argparse.ArgumentParser(description="移动 change 产物到 knowledge（新模型）")
     parser.add_argument("--change", required=True, help="Change ID")
@@ -123,7 +140,8 @@ def move_change_outputs(args) -> bool:
 
     # 归档
     if args.archive:
-        archive_path = Path("openspec/archive") / args.change
+        archive_root = _load_archive_root()
+        archive_path = Path(archive_root) / args.change
         archive_path.parent.mkdir(exist_ok=True)
         shutil.move(change_path, archive_path)
         print(f"Archived change to {archive_path}")

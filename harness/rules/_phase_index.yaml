@@ -5,6 +5,9 @@ description: |
   按研究阶段声明依赖的 specs 与 rules。
   阶段切换时，Agent 读取本索引中该阶段的 depends 声明，自动加载对应文件。
   已对齐新版 artifact / research rules 分类。
+  "conditional" 标记的规则只在 plan/draft 明确声明相关需求时加载。
+  加载预算：每阶段无条件加载的规则总行数应控制在 ~500 行以内；
+  超过 200 行的规则应优先考虑 conditional 标记，除非该阶段必然需要。
 
 phases:
   request:
@@ -63,12 +66,13 @@ phases:
         - research/uncertainty-rules
         - research/traceability-rules
         - research/evidence-policy
-        - diagrams/diagram-policy
-        - writing/language-rules
-        - writing/structure-rules
-        - writing/table-rules
-        - writing/summary-rules
         - artifacts/draft-rules
+        # 条件加载：plan 声明正式图表时加载
+        - conditional:diagrams/diagram-policy
+        # 条件加载：draft 包含表格时加载
+        - conditional:writing/table-rules
+        # 条件加载：draft 包含长摘要/executive summary 时加载
+        - conditional:writing/summary-rules
       workflows:
         - diagram-workflow
         - research-step-execution
